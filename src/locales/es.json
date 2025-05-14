@@ -1,0 +1,13 @@
+﻿{
+  "option": {
+    "home": "Inicio",
+    "myMachines": "Mis Máquinas",
+    "rent": "Alquilar",
+    "contact": "Contacto"
+  },
+  "authoring-phrase": {
+    "intro": "Hecho con",
+    "use": "usando",
+    "author": "por el equipo de {brand}"
+  }
+}

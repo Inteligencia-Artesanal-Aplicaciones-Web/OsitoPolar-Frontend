@@ -1,0 +1,13 @@
+﻿{
+  "option": {
+    "home": "Home",
+    "myMachines": "My Machines",
+    "rent": "Rent",
+    "contact": "Contact"
+  },
+  "authoring-phrase": {
+    "intro": "Made with",
+    "use": "using",
+    "author": "by the team at {brand}"
+  }
+}
