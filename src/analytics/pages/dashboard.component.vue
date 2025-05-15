@@ -10,7 +10,7 @@ import TemperatureHistory from "../components/temperature-history.component.vue"
 /**
  * Import service and models
  */
-import { AnalyticsService} from "../services/analytics.service..js";
+import { AnalyticsService} from "../services/analytics.service.js";
 import { TemperatureReading } from "../models/temperature-reading.entity.js";
 import { DailyTemperatureAverage } from "../models/daily-temperature-average.entity.js";
 import httpInstance from "../../shared/http.instance.js";
