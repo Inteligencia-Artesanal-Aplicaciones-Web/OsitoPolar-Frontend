@@ -7,15 +7,18 @@
 import TemperatureGaugeComponent from "../../analytics/components/temperature-gauge.component.vue";
 import TemperatureChartComponent from "../../analytics/components/temperature-chart.component.vue";
 import TemperatureHistoryComponent from "../../analytics/components/temperature-history.component.vue";
+import LocationMapComponent from "../../analytics/components/location-map.component.vue";
 import { AnalyticsService} from "../services/analytics.service.js";
 import { EquipmentService} from "../../equipment/services/equipment.service.js";
+import httpInstance from "../../shared/http.instance.js";
 
 export default {
   name: 'equipment-analytics',
   components: {
     TemperatureGaugeComponent,
     TemperatureChartComponent,
-    TemperatureHistoryComponent
+    TemperatureHistoryComponent,
+    LocationMapComponent
   },
   data() {
     return {
@@ -25,6 +28,9 @@ export default {
       // Analytics data
       readings: [],
       dailyAverages: [],
+
+      // Para el mapa
+      allEquipment: [],
 
       // State
       loading: true,
@@ -64,6 +70,10 @@ export default {
       try {
         this.loading = true;
         this.hasError = false;
+
+        // 0) Cargar todos los equipos para el mapa
+        const allEquipmentResponse = await httpInstance.get('/equipment');
+        this.allEquipment = allEquipmentResponse.data;
 
         // 1) Load equipment details
         const equipmentResponse = await this.equipmentService.getById(this.equipmentId);
@@ -118,19 +128,23 @@ export default {
     </div>
 
     <div v-else class="analytics-content">
-      <!-- Summary section -->
+      <!-- Summary cards section -->
       <div class="summary-section">
         <div class="summary-card">
           <div class="summary-label">Current Temperature</div>
-          <div class="summary-value">{{ equipment.currentTemperature.toFixed(1) }}°C</div>
+          <div class="summary-value" :class="{ 'negative-temp': equipment.currentTemperature < 0 }">
+            {{ equipment.currentTemperature.toFixed(1) }}°C
+          </div>
           <div class="summary-status" :class="'status-' + equipment.getTemperatureStatus()">
-            {{ equipment.getTemperatureStatus() }}
+            {{ equipment.getTemperatureStatus().toUpperCase() }}
           </div>
         </div>
 
         <div class="summary-card">
           <div class="summary-label">Set Temperature</div>
-          <div class="summary-value">{{ equipment.setTemperature.toFixed(1) }}°C</div>
+          <div class="summary-value" :class="{ 'negative-temp': equipment.setTemperature < 0 }">
+            {{ equipment.setTemperature.toFixed(1) }}°C
+          </div>
           <div class="summary-info">
             Optimal: {{ optimalRange.min.toFixed(1) }}°C - {{ optimalRange.max.toFixed(1) }}°C
           </div>
@@ -138,14 +152,16 @@ export default {
 
         <div class="summary-card">
           <div class="summary-label">Power Status</div>
-          <div class="summary-value">{{ equipment.isPoweredOn ? 'ON' : 'OFF' }}</div>
+          <div class="summary-value power-status" :class="{ 'on': equipment.isPoweredOn }">
+            {{ equipment.isPoweredOn ? 'ON' : 'OFF' }}
+          </div>
           <div class="summary-info">
             {{ equipment.energyConsumption.current }} {{ equipment.energyConsumption.unit }}
           </div>
         </div>
       </div>
 
-      <!-- Charts section -->
+      <!-- Charts grid - first row -->
       <div class="analytics-grid">
         <!-- Temperature Gauge -->
         <div class="analytics-card">
@@ -162,11 +178,23 @@ export default {
           <h2 class="card-title">Temperature Over Time (24h)</h2>
           <temperature-chart-component :readings="readings" />
         </div>
+      </div>
 
+      <!-- Charts grid - second row -->
+      <div class="analytics-grid">
         <!-- Temperature History -->
         <div class="analytics-card">
           <h2 class="card-title">Daily Temperature Averages (7d)</h2>
           <temperature-history-component :daily-averages="dailyAverages" />
+        </div>
+
+        <!-- Location Map - Nuevo componente -->
+        <div class="analytics-card">
+          <h2 class="card-title">Equipment Location</h2>
+          <location-map-component
+              :equipment="allEquipment"
+              :selected-id="parseInt(equipmentId)"
+          />
         </div>
       </div>
     </div>
@@ -253,6 +281,10 @@ export default {
   margin-bottom: 0.5rem;
 }
 
+.negative-temp {
+  color: #1565C0; /* Azul para temperaturas negativas */
+}
+
 .summary-status {
   padding: 0.25rem 0.75rem;
   border-radius: 4px;
@@ -276,6 +308,14 @@ export default {
   color: white;
 }
 
+.power-status {
+  color: #F44336; /* Rojo para OFF */
+}
+
+.power-status.on {
+  color: #4CAF50; /* Verde para ON */
+}
+
 .summary-info {
   font-size: 0.9rem;
   color: #666;
@@ -286,6 +326,7 @@ export default {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .analytics-card {
@@ -293,6 +334,9 @@ export default {
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 1.5rem;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
 }
 
 .card-title {
