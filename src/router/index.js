@@ -3,17 +3,18 @@
  * Defines all routes and navigation behavior for the application
  */
 
-import {createRouter, createWebHistory} from "vue-router";
+import { createRouter, createWebHistory } from "vue-router";
 
 /**
  * @description Lazy-loaded component imports for route configuration
  * Using dynamic imports to enable code splitting and improve initial load performance
  */
-
-const HomeComponent = () => import('../public/pages/home.component.vue');
-const AboutComponent = () => import('../public/pages/about.component.vue');
-const DashboardComponent = () => import('../analytics/pages/dashboard.component.vue');
-const PageNotFoundComponent = () => import('../public/pages/page-not-found.component.vue');
+const HomeComponent            = () => import('../public/pages/home.component.vue');
+const AboutComponent           = () => import('../public/pages/about.component.vue');
+const DashboardComponent       = () => import('../analytics/pages/dashboard.component.vue');
+const EquipmentListComponent   = () => import('../equipment/pages/equipment-list.component.vue');
+const EquipmentDetailComponent = () => import('../equipment/pages/equipment-detail.component.vue');
+const PageNotFoundComponent    = () => import('../public/pages/page-not-found.component.vue');
 
 /**
  * @type {import('vue-router').RouteRecordRaw[]}
@@ -25,12 +26,17 @@ const PageNotFoundComponent = () => import('../public/pages/page-not-found.compo
  * - meta: Additional metadata including page title
  */
 const routes = [
-    { path: '/home',                     name: 'home',            component: HomeComponent,            meta: {title: 'Home'} },
-    { path: '/about',                    name: 'about',           component: AboutComponent,           meta: {title: 'About us'} },
-    { path: '/dashboard',                name: 'dashboard',       component: DashboardComponent,       meta: {title: 'Dashboard'} },
-    { path: '/',                         name: 'default',         redirect: {name: 'dashboard'} },
-    { path: '/:pathMatch(.*)*',          name: 'not-found',       component: PageNotFoundComponent,    meta: {title: 'Page not found'} },
-]
+    { path: '/home',            name: 'home',            component: HomeComponent,            meta: { title: 'Home' } },
+    { path: '/about',           name: 'about',           component: AboutComponent,           meta: { title: 'About us' } },
+    { path: '/dashboard',       name: 'dashboard',       component: DashboardComponent,       meta: { title: 'Dashboard' } },
+
+    // Equipment module
+    { path: '/equipment',       name: 'equipment-list',   component: EquipmentListComponent,   meta: { title: 'My Equipment' } },
+    { path: '/equipment/:id',   name: 'equipment-detail', component: EquipmentDetailComponent, meta: { title: 'Equipment Control' } },
+
+    { path: '/',                name: 'default',         redirect: { name: 'dashboard' } },
+    { path: '/:pathMatch(.*)*', name: 'not-found',       component: PageNotFoundComponent,    meta: { title: 'Page not found' } },
+];
 
 /**
  * @type {import('vue-router').Router}
@@ -38,7 +44,7 @@ const routes = [
  */
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
-    routes: routes,
+    routes
 });
 
 /**
@@ -46,16 +52,10 @@ const router = createRouter({
  * Handles:
  * - Navigation logging
  * - Dynamic page title updates based on route metadata
- *
- * @param {import('vue-router').RouteLocationNormalized} to - Target route
- * @param {import('vue-router').RouteLocationNormalized} from - Current route
- * @param {import('vue-router').NavigationGuardNext} next - Function to resolve the navigation
  */
 router.beforeEach((to, from, next) => {
     console.log(`Navigating from ${from.name} to ${to.name}`);
-    // Set the page title
-    let baseTitle = 'OsitoPolar';
-    document.title = `${baseTitle} | ${to.meta['title']}`;
+    document.title = `OsitoPolar | ${to.meta.title}`;
     next();
 });
 
