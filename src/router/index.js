@@ -14,7 +14,7 @@ const AboutComponent           = () => import('../public/pages/about.component.v
 const DashboardComponent       = () => import('../analytics/pages/dashboard.component.vue');
 const EquipmentListComponent   = () => import('../equipment/pages/equipment-list.component.vue');
 const EquipmentDetailComponent = () => import('../equipment/pages/equipment-detail.component.vue');
-const EquipmentAnalyticsComponent = () => import('../equipment/pages/equipment-detail.component.vue');
+const EquipmentAnalyticsComponent = () => import('../analytics/pages/equipment-analytics.component.vue');
 const NotificationsComponent   = () => import('../notifications/pages/notifications.component.vue');
 const PageNotFoundComponent    = () => import('../public/pages/page-not-found.component.vue');
 
