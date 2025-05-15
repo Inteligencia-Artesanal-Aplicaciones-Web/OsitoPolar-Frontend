@@ -1,7 +1,7 @@
 {
   "users": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Juan Pérez",
       "email": "juan@ejemplo.com",
       "password": "hashed_password",
@@ -17,7 +17,7 @@
       }
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "María Rodríguez",
       "email": "maria@empresa.com",
       "password": "hashed_password",
@@ -29,7 +29,7 @@
   ],
   "companies": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Supermercados ABC",
       "email": "contacto@abc.com",
       "phone": "123456789",
@@ -46,7 +46,7 @@
   ],
   "plans": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Individual Basic",
       "price": 29.99,
       "billingCycle": "monthly",
@@ -58,7 +58,7 @@
       ]
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "Business Pro",
       "price": 99.99,
       "billingCycle": "monthly",
@@ -74,7 +74,7 @@
   ],
   "equipment": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Congelador Industrial XK-400",
       "type": "freezer",
       "cost": 5000,
@@ -96,7 +96,7 @@
       "manufacturer": "CoolTech",
       "installationDate": "2023-01-10",
       "currentTemperature": 22.5,
-      "setTemperature": 22.0,
+      "setTemperature": 22,
       "optimalTemperatureMin": 18,
       "optimalTemperatureMax": 25,
       "energyConsumption": {
@@ -110,7 +110,7 @@
       "rentalInfo": null
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "Cámara Frigorífica CF-200",
       "type": "cold_room",
       "cost": 12000,
@@ -124,15 +124,15 @@
         "name": "Zona de producción",
         "address": "Av. Principal 123, Lima",
         "coordinates": {
-          "lat": -12.046830,
-          "lng": -77.043100
+          "lat": -12.04683,
+          "lng": -77.0431
         }
       },
       "model": "CF-200",
       "manufacturer": "FrigoTech",
       "installationDate": "2023-02-15",
       "currentTemperature": -2.5,
-      "setTemperature": -3.0,
+      "setTemperature": -5,
       "optimalTemperatureMin": -5,
       "optimalTemperatureMax": 0,
       "energyConsumption": {
@@ -153,63 +153,63 @@
   ],
   "temperatureReadings": [
     {
-      "id": 1,
+      "id": "1",
       "equipmentId": 1,
       "temperature": 22.5,
       "timestamp": "2023-04-20T10:00:00",
       "status": "normal"
     },
     {
-      "id": 2,
+      "id": "2",
       "equipmentId": 1,
       "temperature": 23.1,
       "timestamp": "2023-04-20T11:00:00",
       "status": "normal"
     },
     {
-      "id": 3,
+      "id": "3",
       "equipmentId": 1,
-      "temperature": 24.0,
+      "temperature": 24,
       "timestamp": "2023-04-20T12:00:00",
       "status": "warning"
     },
     {
-      "id": 4,
+      "id": "4",
       "equipmentId": 1,
       "temperature": 23.5,
       "timestamp": "2023-04-20T13:00:00",
       "status": "normal"
     },
     {
-      "id": 5,
+      "id": "5",
       "equipmentId": 1,
       "temperature": 22.8,
       "timestamp": "2023-04-20T14:00:00",
       "status": "normal"
     },
     {
-      "id": 6,
+      "id": "6",
       "equipmentId": 1,
       "temperature": 22.3,
       "timestamp": "2023-04-20T15:00:00",
       "status": "normal"
     },
     {
-      "id": 7,
+      "id": "7",
       "equipmentId": 1,
-      "temperature": 22.0,
+      "temperature": 22,
       "timestamp": "2023-04-20T16:00:00",
       "status": "normal"
     },
     {
-      "id": 8,
+      "id": "8",
       "equipmentId": 1,
       "temperature": 23.2,
       "timestamp": "2023-04-20T17:00:00",
       "status": "normal"
     },
     {
-      "id": 9,
+      "id": "9",
       "equipmentId": 1,
       "temperature": 24.5,
       "timestamp": "2023-04-20T18:00:00",
@@ -218,15 +218,15 @@
   ],
   "dailyTemperatureAverages": [
     {
-      "id": 1,
+      "id": "1",
       "equipmentId": 1,
       "date": "2023-04-14",
       "averageTemperature": 19.2,
       "minTemperature": 17.5,
-      "maxTemperature": 21.0
+      "maxTemperature": 21
     },
     {
-      "id": 2,
+      "id": "2",
       "equipmentId": 1,
       "date": "2023-04-15",
       "averageTemperature": 18.5,
@@ -234,7 +234,7 @@
       "maxTemperature": 20.2
     },
     {
-      "id": 3,
+      "id": "3",
       "equipmentId": 1,
       "date": "2023-04-16",
       "averageTemperature": 21.3,
@@ -242,7 +242,7 @@
       "maxTemperature": 23.4
     },
     {
-      "id": 4,
+      "id": "4",
       "equipmentId": 1,
       "date": "2023-04-17",
       "averageTemperature": 20.8,
@@ -250,15 +250,15 @@
       "maxTemperature": 22.5
     },
     {
-      "id": 5,
+      "id": "5",
       "equipmentId": 1,
       "date": "2023-04-18",
       "averageTemperature": 22.1,
-      "minTemperature": 20.0,
+      "minTemperature": 20,
       "maxTemperature": 24.3
     },
     {
-      "id": 6,
+      "id": "6",
       "equipmentId": 1,
       "date": "2023-04-19",
       "averageTemperature": 23.8,
@@ -266,24 +266,24 @@
       "maxTemperature": 25.9
     },
     {
-      "id": 7,
+      "id": "7",
       "equipmentId": 1,
       "date": "2023-04-20",
       "averageTemperature": 25.5,
-      "minTemperature": 22.0,
-      "maxTemperature": 28.0
+      "minTemperature": 22,
+      "maxTemperature": 28
     }
   ],
   "energyReadings": [
     {
-      "id": 1,
+      "id": "1",
       "equipmentId": 1,
       "consumption": 320,
       "timestamp": "2023-04-20T10:00:00",
       "status": "normal"
     },
     {
-      "id": 2,
+      "id": "2",
       "equipmentId": 1,
       "consumption": 325,
       "timestamp": "2023-04-20T11:00:00",
@@ -292,7 +292,7 @@
   ],
   "serviceRequests": [
     {
-      "id": 1,
+      "id": "1",
       "orderNumber": "SR-2023-001",
       "description": "Temperatura irregular en congelador",
       "requestTime": "2023-04-15T09:30:00",
@@ -308,7 +308,7 @@
   ],
   "maintenance": [
     {
-      "id": 1,
+      "id": "1",
       "date": "2023-03-10T14:00:00",
       "type": "preventive",
       "status": "completed",
@@ -320,7 +320,7 @@
   ],
   "notifications": [
     {
-      "id": 1,
+      "id": "1",
       "title": "Temperatura elevada",
       "description": "El congelador XK-400 está registrando temperaturas por encima del rango óptimo",
       "status": "unread",
@@ -332,7 +332,7 @@
   ],
   "technicians": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Roberto Técnico",
       "specialization": "Refrigeración industrial",
       "phone": "987123456",
@@ -344,7 +344,7 @@
   ],
   "providers": [
     {
-      "id": 3,
+      "id": "3",
       "name": "TecnoFrio S.A.C.",
       "type": "service_provider",
       "specialization": "Refrigeración comercial",
