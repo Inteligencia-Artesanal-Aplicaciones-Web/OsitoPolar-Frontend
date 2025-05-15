@@ -1,4 +1,4 @@
-﻿import httpInstance from "../../shared/services/http.instance.js";
+﻿import httpInstance from "../../shared/http.instance.js";
 import { TemperatureReading } from "../models/temperature-reading.entity.js";
 import { DailyTemperatureAverage } from "../models/daily-temperature-average.entity.js";
 
