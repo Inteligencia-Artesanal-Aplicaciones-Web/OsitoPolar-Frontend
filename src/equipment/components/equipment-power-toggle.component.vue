@@ -1,10 +1,11 @@
 ﻿<script>
-/**
- * @component equipment-power-toggle
- * @description Toggle button for equipment power state
- */
+import ToggleSwitch from 'primevue/toggleswitch';
+
 export default {
   name: "equipment-power-toggle",
+  components: {
+    ToggleSwitch
+  },
   props: {
     /**
      * @type {Boolean}
@@ -31,12 +32,17 @@ export default {
 <template>
   <div class="power-toggle">
     <div class="toggle-container">
-      <pv-input-switch
+      <toggle-switch
           v-model="isPoweredOn"
           @change="togglePower"
           class="power-switch"
       />
-      <span class="power-label">{{ isPoweredOn ? 'ON' : 'OFF' }}</span>
+      <span
+          class="power-label"
+          :style="{ color: isPoweredOn ? '#4CAF50' : '#666' }"
+      >
+        {{ isPoweredOn ? 'ON' : 'OFF' }}
+      </span>
     </div>
 
     <div class="power-button">
@@ -70,7 +76,6 @@ export default {
 .power-label {
   font-weight: bold;
   font-size: 1.2rem;
-  color: v-bind('isPoweredOn ? "#4CAF50" : "#666"');
 }
 
 .power-button {
