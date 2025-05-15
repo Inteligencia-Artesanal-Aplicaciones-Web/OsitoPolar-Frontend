@@ -17,9 +17,7 @@ export default {
 
   <main>
     <div class="container">
-      <h1 class="page-title">Main</h1>
-
-      <!-- Content here -->
+      <router-view />
     </div>
   </main>
 

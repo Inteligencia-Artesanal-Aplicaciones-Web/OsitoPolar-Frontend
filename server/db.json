@@ -1,0 +1,356 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Juan Pérez",
+      "email": "juan@ejemplo.com",
+      "password": "hashed_password",
+      "username": "juanp",
+      "phone": "987654321",
+      "type": "individual",
+      "planId": 1,
+      "subscription": {
+        "startDate": "2023-01-15",
+        "endDate": "2024-01-15",
+        "status": "active",
+        "autoRenew": true
+      }
+    },
+    {
+      "id": 2,
+      "name": "María Rodríguez",
+      "email": "maria@empresa.com",
+      "password": "hashed_password",
+      "username": "mariar",
+      "phone": "987654322",
+      "type": "company_admin",
+      "companyId": 1
+    }
+  ],
+  "companies": [
+    {
+      "id": 1,
+      "name": "Supermercados ABC",
+      "email": "contacto@abc.com",
+      "phone": "123456789",
+      "businessType": "retail",
+      "location": "San Isidro, Lima",
+      "planId": 2,
+      "subscription": {
+        "startDate": "2023-02-01",
+        "endDate": "2024-02-01",
+        "status": "active",
+        "autoRenew": true
+      }
+    }
+  ],
+  "plans": [
+    {
+      "id": 1,
+      "name": "Individual Basic",
+      "price": 29.99,
+      "billingCycle": "monthly",
+      "maxEquipment": 3,
+      "features": [
+        "temperature_control",
+        "basic_monitoring",
+        "alerts"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Business Pro",
+      "price": 99.99,
+      "billingCycle": "monthly",
+      "maxEquipment": 15,
+      "features": [
+        "temperature_control",
+        "advanced_monitoring",
+        "alerts",
+        "energy_optimization",
+        "technical_reports"
+      ]
+    }
+  ],
+  "equipment": [
+    {
+      "id": 1,
+      "name": "Congelador Industrial XK-400",
+      "type": "freezer",
+      "cost": 5000,
+      "technicalDetails": "Temperatura mínima -20°C, capacidad 400L",
+      "serialNumber": "XK400-12345",
+      "code": "CONG-001",
+      "status": "active",
+      "isPoweredOn": true,
+      "notes": "Instalado el 10/01/2023",
+      "location": {
+        "name": "Almacén principal",
+        "address": "Av. Principal 123, Lima",
+        "coordinates": {
+          "lat": -12.046374,
+          "lng": -77.042793
+        }
+      },
+      "model": "XK-400",
+      "manufacturer": "CoolTech",
+      "installationDate": "2023-01-10",
+      "currentTemperature": 22.5,
+      "setTemperature": 22.0,
+      "optimalTemperatureMin": 18,
+      "optimalTemperatureMax": 25,
+      "energyConsumption": {
+        "current": 320,
+        "unit": "watts",
+        "average": 310
+      },
+      "ownerId": 1,
+      "ownerType": "user",
+      "ownershipType": "owned",
+      "rentalInfo": null
+    },
+    {
+      "id": 2,
+      "name": "Cámara Frigorífica CF-200",
+      "type": "cold_room",
+      "cost": 12000,
+      "technicalDetails": "Temperatura mínima -5°C, 12m²",
+      "serialNumber": "CF200-6789",
+      "code": "CAM-002",
+      "status": "active",
+      "isPoweredOn": true,
+      "notes": "Instalada el 15/02/2023",
+      "location": {
+        "name": "Zona de producción",
+        "address": "Av. Principal 123, Lima",
+        "coordinates": {
+          "lat": -12.046830,
+          "lng": -77.043100
+        }
+      },
+      "model": "CF-200",
+      "manufacturer": "FrigoTech",
+      "installationDate": "2023-02-15",
+      "currentTemperature": -2.5,
+      "setTemperature": -3.0,
+      "optimalTemperatureMin": -5,
+      "optimalTemperatureMax": 0,
+      "energyConsumption": {
+        "current": 850,
+        "unit": "watts",
+        "average": 820
+      },
+      "ownerId": 1,
+      "ownerType": "company",
+      "ownershipType": "rented",
+      "rentalInfo": {
+        "startDate": "2023-02-15",
+        "endDate": "2024-02-15",
+        "monthlyFee": 350,
+        "providerId": 3
+      }
+    }
+  ],
+  "temperatureReadings": [
+    {
+      "id": 1,
+      "equipmentId": 1,
+      "temperature": 22.5,
+      "timestamp": "2023-04-20T10:00:00",
+      "status": "normal"
+    },
+    {
+      "id": 2,
+      "equipmentId": 1,
+      "temperature": 23.1,
+      "timestamp": "2023-04-20T11:00:00",
+      "status": "normal"
+    },
+    {
+      "id": 3,
+      "equipmentId": 1,
+      "temperature": 24.0,
+      "timestamp": "2023-04-20T12:00:00",
+      "status": "warning"
+    },
+    {
+      "id": 4,
+      "equipmentId": 1,
+      "temperature": 23.5,
+      "timestamp": "2023-04-20T13:00:00",
+      "status": "normal"
+    },
+    {
+      "id": 5,
+      "equipmentId": 1,
+      "temperature": 22.8,
+      "timestamp": "2023-04-20T14:00:00",
+      "status": "normal"
+    },
+    {
+      "id": 6,
+      "equipmentId": 1,
+      "temperature": 22.3,
+      "timestamp": "2023-04-20T15:00:00",
+      "status": "normal"
+    },
+    {
+      "id": 7,
+      "equipmentId": 1,
+      "temperature": 22.0,
+      "timestamp": "2023-04-20T16:00:00",
+      "status": "normal"
+    },
+    {
+      "id": 8,
+      "equipmentId": 1,
+      "temperature": 23.2,
+      "timestamp": "2023-04-20T17:00:00",
+      "status": "normal"
+    },
+    {
+      "id": 9,
+      "equipmentId": 1,
+      "temperature": 24.5,
+      "timestamp": "2023-04-20T18:00:00",
+      "status": "warning"
+    }
+  ],
+  "dailyTemperatureAverages": [
+    {
+      "id": 1,
+      "equipmentId": 1,
+      "date": "2023-04-14",
+      "averageTemperature": 19.2,
+      "minTemperature": 17.5,
+      "maxTemperature": 21.0
+    },
+    {
+      "id": 2,
+      "equipmentId": 1,
+      "date": "2023-04-15",
+      "averageTemperature": 18.5,
+      "minTemperature": 16.8,
+      "maxTemperature": 20.2
+    },
+    {
+      "id": 3,
+      "equipmentId": 1,
+      "date": "2023-04-16",
+      "averageTemperature": 21.3,
+      "minTemperature": 19.5,
+      "maxTemperature": 23.4
+    },
+    {
+      "id": 4,
+      "equipmentId": 1,
+      "date": "2023-04-17",
+      "averageTemperature": 20.8,
+      "minTemperature": 18.9,
+      "maxTemperature": 22.5
+    },
+    {
+      "id": 5,
+      "equipmentId": 1,
+      "date": "2023-04-18",
+      "averageTemperature": 22.1,
+      "minTemperature": 20.0,
+      "maxTemperature": 24.3
+    },
+    {
+      "id": 6,
+      "equipmentId": 1,
+      "date": "2023-04-19",
+      "averageTemperature": 23.8,
+      "minTemperature": 21.5,
+      "maxTemperature": 25.9
+    },
+    {
+      "id": 7,
+      "equipmentId": 1,
+      "date": "2023-04-20",
+      "averageTemperature": 25.5,
+      "minTemperature": 22.0,
+      "maxTemperature": 28.0
+    }
+  ],
+  "energyReadings": [
+    {
+      "id": 1,
+      "equipmentId": 1,
+      "consumption": 320,
+      "timestamp": "2023-04-20T10:00:00",
+      "status": "normal"
+    },
+    {
+      "id": 2,
+      "equipmentId": 1,
+      "consumption": 325,
+      "timestamp": "2023-04-20T11:00:00",
+      "status": "normal"
+    }
+  ],
+  "serviceRequests": [
+    {
+      "id": 1,
+      "orderNumber": "SR-2023-001",
+      "description": "Temperatura irregular en congelador",
+      "requestTime": "2023-04-15T09:30:00",
+      "status": "pending",
+      "priority": "high",
+      "userId": 1,
+      "equipmentId": 1,
+      "technicianId": null,
+      "scheduledDate": null,
+      "completionDate": null,
+      "resolution": null
+    }
+  ],
+  "maintenance": [
+    {
+      "id": 1,
+      "date": "2023-03-10T14:00:00",
+      "type": "preventive",
+      "status": "completed",
+      "notes": "Limpieza de filtros, revisión general",
+      "technicianId": 2,
+      "equipmentId": 1,
+      "nextScheduledDate": "2023-06-10"
+    }
+  ],
+  "notifications": [
+    {
+      "id": 1,
+      "title": "Temperatura elevada",
+      "description": "El congelador XK-400 está registrando temperaturas por encima del rango óptimo",
+      "status": "unread",
+      "timestamp": "2023-04-20T14:30:00",
+      "userId": 1,
+      "equipmentId": 1,
+      "type": "alert"
+    }
+  ],
+  "technicians": [
+    {
+      "id": 1,
+      "name": "Roberto Técnico",
+      "specialization": "Refrigeración industrial",
+      "phone": "987123456",
+      "email": "roberto@tecnico.com",
+      "rating": 4.8,
+      "availability": "available",
+      "companyId": 3
+    }
+  ],
+  "providers": [
+    {
+      "id": 3,
+      "name": "TecnoFrio S.A.C.",
+      "type": "service_provider",
+      "specialization": "Refrigeración comercial",
+      "contactEmail": "info@tecnofrio.com",
+      "contactPhone": "987987987",
+      "address": "Av. Industriales 456, Lima"
+    }
+  ]
+}
