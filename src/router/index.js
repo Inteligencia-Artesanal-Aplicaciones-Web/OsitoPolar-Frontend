@@ -14,6 +14,7 @@ const AboutComponent           = () => import('../public/pages/about.component.v
 const DashboardComponent       = () => import('../analytics/pages/dashboard.component.vue');
 const EquipmentListComponent   = () => import('../equipment/pages/equipment-list.component.vue');
 const EquipmentDetailComponent = () => import('../equipment/pages/equipment-detail.component.vue');
+const NotificationsComponent   = () => import('../notifications/pages/notifications.component.vue');
 const PageNotFoundComponent    = () => import('../public/pages/page-not-found.component.vue');
 
 /**
@@ -26,8 +27,13 @@ const PageNotFoundComponent    = () => import('../public/pages/page-not-found.co
  * - meta: Additional metadata including page title
  */
 const routes = [
-    { path: '/home',            name: 'home',            component: HomeComponent,            meta: { title: 'Home' } },
+    // Public module
+    { path: '/home', name: 'home',            component: HomeComponent,            meta: { title: 'Home' } },
+    // About
     { path: '/about',           name: 'about',           component: AboutComponent,           meta: { title: 'About us' } },
+    // Notifications
+    {path: '/notifications', name: 'notifications',   component: NotificationsComponent,   meta: { title: 'Notifications' } },
+    // Dashboard
     { path: '/dashboard',       name: 'dashboard',       component: DashboardComponent,       meta: { title: 'Dashboard' } },
 
     // Equipment module
@@ -35,6 +41,7 @@ const routes = [
     { path: '/equipment/:id',   name: 'equipment-detail', component: EquipmentDetailComponent, meta: { title: 'Equipment Control' } },
 
     { path: '/',                name: 'default',         redirect: { name: 'dashboard' } },
+    //Not found route
     { path: '/:pathMatch(.*)*', name: 'not-found',       component: PageNotFoundComponent,    meta: { title: 'Page not found' } },
 ];
 
