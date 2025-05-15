@@ -184,12 +184,20 @@ export default {
 
 .equipment-card {
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border 0.2s ease;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  padding: 0.5rem;
 }
 
-.equipment-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+.equipment-card.status-normal {
+  border-color: #4CAF50;
+}
+.equipment-card.status-warning {
+  border-color: #FFC107;
+}
+.equipment-card.status-critical {
+  border-color: #F44336;
 }
 
 .card-header {
