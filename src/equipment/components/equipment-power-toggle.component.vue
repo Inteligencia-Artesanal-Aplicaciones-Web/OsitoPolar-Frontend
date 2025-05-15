@@ -32,11 +32,11 @@ export default {
 <template>
   <div class="power-toggle">
     <div class="toggle-container">
-      <toggle-switch
-          v-model="isPoweredOn"
-          @change="togglePower"
-          class="power-switch"
-      />
+          <toggle-switch
+              :modelValue="isPoweredOn"
+              @update:modelValue="togglePower"
+              class="power-switch"
+            />
       <span
           class="power-label"
           :style="{ color: isPoweredOn ? '#4CAF50' : '#666' }"
