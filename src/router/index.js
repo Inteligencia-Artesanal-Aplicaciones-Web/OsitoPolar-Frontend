@@ -14,6 +14,7 @@ const AboutComponent           = () => import('../public/pages/about.component.v
 const DashboardComponent       = () => import('../analytics/pages/dashboard.component.vue');
 const EquipmentListComponent   = () => import('../equipment/pages/equipment-list.component.vue');
 const EquipmentDetailComponent = () => import('../equipment/pages/equipment-detail.component.vue');
+const EquipmentAnalyticsComponent = () => import('../analytics/pages/equipment-analytics.component.vue');
 const NotificationsComponent   = () => import('../notifications/pages/notifications.component.vue');
 const PageNotFoundComponent    = () => import('../public/pages/page-not-found.component.vue');
 
@@ -35,7 +36,8 @@ const routes = [
     {path: '/notifications', name: 'notifications',   component: NotificationsComponent,   meta: { title: 'Notifications' } },
     // Dashboard
     { path: '/dashboard',       name: 'dashboard',       component: DashboardComponent,       meta: { title: 'Dashboard' } },
-
+    //Equipment analytics
+    {path: '/equipment/:id/analytics', name: 'equipment-analytics', component: EquipmentAnalyticsComponent, meta: { title: 'Equipment Analytics' } },
     // Equipment module
     { path: '/equipment',       name: 'equipment-list',   component: EquipmentListComponent,   meta: { title: 'My Equipment' } },
     { path: '/equipment/:id',   name: 'equipment-detail', component: EquipmentDetailComponent, meta: { title: 'Equipment Control' } },

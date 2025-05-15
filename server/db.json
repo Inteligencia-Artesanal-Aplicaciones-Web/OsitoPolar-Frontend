@@ -153,6 +153,69 @@
   ],
   "temperatureReadings": [
     {
+      "id": "10",
+      "equipmentId": 2,
+      "temperature": -2.5,
+      "timestamp": "2023-04-20T10:00:00",
+      "status": "normal"
+    },
+    {
+      "id": "11",
+      "equipmentId": 2,
+      "temperature": -2.8,
+      "timestamp": "2023-04-20T11:00:00",
+      "status": "normal"
+    },
+    {
+      "id": "12",
+      "equipmentId": 2,
+      "temperature": -3.2,
+      "timestamp": "2023-04-20T12:00:00",
+      "status": "normal"
+    },
+    {
+      "id": "13",
+      "equipmentId": 2,
+      "temperature": -3.5,
+      "timestamp": "2023-04-20T13:00:00",
+      "status": "warning"
+    },
+    {
+      "id": "14",
+      "equipmentId": 2,
+      "temperature": -3.0,
+      "timestamp": "2023-04-20T14:00:00",
+      "status": "normal"
+    },
+    {
+      "id": "15",
+      "equipmentId": 2,
+      "temperature": -2.7,
+      "timestamp": "2023-04-20T15:00:00",
+      "status": "normal"
+    },
+    {
+      "id": "16",
+      "equipmentId": 2,
+      "temperature": -2.3,
+      "timestamp": "2023-04-20T16:00:00",
+      "status": "normal"
+    },
+    {
+      "id": "17",
+      "equipmentId": 2,
+      "temperature": -1.9,
+      "timestamp": "2023-04-20T17:00:00",
+      "status": "warning"
+    },
+    {
+      "id": "18",
+      "equipmentId": 2,
+      "temperature": -1.5,
+      "timestamp": "2023-04-20T18:00:00",
+      "status": "warning"
+    },
+    {
       "id": "1",
       "equipmentId": 1,
       "temperature": 22.5,
@@ -217,6 +280,62 @@
     }
   ],
   "dailyTemperatureAverages": [
+    {
+      "id": "8",
+      "equipmentId": 2,
+      "date": "2023-04-14",
+      "averageTemperature": -3.8,
+      "minTemperature": -4.5,
+      "maxTemperature": -2.9
+    },
+    {
+      "id": "9",
+      "equipmentId": 2,
+      "date": "2023-04-15",
+      "averageTemperature": -3.6,
+      "minTemperature": -4.2,
+      "maxTemperature": -2.8
+    },
+    {
+      "id": "10",
+      "equipmentId": 2,
+      "date": "2023-04-16",
+      "averageTemperature": -3.2,
+      "minTemperature": -4.0,
+      "maxTemperature": -2.4
+    },
+    {
+      "id": "11",
+      "equipmentId": 2,
+      "date": "2023-04-17",
+      "averageTemperature": -2.9,
+      "minTemperature": -3.8,
+      "maxTemperature": -2.1
+    },
+    {
+      "id": "12",
+      "equipmentId": 2,
+      "date": "2023-04-18",
+      "averageTemperature": -2.7,
+      "minTemperature": -3.5,
+      "maxTemperature": -1.9
+    },
+    {
+      "id": "13",
+      "equipmentId": 2,
+      "date": "2023-04-19",
+      "averageTemperature": -2.5,
+      "minTemperature": -3.3,
+      "maxTemperature": -1.7
+    },
+    {
+      "id": "14",
+      "equipmentId": 2,
+      "date": "2023-04-20",
+      "averageTemperature": -2.3,
+      "minTemperature": -3.1,
+      "maxTemperature": -1.5
+    },
     {
       "id": "1",
       "equipmentId": 1,
