@@ -24,6 +24,34 @@ export class EquipmentService {
     }
 
     /**
+     * Creates new equipment
+     * @param {Object} equipmentData - The equipment data to create
+     * @returns {Promise} Promise that resolves to created equipment
+     */
+    createEquipment(equipmentData) {
+        return httpInstance.post('/equipment', equipmentData);
+    }
+
+    /**
+     * Updates equipment
+     * @param {number|string} id - The ID of the equipment to update
+     * @param {Object} equipmentData - The updated equipment data
+     * @returns {Promise} Promise that resolves to updated equipment
+     */
+    updateEquipment(id, equipmentData) {
+        return httpInstance.put(`/equipment/${id}`, equipmentData);
+    }
+
+    /**
+     * Deletes equipment
+     * @param {number|string} id - The ID of the equipment to delete
+     * @returns {Promise} Promise that resolves when equipment is deleted
+     */
+    deleteEquipment(id) {
+        return httpInstance.delete(`/equipment/${id}`);
+    }
+
+    /**
      * Updates equipment temperature setting
      * @param {number|string} id - The ID of the equipment to update
      * @param {number} temperature - The new temperature setting
