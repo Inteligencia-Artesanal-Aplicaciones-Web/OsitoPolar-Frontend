@@ -11,6 +11,8 @@ import {
     ConfirmationService,
     ConfirmDialog,
     DataTable,
+    ToggleSwitch,
+    Slider,
     Dialog,
     DialogService,
     Drawer,
@@ -47,6 +49,8 @@ app.use(i18n)
     .component('pv-button',         Button)
     .component('pv-card',           Card)
     .component('pv-chart',          Chart)
+    .component('pv-input-switch', ToggleSwitch)
+    .component('pv-slider', Slider)
     .component('pv-column',         Column)
     .component('pv-confirm-dialog', ConfirmDialog)
     .component('pv-data-table',     DataTable)
