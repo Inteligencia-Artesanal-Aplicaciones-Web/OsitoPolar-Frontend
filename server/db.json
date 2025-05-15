@@ -75,17 +75,17 @@
   "equipment": [
     {
       "id": "1",
-      "name": "Congelador Industrial XK-400",
+      "name": "Industrial Freezer XK-400",
       "type": "freezer",
       "cost": 5000,
-      "technicalDetails": "Temperatura mínima -20°C, capacidad 400L",
+      "technicalDetails": "Minimum temperature -20°C, capacity 400L",
       "serialNumber": "XK400-12345",
       "code": "CONG-001",
       "status": "active",
       "isPoweredOn": true,
-      "notes": "Instalado el 10/01/2023",
+      "notes": "Installed on 01/10/2023",
       "location": {
-        "name": "Almacén principal",
+        "name": "Main warehouse",
         "address": "Av. Principal 123, Lima",
         "coordinates": {
           "lat": -12.046374,
@@ -111,17 +111,17 @@
     },
     {
       "id": "2",
-      "name": "Cámara Frigorífica CF-200",
+      "name": "Cold Room CF-200",
       "type": "cold_room",
       "cost": 12000,
-      "technicalDetails": "Temperatura mínima -5°C, 12m²",
+      "technicalDetails": "Minimum temperature -5°C, 12m²",
       "serialNumber": "CF200-6789",
       "code": "CAM-002",
       "status": "active",
       "isPoweredOn": true,
-      "notes": "Instalada el 15/02/2023",
+      "notes": "Installed on 02/15/2023",
       "location": {
-        "name": "Zona de producción",
+        "name": "Production area",
         "address": "Av. Principal 123, Lima",
         "coordinates": {
           "lat": -12.04683,
@@ -294,7 +294,7 @@
     {
       "id": "1",
       "orderNumber": "SR-2023-001",
-      "description": "Temperatura irregular en congelador",
+      "description": "Irregular temperature in freezer",
       "requestTime": "2023-04-15T09:30:00",
       "status": "pending",
       "priority": "high",
@@ -312,7 +312,7 @@
       "date": "2023-03-10T14:00:00",
       "type": "preventive",
       "status": "completed",
-      "notes": "Limpieza de filtros, revisión general",
+      "notes": "Filter cleaning, general inspection",
       "technicianId": 2,
       "equipmentId": 1,
       "nextScheduledDate": "2023-06-10"
@@ -321,8 +321,8 @@
   "notifications": [
     {
       "id": "1",
-      "title": "Temperatura elevada",
-      "description": "El congelador XK-400 está registrando temperaturas por encima del rango óptimo",
+      "title": "High temperature",
+      "description": "The XK-400 freezer is recording temperatures above the optimal range",
       "status": "read",
       "timestamp": "2023-04-20T14:30:00",
       "userId": 1,
@@ -333,8 +333,8 @@
   "technicians": [
     {
       "id": "1",
-      "name": "Roberto Técnico",
-      "specialization": "Refrigeración industrial",
+      "name": "Roberto Technician",
+      "specialization": "Industrial refrigeration",
       "phone": "987123456",
       "email": "roberto@tecnico.com",
       "rating": 4.8,
@@ -347,7 +347,7 @@
       "id": "3",
       "name": "TecnoFrio S.A.C.",
       "type": "service_provider",
-      "specialization": "Refrigeración comercial",
+      "specialization": "Commercial refrigeration",
       "contactEmail": "info@tecnofrio.com",
       "contactPhone": "987987987",
       "address": "Av. Industriales 456, Lima"
