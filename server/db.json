@@ -323,7 +323,7 @@
       "id": "1",
       "title": "Temperatura elevada",
       "description": "El congelador XK-400 está registrando temperaturas por encima del rango óptimo",
-      "status": "unread",
+      "status": "read",
       "timestamp": "2023-04-20T14:30:00",
       "userId": 1,
       "equipmentId": 1,
