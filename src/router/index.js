@@ -42,8 +42,7 @@ const routes = [
     { path: '/equipment',       name: 'equipment-list',   component: EquipmentListComponent,   meta: { title: 'My Equipment' } },
     { path: '/equipment/:id',   name: 'equipment-detail', component: EquipmentDetailComponent, meta: { title: 'Equipment Control' } },
 
-    { path: '/',                name: 'default',         redirect: { name: 'dashboard' } },
-    //Not found route
+    { path: '/',                name: 'default',         redirect: { name: 'home' } },    //Not found route
     { path: '/:pathMatch(.*)*', name: 'not-found',       component: PageNotFoundComponent,    meta: { title: 'Page not found' } },
 ];
 
