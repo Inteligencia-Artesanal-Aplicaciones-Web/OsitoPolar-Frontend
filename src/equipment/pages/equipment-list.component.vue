@@ -223,7 +223,7 @@ export default {
 <template>
   <div class="equipment-list">
     <div class="page-header">
-      <h1 class="page-title">My Equipment</h1>
+      <h1 class="page-title">My Equipments</h1>
       <pv-button
           label="Add Equipment"
           icon="pi pi-plus"

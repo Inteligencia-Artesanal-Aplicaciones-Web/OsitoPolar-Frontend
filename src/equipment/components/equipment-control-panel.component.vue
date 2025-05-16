@@ -42,16 +42,14 @@ export default {
      * Adjust display properties based on equipment temperature range
      */
     displayProperties() {
-      // Si la temperatura es negativa (como en la Cold Room)
       if (this.equipment.currentTemperature < 0) {
         return {
           fontSize: '2.5rem',
           fontWeight: 'bold',
-          color: '#1565C0' // Azul más oscuro para temperaturas frías
+          color: '#1565C0'
         };
       }
 
-      // Para temperaturas normales (como en el Freezer)
       return {
         fontSize: '2.5rem',
         fontWeight: 'bold',
@@ -98,17 +96,13 @@ export default {
      * Chart.js options with dynamic temperature range
      */
     chartOptions() {
-      // Determinar el rango de temperaturas basado en el equipo actual
       let minTemp, maxTemp, stepSize;
 
-      // Verificar si es un equipo de temperatura fría (por debajo de 0)
       if (this.equipment.currentTemperature < 0) {
-        // Configuración para equipos con temperaturas negativas (como la Cold Room)
         minTemp = -6.0;
         maxTemp = 1.0;
         stepSize = 1.0;
       } else {
-        // Configuración para equipos con temperaturas positivas (como el Freezer)
         minTemp = 21.5;
         maxTemp = 25.0;
         stepSize = 0.5;
@@ -179,7 +173,7 @@ export default {
 
         const { data } = await this.analyticsService.getTemperatureReadings(
             this.equipment.id,
-            9 // Últimas 9 lecturas para mostrar en el gráfico
+            9
         );
 
         if (data && data.length > 0) {
