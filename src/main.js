@@ -11,6 +11,8 @@ import {
     ConfirmationService,
     ConfirmDialog,
     DataTable,
+    ToggleSwitch,
+    Slider,
     Dialog,
     DialogService,
     Drawer,
@@ -20,6 +22,7 @@ import {
     InputNumber,
     InputText,
     Menu,
+    ProgressSpinner,
     Rating,
     SelectButton,
     Tag,
@@ -28,8 +31,11 @@ import {
     ToastService,
     Toolbar
 } from "primevue";
+
+import Chart from 'primevue/chart';
+
 import pinia from "./pinia.js";
-//import router from "./router/index.js";
+import router from "./router/index.js";
 import App from "./App.vue";
 
 const app = createApp(App);
@@ -42,6 +48,9 @@ app.use(i18n)
     .use(ToastService)
     .component('pv-button',         Button)
     .component('pv-card',           Card)
+    .component('pv-chart',          Chart)
+    .component('pv-input-switch', ToggleSwitch)
+    .component('pv-slider', Slider)
     .component('pv-column',         Column)
     .component('pv-confirm-dialog', ConfirmDialog)
     .component('pv-data-table',     DataTable)
@@ -53,11 +62,12 @@ app.use(i18n)
     .component('pv-input-text',     InputText)
     .component('pv-input-number',   InputNumber)
     .component('pv-menu',           Menu)
+    .component('pv-progress-spinner', ProgressSpinner)
     .component('pv-rating',         Rating)
     .component('pv-drawer',         Drawer)
     .component('pv-tag',            Tag)
     .component('pv-textarea',       Textarea)
     .component('pv-toolbar',        Toolbar)
     .component('pv-toast',          Toast)
-    //.use(router)
+    .use(router)
     .mount('#app')

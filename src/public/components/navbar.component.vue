@@ -25,6 +25,9 @@ export default {
   methods: {
     toggleMobileMenu() {
       this.mobileMenuOpen = !this.mobileMenuOpen;
+    },
+    goNotifications(){
+      this.$router.push({ name: 'notifications' });
     }
   }
 }
@@ -77,7 +80,9 @@ export default {
           </div>
 
           <!-- Notification Bell -->
-          <pv-button icon="pi pi-bell" class="p-button-text p-button-rounded notification-button" />
+          <pv-button icon="pi pi-bell"
+                     class="p-button-text p-button-rounded notification-button"
+          @click="goNotifications"/>
 
           <!-- User Profile -->
           <pv-button icon="pi pi-user" class="p-button-text p-button-rounded user-button" />
