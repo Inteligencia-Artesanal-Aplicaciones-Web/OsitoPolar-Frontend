@@ -62,6 +62,10 @@ export default {
       this.selectedLocationDisplay = equipment?.location?.name || "Not specified";
       this.showDetailModal = true;
     },
+
+    openNewRequestForm() {
+      this.$router.push({ name: 'new-service-request' });
+    },
   },
   created() {
     this.serviceRequestService = new ServiceRequestService();
@@ -75,6 +79,12 @@ export default {
   <div class="service-request-list">
     <div class="page-header">
       <h1>Service Requests</h1>
+      <pv-button
+          label="New Request"
+          icon="pi pi-plus"
+          class="p-button-primary new-request-button"
+          @click="openNewRequestForm"
+      />
     </div>
 
     <div class="loading" v-if="loading">
@@ -158,6 +168,20 @@ export default {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
+.new-request-button {
+  background-color: #0884c4;
+  border: none;
+  font-weight: bold;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.2s ease;
+}
+
+.new-request-button:hover {
+  background-color: #005f99;
+}
 .status-pending {
   color: #f39c12;
   font-weight: bold;
