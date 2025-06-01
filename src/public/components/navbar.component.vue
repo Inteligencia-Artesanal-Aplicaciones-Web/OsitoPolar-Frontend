@@ -16,6 +16,7 @@ export default {
       menu: [
         { label: 'option.home', to: '/home' },
         { label: 'option.myMachines', to: '/equipment' },
+        { label: 'option.myServiceRequests', to: '/service-requests' },
         { label: 'option.rent', to: '/rent' },
         { label: 'option.contact', to: '/contact' }
       ],
