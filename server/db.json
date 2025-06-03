@@ -594,9 +594,9 @@
       "id": "2",
       "equipmentId": 1,
       "date": "2023-04-15",
-      "averageTemperature": 18.5,
-      "minTemperature": 16.8,
-      "maxTemperature": 20.2
+      "averageTemperature": -3.6,
+      "minTemperature": -4.2,
+      "maxTemperature": -2.8
     },
     {
       "id": "3",

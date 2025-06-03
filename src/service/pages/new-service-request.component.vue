@@ -49,35 +49,48 @@ export default {
       }
     },
     async handleSubmit() {
-      try {
-        const payload = {
-          id: undefined,
-          orderNumber: '',
-          description: this.formData.description,
-          requestTime: null,
-          status: 'pending',
-          priority: 'normal',
-          userId: null,
-          companyId: null,
-          equipmentId: this.formData.equipmentId,
-          technicianId: null,
-          serviceType: this.formData.serviceType,
-          urgency: this.formData.urgency,
-          asap: this.formData.asap,
-          timeSlot: this.formData.timeSlot,
-          serviceAddress: this.formData.serviceAddress,
-          scheduledDate: this.formData.date ? new Date(this.formData.date).toISOString() : null,
-          completionDate: null,
-          resolution: null
-        };
-        const response = await this.serviceRequestService.createRequest(payload);
-        console.log('Request created:', response);
-        this.router.push('/service-requests');
-      } catch (error) {
-        console.error('Error submitting:', error);
-        alert('An error occurred while sending the request.');
-      }
+      this.$confirm.require({
+        message: 'Are you sure you want to send this request?',
+        header: 'Confirm Submission',
+        icon: 'pi pi-exclamation-triangle',
+        acceptLabel: 'Yes',
+        rejectLabel: 'No',
+        accept: async () => {
+          try {
+            const payload = {
+              id: undefined,
+              orderNumber: '',
+              description: this.formData.description,
+              requestTime: null,
+              status: 'pending',
+              priority: 'normal',
+              userId: null,
+              companyId: null,
+              equipmentId: this.formData.equipmentId,
+              technicianId: null,
+              serviceType: this.formData.serviceType,
+              urgency: this.formData.urgency,
+              asap: this.formData.asap,
+              timeSlot: this.formData.timeSlot,
+              serviceAddress: this.formData.serviceAddress,
+              scheduledDate: this.formData.date ? new Date(this.formData.date).toISOString() : null,
+              completionDate: null,
+              resolution: null
+            };
+
+            const response = await this.serviceRequestService.createRequest(payload);
+            console.log('Request created:', response);
+            this.router.push('/service-requests');
+          } catch (error) {
+            console.error('Error submitting:', error);
+          }
+        },
+        reject: () => {
+
+        }
+      });
     }
+
   },
   created() {
     this.equipmentService.getAll()
@@ -91,6 +104,7 @@ export default {
   }
 }
 </script>
+
 
 
 <template>
@@ -115,7 +129,6 @@ export default {
       </div>
     </div>
 
-    <!-- STEP 1 -->
     <div v-if="currentStep === 1" class="card">
       <div>
         <label>Select the equipment</label>
@@ -172,7 +185,6 @@ export default {
       </div>
     </div>
 
-    <!-- STEP 2 -->
     <div v-if="currentStep === 2" class="card">
       <div>
         <label>Attention as soon as possible?</label>
@@ -207,7 +219,6 @@ export default {
       </div>
     </div>
 
-    <!-- STEP 3 -->
     <div v-if="currentStep === 3" class="card">
       <label>Service address (optional)</label>
       <textarea
@@ -236,9 +247,21 @@ export default {
       </div>
     </div>
   </div>
+  <pv-confirm-dialog
+      :pt="{
+     root: { class: 'custom-confirm-dialog' },
+     header: { class: 'custom-confirm-header' },
+    message: { class: 'custom-confirm-message' },
+    icon: { class: 'custom-confirm-icon' },
+    footer: { class: 'custom-confirm-footer' }
+
+  }"
+  />
+
 </template>
 
 <style scoped>
+
 .container {
   max-width: 768px;
   margin: 0 auto;
@@ -408,4 +431,6 @@ export default {
   font-weight: 500;
   color: #4b5563;
 }
+
+
 </style>
