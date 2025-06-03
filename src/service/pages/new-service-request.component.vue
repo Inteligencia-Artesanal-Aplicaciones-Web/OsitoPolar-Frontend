@@ -80,13 +80,33 @@ export default {
 
             const response = await this.serviceRequestService.createRequest(payload);
             console.log('Request created:', response);
+
+            this.$toast.add({
+              severity: 'success',
+              summary: 'Request sent',
+              detail: 'Your service request has been submitted.',
+              life: 3000
+            });
+
             this.router.push('/service-requests');
           } catch (error) {
             console.error('Error submitting:', error);
+
+            this.$toast.add({
+              severity: 'error',
+              summary: 'Submission failed',
+              detail: 'An error occurred while sending the request.',
+              life: 3000
+            });
           }
         },
         reject: () => {
-
+          this.$toast.add({
+            severity: 'info',
+            summary: 'Cancelled',
+            detail: 'Submission cancelled.',
+            life: 2000
+          });
         }
       });
     }
@@ -257,11 +277,11 @@ export default {
 
   }"
   />
+  <pv-toast />
 
 </template>
 
 <style scoped>
-
 .container {
   max-width: 768px;
   margin: 0 auto;
