@@ -4,7 +4,6 @@
  */
 import { EquipmentService } from "../services/equipment.service.js";
 import { Equipment } from "../models/equipment.entity.js";
-import EquipmentForm from "../components/equipment-form-modal.component.vue";
 
 /**
  * @component equipment-list
@@ -12,9 +11,6 @@ import EquipmentForm from "../components/equipment-form-modal.component.vue";
  */
 export default {
   name: "equipment-list",
-  components: {
-    EquipmentForm
-  },
   data() {
     return {
       /**
@@ -46,18 +42,6 @@ export default {
        * @description Error message
        */
       errorMessage: '',
-
-      /**
-       * @type {Boolean}
-       * @description Whether the add equipment dialog is visible
-       */
-      showAddDialog: false,
-
-      /**
-       * @type {Object|null}
-       * @description Equipment being edited
-       */
-      editingEquipment: null,
 
       /**
        * @type {Object|null}
@@ -112,23 +96,20 @@ export default {
     },
 
     /**
-     * Opens add equipment dialog
+     * Navigate to add equipment page
      */
-    openAddDialog() {
-      this.editingEquipment = null;
-      this.showAddDialog = true;
+    addEquipment() {
+      this.$router.push('/equipment/new');
     },
 
     /**
-     * Opens edit equipment dialog
+     * Navigate to edit equipment page
      * @param {Object} equipment - The equipment to edit
      */
-    openEditDialog(equipment, event) {
+    editEquipment(equipment, event) {
       // Prevent triggering card click event
       event.stopPropagation();
-
-      this.editingEquipment = equipment;
-      this.showAddDialog = true;
+      this.$router.push(`/equipment/${equipment.id}/edit`);
     },
 
     /**
@@ -159,31 +140,6 @@ export default {
           .catch(error => {
             console.error('Error deleting equipment:', error);
             this.showErrorMessage('Failed to delete equipment. Please try again.');
-          });
-    },
-
-    /**
-     * Saves new or updated equipment
-     * @param {Object} equipmentData - The equipment data to save
-     */
-    saveEquipment(equipmentData) {
-      const isEditing = !!this.editingEquipment;
-      const savePromise = isEditing
-          ? this.equipmentService.updateEquipment(equipmentData.id, equipmentData)
-          : this.equipmentService.createEquipment(equipmentData);
-
-      savePromise
-          .then(() => {
-            const message = isEditing
-                ? `${equipmentData.name} has been updated successfully`
-                : `${equipmentData.name} has been added successfully`;
-            this.showSuccessMessage(message);
-            this.loadEquipment();
-          })
-          .catch(error => {
-            console.error('Error saving equipment:', error);
-            const action = isEditing ? 'update' : 'add';
-            this.showErrorMessage(`Failed to ${action} equipment. Please try again.`);
           });
     },
 
@@ -228,7 +184,7 @@ export default {
           label="Add Equipment"
           icon="pi pi-plus"
           class="add-equipment-button"
-          @click="openAddDialog"
+          @click="addEquipment"
       />
     </div>
 
@@ -293,7 +249,7 @@ export default {
                 <pv-button
                     icon="pi pi-pencil"
                     class="p-button-rounded p-button-text p-button-info"
-                    @click="openEditDialog(item, $event)"
+                    @click="editEquipment(item, $event)"
                     tooltip="Edit"
                     tooltip-position="top"
                 />
@@ -310,13 +266,6 @@ export default {
         </pv-card>
       </div>
     </div>
-
-    <!-- Add/Edit Equipment Dialog -->
-    <equipment-form
-        v-model:visible="showAddDialog"
-        :equipment="editingEquipment"
-        @save="saveEquipment"
-    />
 
     <!-- Delete Confirmation Dialog -->
     <pv-dialog
@@ -496,7 +445,6 @@ export default {
   color: #666;
 }
 
-/* New styles for card actions */
 .card-actions {
   display: flex;
   justify-content: space-between;
@@ -516,16 +464,32 @@ export default {
   margin: 1rem 0;
 }
 
-/* Add button styling */
-.add-equipment-button {
-  background-color: #4CAF50;
-  border-color: #4CAF50;
+:deep(.add-equipment-button) {
+  background-color: #28a745 !important;
+  border-color: #28a745 !important;
+  color: white !important;
+  font-weight: 600 !important;
+  padding: 0.75rem 1.5rem !important;
+  border-radius: 6px !important;
+  transition: all 0.2s ease !important;
 }
 
-.add-equipment-button:hover {
-  background-color: #388E3C;
-  border-color: #388E3C;
+:deep(.add-equipment-button:hover) {
+  background-color: #218838 !important;
+  border-color: #1e7e34 !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3) !important;
 }
+
+:deep(.add-equipment-button:focus) {
+  box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.5) !important;
+  outline: none !important;
+}
+
+:deep(.add-equipment-button .pi-plus) {
+  margin-right: 0.5rem !important;
+}
+
 
 @media (max-width: 768px) {
   .page-header {
