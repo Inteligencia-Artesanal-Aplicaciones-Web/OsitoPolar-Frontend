@@ -1,4 +1,6 @@
 ﻿<script>
+import {TemperatureFormattingService} from "../services/temperature-formatting.service.js";
+
 /**
  * @component temperature-history
  * @description Displays average temperature history by day in a bar chart
@@ -27,15 +29,15 @@ export default {
       );
 
       return {
-        labels: sortedAverages.map(avg => avg.getDayName()),
-        datasets: [
-          {
-            label: 'Average Temperature',
-            data: sortedAverages.map(avg => avg.averageTemperature),
-            backgroundColor: '#2196F3',
-            borderRadius: 5
-          }
-        ]
+        labels: sortedAverages.map(avg =>
+            TemperatureFormattingService.getDayName(avg.date)
+        ),
+        datasets: [{
+          label: 'Average Temperature',
+          data: sortedAverages.map(avg => avg.averageTemperature),
+          backgroundColor: '#2196F3',
+          borderRadius: 5
+        }]
       };
     },
 

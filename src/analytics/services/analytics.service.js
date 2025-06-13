@@ -1,6 +1,7 @@
 import httpInstance from "../../shared/http.instance.js";
 import { TemperatureReading } from "../models/temperature-reading.entity.js";
 import { DailyTemperatureAverage } from "../models/daily-temperature-average.entity.js";
+import {TemperatureFormattingService} from "./temperature-formatting.service.js";
 
 /**
  * @class AnalyticsService
@@ -42,7 +43,10 @@ export class AnalyticsService {
      * @returns {Array<TemperatureReading>} Array of mapped entities
      */
     mapTemperatureReadings(data) {
-        return data.map(item => new TemperatureReading(item));
+        return data.map(item => new TemperatureReading({
+            ...item,
+            temperature: TemperatureFormattingService.formatTemperature(item.temperature)
+        }));
     }
 
     /**

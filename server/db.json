@@ -85,11 +85,11 @@
       "isPoweredOn": true,
       "notes": "Installed on 01/10/2023",
       "location": {
-        "name": "Main warehouse",
-        "address": "Av. Principal 123, Lima",
+        "name": "San Isidro Main Warehouse",
+        "address": "Av. Javier Prado Este 4200, San Isidro, Lima",
         "coordinates": {
-          "lat": -12.046374,
-          "lng": -77.042793
+          "lat": -12.0725,
+          "lng": -77.0561
         }
       },
       "model": "XK-400",
@@ -121,11 +121,11 @@
       "isPoweredOn": true,
       "notes": "Installed on 02/15/2023",
       "location": {
-        "name": "Production area",
-        "address": "Av. Principal 123, Lima",
+        "name": "Miraflores Production Center",
+        "address": "Av. Larco 1301, Miraflores, Lima",
         "coordinates": {
-          "lat": -12.04683,
-          "lng": -77.0431
+          "lat": -12.1198,
+          "lng": -77.0280
         }
       },
       "model": "CF-200",
@@ -141,7 +141,7 @@
         "average": 820
       },
       "ownerId": 1,
-      "ownerType": "company",
+      "ownerType": "user",
       "ownershipType": "rented",
       "rentalInfo": {
         "startDate": "2023-02-15",
@@ -149,161 +149,148 @@
         "monthlyFee": 350,
         "providerId": 3
       }
+    },
+    {
+      "id": "3",
+      "name": "Mini Refrigerator MR-100",
+      "type": "refrigerator",
+      "cost": 800,
+      "technicalDetails": "Compact design, 100L capacity",
+      "serialNumber": "MR100-9876",
+      "code": "REF-003",
+      "status": "active",
+      "isPoweredOn": true,
+      "notes": "Office refrigerator for beverages",
+      "location": {
+        "name": "Barranco Office",
+        "address": "Av. Grau 150, Barranco, Lima",
+        "coordinates": {
+          "lat": -12.1464,
+          "lng": -77.0194
+        }
+      },
+      "model": "MR-100",
+      "manufacturer": "CoolTech",
+      "installationDate": "2023-03-20",
+      "currentTemperature": 4.2,
+      "setTemperature": 4,
+      "optimalTemperatureMin": 2,
+      "optimalTemperatureMax": 8,
+      "energyConsumption": {
+        "current": 120,
+        "unit": "watts",
+        "average": 115
+      },
+      "ownerId": 1,
+      "ownerType": "user",
+      "ownershipType": "owned",
+      "rentalInfo": null
+    },
+    {
+      "id": "4",
+      "name": "Industrial Freezer XK-500",
+      "type": "freezer",
+      "cost": 7500,
+      "technicalDetails": "Ultra-low temperature -30°C, capacity 500L",
+      "serialNumber": "XK500-5432",
+      "code": "CONG-004",
+      "status": "active",
+      "isPoweredOn": true,
+      "notes": "Medical storage freezer",
+      "location": {
+        "name": "Surco Medical Facility",
+        "address": "Av. Primavera 1050, Santiago de Surco, Lima",
+        "coordinates": {
+          "lat": -12.1035,
+          "lng": -76.9769
+        }
+      },
+      "model": "XK-500",
+      "manufacturer": "FrigoTech",
+      "installationDate": "2023-04-10",
+      "currentTemperature": -25.8,
+      "setTemperature": -25,
+      "optimalTemperatureMin": -30,
+      "optimalTemperatureMax": -20,
+      "energyConsumption": {
+        "current": 450,
+        "unit": "watts",
+        "average": 435
+      },
+      "ownerId": 1,
+      "ownerType": "user",
+      "ownershipType": "owned",
+      "rentalInfo": null
+    },
+    {
+      "id": "5",
+      "name": "Commercial Cold Room CR-300",
+      "type": "cold_room",
+      "cost": 15000,
+      "technicalDetails": "Walk-in cold room, 20m², variable temperature",
+      "serialNumber": "CR300-1111",
+      "code": "CAM-005",
+      "status": "active",
+      "isPoweredOn": true,
+      "notes": "Restaurant cold storage",
+      "location": {
+        "name": "La Molina Restaurant District",
+        "address": "Av. Javier Prado Este 6000, La Molina, Lima",
+        "coordinates": {
+          "lat": -12.0726,
+          "lng": -76.9411
+        }
+      },
+      "model": "CR-300",
+      "manufacturer": "CoolTech",
+      "installationDate": "2023-05-15",
+      "currentTemperature": 2.1,
+      "setTemperature": 2,
+      "optimalTemperatureMin": 0,
+      "optimalTemperatureMax": 4,
+      "energyConsumption": {
+        "current": 980,
+        "unit": "watts",
+        "average": 950
+      },
+      "ownerId": 1,
+      "ownerType": "user",
+      "ownershipType": "rented",
+      "rentalInfo": {
+        "startDate": "2023-05-15",
+        "endDate": "2024-05-15",
+        "monthlyFee": 450,
+        "providerId": 3
+      }
     }
   ],
   "temperatureReadings": [
     {
-      "id": "10",
-      "equipmentId": 2,
-      "temperature": -2.5,
-      "timestamp": "2023-04-20T10:00:00",
-      "status": "normal"
-    },
-    {
-      "id": "11",
-      "equipmentId": 2,
-      "temperature": -2.8,
-      "timestamp": "2023-04-20T11:00:00",
-      "status": "normal"
-    },
-    {
-      "id": "12",
-      "equipmentId": 2,
-      "temperature": -3.2,
-      "timestamp": "2023-04-20T12:00:00",
-      "status": "normal"
-    },
-    {
-      "id": "13",
-      "equipmentId": 2,
-      "temperature": -3.5,
-      "timestamp": "2023-04-20T13:00:00",
-      "status": "warning"
-    },
-    {
-      "id": "14",
-      "equipmentId": 2,
-      "temperature": -3.0,
-      "timestamp": "2023-04-20T14:00:00",
-      "status": "normal"
-    },
-    {
-      "id": "15",
-      "equipmentId": 2,
-      "temperature": -2.7,
-      "timestamp": "2023-04-20T15:00:00",
-      "status": "normal"
-    },
-    {
-      "id": "16",
-      "equipmentId": 2,
-      "temperature": -2.3,
-      "timestamp": "2023-04-20T16:00:00",
-      "status": "normal"
-    },
-    {
-      "id": "17",
-      "equipmentId": 2,
-      "temperature": -1.9,
-      "timestamp": "2023-04-20T17:00:00",
-      "status": "warning"
-    },
-    {
-      "id": "18",
-      "equipmentId": 2,
-      "temperature": -1.5,
-      "timestamp": "2023-04-20T18:00:00",
-      "status": "warning"
-    },
-    {
-      "id": "10",
-      "equipmentId": 2,
-      "temperature": -2.5,
-      "timestamp": "2023-04-20T10:00:00",
-      "status": "normal"
-    },
-    {
-      "id": "11",
-      "equipmentId": 2,
-      "temperature": -2.8,
-      "timestamp": "2023-04-20T11:00:00",
-      "status": "normal"
-    },
-    {
-      "id": "12",
-      "equipmentId": 2,
-      "temperature": -3.2,
-      "timestamp": "2023-04-20T12:00:00",
-      "status": "normal"
-    },
-    {
-      "id": "13",
-      "equipmentId": 2,
-      "temperature": -3.5,
-      "timestamp": "2023-04-20T13:00:00",
-      "status": "warning"
-    },
-    {
-      "id": "14",
-      "equipmentId": 2,
-      "temperature": -3.0,
-      "timestamp": "2023-04-20T14:00:00",
-      "status": "normal"
-    },
-    {
-      "id": "15",
-      "equipmentId": 2,
-      "temperature": -2.7,
-      "timestamp": "2023-04-20T15:00:00",
-      "status": "normal"
-    },
-    {
-      "id": "16",
-      "equipmentId": 2,
-      "temperature": -2.3,
-      "timestamp": "2023-04-20T16:00:00",
-      "status": "normal"
-    },
-    {
-      "id": "17",
-      "equipmentId": 2,
-      "temperature": -1.9,
-      "timestamp": "2023-04-20T17:00:00",
-      "status": "warning"
-    },
-    {
-      "id": "18",
-      "equipmentId": 2,
-      "temperature": -1.5,
-      "timestamp": "2023-04-20T18:00:00",
-      "status": "warning"
-    },
-    {
       "id": "1",
       "equipmentId": 1,
       "temperature": 22.5,
-      "timestamp": "2023-04-20T10:00:00",
+      "timestamp": "2023-04-20T18:00:00",
       "status": "normal"
     },
     {
       "id": "2",
       "equipmentId": 1,
       "temperature": 23.1,
-      "timestamp": "2023-04-20T11:00:00",
+      "timestamp": "2023-04-20T17:00:00",
       "status": "normal"
     },
     {
       "id": "3",
       "equipmentId": 1,
-      "temperature": 24,
-      "timestamp": "2023-04-20T12:00:00",
+      "temperature": 24.0,
+      "timestamp": "2023-04-20T16:00:00",
       "status": "warning"
     },
     {
       "id": "4",
       "equipmentId": 1,
       "temperature": 23.5,
-      "timestamp": "2023-04-20T13:00:00",
+      "timestamp": "2023-04-20T15:00:00",
       "status": "normal"
     },
     {
@@ -317,151 +304,291 @@
       "id": "6",
       "equipmentId": 1,
       "temperature": 22.3,
-      "timestamp": "2023-04-20T15:00:00",
+      "timestamp": "2023-04-20T13:00:00",
       "status": "normal"
     },
     {
       "id": "7",
       "equipmentId": 1,
-      "temperature": 22,
-      "timestamp": "2023-04-20T16:00:00",
+      "temperature": 22.0,
+      "timestamp": "2023-04-20T12:00:00",
       "status": "normal"
     },
     {
       "id": "8",
       "equipmentId": 1,
       "temperature": 23.2,
-      "timestamp": "2023-04-20T17:00:00",
+      "timestamp": "2023-04-20T11:00:00",
       "status": "normal"
     },
     {
       "id": "9",
       "equipmentId": 1,
       "temperature": 24.5,
-      "timestamp": "2023-04-20T18:00:00",
+      "timestamp": "2023-04-20T10:00:00",
       "status": "warning"
+    },
+    {
+      "id": "10",
+      "equipmentId": 2,
+      "temperature": -2.5,
+      "timestamp": "2023-04-20T18:00:00",
+      "status": "normal"
+    },
+    {
+      "id": "11",
+      "equipmentId": 2,
+      "temperature": -2.8,
+      "timestamp": "2023-04-20T17:00:00",
+      "status": "normal"
+    },
+    {
+      "id": "12",
+      "equipmentId": 2,
+      "temperature": -3.2,
+      "timestamp": "2023-04-20T16:00:00",
+      "status": "normal"
+    },
+    {
+      "id": "13",
+      "equipmentId": 2,
+      "temperature": -3.5,
+      "timestamp": "2023-04-20T15:00:00",
+      "status": "warning"
+    },
+    {
+      "id": "14",
+      "equipmentId": 2,
+      "temperature": -3.0,
+      "timestamp": "2023-04-20T14:00:00",
+      "status": "normal"
+    },
+    {
+      "id": "15",
+      "equipmentId": 2,
+      "temperature": -2.7,
+      "timestamp": "2023-04-20T13:00:00",
+      "status": "normal"
+    },
+    {
+      "id": "16",
+      "equipmentId": 2,
+      "temperature": -2.3,
+      "timestamp": "2023-04-20T12:00:00",
+      "status": "normal"
+    },
+    {
+      "id": "17",
+      "equipmentId": 2,
+      "temperature": -1.9,
+      "timestamp": "2023-04-20T11:00:00",
+      "status": "warning"
+    },
+    {
+      "id": "18",
+      "equipmentId": 2,
+      "temperature": -1.5,
+      "timestamp": "2023-04-20T10:00:00",
+      "status": "warning"
+    },
+    {
+      "id": "19",
+      "equipmentId": 3,
+      "temperature": 4.2,
+      "timestamp": "2023-04-20T18:00:00",
+      "status": "normal"
+    },
+    {
+      "id": "20",
+      "equipmentId": 3,
+      "temperature": 4.5,
+      "timestamp": "2023-04-20T17:00:00",
+      "status": "normal"
+    },
+    {
+      "id": "21",
+      "equipmentId": 3,
+      "temperature": 3.8,
+      "timestamp": "2023-04-20T16:00:00",
+      "status": "normal"
+    },
+    {
+      "id": "22",
+      "equipmentId": 3,
+      "temperature": 4.1,
+      "timestamp": "2023-04-20T15:00:00",
+      "status": "normal"
+    },
+    {
+      "id": "23",
+      "equipmentId": 3,
+      "temperature": 4.4,
+      "timestamp": "2023-04-20T14:00:00",
+      "status": "normal"
+    },
+    {
+      "id": "24",
+      "equipmentId": 3,
+      "temperature": 3.9,
+      "timestamp": "2023-04-20T13:00:00",
+      "status": "normal"
+    },
+    {
+      "id": "25",
+      "equipmentId": 3,
+      "temperature": 4.3,
+      "timestamp": "2023-04-20T12:00:00",
+      "status": "normal"
+    },
+    {
+      "id": "26",
+      "equipmentId": 3,
+      "temperature": 4.0,
+      "timestamp": "2023-04-20T11:00:00",
+      "status": "normal"
+    },
+    {
+      "id": "27",
+      "equipmentId": 3,
+      "temperature": 3.7,
+      "timestamp": "2023-04-20T10:00:00",
+      "status": "normal"
+    },
+    {
+      "id": "28",
+      "equipmentId": 4,
+      "temperature": -25.8,
+      "timestamp": "2023-04-20T18:00:00",
+      "status": "normal"
+    },
+    {
+      "id": "29",
+      "equipmentId": 4,
+      "temperature": -26.1,
+      "timestamp": "2023-04-20T17:00:00",
+      "status": "normal"
+    },
+    {
+      "id": "30",
+      "equipmentId": 4,
+      "temperature": -25.5,
+      "timestamp": "2023-04-20T16:00:00",
+      "status": "normal"
+    },
+    {
+      "id": "31",
+      "equipmentId": 4,
+      "temperature": -25.2,
+      "timestamp": "2023-04-20T15:00:00",
+      "status": "normal"
+    },
+    {
+      "id": "32",
+      "equipmentId": 4,
+      "temperature": -26.0,
+      "timestamp": "2023-04-20T14:00:00",
+      "status": "normal"
+    },
+    {
+      "id": "33",
+      "equipmentId": 4,
+      "temperature": -25.9,
+      "timestamp": "2023-04-20T13:00:00",
+      "status": "normal"
+    },
+    {
+      "id": "34",
+      "equipmentId": 4,
+      "temperature": -25.4,
+      "timestamp": "2023-04-20T12:00:00",
+      "status": "normal"
+    },
+    {
+      "id": "35",
+      "equipmentId": 4,
+      "temperature": -25.7,
+      "timestamp": "2023-04-20T11:00:00",
+      "status": "normal"
+    },
+    {
+      "id": "36",
+      "equipmentId": 4,
+      "temperature": -26.2,
+      "timestamp": "2023-04-20T10:00:00",
+      "status": "normal"
+    },
+    {
+      "id": "37",
+      "equipmentId": 5,
+      "temperature": 2.1,
+      "timestamp": "2023-04-20T18:00:00",
+      "status": "normal"
+    },
+    {
+      "id": "38",
+      "equipmentId": 5,
+      "temperature": 1.8,
+      "timestamp": "2023-04-20T17:00:00",
+      "status": "normal"
+    },
+    {
+      "id": "39",
+      "equipmentId": 5,
+      "temperature": 2.4,
+      "timestamp": "2023-04-20T16:00:00",
+      "status": "normal"
+    },
+    {
+      "id": "40",
+      "equipmentId": 5,
+      "temperature": 2.0,
+      "timestamp": "2023-04-20T15:00:00",
+      "status": "normal"
+    },
+    {
+      "id": "41",
+      "equipmentId": 5,
+      "temperature": 2.3,
+      "timestamp": "2023-04-20T14:00:00",
+      "status": "normal"
+    },
+    {
+      "id": "42",
+      "equipmentId": 5,
+      "temperature": 1.9,
+      "timestamp": "2023-04-20T13:00:00",
+      "status": "normal"
+    },
+    {
+      "id": "43",
+      "equipmentId": 5,
+      "temperature": 2.2,
+      "timestamp": "2023-04-20T12:00:00",
+      "status": "normal"
+    },
+    {
+      "id": "44",
+      "equipmentId": 5,
+      "temperature": 1.7,
+      "timestamp": "2023-04-20T11:00:00",
+      "status": "normal"
+    },
+    {
+      "id": "45",
+      "equipmentId": 5,
+      "temperature": 2.5,
+      "timestamp": "2023-04-20T10:00:00",
+      "status": "normal"
     }
   ],
   "dailyTemperatureAverages": [
-    {
-      "id": "8",
-      "equipmentId": 2,
-      "date": "2023-04-14",
-      "averageTemperature": -3.8,
-      "minTemperature": -4.5,
-      "maxTemperature": -2.9
-    },
-    {
-      "id": "9",
-      "equipmentId": 2,
-      "date": "2023-04-15",
-      "averageTemperature": -3.6,
-      "minTemperature": -4.2,
-      "maxTemperature": -2.8
-    },
-    {
-      "id": "10",
-      "equipmentId": 2,
-      "date": "2023-04-16",
-      "averageTemperature": -3.2,
-      "minTemperature": -4.0,
-      "maxTemperature": -2.4
-    },
-    {
-      "id": "11",
-      "equipmentId": 2,
-      "date": "2023-04-17",
-      "averageTemperature": -2.9,
-      "minTemperature": -3.8,
-      "maxTemperature": -2.1
-    },
-    {
-      "id": "12",
-      "equipmentId": 2,
-      "date": "2023-04-18",
-      "averageTemperature": -2.7,
-      "minTemperature": -3.5,
-      "maxTemperature": -1.9
-    },
-    {
-      "id": "13",
-      "equipmentId": 2,
-      "date": "2023-04-19",
-      "averageTemperature": -2.5,
-      "minTemperature": -3.3,
-      "maxTemperature": -1.7
-    },
-    {
-      "id": "14",
-      "equipmentId": 2,
-      "date": "2023-04-20",
-      "averageTemperature": -2.3,
-      "minTemperature": -3.1,
-      "maxTemperature": -1.5
-    },
-    {
-      "id": "8",
-      "equipmentId": 2,
-      "date": "2023-04-14",
-      "averageTemperature": -3.8,
-      "minTemperature": -4.5,
-      "maxTemperature": -2.9
-    },
-    {
-      "id": "9",
-      "equipmentId": 2,
-      "date": "2023-04-15",
-      "averageTemperature": -3.6,
-      "minTemperature": -4.2,
-      "maxTemperature": -2.8
-    },
-    {
-      "id": "10",
-      "equipmentId": 2,
-      "date": "2023-04-16",
-      "averageTemperature": -3.2,
-      "minTemperature": -4.0,
-      "maxTemperature": -2.4
-    },
-    {
-      "id": "11",
-      "equipmentId": 2,
-      "date": "2023-04-17",
-      "averageTemperature": -2.9,
-      "minTemperature": -3.8,
-      "maxTemperature": -2.1
-    },
-    {
-      "id": "12",
-      "equipmentId": 2,
-      "date": "2023-04-18",
-      "averageTemperature": -2.7,
-      "minTemperature": -3.5,
-      "maxTemperature": -1.9
-    },
-    {
-      "id": "13",
-      "equipmentId": 2,
-      "date": "2023-04-19",
-      "averageTemperature": -2.5,
-      "minTemperature": -3.3,
-      "maxTemperature": -1.7
-    },
-    {
-      "id": "14",
-      "equipmentId": 2,
-      "date": "2023-04-20",
-      "averageTemperature": -2.3,
-      "minTemperature": -3.1,
-      "maxTemperature": -1.5
-    },
     {
       "id": "1",
       "equipmentId": 1,
       "date": "2023-04-14",
       "averageTemperature": 19.2,
       "minTemperature": 17.5,
-      "maxTemperature": 21
+      "maxTemperature": 21.0
     },
     {
       "id": "2",
@@ -492,7 +619,7 @@
       "equipmentId": 1,
       "date": "2023-04-18",
       "averageTemperature": 22.1,
-      "minTemperature": 20,
+      "minTemperature": 20.0,
       "maxTemperature": 24.3
     },
     {
@@ -508,8 +635,136 @@
       "equipmentId": 1,
       "date": "2023-04-20",
       "averageTemperature": 25.5,
-      "minTemperature": 22,
-      "maxTemperature": 28
+      "minTemperature": 22.0,
+      "maxTemperature": 28.0
+    },
+    {
+      "id": "8",
+      "equipmentId": 2,
+      "date": "2023-04-14",
+      "averageTemperature": -3.8,
+      "minTemperature": -4.5,
+      "maxTemperature": -2.9
+    },
+    {
+      "id": "9",
+      "equipmentId": 2,
+      "date": "2023-04-15",
+      "averageTemperature": -3.6,
+      "minTemperature": -4.2,
+      "maxTemperature": -2.8
+    },
+    {
+      "id": "10",
+      "equipmentId": 2,
+      "date": "2023-04-16",
+      "averageTemperature": -3.2,
+      "minTemperature": -4.0,
+      "maxTemperature": -2.4
+    },
+    {
+      "id": "11",
+      "equipmentId": 2,
+      "date": "2023-04-17",
+      "averageTemperature": -2.9,
+      "minTemperature": -3.8,
+      "maxTemperature": -2.1
+    },
+    {
+      "id": "12",
+      "equipmentId": 2,
+      "date": "2023-04-18",
+      "averageTemperature": -2.7,
+      "minTemperature": -3.5,
+      "maxTemperature": -1.9
+    },
+    {
+      "id": "13",
+      "equipmentId": 2,
+      "date": "2023-04-19",
+      "averageTemperature": -2.5,
+      "minTemperature": -3.3,
+      "maxTemperature": -1.7
+    },
+    {
+      "id": "14",
+      "equipmentId": 2,
+      "date": "2023-04-20",
+      "averageTemperature": -2.3,
+      "minTemperature": -3.1,
+      "maxTemperature": -1.5
+    },
+    {
+      "id": "15",
+      "equipmentId": 3,
+      "date": "2023-04-18",
+      "averageTemperature": 4.1,
+      "minTemperature": 3.5,
+      "maxTemperature": 4.8
+    },
+    {
+      "id": "16",
+      "equipmentId": 3,
+      "date": "2023-04-19",
+      "averageTemperature": 4.3,
+      "minTemperature": 3.9,
+      "maxTemperature": 4.7
+    },
+    {
+      "id": "17",
+      "equipmentId": 3,
+      "date": "2023-04-20",
+      "averageTemperature": 4.2,
+      "minTemperature": 3.8,
+      "maxTemperature": 4.6
+    },
+    {
+      "id": "18",
+      "equipmentId": 4,
+      "date": "2023-04-18",
+      "averageTemperature": -25.9,
+      "minTemperature": -26.5,
+      "maxTemperature": -25.2
+    },
+    {
+      "id": "19",
+      "equipmentId": 4,
+      "date": "2023-04-19",
+      "averageTemperature": -25.7,
+      "minTemperature": -26.2,
+      "maxTemperature": -25.1
+    },
+    {
+      "id": "20",
+      "equipmentId": 4,
+      "date": "2023-04-20",
+      "averageTemperature": -25.8,
+      "minTemperature": -26.1,
+      "maxTemperature": -25.5
+    },
+    {
+      "id": "21",
+      "equipmentId": 5,
+      "date": "2023-04-18",
+      "averageTemperature": 2.0,
+      "minTemperature": 1.5,
+      "maxTemperature": 2.6
+    },
+    {
+      "id": "22",
+      "equipmentId": 5,
+      "date": "2023-04-19",
+      "averageTemperature": 2.2,
+      "minTemperature": 1.8,
+      "maxTemperature": 2.8
+    },
+    {
+      "id": "23",
+      "equipmentId": 5,
+      "date": "2023-04-20",
+      "averageTemperature": 2.1,
+      "minTemperature": 1.7,
+      "maxTemperature": 2.5
     }
   ],
   "energyReadings": [
@@ -524,6 +779,62 @@
       "id": "2",
       "equipmentId": 1,
       "consumption": 325,
+      "timestamp": "2023-04-20T11:00:00",
+      "status": "normal"
+    },
+    {
+      "id": "3",
+      "equipmentId": 2,
+      "consumption": 850,
+      "timestamp": "2023-04-20T10:00:00",
+      "status": "normal"
+    },
+    {
+      "id": "4",
+      "equipmentId": 2,
+      "consumption": 835,
+      "timestamp": "2023-04-20T11:00:00",
+      "status": "normal"
+    },
+    {
+      "id": "5",
+      "equipmentId": 3,
+      "consumption": 120,
+      "timestamp": "2023-04-20T10:00:00",
+      "status": "normal"
+    },
+    {
+      "id": "6",
+      "equipmentId": 3,
+      "consumption": 118,
+      "timestamp": "2023-04-20T11:00:00",
+      "status": "normal"
+    },
+    {
+      "id": "7",
+      "equipmentId": 4,
+      "consumption": 450,
+      "timestamp": "2023-04-20T10:00:00",
+      "status": "normal"
+    },
+    {
+      "id": "8",
+      "equipmentId": 4,
+      "consumption": 465,
+      "timestamp": "2023-04-20T11:00:00",
+      "status": "normal"
+    },
+    {
+      "id": "9",
+      "equipmentId": 5,
+      "consumption": 980,
+      "timestamp": "2023-04-20T10:00:00",
+      "status": "normal"
+    },
+    {
+      "id": "10",
+      "equipmentId": 5,
+      "consumption": 945,
       "timestamp": "2023-04-20T11:00:00",
       "status": "normal"
     }
@@ -542,6 +853,20 @@
       "scheduledDate": null,
       "completionDate": null,
       "resolution": null
+    },
+    {
+      "id": "2",
+      "orderNumber": "SR-2023-002",
+      "description": "Routine maintenance check for cold room",
+      "requestTime": "2023-04-18T14:20:00",
+      "status": "completed",
+      "priority": "medium",
+      "userId": 1,
+      "equipmentId": 2,
+      "technicianId": 1,
+      "scheduledDate": "2023-04-20T10:00:00",
+      "completionDate": "2023-04-20T12:30:00",
+      "resolution": "Maintenance completed successfully. All systems operating normally."
     }
   ],
   "maintenance": [
@@ -551,9 +876,29 @@
       "type": "preventive",
       "status": "completed",
       "notes": "Filter cleaning, general inspection",
-      "technicianId": 2,
+      "technicianId": 1,
       "equipmentId": 1,
       "nextScheduledDate": "2023-06-10"
+    },
+    {
+      "id": "2",
+      "date": "2023-04-20T10:00:00",
+      "type": "preventive",
+      "status": "completed",
+      "notes": "Cold room maintenance, temperature calibration",
+      "technicianId": 1,
+      "equipmentId": 2,
+      "nextScheduledDate": "2023-07-20"
+    },
+    {
+      "id": "3",
+      "date": "2023-04-25T09:00:00",
+      "type": "corrective",
+      "status": "scheduled",
+      "notes": "Replace refrigerator compressor",
+      "technicianId": 1,
+      "equipmentId": 3,
+      "nextScheduledDate": null
     }
   ],
   "notifications": [
@@ -566,6 +911,26 @@
       "userId": 1,
       "equipmentId": 1,
       "type": "alert"
+    },
+    {
+      "id": "2",
+      "title": "Maintenance completed",
+      "description": "Cold Room CF-200 maintenance has been completed successfully",
+      "status": "unread",
+      "timestamp": "2023-04-20T12:45:00",
+      "userId": 1,
+      "equipmentId": 2,
+      "type": "info"
+    },
+    {
+      "id": "3",
+      "title": "Energy consumption spike",
+      "description": "Commercial Cold Room CR-300 showing increased energy usage",
+      "status": "unread",
+      "timestamp": "2023-04-20T16:20:00",
+      "userId": 1,
+      "equipmentId": 5,
+      "type": "warning"
     }
   ],
   "technicians": [
@@ -577,6 +942,16 @@
       "email": "roberto@tecnico.com",
       "rating": 4.8,
       "availability": "available",
+      "companyId": 3
+    },
+    {
+      "id": "2",
+      "name": "Ana García",
+      "specialization": "Commercial refrigeration",
+      "phone": "987123457",
+      "email": "ana@tecnico.com",
+      "rating": 4.9,
+      "availability": "busy",
       "companyId": 3
     }
   ],

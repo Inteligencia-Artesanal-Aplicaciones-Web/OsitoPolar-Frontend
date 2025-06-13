@@ -3,7 +3,25 @@
     "home": "Inicio",
     "myMachines": "Mis Máquinas",
     "rent": "Alquilar",
-    "contact": "Contacto"
+    "contact": "Contacto",
+    "language": "Idioma"
+  },
+  "language": {
+    "english": "Inglés",
+    "spanish": "Español",
+    "selectLanguage": "Seleccionar Idioma"
+  },
+  "mobile": {
+    "menu": "Menú",
+    "notifications": "Notificaciones",
+    "myAccount": "Mi Cuenta"
+  },
+  "footer": {
+    "company": "OsitoPolar",
+    "rights": "Todos los derechos reservados",
+    "terms": "Términos y condiciones",
+    "privacy": "Política de Privacidad",
+    "cookies": "Política de Cookies"
   },
   "authoring-phrase": {
     "intro": "Hecho con",

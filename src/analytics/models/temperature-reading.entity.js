@@ -27,23 +27,4 @@ export class TemperatureReading {
         this.status = status;
     }
 
-    /**
-     * Formats the timestamp for display purposes
-     * @returns {string} Formatted time (hours:minutes)
-     */
-    getFormattedTime() {
-        if (!this.timestamp) return '';
-        const date = new Date(this.timestamp);
-        return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    }
-
-    /**
-     * Gets the hour from the timestamp for charting
-     * @returns {string} Hour value (e.g. "10:00")
-     */
-    getHour() {
-        if (!this.timestamp) return '';
-        const date = new Date(this.timestamp);
-        return `${date.getHours()}:00`;
-    }
 }
