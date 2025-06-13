@@ -1,7 +1,7 @@
 ﻿<script>
 /**
  * @component navbar
- * @description Main navigation bar component with responsive hamburger menu
+ * @description Main navigation bar component with responsive slide drawer menu
  * Integrates PrimeVue components and i18n translations
  */
 import LanguageSwitcher from "./language-switcher.component.vue";
@@ -26,8 +26,12 @@ export default {
     toggleMobileMenu() {
       this.mobileMenuOpen = !this.mobileMenuOpen;
     },
+    closeMobileMenu() {
+      this.mobileMenuOpen = false;
+    },
     goNotifications(){
       this.$router.push({ name: 'notifications' });
+      this.closeMobileMenu();
     }
   }
 }
@@ -55,6 +59,7 @@ export default {
           icon="pi pi-bars"
           class="p-button-text hamburger-button"
           @click="toggleMobileMenu"
+          :aria-label="$t('mobile.menu')"
       />
 
       <!-- Desktop menu and actions -->
@@ -72,7 +77,7 @@ export default {
           </pv-button>
         </nav>
 
-        <!-- User section with SVG icons -->
+        <!-- User section -->
         <div class="navbar-actions">
           <!-- Language Switcher -->
           <div class="language-switcher">
@@ -82,47 +87,63 @@ export default {
           <!-- Notification Bell -->
           <pv-button icon="pi pi-bell"
                      class="p-button-text p-button-rounded notification-button"
-          @click="goNotifications"/>
+                     @click="goNotifications"/>
 
           <!-- User Profile -->
           <pv-button icon="pi pi-user" class="p-button-text p-button-rounded user-button" />
         </div>
       </div>
+    </div>
 
-      <!-- Mobile menu - Only visible when hamburger clicked -->
-      <pv-dialog v-model:visible="mobileMenuOpen"
-                 modal
-                 header="Menu"
-                 :style="{width: '90vw', maxWidth: '300px'}"
-                 :closable="true"
-                 :dismissableMask="true"
-                 class="mobile-menu-dialog">
-        <nav class="mobile-nav">
-          <pv-button v-for="item in menu"
-                     :key="item.label"
-                     class="p-button-text p-button-plain mobile-menu-button"
-                     as-child
-                     v-slot="slotProps">
-            <router-link :to="item.to"
-                         :class="slotProps['class']"
+    <!-- Mobile menu drawer -->
+    <transition name="slide">
+      <div v-if="mobileMenuOpen" class="mobile-menu-backdrop" @click="closeMobileMenu">
+        <div class="mobile-menu-drawer" @click.stop>
+          <!-- Close button -->
+          <div class="mobile-menu-header">
+            <h3>{{ $t('mobile.menu') }}</h3>
+            <pv-button icon="pi pi-times"
+                       class="p-button-text p-button-rounded close-button"
+                       @click="closeMobileMenu"
+                       :aria-label="$t('mobile.close') || 'Close'" />
+          </div>
+
+          <!-- Menu items -->
+          <nav class="mobile-nav">
+            <router-link v-for="item in menu"
+                         :key="item.label"
+                         :to="item.to"
                          class="mobile-menu-item"
-                         @click="mobileMenuOpen = false">
+                         @click="closeMobileMenu">
+              <i class="pi pi-angle-right menu-icon"></i>
               {{ $t(item.label) }}
             </router-link>
-          </pv-button>
-        </nav>
-        <div class="mobile-actions">
-          <div class="language-switcher-container">
-            <h4>{{ $t('option.language') || 'Language' }}</h4>
+          </nav>
+
+          <!-- Divider -->
+          <div class="menu-divider"></div>
+
+          <!-- Language switcher -->
+          <div class="mobile-section">
+            <h4>{{ $t('option.language') }}</h4>
             <LanguageSwitcher />
           </div>
-          <div class="mobile-user-actions">
-            <pv-button icon="pi pi-bell" label="Notifications" class="p-button-text p-button-plain" />
-            <pv-button icon="pi pi-user" label="My Account" class="p-button-text p-button-plain" />
+
+          <!-- User actions -->
+          <div class="mobile-section">
+            <pv-button
+                icon="pi pi-bell"
+                :label="$t('mobile.notifications')"
+                class="p-button-text p-button-plain mobile-action-button"
+                @click="goNotifications" />
+            <pv-button
+                icon="pi pi-user"
+                :label="$t('mobile.myAccount')"
+                class="p-button-text p-button-plain mobile-action-button" />
           </div>
         </div>
-      </pv-dialog>
-    </div>
+      </div>
+    </transition>
   </header>
 </template>
 
@@ -238,67 +259,124 @@ export default {
   display: none;
 }
 
-/* Mobile menu styles */
-.mobile-menu-dialog {
-  position: absolute;
-  top: 100%;
+/* Mobile menu drawer styles */
+.mobile-menu-backdrop {
+  position: fixed;
+  top: 0;
   left: 0;
-  width: 100%;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  backdrop-filter: blur(2px);
+}
+
+.mobile-menu-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 300px;
+  max-width: 85vw;
+  height: 100vh;
+  background-color: white;
+  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.mobile-menu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 1px solid #eee;
+}
+
+.mobile-menu-header h3 {
+  margin: 0;
+  color: #0079c2;
+  font-size: 1.25rem;
+}
+
+.close-button {
+  padding: 0.5rem;
 }
 
 .mobile-nav {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  margin-bottom: 1rem;
-}
-
-.mobile-menu-button {
-  width: 100%;
-  text-align: left;
-  padding: 0;
-  margin: 0;
+  padding: 1rem 0;
 }
 
 .mobile-menu-item {
-  display: block;
-  padding: 0.75rem 0.5rem;
+  display: flex;
+  align-items: center;
+  padding: 0.875rem 1.5rem;
   color: #333;
   text-decoration: none;
-  width: 100%;
+  font-size: 1rem;
+  transition: all 0.2s ease;
 }
 
 .mobile-menu-item:hover {
-  background-color: #f5f7fa;
+  background-color: #f8f9fa;
   color: #0079c2;
-  text-decoration: none;
 }
 
-.mobile-actions {
-  margin-top: 1rem;
-  padding-top: 1rem;
-  border-top: 1px solid #eee;
+.menu-icon {
+  margin-right: 0.75rem;
+  font-size: 0.875rem;
+  color: #999;
 }
 
-.language-switcher-container {
-  margin-bottom: 1rem;
+.menu-divider {
+  height: 1px;
+  background-color: #eee;
+  margin: 1rem 0;
 }
 
-.language-switcher-container h4 {
-  margin-top: 0;
-  margin-bottom: 0.5rem;
-  font-size: 1rem;
+.mobile-section {
+  padding: 1rem 1.5rem;
+}
+
+.mobile-section h4 {
+  margin: 0 0 1rem 0;
   color: #666;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-.mobile-user-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-
-.mobile-user-actions :deep(.p-button) {
+.mobile-action-button {
+  width: 100%;
   justify-content: flex-start;
+  padding: 0.75rem 1rem;
+  margin: 0.25rem 0;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.mobile-action-button:hover {
+  background-color: #f8f9fa;
+}
+
+/* Slide transition */
+.slide-enter-active .mobile-menu-drawer,
+.slide-leave-active .mobile-menu-drawer {
+  transition: transform 0.3s ease;
+}
+
+.slide-enter-from .mobile-menu-drawer,
+.slide-leave-to .mobile-menu-drawer {
+  transform: translateX(100%);
+}
+
+.slide-enter-active .mobile-menu-backdrop,
+.slide-leave-active .mobile-menu-backdrop {
+  transition: opacity 0.3s ease;
+}
+
+.slide-enter-from .mobile-menu-backdrop,
+.slide-leave-to .mobile-menu-backdrop {
+  opacity: 0;
 }
 
 /* Responsive styles */
@@ -309,6 +387,7 @@ export default {
 
   .hamburger-button {
     display: inline-flex;
+    color: #0079c2;
   }
 
   .navbar {
@@ -320,13 +399,8 @@ export default {
   }
 }
 
-/* Dialog styles */
-:deep(.p-dialog-header) {
-  padding: 1rem;
-  border-bottom: 1px solid #eee;
-}
-
-:deep(.p-dialog-content) {
-  padding: 1rem;
+/* Prevent body scroll when menu is open */
+body.mobile-menu-open {
+  overflow: hidden;
 }
 </style>
