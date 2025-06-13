@@ -3,7 +3,25 @@
     "home": "Home",
     "myMachines": "My Machines",
     "rent": "Rent",
-    "contact": "Contact"
+    "contact": "Contact",
+    "language": "Language"
+  },
+  "language": {
+    "english": "English",
+    "spanish": "Spanish",
+    "selectLanguage": "Select Language"
+  },
+  "mobile": {
+    "menu": "Menu",
+    "notifications": "Notifications",
+    "myAccount": "My Account"
+  },
+  "footer": {
+    "company": "OsitoPolar",
+    "rights": "All rights reserved",
+    "terms": "Terms and conditions",
+    "privacy": "Privacy Policy",
+    "cookies": "Cookie Policy"
   },
   "authoring-phrase": {
     "intro": "Made with",

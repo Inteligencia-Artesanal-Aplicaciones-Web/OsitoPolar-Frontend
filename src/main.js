@@ -13,6 +13,7 @@ import {
     DataTable,
     ToggleSwitch,
     Slider,
+    Dropdown,
     Dialog,
     DialogService,
     Drawer,
@@ -60,6 +61,7 @@ app.use(i18n)
     .component('pv-icon-field',     IconField)
     .component('pv-input-icon',     InputIcon)
     .component('pv-input-text',     InputText)
+    .component('pv-dropdown',       Dropdown)
     .component('pv-input-number',   InputNumber)
     .component('pv-menu',           Menu)
     .component('pv-progress-spinner', ProgressSpinner)
