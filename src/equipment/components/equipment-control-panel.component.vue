@@ -168,8 +168,6 @@ export default {
     async loadPreviewData() {
       try {
         this.loadingAnalytics = true;
-        console.log(`Loading temperature data for equipment ID ${this.equipment.id} (${this.equipment.name})`);
-        console.log(`Current temperature of equipment: ${this.equipment.currentTemperature}°C`);
 
         const { data } = await this.analyticsService.getTemperatureReadings(
             this.equipment.id,
@@ -177,15 +175,8 @@ export default {
         );
 
         if (data && data.length > 0) {
-          console.log(`Received ${data.length} temperature readings`);
           this.readings = this.analyticsService.mapTemperatureReadings(data);
-          console.log("Temperature range:",
-              Math.min(...this.readings.map(r => r.temperature)),
-              "to",
-              Math.max(...this.readings.map(r => r.temperature))
-          );
         } else {
-          console.warn("No temperature readings received for this equipment");
           this.readings = [];
         }
 
@@ -197,14 +188,12 @@ export default {
     }
   },
   created() {
-    console.log("Equipment control panel created for:", this.equipment.name);
     this.analyticsService = new AnalyticsService();
     this.loadPreviewData();
   },
   watch: {
     'equipment.id': function(newId, oldId) {
       if (newId !== oldId) {
-        console.log(`Equipment changed from ${oldId} to ${newId}. Reloading data...`);
         this.loadPreviewData();
       }
     }
@@ -275,12 +264,8 @@ export default {
           <div class="analytics-card temperature-chart-card">
             <h4 class="card-title">Temperature Over Time</h4>
             <div class="chart-container">
-              <pv-chart
-                  type="line"
-                  :data="chartData"
-                  :options="chartOptions"
-                  class="temperature-chart"
-              />
+              <temperature-chart-component :readings="readings" />
+
             </div>
           </div>
         </div>
