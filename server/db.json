@@ -594,9 +594,9 @@
       "id": "2",
       "equipmentId": 1,
       "date": "2023-04-15",
-      "averageTemperature": 18.5,
-      "minTemperature": 16.8,
-      "maxTemperature": 20.2
+      "averageTemperature": -3.6,
+      "minTemperature": -4.2,
+      "maxTemperature": -2.8
     },
     {
       "id": "3",
@@ -848,9 +848,15 @@
       "status": "pending",
       "priority": "high",
       "userId": 1,
+      "companyId": null,
       "equipmentId": 1,
       "technicianId": null,
-      "scheduledDate": null,
+      "serviceType": "diagnostic",
+      "urgency": "high",
+      "asap": false,
+      "timeSlot": "08:00 - 10:00",
+      "serviceAddress": "Warehouse #3, Sector A",
+      "scheduledDate": "2023-04-18T08:00:00",
       "completionDate": null,
       "resolution": null
     },

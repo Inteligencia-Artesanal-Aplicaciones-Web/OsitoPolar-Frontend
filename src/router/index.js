@@ -16,6 +16,8 @@ const EquipmentListComponent   = () => import('../equipment/pages/equipment-list
 const EquipmentDetailComponent = () => import('../equipment/pages/equipment-detail.component.vue');
 const EquipmentFormComponent   = () => import('../equipment/pages/equipment-form.page.vue');
 const EquipmentAnalyticsComponent = () => import('../analytics/pages/equipment-analytics.component.vue');
+const NewServiceRequestComponent = () => import('../service/pages/new-service-request.component.vue');
+const ServiceRequestListComponent = () => import('../service/pages/service-request-list.component.vue');
 const NotificationsComponent   = () => import('../notifications/pages/notifications.component.vue');
 const PageNotFoundComponent    = () => import('../public/pages/page-not-found.component.vue');
 
@@ -40,13 +42,15 @@ const routes = [
     //Equipment analytics
     {path: '/equipment/:id/analytics', name: 'equipment-analytics', component: EquipmentAnalyticsComponent, meta: { title: 'Equipment Analytics' } },
     // Equipment module
-    { path: '/equipment',       name: 'equipment-list',   component: EquipmentListComponent,   meta: { title: 'My Equipment' } },
-    { path: '/equipment/new',   name: 'equipment-new',    component: EquipmentFormComponent,   meta: { title: 'Add Equipment' } },
-    { path: '/equipment/:id/edit', name: 'equipment-edit', component: EquipmentFormComponent, meta: { title: 'Edit Equipment' } },
-    { path: '/equipment/:id',   name: 'equipment-detail', component: EquipmentDetailComponent, meta: { title: 'Equipment Control' } },
-
-    { path: '/',                name: 'default',         redirect: { name: 'home' } },    //Not found route
-    { path: '/:pathMatch(.*)*', name: 'not-found',       component: PageNotFoundComponent,    meta: { title: 'Page not found' } },
+    { path: '/equipment',              name: 'equipment-list',       component: EquipmentListComponent,     meta: { title: 'My Equipment' } },
+    { path: '/equipment/:id',          name: 'equipment-detail',     component: EquipmentDetailComponent,   meta: { title: 'Equipment Control' } },
+    // Service Requests
+    { path: '/service-requests',       name: 'service-requests',     component: ServiceRequestListComponent, meta: { title: 'Service Requests' } },
+    { path: '/service-request/new',    name: 'new-service-request',  component: NewServiceRequestComponent, meta: { title: 'New Service Requests' } },
+    // Default route
+    { path: '/',                       name: 'default',              redirect: { name: 'home' } },
+    // Not found route
+    { path: '/:pathMatch(.*)*',        name: 'not-found',            component: PageNotFoundComponent,      meta: { title: 'Page not found' } },
 ];
 
 /**
