@@ -269,28 +269,28 @@
       "id": "1",
       "equipmentId": 1,
       "temperature": 22.5,
-      "timestamp": "2023-04-20T18:00:00",
+      "timestamp": "2023-04-20T10:00:00",
       "status": "normal"
     },
     {
       "id": "2",
       "equipmentId": 1,
       "temperature": 23.1,
-      "timestamp": "2023-04-20T17:00:00",
+      "timestamp": "2023-04-20T11:00:00",
       "status": "normal"
     },
     {
       "id": "3",
       "equipmentId": 1,
       "temperature": 24.0,
-      "timestamp": "2023-04-20T16:00:00",
+      "timestamp": "2023-04-20T12:00:00",
       "status": "warning"
     },
     {
       "id": "4",
       "equipmentId": 1,
       "temperature": 23.5,
-      "timestamp": "2023-04-20T15:00:00",
+      "timestamp": "2023-04-20T13:00:00",
       "status": "normal"
     },
     {
@@ -304,56 +304,56 @@
       "id": "6",
       "equipmentId": 1,
       "temperature": 22.3,
-      "timestamp": "2023-04-20T13:00:00",
+      "timestamp": "2023-04-20T15:00:00",
       "status": "normal"
     },
     {
       "id": "7",
       "equipmentId": 1,
       "temperature": 22.0,
-      "timestamp": "2023-04-20T12:00:00",
+      "timestamp": "2023-04-20T16:00:00",
       "status": "normal"
     },
     {
       "id": "8",
       "equipmentId": 1,
       "temperature": 23.2,
-      "timestamp": "2023-04-20T11:00:00",
+      "timestamp": "2023-04-20T17:00:00",
       "status": "normal"
     },
     {
       "id": "9",
       "equipmentId": 1,
       "temperature": 24.5,
-      "timestamp": "2023-04-20T10:00:00",
+      "timestamp": "2023-04-20T18:00:00",
       "status": "warning"
     },
     {
       "id": "10",
       "equipmentId": 2,
       "temperature": -2.5,
-      "timestamp": "2023-04-20T18:00:00",
+      "timestamp": "2023-04-20T10:00:00",
       "status": "normal"
     },
     {
       "id": "11",
       "equipmentId": 2,
       "temperature": -2.8,
-      "timestamp": "2023-04-20T17:00:00",
+      "timestamp": "2023-04-20T11:00:00",
       "status": "normal"
     },
     {
       "id": "12",
       "equipmentId": 2,
       "temperature": -3.2,
-      "timestamp": "2023-04-20T16:00:00",
+      "timestamp": "2023-04-20T12:00:00",
       "status": "normal"
     },
     {
       "id": "13",
       "equipmentId": 2,
       "temperature": -3.5,
-      "timestamp": "2023-04-20T15:00:00",
+      "timestamp": "2023-04-20T13:00:00",
       "status": "warning"
     },
     {
@@ -367,217 +367,217 @@
       "id": "15",
       "equipmentId": 2,
       "temperature": -2.7,
-      "timestamp": "2023-04-20T13:00:00",
+      "timestamp": "2023-04-20T15:00:00",
       "status": "normal"
     },
     {
       "id": "16",
       "equipmentId": 2,
       "temperature": -2.3,
-      "timestamp": "2023-04-20T12:00:00",
+      "timestamp": "2023-04-20T16:00:00",
       "status": "normal"
     },
     {
       "id": "17",
       "equipmentId": 2,
       "temperature": -1.9,
-      "timestamp": "2023-04-20T11:00:00",
+      "timestamp": "2023-04-20T17:00:00",
       "status": "warning"
     },
     {
       "id": "18",
       "equipmentId": 2,
       "temperature": -1.5,
-      "timestamp": "2023-04-20T10:00:00",
+      "timestamp": "2023-04-20T18:00:00",
       "status": "warning"
     },
     {
       "id": "19",
       "equipmentId": 3,
       "temperature": 4.2,
-      "timestamp": "2023-04-20T18:00:00",
+      "timestamp": "2023-04-20T10:00:00",
       "status": "normal"
     },
     {
       "id": "20",
       "equipmentId": 3,
       "temperature": 4.5,
-      "timestamp": "2023-04-20T17:00:00",
+      "timestamp": "2023-04-20T11:00:00",
       "status": "normal"
     },
     {
       "id": "21",
       "equipmentId": 3,
       "temperature": 3.8,
-      "timestamp": "2023-04-20T16:00:00",
-      "status": "normal"
-    },
-    {
-      "id": "22",
-      "equipmentId": 3,
-      "temperature": 4.1,
-      "timestamp": "2023-04-20T15:00:00",
-      "status": "normal"
-    },
-    {
-      "id": "23",
-      "equipmentId": 3,
-      "temperature": 4.4,
-      "timestamp": "2023-04-20T14:00:00",
-      "status": "normal"
-    },
-    {
-      "id": "24",
-      "equipmentId": 3,
-      "temperature": 3.9,
-      "timestamp": "2023-04-20T13:00:00",
-      "status": "normal"
-    },
-    {
-      "id": "25",
-      "equipmentId": 3,
-      "temperature": 4.3,
       "timestamp": "2023-04-20T12:00:00",
       "status": "normal"
     },
     {
+      "id": "22",
+      "equipmentId": 4,
+      "temperature": -25.8,
+      "timestamp": "2023-04-20T10:00:00",
+      "status": "normal"
+    },
+    {
+      "id": "23",
+      "equipmentId": 4,
+      "temperature": -26.1,
+      "timestamp": "2023-04-20T11:00:00",
+      "status": "normal"
+    },
+    {
+      "id": "24",
+      "equipmentId": 4,
+      "temperature": -25.5,
+      "timestamp": "2023-04-20T12:00:00",
+      "status": "normal"
+    },
+    {
+      "id": "25",
+      "equipmentId": 5,
+      "temperature": 2.1,
+      "timestamp": "2023-04-20T10:00:00",
+      "status": "normal"
+    },
+    {
       "id": "26",
-      "equipmentId": 3,
-      "temperature": 4.0,
+      "equipmentId": 5,
+      "temperature": 1.8,
       "timestamp": "2023-04-20T11:00:00",
       "status": "normal"
     },
     {
       "id": "27",
-      "equipmentId": 3,
-      "temperature": 3.7,
-      "timestamp": "2023-04-20T10:00:00",
+      "equipmentId": 5,
+      "temperature": 2.4,
+      "timestamp": "2023-04-20T12:00:00",
       "status": "normal"
     },
     {
       "id": "28",
       "equipmentId": 4,
-      "temperature": -25.8,
-      "timestamp": "2023-04-20T18:00:00",
+      "temperature": -25.2,
+      "timestamp": "2023-04-20T13:00:00",
       "status": "normal"
     },
     {
       "id": "29",
-      "equipmentId": 4,
-      "temperature": -26.1,
-      "timestamp": "2023-04-20T17:00:00",
-      "status": "normal"
-    },
-    {
-      "id": "30",
-      "equipmentId": 4,
-      "temperature": -25.5,
-      "timestamp": "2023-04-20T16:00:00",
-      "status": "normal"
-    },
-    {
-      "id": "31",
-      "equipmentId": 4,
-      "temperature": -25.2,
-      "timestamp": "2023-04-20T15:00:00",
-      "status": "normal"
-    },
-    {
-      "id": "32",
       "equipmentId": 4,
       "temperature": -26.0,
       "timestamp": "2023-04-20T14:00:00",
       "status": "normal"
     },
     {
-      "id": "33",
+      "id": "30",
       "equipmentId": 4,
       "temperature": -25.9,
-      "timestamp": "2023-04-20T13:00:00",
-      "status": "normal"
-    },
-    {
-      "id": "34",
-      "equipmentId": 4,
-      "temperature": -25.4,
-      "timestamp": "2023-04-20T12:00:00",
-      "status": "normal"
-    },
-    {
-      "id": "35",
-      "equipmentId": 4,
-      "temperature": -25.7,
-      "timestamp": "2023-04-20T11:00:00",
-      "status": "normal"
-    },
-    {
-      "id": "36",
-      "equipmentId": 4,
-      "temperature": -26.2,
-      "timestamp": "2023-04-20T10:00:00",
-      "status": "normal"
-    },
-    {
-      "id": "37",
-      "equipmentId": 5,
-      "temperature": 2.1,
-      "timestamp": "2023-04-20T18:00:00",
-      "status": "normal"
-    },
-    {
-      "id": "38",
-      "equipmentId": 5,
-      "temperature": 1.8,
-      "timestamp": "2023-04-20T17:00:00",
-      "status": "normal"
-    },
-    {
-      "id": "39",
-      "equipmentId": 5,
-      "temperature": 2.4,
-      "timestamp": "2023-04-20T16:00:00",
-      "status": "normal"
-    },
-    {
-      "id": "40",
-      "equipmentId": 5,
-      "temperature": 2.0,
       "timestamp": "2023-04-20T15:00:00",
       "status": "normal"
     },
     {
-      "id": "41",
+      "id": "31",
+      "equipmentId": 4,
+      "temperature": -25.4,
+      "timestamp": "2023-04-20T16:00:00",
+      "status": "normal"
+    },
+    {
+      "id": "32",
+      "equipmentId": 4,
+      "temperature": -25.7,
+      "timestamp": "2023-04-20T17:00:00",
+      "status": "normal"
+    },
+    {
+      "id": "33",
+      "equipmentId": 4,
+      "temperature": -26.2,
+      "timestamp": "2023-04-20T18:00:00",
+      "status": "normal"
+    },
+    {
+      "id": "50",
+      "equipmentId": 5,
+      "temperature": 2.0,
+      "timestamp": "2023-04-20T13:00:00",
+      "status": "normal"
+    },
+    {
+      "id": "51",
       "equipmentId": 5,
       "temperature": 2.3,
       "timestamp": "2023-04-20T14:00:00",
       "status": "normal"
     },
     {
-      "id": "42",
+      "id": "52",
       "equipmentId": 5,
       "temperature": 1.9,
+      "timestamp": "2023-04-20T15:00:00",
+      "status": "normal"
+    },
+    {
+      "id": "53",
+      "equipmentId": 5,
+      "temperature": 2.2,
+      "timestamp": "2023-04-20T16:00:00",
+      "status": "normal"
+    },
+    {
+      "id": "54",
+      "equipmentId": 5,
+      "temperature": 1.7,
+      "timestamp": "2023-04-20T17:00:00",
+      "status": "normal"
+    },
+    {
+      "id": "55",
+      "equipmentId": 5,
+      "temperature": 2.5,
+      "timestamp": "2023-04-20T18:00:00",
+      "status": "normal"
+    },
+    {
+      "id": "40",
+      "equipmentId": 3,
+      "temperature": 4.1,
       "timestamp": "2023-04-20T13:00:00",
       "status": "normal"
     },
     {
+      "id": "41",
+      "equipmentId": 3,
+      "temperature": 4.4,
+      "timestamp": "2023-04-20T14:00:00",
+      "status": "normal"
+    },
+    {
+      "id": "42",
+      "equipmentId": 3,
+      "temperature": 3.9,
+      "timestamp": "2023-04-20T15:00:00",
+      "status": "normal"
+    },
+    {
       "id": "43",
-      "equipmentId": 5,
-      "temperature": 2.2,
-      "timestamp": "2023-04-20T12:00:00",
+      "equipmentId": 3,
+      "temperature": 4.3,
+      "timestamp": "2023-04-20T16:00:00",
       "status": "normal"
     },
     {
       "id": "44",
-      "equipmentId": 5,
-      "temperature": 1.7,
-      "timestamp": "2023-04-20T11:00:00",
+      "equipmentId": 3,
+      "temperature": 4.0,
+      "timestamp": "2023-04-20T17:00:00",
       "status": "normal"
     },
     {
       "id": "45",
-      "equipmentId": 5,
-      "temperature": 2.5,
-      "timestamp": "2023-04-20T10:00:00",
+      "equipmentId": 3,
+      "temperature": 3.7,
+      "timestamp": "2023-04-20T18:00:00",
       "status": "normal"
     }
   ],
