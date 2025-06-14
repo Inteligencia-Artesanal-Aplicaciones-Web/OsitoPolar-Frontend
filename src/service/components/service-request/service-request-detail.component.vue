@@ -33,7 +33,7 @@ export default {
      * @returns {String}
      */
     formatDate(date) {
-      if (!date) return "Not defined";
+      if (!date) return this.$t('service.notScheduled');
       return new Date(date).toLocaleDateString();
     }
   }
@@ -42,7 +42,7 @@ export default {
 
 <template>
   <pv-dialog
-      header="Request Details"
+      :header="$t('service.requestDetails')"
       :visible="visible"
       :modal="true"
       :closable="true"
@@ -51,19 +51,19 @@ export default {
       @update:visible="$emit('update:visible', $event)"
   >
     <div v-if="request" class="dialog-content">
-      <div class="field"><strong>Order Number:</strong> {{ request.orderNumber }}</div>
-      <div class="field"><strong>Status:</strong> {{ request.status.replace('_', ' ') }}</div>
-      <div class="field"><strong>Description:</strong> {{ request.description }}</div>
-      <div class="field"><strong>Equipment:</strong> {{ equipmentDisplay }}</div>
-      <div class="field"><strong>Location:</strong> {{ locationDisplay }}</div>
-      <div class="field"><strong>Service Type:</strong> {{ request.serviceType }}</div>
-      <div class="field"><strong>Urgency:</strong> {{ request.urgency }}</div>
-      <div class="field"><strong>ASAP:</strong> {{ request.asap ? 'Yes' : 'No' }}</div>
-      <div class="field" v-if="!request.asap"><strong>Scheduled Date:</strong> {{ formatDate(request.scheduledDate) }}</div>
-      <div class="field" v-if="!request.asap"><strong>Time Slot:</strong> {{ request.timeSlot || '-' }}</div>
-      <div class="field"><strong>Address:</strong> {{ request.serviceAddress || 'Not specified' }}</div>
-      <div class="field"><strong>Technician:</strong> {{ request.technicianId || 'Not assigned' }}</div>
-      <div class="field"><strong>Completed:</strong> {{ formatDate(request.completionDate) }}</div>
+      <div class="field"><strong>{{ $t('service.orderNumber') }}:</strong> {{ request.orderNumber }}</div>
+      <div class="field"><strong>{{ $t('service.status') }}:</strong> {{ $t(`service.status.${request.status}`) }}</div>
+      <div class="field"><strong>{{ $t('service.description') }}:</strong> {{ request.description }}</div>
+      <div class="field"><strong>{{ $t('service.equipment') }}:</strong> {{ equipmentDisplay }}</div>
+      <div class="field"><strong>{{ $t('service.location') }}:</strong> {{ locationDisplay }}</div>
+      <div class="field"><strong>{{ $t('service.serviceType') }}:</strong> {{ request.serviceType }}</div>
+      <div class="field"><strong>{{ $t('service.urgency') }}:</strong> {{ request.urgency }}</div>
+      <div class="field"><strong>{{ $t('service.asap') }}:</strong> {{ request.asap ? $t('service.yes') : $t('service.no') }}</div>
+      <div class="field" v-if="!request.asap"><strong>{{ $t('service.scheduledFor') }}:</strong> {{ formatDate(request.scheduledDate) }}</div>
+      <div class="field" v-if="!request.asap"><strong>{{ $t('service.timeSlot') }}:</strong> {{ request.timeSlot || '-' }}</div>
+      <div class="field"><strong>{{ $t('service.address') }}:</strong> {{ request.serviceAddress || $t('service.notSpecified') }}</div>
+      <div class="field"><strong>{{ $t('service.technician') }}:</strong> {{ request.technicianId || $t('service.notAssigned') }}</div>
+      <div class="field"><strong>{{ $t('service.completed') }}:</strong> {{ formatDate(request.completionDate) }}</div>
     </div>
   </pv-dialog>
 </template>

@@ -50,11 +50,11 @@ export default {
     },
     async handleSubmit() {
       this.$confirm.require({
-        message: 'Are you sure you want to send this request?',
-        header: 'Confirm Submission',
+        message: this.$t('service.form.confirmMessage'),
+        header: this.$t('service.form.confirmSubmission'),
         icon: 'pi pi-exclamation-triangle',
-        acceptLabel: 'Yes',
-        rejectLabel: 'No',
+        acceptLabel: this.$t('service.yes'),
+        rejectLabel: this.$t('service.no'),
         accept: async () => {
           try {
             const payload = {
@@ -83,8 +83,8 @@ export default {
 
             this.$toast.add({
               severity: 'success',
-              summary: 'Request sent',
-              detail: 'Your service request has been submitted.',
+              summary: this.$t('service.form.success'),
+              detail: this.$t('service.form.successMessage'),
               life: 3000
             });
 
@@ -103,8 +103,8 @@ export default {
         reject: () => {
           this.$toast.add({
             severity: 'info',
-            summary: 'Cancelled',
-            detail: 'Submission cancelled.',
+            summary: this.$t('service.form.cancelled'),
+            detail: this.$t('service.form.cancelledMessage'),
             life: 2000
           });
         }
@@ -119,7 +119,12 @@ export default {
         })
         .catch(error => {
           console.error('Error loading equipment:', error);
-          alert('Could not load equipment.');
+          this.$toast.add({
+            severity: 'error',
+            summary: this.$t('service.error'),
+            detail: this.$t('service.form.errorMessage'),
+            life: 3000
+          });
         });
   }
 }
@@ -130,13 +135,13 @@ export default {
 <template>
   <div class="container">
     <RouterLink to="/service-requests" class="link-back">
-      ← Back to Requests
+      {{ $t('service.backToRequests') }}
     </RouterLink>
 
-    <h1 class="title">New Service Request</h1>
+    <h1 class="title">{{ $t('service.newServiceRequest') }}</h1>
     <div class="step-indicator mb-8">
       <div
-          v-for="(step, index) in ['Equipment', 'Scheduling', 'Confirmation']"
+          v-for="(step, index) in [$t('service.steps.equipment'), $t('service.steps.scheduling'), $t('service.steps.confirmation')]"
           :key="index"
           class="step"
           :class="{
@@ -151,11 +156,11 @@ export default {
 
     <div v-if="currentStep === 1" class="card">
       <div>
-        <label>Select the equipment</label>
+        <label>{{ $t('service.form.selectEquipment') }}</label>
         <select v-model="formData.equipmentId" class="input">
-          <option disabled value="">Select equipment</option>
+          <option disabled value="">{{ $t('service.form.selectEquipmentPlaceholder') }}</option>
           <option v-for="e in equipments" :key="e.id" :value="e.id.toString()">
-            {{ e.name }} - {{ e.location }}
+            {{ e.name }} - {{ e.location?.name || $t('service.notSpecified') }}
           </option>
         </select>
       </div>
@@ -166,61 +171,61 @@ export default {
             :key="e.id"
             class="grid grid-cols-2 gap-2"
         >
-          <div><strong>Name:</strong> {{ e.name }}</div>
-          <div><strong>Location:</strong> {{ e.location }}</div>
-          <div><strong>Type:</strong> {{ e.type }}</div>
-          <div><strong>Status:</strong> {{ e.status }}</div>
+          <div><strong>{{ $t('equipment.name') }}:</strong> {{ e.name }}</div>
+          <div><strong>{{ $t('service.location') }}:</strong> {{ e.location?.name || $t('service.notSpecified') }}</div>
+          <div><strong>{{ $t('equipment.type') }}:</strong> {{ $t(`equipment.types.${e.type}`) }}</div>
+          <div><strong>{{ $t('equipment.status') }}:</strong> {{ $t(`equipment.status.${e.getTemperatureStatus()}`) }}</div>
         </div>
       </div>
 
       <div>
-        <label>Service type</label>
+        <label>{{ $t('service.form.serviceType') }}</label>
         <select v-model="formData.serviceType" class="input">
-          <option disabled value="">Select service type</option>
-          <option value="preventive">Preventive maintenance</option>
-          <option value="repair">Repair</option>
-          <option value="installation">Installation</option>
-          <option value="diagnostic">Diagnostic</option>
+          <option disabled value="">{{ $t('service.form.selectServiceType') }}</option>
+          <option value="preventive">{{ $t('service.form.preventive') }}</option>
+          <option value="repair">{{ $t('service.form.repair') }}</option>
+          <option value="installation">{{ $t('service.form.installation') }}</option>
+          <option value="diagnostic">{{ $t('service.form.diagnostic') }}</option>
         </select>
       </div>
 
       <div>
-        <label>Description</label>
+        <label>{{ $t('service.form.description') }}</label>
         <textarea v-model="formData.description" class="input" rows="3"></textarea>
       </div>
 
       <div>
-        <label>Urgency</label>
+        <label>{{ $t('service.form.urgency') }}</label>
         <div class="radio-group">
-          <label><input type="radio" value="normal" v-model="formData.urgency" /> Normal</label>
-          <label><input type="radio" value="high" v-model="formData.urgency" /> High</label>
-          <label><input type="radio" value="critical" v-model="formData.urgency" /> Critical</label>
+          <label><input type="radio" value="normal" v-model="formData.urgency" /> {{ $t('service.form.normal') }}</label>
+          <label><input type="radio" value="high" v-model="formData.urgency" /> {{ $t('service.form.high') }}</label>
+          <label><input type="radio" value="critical" v-model="formData.urgency" /> {{ $t('service.form.critical') }}</label>
         </div>
       </div>
 
       <div class="flex justify-end">
         <button class="btn" @click="handleNext" :disabled="!formData.equipmentId || !formData.serviceType || !formData.description">
-          Continue →
+          {{ $t('service.form.continue') }}
         </button>
       </div>
     </div>
 
     <div v-if="currentStep === 2" class="card">
       <div>
-        <label>Attention as soon as possible?</label>
+        <label>{{ $t('service.form.asapQuestion') }}</label>
         <label class="checkbox">
           <input type="checkbox" v-model="formData.asap" />
-          Yes, I need immediate attention
+          {{ $t('service.form.asapYes') }}
         </label>
       </div>
 
       <div v-if="!formData.asap">
-        <label>Desired date</label>
+        <label>{{ $t('service.form.desiredDate') }}</label>
         <input type="date" v-model="formData.date" class="input" />
 
-        <label>Available time slot</label>
+        <label>{{ $t('service.form.availableTimeSlot') }}</label>
         <select v-model="formData.timeSlot" class="input">
-          <option disabled value="">Select a time slot</option>
+          <option disabled value="">{{ $t('service.form.selectTimeSlot') }}</option>
           <option v-for="slot in timeSlots.filter(s => s.available)" :key="slot.id" :value="slot.time">
             {{ slot.time }}
           </option>
@@ -228,42 +233,42 @@ export default {
       </div>
 
       <div class="actions">
-        <button class="btn-outline" @click="handleBack">← Back</button>
+        <button class="btn-outline" @click="handleBack">{{ $t('service.form.back') }}</button>
         <button
             class="btn"
             @click="handleNext"
             :disabled="!formData.asap && (!formData.date || !formData.timeSlot)"
         >
-          Continue →
+          {{ $t('service.form.continue') }}
         </button>
       </div>
     </div>
 
     <div v-if="currentStep === 3" class="card">
-      <label>Service address (optional)</label>
+      <label>{{ $t('service.form.serviceAddress') }}</label>
       <textarea
           v-model="formData.serviceAddress"
           class="input"
           rows="3"
-          placeholder="E.g: Building B, 2nd floor, refrigerated lab"
+          :placeholder="$t('service.form.serviceAddressPlaceholder')"
       ></textarea>
 
       <div class="info-box">
-        <h2 class="text-primary font-semibold mb-2">Request summary:</h2>
+        <h2 class="text-primary font-semibold mb-2">{{ $t('service.form.requestSummary') }}</h2>
         <ul class="space-y-1 text-gray-700 text-sm">
-          <li><strong>Equipment:</strong> {{ equipments.find(e => e.id.toString() === formData.equipmentId)?.name || '-' }}</li>
-          <li><strong>Service type:</strong> {{ formData.serviceType }}</li>
-          <li><strong>Urgency:</strong> {{ formData.urgency }}</li>
-          <li><strong>Description:</strong> {{ formData.description }}</li>
-          <li><strong>Immediate attention (ASAP):</strong> {{ formData.asap ? 'Yes' : 'No' }}</li>
-          <li v-if="!formData.asap"><strong>Scheduled for:</strong> {{ formData.date }}<br /><strong>Time slot:</strong> {{ formData.timeSlot }}</li>
-          <li v-if="formData.serviceAddress"><strong>Address:</strong> {{ formData.serviceAddress }}</li>
+          <li><strong>{{ $t('service.equipment') }}:</strong> {{ equipments.find(e => e.id.toString() === formData.equipmentId)?.name || '-' }}</li>
+          <li><strong>{{ $t('service.serviceType') }}:</strong> {{ $t(`service.form.${formData.serviceType}`) }}</li>
+          <li><strong>{{ $t('service.urgency') }}:</strong> {{ $t(`service.form.${formData.urgency}`) }}</li>
+          <li><strong>{{ $t('service.description') }}:</strong> {{ formData.description }}</li>
+          <li><strong>{{ $t('service.form.immediateAttention') }}</strong> {{ formData.asap ? $t('service.yes') : $t('service.no') }}</li>
+          <li v-if="!formData.asap"><strong>{{ $t('service.form.scheduledFor') }}</strong> {{ formData.date }}<br /><strong>{{ $t('service.timeSlot') }}:</strong> {{ formData.timeSlot }}</li>
+          <li v-if="formData.serviceAddress"><strong>{{ $t('service.address') }}:</strong> {{ formData.serviceAddress }}</li>
         </ul>
       </div>
 
       <div class="actions">
-        <button class="btn-outline" @click="handleBack">← Back</button>
-        <button class="btn" @click="handleSubmit">Send request</button>
+        <button class="btn-outline" @click="handleBack">{{ $t('service.form.back') }}</button>
+        <button class="btn" @click="handleSubmit">{{ $t('service.form.sendRequest') }}</button>
       </div>
     </div>
   </div>
@@ -274,11 +279,9 @@ export default {
     message: { class: 'custom-confirm-message' },
     icon: { class: 'custom-confirm-icon' },
     footer: { class: 'custom-confirm-footer' }
-
   }"
   />
   <pv-toast />
-
 </template>
 
 <style scoped>
