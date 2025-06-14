@@ -105,6 +105,7 @@ export default {
     /**
      * Navigate to edit equipment page
      * @param {Object} equipment - The equipment to edit
+     * @param {Event} event - The DOM event object
      */
     editEquipment(equipment, event) {
       // Prevent triggering card click event
@@ -112,9 +113,11 @@ export default {
       this.$router.push(`/equipment/${equipment.id}/edit`);
     },
 
+
     /**
      * Opens delete confirmation dialog
      * @param {Object} equipment - The equipment to delete
+     * @param {Event} event - The DOM event object
      */
     openDeleteDialog(equipment, event) {
       // Prevent triggering card click event
