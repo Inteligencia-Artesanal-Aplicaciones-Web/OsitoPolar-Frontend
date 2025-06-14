@@ -99,5 +99,16 @@
     "header": {
       "backToCatalog": "Back to catalog"
     }
+  },
+  "contact": {
+    "title": "Contact Us",
+    "address": "Address",
+    "phone": "Phone",
+    "email": "Email",
+    "businessHours": "Business Hours",
+    "mondayToFriday": "Monday to Friday",
+    "saturday": "Saturday",
+    "followUs": "Follow us on social media",
+    "scanQR": "Scan QR code to save our contact information"
   }
 }

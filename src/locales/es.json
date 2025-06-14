@@ -101,5 +101,16 @@
     "header": {
       "backToCatalog": "Volver al catálogo"
     }
+  },
+  "contact": {
+    "title": "Contáctanos",
+    "address": "Dirección",
+    "phone": "Teléfono",
+    "email": "Email",
+    "businessHours": "Horario de Atención",
+    "mondayToFriday": "Lunes a Viernes",
+    "saturday": "Sábado",
+    "followUs": "Síguenos en redes sociales",
+    "scanQR": "Escanea el código QR para guardar nuestra información de contacto"
   }
 }
