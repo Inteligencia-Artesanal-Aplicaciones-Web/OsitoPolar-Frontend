@@ -1,4 +1,108 @@
 ﻿{
+  "equipment": {
+    "title": "My Equipments",
+    "addButton": "Add Equipment",
+    "loading": "Loading equipment...",
+    "errorMessage": "Failed to load equipment list. Please try again later.",
+    "tryAgain": "Try Again",
+    "control": "Control",
+    "edit": "Edit",
+    "delete": "Delete",
+    "confirmDelete": "Confirm Delete",
+    "deleteConfirmation": "Are you sure you want to delete <strong>{name}</strong>?<br>This action cannot be undone.",
+    "deleteSuccess": "{name} has been deleted successfully",
+    "deleteError": "Failed to delete equipment. Please try again.",
+    "yes": "Yes",
+    "no": "No",
+    "types": {
+      "freezer": "Freezer",
+      "cold_room": "Cold Room",
+      "refrigerator": "Refrigerator"
+    },
+    "status": {
+      "normal": "normal",
+      "warning": "warning",
+      "critical": "critical"
+    }
+  },
+  "service": {
+    "title": "Service Requests",
+    "newRequest": "New Request",
+    "loading": "Loading service requests...",
+    "error": "Failed to load service requests.",
+    "retry": "Retry",
+    "equipment": "Equipment",
+    "status": "Status",
+    "location": "Location",
+    "requestedOn": "Requested On",
+    "scheduledFor": "Scheduled For",
+    "serviceType": "Service Type",
+    "notSpecified": "Not specified",
+    "notScheduled": "Not scheduled",
+    "requestDetails": "Request Details",
+    "orderNumber": "Order Number",
+    "description": "Description",
+    "urgency": "Urgency",
+    "asap": "ASAP",
+    "yes": "Yes",
+    "no": "No",
+    "timeSlot": "Time Slot",
+    "address": "Address",
+    "technician": "Technician",
+    "completed": "Completed",
+    "notAssigned": "Not assigned",
+    "backToRequests": "← Back to Requests",
+    "newServiceRequest": "New Service Request",
+    "steps": {
+      "equipment": "Equipment",
+      "scheduling": "Scheduling",
+      "confirmation": "Confirmation"
+    },
+    "form": {
+      "selectEquipment": "Select the equipment",
+      "selectEquipmentPlaceholder": "Select equipment",
+      "serviceType": "Service type",
+      "selectServiceType": "Select service type",
+      "preventive": "Preventive maintenance",
+      "repair": "Repair",
+      "installation": "Installation",
+      "diagnostic": "Diagnostic",
+      "description": "Description",
+      "urgency": "Urgency",
+      "normal": "Normal",
+      "high": "High",
+      "critical": "Critical",
+      "continue": "Continue →",
+      "asapQuestion": "Attention as soon as possible?",
+      "asapYes": "Yes, I need immediate attention",
+      "desiredDate": "Desired date",
+      "availableTimeSlot": "Available time slot",
+      "selectTimeSlot": "Select a time slot",
+      "back": "← Back",
+      "serviceAddress": "Service address (optional)",
+      "serviceAddressPlaceholder": "E.g: Building B, 2nd floor, refrigerated lab",
+      "requestSummary": "Request summary:",
+      "immediateAttention": "Immediate attention (ASAP):",
+      "scheduledFor": "Scheduled for:",
+      "sendRequest": "Send request",
+      "confirmSubmission": "Confirm Submission",
+      "confirmMessage": "Are you sure you want to send this request?",
+      "success": "Request sent",
+      "successMessage": "Your service request has been submitted.",
+      "error": "Submission failed",
+      "errorMessage": "An error occurred while sending the request.",
+      "cancelled": "Cancelled",
+      "cancelledMessage": "Submission cancelled."
+    },
+    "status": {
+      "pending": "pending",
+      "accepted": "accepted",
+      "in_progress": "in progress",
+      "resolved": "resolved",
+      "rejected": "rejected",
+      "completed": "completed"
+    }
+  },
   "option": {
     "home": "Home",
     "myMachines": "My Machines",
@@ -99,5 +203,16 @@
     "header": {
       "backToCatalog": "Back to catalog"
     }
+  },
+  "contact": {
+    "title": "Contact Us",
+    "address": "Address",
+    "phone": "Phone",
+    "email": "Email",
+    "businessHours": "Business Hours",
+    "mondayToFriday": "Monday to Friday",
+    "saturday": "Saturday",
+    "followUs": "Follow us on social media",
+    "scanQR": "Scan QR code to save our contact information"
   }
 }
