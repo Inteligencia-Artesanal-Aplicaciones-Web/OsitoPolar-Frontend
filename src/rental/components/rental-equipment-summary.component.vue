@@ -59,12 +59,12 @@ export default {
 <template>
   <div class="equipment-card">
     <div class="card-header">
-      <h2>Selected Equipment</h2>
+      <h2>{{ $t('rental.summary.selectedEquipment') }}</h2>
     </div>
 
     <div v-if="loading" class="loading-content">
       <div class="loading-spinner"></div>
-      <p>Loading equipment…</p>
+      <p>{{ $t('rental.summary.loading') }}</p>
     </div>
 
     <div v-else-if="equipment" class="equipment-details">

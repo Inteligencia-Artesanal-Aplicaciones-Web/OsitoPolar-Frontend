@@ -12,17 +12,17 @@ export default {
   computed: {
     equipmentTypes() {
       return [
-        { value: 'all', label: 'All Equipment' },
-        { value: 'freezer', label: 'Freezers' },
-        { value: 'cold_room', label: 'Cold Rooms' },
-        { value: 'refrigerator', label: 'Refrigerators' }
+        { value: 'all', label: this.$t('rental.filter.allEquipment') },
+        { value: 'freezer', label: this.$t('rental.filter.freezer', 'Freezers') },
+        { value: 'cold_room', label: this.$t('rental.filter.coldRoom', 'Cold Rooms') },
+        { value: 'refrigerator', label: this.$t('rental.filter.refrigerator', 'Refrigerators') }
       ];
     },
     sortOptions() {
       return [
-        { value: 'price_asc', label: 'Price: Low to High' },
-        { value: 'price_desc', label: 'Price: High to Low' },
-        { value: 'name_asc', label: 'Name: A-Z' }
+        { value: 'price_asc', label: this.$t('rental.filter.sortOptions.lowToHigh', 'Price: Low to High') },
+        { value: 'price_desc', label: this.$t('rental.filter.sortOptions.highToLow', 'Price: High to Low') },
+        { value: 'name_asc', label: this.$t('rental.filter.sortOptions.nameAZ', 'Name: A-Z') }
       ];
     },
     selectedTypeLabel() {
@@ -90,7 +90,7 @@ export default {
     <div class="mobile-filter-toggle">
       <button @click="toggleMobileFilters" class="filter-toggle-btn">
         <i class="pi pi-filter"></i>
-        Filters
+        {{ $t('rental.filter.title') }}
         <i :class="['pi', showMobileFilters ? 'pi-chevron-up' : 'pi-chevron-down']"></i>
       </button>
     </div>
@@ -99,7 +99,7 @@ export default {
     <div :class="['filter-content', { 'mobile-visible': showMobileFilters }]">
       <!-- Equipment Type Filter -->
       <div class="filter-section">
-        <label class="filter-label">Equipment Type</label>
+        <label class="filter-label">{{ $t('rental.filter.equipmentType') }}</label>
         <div class="custom-dropdown">
           <div class="dropdown-selected" @click="$refs.typeDropdown.classList.toggle('open')">
             <span>{{ selectedTypeLabel }}</span>
@@ -120,7 +120,7 @@ export default {
 
       <!-- Price Range Filter -->
       <div class="filter-section">
-        <label class="filter-label">Price Range ($/month)</label>
+        <label class="filter-label">{{ $t('rental.filter.priceRange') }}</label>
         <div class="price-range-container">
           <div class="price-inputs">
             <div class="price-input-group">
@@ -176,7 +176,7 @@ export default {
 
       <!-- Sort Options -->
       <div class="filter-section">
-        <label class="filter-label">Sort by</label>
+        <label class="filter-label">{{ $t('rental.filter.sortBy') }}</label>
         <div class="custom-dropdown">
           <div class="dropdown-selected" @click="$refs.sortDropdown.classList.toggle('open')">
             <span>{{ selectedSortLabel }}</span>
@@ -199,7 +199,7 @@ export default {
       <div class="filter-section filter-actions">
         <button @click="clearFilters" class="clear-filters-btn">
           <i class="pi pi-refresh"></i>
-          Clean Filters
+          {{ $t('rental.filter.clean') }}
         </button>
       </div>
     </div>

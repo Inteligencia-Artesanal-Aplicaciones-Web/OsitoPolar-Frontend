@@ -28,12 +28,12 @@ export default {
   <div class="equipment-grid-container">
     <div v-if="loading" class="loading-state">
       <pv-progress-spinner />
-      <p>Loading resources</p>
+      <p>{{ $t('rental.catalog.loading') }}</p>
     </div>
 
     <div v-else-if="equipment.length === 0" class="empty-state">
       <i class="pi pi-inbox" style="font-size: 3rem; color: #999;"></i>
-      <p>There is no equipment for this moment</p>
+      <p>{{ $t('rental.catalog.noEquipment') }}</p>
     </div>
 
     <div v-else class="equipment-grid">
