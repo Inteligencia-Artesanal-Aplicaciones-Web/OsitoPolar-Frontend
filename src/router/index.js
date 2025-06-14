@@ -20,7 +20,9 @@ const NewServiceRequestComponent = () => import('../service/pages/new-service-re
 const ServiceRequestListComponent = () => import('../service/pages/service-request-list.component.vue');
 const NotificationsComponent   = () => import('../notifications/pages/notifications.component.vue');
 const PageNotFoundComponent    = () => import('../public/pages/page-not-found.component.vue');
-
+// Rental module components
+const RentalCatalogComponent   = () => import('../rental/pages/rental-catalog.page.vue');
+const RentalCheckoutComponent  = () => import('../rental/pages/rental-checkout.page.vue');
 /**
  * @type {import('vue-router').RouteRecordRaw[]}
  * @description Application route definitions.
@@ -47,6 +49,9 @@ const routes = [
     // Service Requests
     { path: '/service-requests',       name: 'service-requests',     component: ServiceRequestListComponent, meta: { title: 'Service Requests' } },
     { path: '/service-request/new',    name: 'new-service-request',  component: NewServiceRequestComponent, meta: { title: 'New Service Requests' } },
+    // Rental module
+    { path: '/rental',                 name: 'rental-catalog',       component: RentalCatalogComponent,     meta: { title: 'Rent Equipment' } },
+    { path: '/rental/checkout/:equipmentId', name: 'rental-checkout', component: RentalCheckoutComponent,    meta: { title: 'Rental Checkout' } },
     // Default route
     { path: '/',                       name: 'default',              redirect: { name: 'home' } },
     // Not found route
