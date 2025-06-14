@@ -23,6 +23,7 @@ const PageNotFoundComponent    = () => import('../public/pages/page-not-found.co
 // Rental module components
 const RentalCatalogComponent   = () => import('../rental/pages/rental-catalog.page.vue');
 const RentalCheckoutComponent  = () => import('../rental/pages/rental-checkout.page.vue');
+const ContactComponent        = () => import('../public/pages/contact.page.vue');
 /**
  * @type {import('vue-router').RouteRecordRaw[]}
  * @description Application route definitions.
@@ -52,6 +53,8 @@ const routes = [
     // Rental module
     { path: '/rental',                 name: 'rental-catalog',       component: RentalCatalogComponent,     meta: { title: 'Rent Equipment' } },
     { path: '/rental/checkout/:equipmentId', name: 'rental-checkout', component: RentalCheckoutComponent,    meta: { title: 'Rental Checkout' } },
+    // Contact page
+    { path: '/contact', name: 'contact', component: ContactComponent, meta: { title: 'Contact Us' } },
     // Default route
     { path: '/',                       name: 'default',              redirect: { name: 'home' } },
     // Not found route

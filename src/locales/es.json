@@ -1,4 +1,108 @@
 ﻿{
+  "equipment": {
+    "title": "Mis Equipos",
+    "addButton": "Añadir Equipo",
+    "loading": "Cargando equipos...",
+    "errorMessage": "No se pudo cargar la lista de equipos. Por favor, inténtelo de nuevo más tarde.",
+    "tryAgain": "Intentar de nuevo",
+    "control": "Control",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "confirmDelete": "Confirmar Eliminación",
+    "deleteConfirmation": "¿Está seguro de que desea eliminar <strong>{name}</strong>?<br>Esta acción no se puede deshacer.",
+    "deleteSuccess": "{name} ha sido eliminado con éxito",
+    "deleteError": "No se pudo eliminar el equipo. Por favor, inténtelo de nuevo.",
+    "yes": "Sí",
+    "no": "No",
+    "types": {
+      "freezer": "Congelador",
+      "cold_room": "Cámara Frigorífica",
+      "refrigerator": "Refrigerador"
+    },
+    "status": {
+      "normal": "normal",
+      "warning": "advertencia",
+      "critical": "crítico"
+    }
+  },
+  "service": {
+    "title": "Solicitudes de Servicio",
+    "newRequest": "Nueva Solicitud",
+    "loading": "Cargando solicitudes de servicio...",
+    "error": "Error al cargar las solicitudes de servicio.",
+    "retry": "Reintentar",
+    "equipment": "Equipo",
+    "status": "Estado",
+    "location": "Ubicación",
+    "requestedOn": "Solicitado el",
+    "scheduledFor": "Programado para",
+    "serviceType": "Tipo de Servicio",
+    "notSpecified": "No especificado",
+    "notScheduled": "No programado",
+    "requestDetails": "Detalles de la Solicitud",
+    "orderNumber": "Número de Orden",
+    "description": "Descripción",
+    "urgency": "Urgencia",
+    "asap": "Lo antes posible",
+    "yes": "Sí",
+    "no": "No",
+    "timeSlot": "Franja Horaria",
+    "address": "Dirección",
+    "technician": "Técnico",
+    "completed": "Completado",
+    "notAssigned": "No asignado",
+    "backToRequests": "← Volver a Solicitudes",
+    "newServiceRequest": "Nueva Solicitud de Servicio",
+    "steps": {
+      "equipment": "Equipo",
+      "scheduling": "Programación",
+      "confirmation": "Confirmación"
+    },
+    "form": {
+      "selectEquipment": "Seleccione el equipo",
+      "selectEquipmentPlaceholder": "Seleccione un equipo",
+      "serviceType": "Tipo de servicio",
+      "selectServiceType": "Seleccione tipo de servicio",
+      "preventive": "Mantenimiento preventivo",
+      "repair": "Reparación",
+      "installation": "Instalación",
+      "diagnostic": "Diagnóstico",
+      "description": "Descripción",
+      "urgency": "Urgencia",
+      "normal": "Normal",
+      "high": "Alta",
+      "critical": "Crítica",
+      "continue": "Continuar →",
+      "asapQuestion": "¿Atención lo antes posible?",
+      "asapYes": "Sí, necesito atención inmediata",
+      "desiredDate": "Fecha deseada",
+      "availableTimeSlot": "Franja horaria disponible",
+      "selectTimeSlot": "Seleccione una franja horaria",
+      "back": "← Atrás",
+      "serviceAddress": "Dirección de servicio (opcional)",
+      "serviceAddressPlaceholder": "Ej: Edificio B, 2do piso, laboratorio refrigerado",
+      "requestSummary": "Resumen de la solicitud:",
+      "immediateAttention": "Atención inmediata (ASAP):",
+      "scheduledFor": "Programado para:",
+      "sendRequest": "Enviar solicitud",
+      "confirmSubmission": "Confirmar Envío",
+      "confirmMessage": "¿Está seguro que desea enviar esta solicitud?",
+      "success": "Solicitud enviada",
+      "successMessage": "Su solicitud de servicio ha sido enviada.",
+      "error": "Error en el envío",
+      "errorMessage": "Ocurrió un error al enviar la solicitud.",
+      "cancelled": "Cancelado",
+      "cancelledMessage": "Envío cancelado."
+    },
+    "status": {
+      "pending": "pendiente",
+      "accepted": "aceptado",
+      "in_progress": "en progreso",
+      "resolved": "resuelto",
+      "rejected": "rechazado",
+      "completed": "completado"
+    }
+  },
   "option": {
     "home": "Inicio",
     "myMachines": "Mis Máquinas",
@@ -101,5 +205,16 @@
     "header": {
       "backToCatalog": "Volver al catálogo"
     }
+  },
+  "contact": {
+    "title": "Contáctanos",
+    "address": "Dirección",
+    "phone": "Teléfono",
+    "email": "Email",
+    "businessHours": "Horario de Atención",
+    "mondayToFriday": "Lunes a Viernes",
+    "saturday": "Sábado",
+    "followUs": "Síguenos en redes sociales",
+    "scanQR": "Escanea el código QR para guardar nuestra información de contacto"
   }
 }
