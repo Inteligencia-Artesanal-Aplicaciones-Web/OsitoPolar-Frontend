@@ -29,7 +29,7 @@ export default {
       readings: [],
       dailyAverages: [],
 
-      // Para el mapa
+      // for the map
       allEquipment: [],
 
       // State
@@ -188,7 +188,6 @@ export default {
           <temperature-history-component :daily-averages="dailyAverages" />
         </div>
 
-        <!-- Location Map - Nuevo componente -->
         <div class="analytics-card">
           <h2 class="card-title">Equipment Location</h2>
           <location-map-component
@@ -201,9 +200,12 @@ export default {
   </div>
 </template>
 
+
 <style scoped>
 .analytics-page {
   padding: 1rem;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 .page-header {
@@ -249,29 +251,34 @@ export default {
   font-size: 1.1rem;
 }
 
-/* Summary section */
 .summary-section {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1rem;
   margin-bottom: 2rem;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .summary-card {
   background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
+  min-width: 250px;
+  max-width: 300px;
 }
 
 .summary-label {
   font-size: 0.9rem;
   color: #666;
   margin-bottom: 0.5rem;
+  font-weight: 500;
 }
 
 .summary-value {
@@ -282,12 +289,12 @@ export default {
 }
 
 .negative-temp {
-  color: #1565C0; /* Azul para temperaturas negativas */
+  color: #1565C0;
 }
 
 .summary-status {
   padding: 0.25rem 0.75rem;
-  border-radius: 4px;
+  border-radius: 6px;
   font-size: 0.8rem;
   font-weight: bold;
   text-transform: uppercase;
@@ -309,52 +316,74 @@ export default {
 }
 
 .power-status {
-  color: #F44336; /* Rojo para OFF */
+  color: #F44336;
 }
 
 .power-status.on {
-  color: #4CAF50; /* Verde para ON */
+  color: #4CAF50;
 }
 
 .summary-info {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: #666;
+  margin-top: 0.5rem;
 }
 
-/* Analytics grid */
 .analytics-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
   gap: 1.5rem;
   margin-bottom: 1.5rem;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .analytics-card {
   background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
   padding: 1.5rem;
-  min-height: 300px;
+  min-height: 320px;
+  max-height: 400px;
   display: flex;
   flex-direction: column;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.analytics-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
 }
 
 .card-title {
-  font-size: 1.2rem;
-  color: #555;
+  font-size: 1.1rem;
+  color: #2c3e50;
   margin-top: 0;
   margin-bottom: 1.5rem;
-  font-weight: 500;
+  font-weight: 600;
+  border-bottom: 2px solid #e9ecef;
+  padding-bottom: 0.5rem;
 }
 
 /* Responsive adjustments */
-@media (max-width: 992px) {
+@media (max-width: 1200px) {
   .analytics-grid {
     grid-template-columns: 1fr;
+    max-width: 800px;
+  }
+
+  .summary-section {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    max-width: 800px;
   }
 }
 
 @media (max-width: 768px) {
+  .analytics-page {
+    padding: 0.75rem;
+  }
+
   .page-header {
     flex-direction: column;
     align-items: flex-start;
@@ -363,6 +392,33 @@ export default {
 
   .summary-section {
     grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .summary-card {
+    min-width: unset;
+    max-width: unset;
+    padding: 1.25rem;
+  }
+
+  .analytics-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .analytics-card {
+    min-height: 280px;
+    padding: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .summary-value {
+    font-size: 1.75rem;
+  }
+
+  .card-title {
+    font-size: 1rem;
   }
 }
 </style>

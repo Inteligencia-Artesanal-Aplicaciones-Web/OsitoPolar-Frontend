@@ -2,12 +2,102 @@
   "option": {
     "home": "Home",
     "myMachines": "My Machines",
+    "myServiceRequests": "My Service Requests",
     "rent": "Rent",
-    "contact": "Contact"
+    "contact": "Contact",
+    "language": "Language"
+  },
+  "language": {
+    "english": "English",
+    "spanish": "Spanish",
+    "selectLanguage": "Select Language"
+  },
+  "mobile": {
+    "menu": "Menu",
+    "notifications": "Notifications",
+    "myAccount": "My Account"
+  },
+  "footer": {
+    "company": "OsitoPolar",
+    "rights": "All rights reserved",
+    "terms": "Terms and conditions",
+    "privacy": "Privacy Policy",
+    "cookies": "Cookie Policy"
   },
   "authoring-phrase": {
     "intro": "Made with",
     "use": "using",
     "author": "by the team at {brand}"
+  },
+  "rental": {
+    "catalog": {
+      "title": "Rent Equipment",
+      "subtitle": "Grow your business with our rental equipment solutions",
+      "loading": "Loading resources",
+      "noEquipment": "There is no equipment for this moment",
+      "available": "Available",
+      "from": "From",
+      "request": "Request"
+    },
+    "filter": {
+      "title": "Filters",
+      "equipmentType": "Equipment Type",
+      "allEquipment": "All Equipment",
+      "priceRange": "Price Range ($/month)",
+      "sortBy": "Sort by",
+      "clean": "Clean Filters",
+      "sortOptions": {
+        "lowToHigh": "Price: Low to High",
+        "highToLow": "Price: High to Low",
+        "nameAZ": "Name: A-Z"
+      },
+      "freezer": "Freezers",
+      "coldRoom": "Cold Rooms",
+      "refrigerator": "Refrigerators",
+      "minPrice": "Min",
+      "maxPrice": "Max"
+    },
+    "configuration": {
+      "title": "Rent Configuration",
+      "period": "Rental period",
+      "month": "month | months",
+      "unit": "unit | units",
+      "quantity": "Quantity",
+      "startDate": "Preferred start date",
+      "selectDate": "Select Date",
+      "deliveryAddress": "Delivery Address *",
+      "addressPlaceholder": "Enter the full delivery address",
+      "notes": "Additional notes (optional)",
+      "notesPlaceholder": "Special instructions or comments"
+    },
+    "summary": {
+      "selectedEquipment": "Selected Equipment",
+      "loading": "Loading equipment information...",
+      "costSummary": "Cost Summary",
+      "monthlyRent": "Monthly rent",
+      "setupAndDelivery": "Setup and delivery",
+      "discount": "Discount of",
+      "firstMonthTotal": "First month total",
+      "monthlyCharge": "${amount} will be automatically charged to your payment method each subsequent month",
+      "proceedToPayment": "Proceed to Payment",
+      "processing": "Processing..."
+    },
+    "payment": {
+      "confirmRental": "Confirm Rental",
+      "rentalSummary": "Rental Summary",
+      "equipment": "Equipment",
+      "period": "Period",
+      "monthlyPrice": "Monthly price",
+      "firstMonthTotal": "First month total",
+      "paymentMethod": "Payment Method",
+      "creditDebitCard": "Credit/Debit Card",
+      "bankTransfer": "Bank Transfer",
+      "termsAccept": "I accept the terms and conditions of the rental service",
+      "cancel": "Cancel",
+      "confirmAndPay": "Confirm and Pay"
+    },
+    "header": {
+      "backToCatalog": "Back to catalog"
+    }
   }
 }

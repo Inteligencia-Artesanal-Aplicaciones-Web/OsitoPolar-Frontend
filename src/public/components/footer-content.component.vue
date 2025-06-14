@@ -3,16 +3,21 @@
  * @component footer
  * @description Footer component displayed at the bottom of the application
  * Contains copyright information, links, and company details
+ * Now with full i18n support
  */
 export default {
   name: "footer-component",
   data() {
     return {
-      currentYear: new Date().getFullYear(),
-      links: [
-        { label: 'Terms and conditions', url: '#' },
-        { label: 'Privacy Policy', url: '#' },
-        { label: 'Cookie Policy', url: '#' }
+      currentYear: new Date().getFullYear()
+    }
+  },
+  computed: {
+    links() {
+      return [
+        { label: this.$t('footer.terms'), url: '#' },
+        { label: this.$t('footer.privacy'), url: '#' },
+        { label: this.$t('footer.cookies'), url: '#' }
       ]
     }
   }
@@ -23,10 +28,10 @@ export default {
   <div class="footer-container">
     <div class="footer-content">
       <div class="footer-copyright">
-        &copy; {{ currentYear }} CoolFreeze. All rights reserved.
+        &copy; {{ currentYear }} {{ $t('footer.company') }}. {{ $t('footer.rights') }}.
       </div>
       <div class="footer-links">
-        <a v-for="link in links" :key="link.label" :href="link.url" class="footer-link">
+        <a v-for="link in links" :key="link.url" :href="link.url" class="footer-link">
           {{ link.label }}
         </a>
       </div>
@@ -65,15 +70,17 @@ export default {
   color: #0079c2;
   font-size: 0.9rem;
   text-decoration: none;
+  transition: color 0.2s ease;
 }
 
 .footer-link:hover {
   text-decoration: underline;
+  color: #005a91;
 }
 
 @media (max-width: 768px) {
   .footer-container {
-    padding: 2rem 0;  /* Slightly less padding but still more than original */
+    padding: 2rem 0;
   }
 
   .footer-content {
@@ -84,6 +91,12 @@ export default {
 
   .footer-links {
     justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .footer-link {
+    font-size: 0.85rem;
   }
 }
 </style>

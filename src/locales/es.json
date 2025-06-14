@@ -2,12 +2,104 @@
   "option": {
     "home": "Inicio",
     "myMachines": "Mis Máquinas",
+    "myServiceRequests": "Mis solicitudes de servicio",
     "rent": "Alquilar",
-    "contact": "Contacto"
+    "contact": "Contacto",
+    "language": "Idioma"
+  },
+  "language": {
+    "english": "Inglés",
+    "spanish": "Español",
+    "selectLanguage": "Seleccionar Idioma"
+  },
+  "mobile": {
+    "menu": "Menú",
+    "notifications": "Notificaciones",
+    "myAccount": "Mi Cuenta"
+  },
+  "footer": {
+    "company": "OsitoPolar",
+    "rights": "Todos los derechos reservados",
+    "terms": "Términos y condiciones",
+    "privacy": "Política de Privacidad",
+    "cookies": "Política de Cookies"
   },
   "authoring-phrase": {
     "intro": "Hecho con",
     "use": "usando",
     "author": "por el equipo de {brand}"
+  },
+  "rental": {
+    "catalog": {
+      "title": "Alquilar Equipos",
+      "subtitle": "Haz crecer tu negocio con nuestras soluciones de alquiler de equipos",
+      "loading": "Cargando recursos",
+      "noEquipment": "No hay equipos disponibles por el momento",
+      "available": "Disponible",
+      "from": "Desde",
+      "request": "Solicitar"
+    },
+    "filter": {
+      "title": "Filtros",
+      "equipmentType": "Tipo de Equipo",
+      "allEquipment": "Todos los Equipos",
+      "priceRange": "Rango de Precio ($/mes)",
+      "sortBy": "Ordenar por",
+      "clean": "Limpiar Filtros",
+      "sortOptions": {
+        "lowToHigh": "Precio: Menor a Mayor",
+        "highToLow": "Precio: Mayor a Menor",
+        "nameAZ": "Nombre: A-Z"
+      },
+      "freezer": "Congeladores",
+      "coldRoom": "Cuartos Fríos",
+      "refrigerator": "Refrigeradores",
+      "minPrice": "Mín",
+      "maxPrice": "Máx"
+    },
+    "configuration": {
+      "title": "Configuración del Alquiler",
+      "period": "Período de alquiler",
+      "month": "mes | meses",
+      "months": " ",
+      "quantity": "Cantidad",
+      "unit": "unidad | unidades",
+      "units": " ",
+      "startDate": "Fecha preferida de inicio",
+      "selectDate": "Seleccionar Fecha",
+      "deliveryAddress": "Dirección de entrega *",
+      "addressPlaceholder": "Ingrese la dirección completa de entrega",
+      "notes": "Notas adicionales (opcional)",
+      "notesPlaceholder": "Instrucciones especiales o comentarios"
+    },
+    "summary": {
+      "selectedEquipment": "Equipo Seleccionado",
+      "loading": "Cargando información del equipo...",
+      "costSummary": "Resumen de Costos",
+      "monthlyRent": "Alquiler mensual",
+      "setupAndDelivery": "Instalación y entrega",
+      "discount": "Descuento del",
+      "firstMonthTotal": "Total primer mes",
+      "monthlyCharge": "Se cobrará ${amount} automáticamente a tu método de pago cada mes siguiente",
+      "proceedToPayment": "Proceder al Pago",
+      "processing": "Procesando..."
+    },
+    "payment": {
+      "confirmRental": "Confirmar Alquiler",
+      "rentalSummary": "Resumen del Alquiler",
+      "equipment": "Equipo",
+      "period": "Período",
+      "monthlyPrice": "Precio mensual",
+      "firstMonthTotal": "Total primer mes",
+      "paymentMethod": "Método de Pago",
+      "creditDebitCard": "Tarjeta de Crédito/Débito",
+      "bankTransfer": "Transferencia Bancaria",
+      "termsAccept": "Acepto los términos y condiciones del servicio de alquiler",
+      "cancel": "Cancelar",
+      "confirmAndPay": "Confirmar y Pagar"
+    },
+    "header": {
+      "backToCatalog": "Volver al catálogo"
+    }
   }
 }

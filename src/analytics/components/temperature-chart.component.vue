@@ -1,4 +1,6 @@
 ﻿<script>
+import {TemperatureFormattingService} from "../services/temperature-formatting.service.js";
+
 /**
  * @component temperature-chart
  * @description Displays temperature readings over time in a line chart
@@ -21,24 +23,23 @@ export default {
      * @returns {Object} Chart data configuration
      */
     chartData() {
-      // Sort readings by timestamp (ascending)
       const sortedReadings = [...this.readings].sort((a, b) =>
           new Date(a.timestamp) - new Date(b.timestamp)
       );
 
       return {
-        labels: sortedReadings.map(reading => reading.getFormattedTime()),
-        datasets: [
-          {
-            label: 'Temperature',
-            data: sortedReadings.map(reading => reading.temperature),
-            borderColor: '#2196F3',
-            backgroundColor: 'rgba(33, 150, 243, 0.2)',
-            tension: 0.4,
-            pointRadius: 4,
-            pointBackgroundColor: '#2196F3'
-          }
-        ]
+        labels: sortedReadings.map(reading =>
+            TemperatureFormattingService.formatTime(reading.timestamp)
+        ),
+        datasets: [{
+          label: 'Temperature',
+          data: sortedReadings.map(reading => reading.temperature),
+          borderColor: '#2196F3',
+          backgroundColor: 'rgba(33, 150, 243, 0.2)',
+          tension: 0.4,
+          pointRadius: 4,
+          pointBackgroundColor: '#2196F3'
+        }]
       };
     },
 
@@ -54,7 +55,7 @@ export default {
           y: {
             ticks: {
               callback: function(value) {
-                return value + '°';
+                return value.toFixed(1) + '°';
               }
             }
           }
@@ -66,7 +67,7 @@ export default {
           tooltip: {
             callbacks: {
               label: function(context) {
-                return `${context.formattedValue}°C`;
+                return `${context.parsed.y.toFixed(1)}°C`;
               }
             }
           }

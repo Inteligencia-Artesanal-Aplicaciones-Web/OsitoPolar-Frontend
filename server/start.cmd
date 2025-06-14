@@ -1,2 +1,2 @@
 ﻿@echo off
-json-server --watch db.json --routes routes.json
+npx json-server --watch db.json --routes routes.json
