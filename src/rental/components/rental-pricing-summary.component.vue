@@ -191,34 +191,34 @@ export default {
 <template>
   <div class="summary-card">
     <div class="card-header">
-      <h2>Costs summary</h2>
+      <h2>{{ $t('rental.summary.costSummary') }}</h2>
     </div>
 
     <div class="price-breakdown">
       <div class="price-item">
-        <span>Monthly rent</span>
+        <span>{{ $t('rental.summary.monthlyRent') }}</span>
         <div class="price-value">
-          <span v-if="discountPercentage > 0" class="original-price">
-            ${{ originalMonthlyPrice.toFixed(2) }}
+              <span v-if="discountPercentage > 0" class="original-price">
+             ${{ originalMonthlyPrice.toFixed(2) }}
           </span>
           <span class="current-price">${{ monthlyTotal.toFixed(2) }}</span>
         </div>
       </div>
 
       <div class="price-item">
-        <span>Instalation and delivery</span>
+        <span>{{ $t('rental.summary.setupAndDelivery') }}</span>
         <span class="price-value current-price">${{ setupTotal.toFixed(2) }}</span>
       </div>
 
       <div v-if="discountPercentage > 0" class="discount-applied">
         <i class="pi pi-tag"></i>
-        <span>Disc of {{ discountPercentage }}%</span>
+        <span>{{ $t('rental.summary.discount') }} {{ discountPercentage }}%</span>
       </div>
 
       <div class="price-divider"></div>
 
       <div class="price-item total">
-        <span>First month total</span>
+        <span>{{ $t('rental.summary.firstMonthTotal') }}</span>
         <span class="price-value total-price">${{ firstPayment.toFixed(2) }}</span>
       </div>
     </div>
@@ -226,18 +226,17 @@ export default {
     <div class="payment-info">
       <div class="info-badge">
         <i class="pi pi-info-circle"></i>
-        <span>{{ `$${monthlyTotal.toFixed(2)} will be automatically charged to your payment method each subsequent month.` }}</span>
+        <span>{{ $t('rental.summary.monthlyCharge', { amount: monthlyTotal.toFixed(2) }) }}</span>
       </div>
     </div>
-
 
     <button
         @click="submitCheckout"
         :disabled="!canSubmit"
         class="proceed-button"
     >
-      <span v-if="isSubmitting">Processing…</span>
-      <span v-else>Proceed to Payment</span>
+      <span v-if="isSubmitting">{{ $t('rental.summary.processing') }}</span>
+      <span v-else>{{ $t('rental.summary.proceedToPayment') }}</span>
       <i v-if="!isSubmitting" class="pi pi-arrow-right"></i>
       <div v-else class="button-spinner"></div>
     </button>

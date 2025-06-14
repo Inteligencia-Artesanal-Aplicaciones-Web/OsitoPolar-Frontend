@@ -67,14 +67,14 @@ export default {
       @update:visible="closeModal"
       :modal="true"
       :closable="!processing"
-      header="Confirm Rental"
+      :header="$t('rental.payment.confirmRental')"
       :style="{ width: '500px' }"
   >
     <div class="payment-modal-content">
       <div class="rental-summary">
-        <h3>Rental Summary</h3>
+        <h3>{{ $t('rental.payment.rentalSummary') }}</h3>
         <div class="summary-item">
-          <span>Equipment:</span>
+          <span>{{ $t('rental.payment.equipment') }}:</span>
           <span>{{ rentalDetails.equipmentName }}</span>
         </div>
         <div class="summary-item">

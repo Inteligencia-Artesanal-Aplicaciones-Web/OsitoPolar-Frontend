@@ -6,10 +6,8 @@ export default {
 
 <template>
   <div class="hero-section">
-    <h1 class="hero-title">Rent equipments</h1>
-    <p class="hero-subtitle">
-      Grow your business with our rental equipment solutions.
-    </p>
+    <h1>{{ $t('rental.catalog.title') }}</h1>
+    <p>{{ $t('rental.catalog.subtitle') }}</p>
   </div>
 </template>
 
