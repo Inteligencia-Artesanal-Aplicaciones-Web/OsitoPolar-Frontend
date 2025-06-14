@@ -73,7 +73,7 @@ export default {
             console.error('Error loading equipment:', error);
             this.loading = false;
             this.hasError = true;
-            this.errorMessage = 'Failed to load equipment list. Please try again later.';
+            this.errorMessage = this.$t('equipment.errorMessage');
           });
     },
 
@@ -151,7 +151,7 @@ export default {
       this.$toast.add({
         severity: 'success',
         summary: 'Success',
-        detail: message,
+        detail: this.$t('equipment.deleteSuccess', { name: this.deletingEquipment.name }),
         life: 3000
       });
     },
@@ -164,7 +164,7 @@ export default {
       this.$toast.add({
         severity: 'error',
         summary: 'Error',
-        detail: message,
+        detail: this.$t('equipment.deleteError'),
         life: 5000
       });
     }
@@ -179,9 +179,9 @@ export default {
 <template>
   <div class="equipment-list">
     <div class="page-header">
-      <h1 class="page-title">My Equipments</h1>
+      <h1 class="page-title">{{ $t('equipment.title') }}</h1>
       <pv-button
-          label="Add Equipment"
+          :label="$t('equipment.addButton')"
           icon="pi pi-plus"
           class="add-equipment-button"
           @click="addEquipment"
@@ -190,12 +190,12 @@ export default {
 
     <div class="loading-container" v-if="loading">
       <pv-progress-spinner />
-      <p>Loading equipment...</p>
+      <p>{{ $t('equipment.loading') }}</p>
     </div>
 
     <div class="error-container" v-else-if="hasError">
       <p class="error-message">{{ errorMessage }}</p>
-      <pv-button label="Try Again" @click="loadEquipment" class="p-button-primary" />
+      <pv-button :label="$t('equipment.tryAgain')" @click="loadEquipment" class="p-button-primary" />
     </div>
 
     <div class="equipment-container" v-else>
@@ -220,14 +220,14 @@ export default {
           </template>
 
           <template #subtitle>
-            {{ item.getTypeDisplay() }} | {{ item.model }}
+            {{ $t(`equipment.types.${item.type}`) }} | {{ item.model }}
           </template>
 
           <template #content>
             <div class="card-content">
               <div class="temperature-display">
                 <span class="temperature-value">{{ item.currentTemperature.toFixed(1) }}°C</span>
-                <span class="temperature-label">({{ item.getTemperatureStatus() }})</span>
+                <span class="temperature-label">({{ $t(`equipment.status.${item.getTemperatureStatus()}`) }})</span>
               </div>
 
               <div class="location-info">
@@ -240,7 +240,7 @@ export default {
           <template #footer>
             <div class="card-actions">
               <pv-button
-                  label="Control"
+                  :label="$t('equipment.control')"
                   icon="pi pi-cog"
                   class="p-button-outlined"
                   @click.stop="viewEquipment(item)"
@@ -250,14 +250,14 @@ export default {
                     icon="pi pi-pencil"
                     class="p-button-rounded p-button-text p-button-info"
                     @click="editEquipment(item, $event)"
-                    tooltip="Edit"
+                    :tooltip="$t('equipment.edit')"
                     tooltip-position="top"
                 />
                 <pv-button
                     icon="pi pi-trash"
                     class="p-button-rounded p-button-text p-button-danger"
                     @click="openDeleteDialog(item, $event)"
-                    tooltip="Delete"
+                    :tooltip="$t('equipment.delete')"
                     tooltip-position="top"
                 />
               </div>
@@ -271,25 +271,23 @@ export default {
     <pv-dialog
         v-model:visible="showDeleteDialog"
         :modal="true"
-        header="Confirm Delete"
+        :header="$t('equipment.confirmDelete')"
         :style="{ width: '450px' }"
     >
       <div class="confirmation-content">
         <i class="pi pi-exclamation-triangle mr-2" style="font-size: 2rem; color: orange"></i>
-        <span v-if="deletingEquipment">
-          Are you sure you want to delete <strong>{{ deletingEquipment.name }}</strong>?<br>
-          This action cannot be undone.
+        <span v-if="deletingEquipment" v-html="$t('equipment.deleteConfirmation', { name: deletingEquipment.name })">
         </span>
       </div>
       <template #footer>
         <pv-button
-            label="No"
+            :label="$t('equipment.no')"
             icon="pi pi-times"
             class="p-button-text"
             @click="showDeleteDialog = false"
         />
         <pv-button
-            label="Yes"
+            :label="$t('equipment.yes')"
             icon="pi pi-check"
             class="p-button-danger"
             @click="confirmDelete"

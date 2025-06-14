@@ -1,4 +1,30 @@
 ﻿{
+  "equipment": {
+    "title": "My Equipments",
+    "addButton": "Add Equipment",
+    "loading": "Loading equipment...",
+    "errorMessage": "Failed to load equipment list. Please try again later.",
+    "tryAgain": "Try Again",
+    "control": "Control",
+    "edit": "Edit",
+    "delete": "Delete",
+    "confirmDelete": "Confirm Delete",
+    "deleteConfirmation": "Are you sure you want to delete <strong>{name}</strong>?<br>This action cannot be undone.",
+    "deleteSuccess": "{name} has been deleted successfully",
+    "deleteError": "Failed to delete equipment. Please try again.",
+    "yes": "Yes",
+    "no": "No",
+    "types": {
+      "freezer": "Freezer",
+      "cold_room": "Cold Room",
+      "refrigerator": "Refrigerator"
+    },
+    "status": {
+      "normal": "normal",
+      "warning": "warning",
+      "critical": "critical"
+    }
+  },
   "option": {
     "home": "Home",
     "myMachines": "My Machines",

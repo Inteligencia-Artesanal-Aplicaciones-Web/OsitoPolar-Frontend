@@ -1,4 +1,30 @@
 ﻿{
+  "equipment": {
+    "title": "Mis Equipos",
+    "addButton": "Añadir Equipo",
+    "loading": "Cargando equipos...",
+    "errorMessage": "No se pudo cargar la lista de equipos. Por favor, inténtelo de nuevo más tarde.",
+    "tryAgain": "Intentar de nuevo",
+    "control": "Control",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "confirmDelete": "Confirmar Eliminación",
+    "deleteConfirmation": "¿Está seguro de que desea eliminar <strong>{name}</strong>?<br>Esta acción no se puede deshacer.",
+    "deleteSuccess": "{name} ha sido eliminado con éxito",
+    "deleteError": "No se pudo eliminar el equipo. Por favor, inténtelo de nuevo.",
+    "yes": "Sí",
+    "no": "No",
+    "types": {
+      "freezer": "Congelador",
+      "cold_room": "Cámara Frigorífica",
+      "refrigerator": "Refrigerador"
+    },
+    "status": {
+      "normal": "normal",
+      "warning": "advertencia",
+      "critical": "crítico"
+    }
+  },
   "option": {
     "home": "Inicio",
     "myMachines": "Mis Máquinas",
