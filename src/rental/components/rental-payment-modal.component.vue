@@ -145,7 +145,7 @@ export default {
 </template>
 
 <style scoped>
-/* Los estilos se mantienen igual ya que no contienen texto */
+
 .payment-modal-content {
   padding: 1rem 0;
 }

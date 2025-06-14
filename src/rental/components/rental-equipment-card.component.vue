@@ -18,6 +18,10 @@ export default {
   methods: {
     handleRequestRental() {
       this.$emit('request-rental', this.equipment);
+      this.$router.push({
+        name: 'rental-checkout',
+        params: { equipmentId: this.equipment.id }
+      });
     }
   }
 }
@@ -41,12 +45,12 @@ export default {
       <p class="equipment-model">{{ equipment.model }}</p>
 
       <div class="price-section">
-        <span class="price-label">Desde</span>
+        <span class="price-label">From</span>
         <span class="price-value">{{ formattedPrice }}</span>
       </div>
 
       <pv-button
-          label="Solicitar"
+          label="Request"
           @click="handleRequestRental"
           class="p-button-success request-button"
           :disabled="equipment.stock === 0"

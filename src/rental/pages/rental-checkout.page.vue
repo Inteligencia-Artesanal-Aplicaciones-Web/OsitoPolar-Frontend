@@ -1,293 +1,164 @@
 ﻿<script>
+import RentalPageHeader from '../components/rental-page-header.component.vue';
+import RentalLoadingState from '../components/rental-loading-state.component.vue';
+import RentalEquipmentSummary from '../components/rental-equipment-summary.component.vue';
+import RentalConfigurationForm from '../components/rental-configuration-form.component.vue';
+import RentalPricingSummary from '../components/rental-pricing-summary.component.vue';
 import { RentalCatalogService } from '../services/rental-catalog.service.js';
-import { RentalPricingService } from '../services/rental-pricing.service.js';
-import { RentalRequestService } from '../services/rental-request.service.js';
 
 export default {
   name: 'rental-checkout-page',
+  components: {
+    RentalPageHeader,
+    RentalLoadingState,
+    RentalEquipmentSummary,
+    RentalConfigurationForm,
+    RentalPricingSummary
+  },
   data() {
     return {
-      equipment: null,
-      pricing: null,
-      loading: true,
-
-      // Form data
-      rentalMonths: 1,
-      quantity: 1,
-      deliveryAddress: '',
-      preferredDate: null,
-      notes: '',
-
-      // Calculated
-      monthlyTotal: 0,
-      setupTotal: 0,
-      firstPayment: 0,
-
-      // Services
-      catalogService: null,
-      pricingService: null,
-      requestService: null
+      equipmentData: null,
+      configurationData: null,
+      pricingData: null,
+      loading: false,
+      error: null,
+      rentalCatalogService: new RentalCatalogService()
     };
   },
   computed: {
     equipmentId() {
       return this.$route.params.equipmentId;
-    },
-
-    minDate() {
-      const tomorrow = new Date();
-      tomorrow.setDate(tomorrow.getDate() + 1);
-      return tomorrow;
+    }
+  },
+  created() {
+    if (this.equipmentId) {
+      this.loadEquipmentData();
+    }
+  },
+  watch: {
+    // Watch for route changes to reload data
+    equipmentId: {
+      immediate: true,
+      handler(newId) {
+        if (newId) {
+          this.loadEquipmentData();
+        }
+      }
     }
   },
   methods: {
-    async loadEquipmentDetails() {
+    async loadEquipmentData() {
+      if (!this.equipmentId) return;
+
+      this.loading = true;
+      this.error = null;
+
       try {
-        this.loading = true;
-
-        // Load equipment details
-        const equipmentResponse = await this.catalogService.getRentalEquipmentById(this.equipmentId);
-        this.equipment = equipmentResponse.data;
-
-        // Load pricing
-        const pricingResponse = await this.pricingService.getRentalPricing(this.equipmentId);
-        this.pricing = pricingResponse.data;
-
-        // Set default address
-        this.deliveryAddress = this.$store.state.user.defaultAddress || '';
-
-        this.calculateTotals();
-      } catch (error) {
-        console.error('Error loading equipment details:', error);
-        this.$toast.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'No se pudo cargar la información del equipo',
-          life: 3000
-        });
+        const response = await this.rentalCatalogService.getRentalEquipmentById(this.equipmentId);
+        const equipment = this.rentalCatalogService.mapRentalEquipment([response.data])[0] || response.data;
+        this.equipmentData = equipment;
+      } catch (err) {
+        console.error('Error loading equipment data:', err);
+        this.error = 'Failed to load equipment data. Please try again.';
       } finally {
         this.loading = false;
       }
     },
 
-    calculateTotals() {
-      if (!this.pricing) return;
-
-      const discount = this.pricingService.getApplicableDiscount(
-          this.rentalMonths,
-          this.pricing.discounts
-      );
-
-      const baseMonthly = this.pricing.baseMonthlyPrice * this.quantity;
-      this.monthlyTotal = this.pricingService.calculateDiscountedPrice(baseMonthly, discount);
-
-      this.setupTotal = (this.pricing.setupFee + this.pricing.deliveryFee) * this.quantity;
-      this.firstPayment = this.monthlyTotal + this.setupTotal;
-    },
-
-    async submitRentalRequest() {
-      try {
-        if (!this.validateForm()) return;
-
-        const requestData = {
-          userId: this.$store.state.user.id,
-          rentalEquipmentId: this.equipmentId,
-          quantity: this.quantity,
-          rentalPeriodMonths: this.rentalMonths,
-          deliveryAddress: this.deliveryAddress,
-          preferredStartDate: this.preferredDate.toISOString(),
-          notes: this.notes,
-          totalMonthlyPrice: this.monthlyTotal,
-          totalSetupCost: this.setupTotal,
-          status: 'draft'
-        };
-
-        // 1. Create rental request
-        const response = await this.requestService.createRentalRequest(requestData);
-
-        if (response.data.id) {
-          // 2. Submit request for approval
-          await this.requestService.submitRentalRequest(response.data.id);
-
-          // 3. Get Stripe checkout URL from backend
-          const paymentService = new RentalPaymentService();
-          const checkoutResponse = await paymentService.getCheckoutUrl(response.data.id);
-
-          // 4. Redirect to Stripe hosted checkout
-          if (checkoutResponse.data.checkoutUrl) {
-            window.location.href = checkoutResponse.data.checkoutUrl;
-          }
-        }
-      } catch (error) {
-        console.error('Error submitting rental request:', error);
-        this.$toast.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'No se pudo procesar tu solicitud',
-          life: 3000
-        });
+    handleEquipmentLoaded(equipment) {
+      if (equipment && !this.equipmentData) {
+        this.equipmentData = equipment;
       }
     },
 
-    validateForm() {
-      if (!this.deliveryAddress) {
-        this.$toast.add({
-          severity: 'warn',
-          summary: 'Campos requeridos',
-          detail: 'Por favor ingresa la dirección de entrega',
-          life: 3000
-        });
-        return false;
-      }
+    handleConfigurationChange(config) {
+      this.configurationData = config;
+    },
 
-      if (!this.preferredDate) {
-        this.$toast.add({
-          severity: 'warn',
-          summary: 'Campos requeridos',
-          detail: 'Por favor selecciona una fecha de inicio',
-          life: 3000
-        });
-        return false;
-      }
+    handlePricingUpdate(pricing) {
+      this.pricingData = pricing;
+    },
 
-      return true;
+    handleCheckoutSubmit(requestData) {
+      console.log('Checkout submitted:', requestData);
+    },
+
+    handleNavigateBack() {
+      // Force router navigation
+      this.$router.push({ name: 'rental-catalog' });
+    },
+
+    retryLoading() {
+      this.loadEquipmentData();
     }
-  },
-  watch: {
-    rentalMonths() {
-      this.calculateTotals();
-    },
-    quantity() {
-      this.calculateTotals();
-    }
-  },
-  created() {
-    this.catalogService = new RentalCatalogService();
-    this.pricingService = new RentalPricingService();
-    this.requestService = new RentalRequestService();
-    this.loadEquipmentDetails();
   }
 }
 </script>
-
 <template>
   <div class="checkout-page">
-    <div class="page-header">
-      <h1>Configurar Alquiler</h1>
-      <router-link :to="{ name: 'rental-catalog' }" class="back-link">
-        <i class="pi pi-arrow-left"></i>
-        Volver al catálogo
-      </router-link>
-    </div>
+    <!-- Page Header Component -->
+    <rental-page-header
+        title="Configure Rental"
+        :show-back-button="true"
+        back-text="Back to catalog"
+        @navigate-back="handleNavigateBack"
+    />
 
-    <div v-if="loading" class="loading-state">
-      <pv-progress-spinner />
-      <p>Cargando información...</p>
-    </div>
+    <!-- Show content based on current state -->
+    <div v-if="equipmentId" class="checkout-content">
+      <!-- Loading State -->
+      <div v-if="loading" class="loading-overlay">
+        <rental-loading-state message="Loading equipment information..." />
+      </div>
 
-    <div v-else class="checkout-content">
-      <div class="checkout-grid">
-        <!-- Equipment Summary -->
-        <div class="section equipment-summary">
-          <h2>Equipo Seleccionado</h2>
-          <div class="equipment-info">
-            <img :src="equipment.imageUrl" :alt="equipment.name" />
-            <div>
-              <h3>{{ equipment.name }}</h3>
-              <p>{{ equipment.model }}</p>
-              <p class="price">${{ equipment.monthlyPrice }} / mes</p>
-            </div>
-          </div>
-        </div>
+      <!-- Error State -->
+      <div v-else-if="error" class="error-message">
+        <p>{{ error }}</p>
+        <button @click="retryLoading" class="retry-button">
+          Try again
+        </button>
+        <button @click="handleNavigateBack" class="back-button">
+          Back to catalog
+        </button>
+      </div>
 
-        <!-- Rental Configuration -->
-        <div class="section rental-config">
-          <h2>Configuración del Alquiler</h2>
+      <!-- Normal content when data is available -->
+      <template v-else-if="equipmentData">
+        <!-- Equipment Summary Component -->
+        <rental-equipment-summary
+            :key="equipmentId"
+            :equipment-id="equipmentId"
+            :equipment-data="equipmentData"
+            class="equipment-section"
+            @equipment-loaded="handleEquipmentLoaded"
+        />
 
-          <div class="form-group">
-            <label>Período de alquiler (meses)</label>
-            <pv-input-number
-                v-model="rentalMonths"
-                :min="equipment.minimumRentalPeriod"
-                :max="24"
-                showButtons
-                buttonLayout="horizontal"
-            />
-          </div>
+        <div class="checkout-container">
+          <!-- Configuration Form Component -->
+          <rental-configuration-form
+              :equipment="equipmentData"
+              class="configuration-section"
+              @configuration-change="handleConfigurationChange"
+          />
 
-          <div class="form-group">
-            <label>Cantidad</label>
-            <pv-input-number
-                v-model="quantity"
-                :min="1"
-                :max="equipment.stock"
-                showButtons
-                buttonLayout="horizontal"
-            />
-          </div>
-
-          <div class="form-group">
-            <label>Fecha de inicio preferida</label>
-            <pv-calendar
-                v-model="preferredDate"
-                :minDate="minDate"
-                dateFormat="dd/mm/yy"
-                placeholder="Seleccionar fecha"
-            />
-          </div>
-
-          <div class="form-group">
-            <label>Dirección de entrega</label>
-            <pv-textarea
-                v-model="deliveryAddress"
-                rows="3"
-                placeholder="Ingresa la dirección completa de entrega"
-            />
-          </div>
-
-          <div class="form-group">
-            <label>Notas adicionales (opcional)</label>
-            <pv-textarea
-                v-model="notes"
-                rows="2"
-                placeholder="Instrucciones especiales o comentarios"
-            />
-          </div>
-        </div>
-
-        <!-- Price Summary -->
-        <div class="section price-summary">
-          <h2>Resumen de Costos</h2>
-
-          <div class="price-item">
-            <span>Alquiler mensual:</span>
-            <span>${{ monthlyTotal.toFixed(2) }}</span>
-          </div>
-
-          <div class="price-item">
-            <span>Instalación y entrega:</span>
-            <span>${{ setupTotal.toFixed(2) }}</span>
-          </div>
-
-          <div class="price-item total">
-            <span>Total primer mes:</span>
-            <span>${{ firstPayment.toFixed(2) }}</span>
-          </div>
-
-          <p class="payment-note">
-            Los siguientes meses se cobrarán automáticamente
-            ${{ monthlyTotal.toFixed(2) }} a tu método de pago.
-          </p>
-
-          <pv-button
-              label="Proceder al Pago"
-              @click="submitRentalRequest"
-              class="p-button-success proceed-button"
-              icon="pi pi-arrow-right"
-              iconPos="right"
+          <!-- Pricing Summary Component -->
+          <rental-pricing-summary
+              :equipment="equipmentData"
+              :configuration="configurationData"
+              class="pricing-section"
+              @pricing-update="handlePricingUpdate"
+              @checkout-submit="handleCheckoutSubmit"
           />
         </div>
-      </div>
+      </template>
+    </div>
+
+    <!-- Message shown when NO equipmentId -->
+    <div v-else class="no-equipment">
+      <p>Specified equipment not found.</p>
+      <button @click="handleNavigateBack" class="back-button">
+        Back to catalog
+      </button>
     </div>
   </div>
 </template>
@@ -295,155 +166,109 @@ export default {
 <style scoped>
 .checkout-page {
   min-height: 100vh;
-  background-color: #f5f7fa;
-  padding: 2rem;
-}
-
-.page-header {
-  max-width: 1200px;
-  margin: 0 auto 2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.page-header h1 {
-  color: #0079c2;
-  margin: 0;
-}
-
-.back-link {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: #666;
-  text-decoration: none;
-}
-
-.back-link:hover {
-  color: #0079c2;
-}
-
-.loading-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 4rem;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
 }
 
 .checkout-content {
+  padding: 2rem;
   max-width: 1200px;
   margin: 0 auto;
 }
 
-.checkout-grid {
+.checkout-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 2rem;
+  align-items: start;
 }
 
-.section {
-  background: white;
-  border-radius: 12px;
-  padding: 2rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-.section h2 {
-  margin-top: 0;
-  margin-bottom: 1.5rem;
-  color: #333;
-  font-size: 1.3rem;
-}
-
-.equipment-summary {
+.equipment-section {
   grid-column: 1 / -1;
 }
 
-.equipment-info {
+.configuration-section {
+  grid-column: span 1;
+}
+
+.pricing-section {
+  grid-column: span 1;
+  position: sticky;
+  top: 2rem;
+}
+
+.loading-overlay, .error-message, .no-equipment {
   display: flex;
-  gap: 1.5rem;
+  flex-direction: column;
   align-items: center;
-}
-
-.equipment-info img {
-  width: 120px;
-  height: 120px;
-  object-fit: contain;
-  background: #f5f5f5;
+  justify-content: center;
+  min-height: 200px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.8);
   border-radius: 8px;
-  padding: 1rem;
+  margin-bottom: 2rem;
+  padding: 2rem;
 }
 
-.equipment-info h3 {
-  margin: 0 0 0.5rem;
-  color: #333;
-}
-
-.equipment-info p {
-  margin: 0.25rem 0;
-  color: #666;
-}
-
-.equipment-info .price {
-  font-size: 1.2rem;
+.error-message {
   color: #e74c3c;
-  font-weight: 600;
-  margin-top: 0.5rem;
-}
-
-.form-group {
-  margin-bottom: 1.5rem;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 0.5rem;
-  color: #333;
-  font-weight: 500;
-}
-
-.price-item {
-  display: flex;
-  justify-content: space-between;
-  padding: 0.75rem 0;
-  border-bottom: 1px solid #e9ecef;
-}
-
-.price-item.total {
-  border-bottom: none;
-  border-top: 2px solid #333;
-  margin-top: 0.5rem;
-  padding-top: 1rem;
-  font-size: 1.2rem;
-  font-weight: 600;
-}
-
-.payment-note {
-  margin: 1.5rem 0;
-  padding: 1rem;
-  background: #f8f9fa;
-  border-radius: 8px;
-  font-size: 0.9rem;
-  color: #666;
   text-align: center;
 }
 
-.proceed-button {
-  width: 100%;
-  padding: 0.75rem;
-  font-size: 1.1rem;
+.retry-button, .back-button {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.retry-button {
+  background-color: #3498db;
+  color: white;
+  margin-right: 1rem;
+}
+
+.back-button {
+  background-color: #f1f3f4;
+  color: #333;
+}
+
+.retry-button:hover {
+  background-color: #2980b9;
+}
+
+.back-button:hover {
+  background-color: #e1e8ed;
+}
+
+/* Responsive Grid */
+@media (max-width: 1200px) {
+  .checkout-container {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .pricing-section {
+    grid-column: span 2;
+    position: static;
+  }
 }
 
 @media (max-width: 768px) {
-  .checkout-grid {
+  .checkout-container {
     grid-template-columns: 1fr;
     gap: 1rem;
   }
 
-  .section {
-    padding: 1.5rem;
+  .equipment-section,
+  .configuration-section,
+  .pricing-section {
+    grid-column: span 1;
+  }
+
+  .checkout-content {
+    padding: 1rem;
   }
 }
 </style>
