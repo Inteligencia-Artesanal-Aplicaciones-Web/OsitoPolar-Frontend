@@ -9,7 +9,7 @@ export default {
   },
   computed: {
     formattedPrice() {
-      return `${this.equipment.monthlyPrice} ${this.equipment.currency} / mes`;
+      return `${this.equipment.monthlyPrice} ${this.equipment.currency} / ${this.$t('rental.configuration.month')}`;
     },
     equipmentImage() {
       return this.equipment.imageUrl ;
@@ -36,7 +36,7 @@ export default {
           @error="$event.target.src=''"
       />
       <div class="availability-badge" v-if="equipment.stock > 0">
-        Available
+        {{ $t('rental.catalog.available') }}
       </div>
     </div>
 
@@ -45,12 +45,12 @@ export default {
       <p class="equipment-model">{{ equipment.model }}</p>
 
       <div class="price-section">
-        <span class="price-label">From</span>
+        <span class="price-label">{{ $t('rental.catalog.from') }}</span>
         <span class="price-value">{{ formattedPrice }}</span>
       </div>
 
       <pv-button
-          label="Request"
+          :label="$t('rental.catalog.request')"
           @click="handleRequestRental"
           class="p-button-success request-button"
           :disabled="equipment.stock === 0"

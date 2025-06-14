@@ -24,24 +24,29 @@ export default {
     monthOptions() {
       if (!this.equipment) return [];
       const maxMonths = Math.max(24, this.equipment.minimumRentalPeriod || 1);
-      return Array.from({ length: maxMonths }, (_, i) => ({
-        value: i + 1,
-        label: `${i + 1} ${i + 1 === 1 ? 'mes' : 'meses'}`
-      }));
+      return Array.from({ length: maxMonths }, (_, i) => {
+        const months = i + 1;
+        return {
+          value: months,
+          label: `${months} ${months === 1 ? this.$t('rental.configuration.month') : this.$t('rental.configuration.months')}`
+        };
+      });
     },
 
     quantityOptions() {
       if (!this.equipment) return [];
       const maxQty = Math.min(this.equipment.stock || 10, 10);
-      return Array.from({ length: maxQty }, (_, i) => ({
-        value: i + 1,
-        label: `${i + 1} ${i + 1 === 1 ? 'unidad' : 'unidades'}`
-      }));
+      return Array.from({ length: maxQty }, (_, i) => {
+        const quantity = i + 1;
+        return {
+          value: quantity,
+          label: `${quantity} ${quantity === 1 ? this.$t('rental.configuration.unit') : this.$t('rental.configuration.units')}`
+        };
+      });
     },
-
     formattedDate() {
-      if (!this.preferredDate) return 'Select Date';
-      return this.preferredDate.toLocaleDateString('en-EN', {
+      if (!this.preferredDate) return this.$t('rental.configuration.selectDate');
+      return this.preferredDate.toLocaleDateString(this.$i18n.locale, {
         day: '2-digit',
         month: 'long',
         year: 'numeric'
@@ -52,6 +57,10 @@ export default {
       const tomorrow = new Date();
       tomorrow.setDate(tomorrow.getDate() + 1);
       return tomorrow;
+    },
+    monthYearLabel() {
+      const today = new Date();
+      return today.toLocaleDateString(this.$i18n.locale, { month: 'long', year: 'numeric' });
     }
   },
   watch: {
@@ -152,16 +161,16 @@ export default {
 <template>
   <div class="config-card" @click="closeDropdowns">
     <div class="card-header">
-      <h2>Rent Configuration</h2>
+      <h2>{{ $t('rental.configuration.title') }}</h2>
     </div>
 
     <div class="form-grid">
       <!-- Rental Period -->
       <div class="form-group">
-        <label class="form-label">Rental period</label>
+        <label class="form-label">{{ $t('rental.configuration.period') }}</label>
         <div class="custom-select" @click.stop="showMonthsDropdown = !showMonthsDropdown">
           <div class="select-value">
-            <span>{{ rentalMonths }} {{ rentalMonths === 1 ? 'month' : 'months' }}</span>
+            <span>{{ rentalMonths }} {{ rentalMonths === 1 ? $t('rental.configuration.month') : $t('rental.configuration.months') }}</span>
             <i class="pi pi-chevron-down"></i>
           </div>
           <div v-if="showMonthsDropdown" class="select-dropdown">
@@ -182,10 +191,10 @@ export default {
 
       <!-- Quantity -->
       <div class="form-group">
-        <label class="form-label">Quantity</label>
+        <label class="form-label">{{ $t('rental.configuration.quantity') }}</label>
         <div class="custom-select" @click.stop="showQuantityDropdown = !showQuantityDropdown">
           <div class="select-value">
-            <span>{{ quantity }} {{ quantity === 1 ? 'unit' : 'units' }}</span>
+            <span>{{ quantity }} {{ quantity === 1 ? $t('rental.configuration.unit') : $t('rental.configuration.units') }}</span>
             <i class="pi pi-chevron-down"></i>
           </div>
           <div v-if="showQuantityDropdown" class="select-dropdown">
@@ -244,24 +253,24 @@ export default {
 
       <!-- Delivery Address -->
       <div class="form-group full-width">
-        <label class="form-label">Delivery Address *</label>
+        <label class="form-label">{{ $t('rental.configuration.deliveryAddress') }}</label>
         <textarea
             v-model="deliveryAddress"
             class="custom-textarea"
             rows="3"
-            placeholder="Enter the full delivery address"
+            :placeholder="$t('rental.configuration.addressPlaceholder')"
             required
         ></textarea>
       </div>
 
       <!-- Additional Notes -->
       <div class="form-group full-width">
-        <label class="form-label">Additional notes (optional)</label>
+        <label class="form-label">{{ $t('rental.configuration.notes') }}</label>
         <textarea
             v-model="notes"
             class="custom-textarea"
             rows="2"
-            placeholder="Special instructions or comments"
+            :placeholder="$t('rental.configuration.notesPlaceholder')"
         ></textarea>
       </div>
     </div>
