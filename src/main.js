@@ -10,6 +10,8 @@ import {
     Column,
     ConfirmationService,
     ConfirmDialog,
+    Calendar,
+    Checkbox,
     DataTable,
     ToggleSwitch,
     Slider,
@@ -25,6 +27,7 @@ import {
     Menu,
     ProgressSpinner,
     Rating,
+    RadioButton,
     SelectButton,
     Tag,
     Textarea,
@@ -65,9 +68,12 @@ app.use(i18n)
     .component('pv-input-number',   InputNumber)
     .component('pv-menu',           Menu)
     .component('pv-progress-spinner', ProgressSpinner)
+    .component('pv-radio-button',   RadioButton)
     .component('pv-rating',         Rating)
     .component('pv-drawer',         Drawer)
+    .component('pv-checkbox',       Checkbox)
     .component('pv-tag',            Tag)
+    .component('pv-calendar',       Calendar)
     .component('pv-textarea',       Textarea)
     .component('pv-toolbar',        Toolbar)
     .component('pv-toast',          Toast)

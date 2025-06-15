@@ -325,6 +325,199 @@
       }
     }
   ],
+  "rentalEquipment": [
+
+    {
+
+      "id": "1",
+
+      "name": "Cámara frigorífica modular",
+
+      "type": "cold_room",
+
+      "model": "CM-2000",
+
+      "manufacturer": "CoolTech",
+
+      "monthlyPrice": 200,
+
+      "currency": "$",
+
+      "imageUrl": "/assets/images/modular-cold-room.jpg",
+
+      "isAvailable": true,
+
+      "description": "Cámara modular de fácil instalación",
+
+      "technicalSpecs": "Capacidad 2000L, temperatura -5°C a 5°C",
+
+      "minimumRentalPeriod": 3,
+
+      "stock": 5,
+
+      "features": ["Instalación rápida", "Bajo consumo", "Control digital"]
+
+    },
+
+    {
+
+      "id": "2",
+
+      "name": "Puerta Corredera Frigorífica",
+
+      "type": "accessory",
+
+      "model": "PCF-100",
+
+      "manufacturer": "FrigoTech",
+
+      "monthlyPrice": 99,
+
+      "currency": "$",
+
+      "imageUrl": "/assets/images/sliding-door.jpg",
+
+      "isAvailable": true,
+
+      "description": "Puerta corredera para cámaras frigoríficas",
+
+      "technicalSpecs": "Ancho 1.2m, alto 2.1m, aislamiento 80mm",
+
+      "minimumRentalPeriod": 1,
+
+      "stock": 8,
+
+      "features": ["Cierre hermético", "Fácil instalación", "Ahorro energético"]
+
+    },
+
+    {
+
+      "id": "3",
+
+      "name": "Enfriadora de agua",
+
+      "type": "water_cooler",
+
+      "model": "EA-500",
+
+      "manufacturer": "AquaCool",
+
+      "monthlyPrice": 200,
+
+      "currency": "$",
+
+      "imageUrl": "/assets/images/water-cooler.jpg",
+
+      "isAvailable": true,
+
+      "description": "Sistema de enfriamiento de agua industrial",
+
+      "technicalSpecs": "Capacidad 500L/h, temperatura 2°C a 8°C",
+
+      "minimumRentalPeriod": 6,
+
+      "stock": 3,
+
+      "features": ["Alta capacidad", "Eficiencia energética", "Mantenimiento simple"]
+
+    },
+
+    {
+
+      "id": "4",
+
+      "name": "Climatizador de agua",
+
+      "type": "air_conditioner",
+
+      "model": "CA-300",
+
+      "manufacturer": "ClimateTech",
+
+      "monthlyPrice": 99,
+
+      "currency": "$",
+
+      "imageUrl": "/assets/images/water-ac.jpg",
+
+      "isAvailable": true,
+
+      "description": "Climatizador evaporativo para espacios industriales",
+
+      "technicalSpecs": "Cobertura 300m², consumo 1.5kW",
+
+      "minimumRentalPeriod": 1,
+
+      "stock": 10,
+
+      "features": ["Bajo consumo", "Ecológico", "Silencioso"]
+
+    }
+
+  ],
+
+  "rentalPricing": [
+
+    {
+
+      "id": "1",
+
+      "rentalEquipmentId": "1",
+
+      "baseMonthlyPrice": 200,
+
+      "currency": "$",
+
+      "discounts": [
+
+        {"months": 6, "percentage": 10},
+
+        {"months": 12, "percentage": 15}
+
+      ],
+
+      "setupFee": 150,
+
+      "deliveryFee": 50,
+
+      "insuranceMonthlyFee": 20
+
+    },
+
+    {
+
+      "id": "2",
+
+      "rentalEquipmentId": "2",
+
+      "baseMonthlyPrice": 99,
+
+      "currency": "$",
+
+      "discounts": [
+
+        {"months": 3, "percentage": 5},
+
+        {"months": 6, "percentage": 10}
+
+      ],
+
+      "setupFee": 50,
+
+      "deliveryFee": 25,
+
+      "insuranceMonthlyFee": 10
+
+    }
+
+  ],
+
+  "rentalRequests": [],
+
+  "rentalContracts": [],
+
+  "rentalPayments": [],
   "temperatureReadings": [
     {
       "id": "1",
