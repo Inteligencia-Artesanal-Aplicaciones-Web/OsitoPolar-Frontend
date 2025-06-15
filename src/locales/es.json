@@ -32,7 +32,6 @@
     "error": "Error al cargar las solicitudes de servicio.",
     "retry": "Reintentar",
     "equipment": "Equipo",
-    "status": "Estado",
     "location": "Ubicación",
     "requestedOn": "Solicitado el",
     "scheduledFor": "Programado para",
@@ -217,5 +216,13 @@
     "saturday": "Sábado",
     "followUs": "Síguenos en redes sociales",
     "scanQR": "Escanea el código QR para guardar nuestra información de contacto"
+  },
+  "plans": {
+    "title": "Actualiza tu Plan",
+    "upgrade": "Actualizar",
+    "currentPlan": "Tu Plan Actual",
+    "processingPayment": "Procesando pago...",
+    "forUsers": "Para Usuarios",
+    "forProviders": "Para Proveedores"
   }
 }

@@ -32,7 +32,6 @@
     "error": "Failed to load service requests.",
     "retry": "Retry",
     "equipment": "Equipment",
-    "status": "Status",
     "location": "Location",
     "requestedOn": "Requested On",
     "scheduledFor": "Scheduled For",
@@ -215,5 +214,13 @@
     "saturday": "Saturday",
     "followUs": "Follow us on social media",
     "scanQR": "Scan QR code to save our contact information"
+  },
+  "plans": {
+    "title": "Upgrade Your Plan",
+    "upgrade": "Upgrade",
+    "currentPlan": "Your Current Plan",
+    "processingPayment": "Processing payment...",
+    "forUsers": "For Users",
+    "forProviders": "For Providers"
   }
 }
