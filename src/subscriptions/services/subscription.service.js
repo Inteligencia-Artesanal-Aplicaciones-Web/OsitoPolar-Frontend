@@ -1,11 +1,16 @@
+/**
+ * @fileoverview Service for handling subscription-related API requests
+ * Utilizes the shared HTTP instance for consistent API interactions
+ */
+
 import httpInstance from '../../shared/http.instance.js';
 import { Plan } from '../models/plan.entity.js';
 
 /**
- * @class subscriptionService
+ * @namespace subscriptionService
  * @description Service module for subscription and plan management
  */
-export class subscriptionService  {
+export const subscriptionService = {
     /**
      * Fetches plans based on user type (user or provider) and returns Plan instances
      * @param {string} userType - The type of user ('user' or 'provider')
@@ -15,7 +20,7 @@ export class subscriptionService  {
         const endpoint = userType === 'provider' ? 'providerPlans' : 'plans';
         const response = await httpInstance.get(`/${endpoint}`);
         return response.data.map(plan => new Plan(plan));
-    }
+    },
 
     /**
      * Fetches the current plan ID for a given user
@@ -27,7 +32,7 @@ export class subscriptionService  {
         const endpoint = userType === 'provider' ? 'companies' : 'users';
         const response = await httpInstance.get(`/${endpoint}/${userId}`);
         return userType === 'provider' ? response.data.planId : response.data.planId;
-    }
+    },
 
     /**
      * Updates the plan ID for a given user
@@ -40,5 +45,5 @@ export class subscriptionService  {
         const endpoint = userType === 'provider' ? 'companies' : 'users';
         const response = await httpInstance.patch(`/${endpoint}/${userId}`, { planId });
         return response.data;
-    }
-}
+    },
+};
