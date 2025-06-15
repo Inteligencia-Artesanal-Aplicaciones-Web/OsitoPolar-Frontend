@@ -20,7 +20,9 @@ const NewServiceRequestComponent = () => import('../service/pages/new-service-re
 const ServiceRequestListComponent = () => import('../service/pages/service-request-list.component.vue');
 const NotificationsComponent   = () => import('../notifications/pages/notifications.component.vue');
 const PageNotFoundComponent    = () => import('../public/pages/page-not-found.component.vue');
-
+const RentalCatalogComponent   = () => import('../rental/pages/rental-catalog.page.vue');
+const RentalCheckoutComponent  = () => import('../rental/pages/rental-checkout.page.vue');
+const ContactComponent        = () => import('../public/pages/contact.page.vue');
 /**
  * @type {import('vue-router').RouteRecordRaw[]}
  * @description Application route definitions.
@@ -51,11 +53,11 @@ const routes = [
     { path: '/rental',                 name: 'rental-catalog',       component: RentalCatalogComponent,     meta: { title: 'Rent Equipment' } },
     { path: '/rental/checkout/:equipmentId', name: 'rental-checkout', component: RentalCheckoutComponent,    meta: { title: 'Rental Checkout' } },
     // Contact page
-    { path: '/contact', name: 'contact', component: ContactComponent, meta: { title: 'Contact Us' } },
+    {path: '/contact', name: 'contact', component: ContactComponent, meta: {title: 'Contact Us'}},
     // Default route
-    { path: '/',                       name: 'default',              redirect: { name: 'home' } },
+    {path: '/', name: 'default', redirect: {name: 'home'}},
     // Not found route
-    { path: '/:pathMatch(.*)*',        name: 'not-found',            component: PageNotFoundComponent,      meta: { title: 'Page not found' } },
+    {path: '/:pathMatch(.*)*', name: 'not-found', component: PageNotFoundComponent, meta: {title: 'Page not found'}},
 ];
 
 /**
