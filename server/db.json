@@ -8,7 +8,7 @@
       "username": "juanp",
       "phone": "987654321",
       "type": "individual",
-      "planId": 1,
+      "planId": "1",
       "subscription": {
         "startDate": "2023-01-15",
         "endDate": "2024-01-15",
@@ -35,7 +35,7 @@
       "phone": "123456789",
       "businessType": "retail",
       "location": "San Isidro, Lima",
-      "planId": 2,
+      "planId": "1",
       "subscription": {
         "startDate": "2023-02-01",
         "endDate": "2024-02-01",
@@ -47,28 +47,89 @@
   "plans": [
     {
       "id": "1",
-      "name": "Individual Basic",
-      "price": 29.99,
+      "name": "Basic (Polar Bear)",
+      "price": 18.99,
       "billingCycle": "monthly",
-      "maxEquipment": 3,
+      "maxEquipment": 6,
       "features": [
-        "temperature_control",
-        "basic_monitoring",
-        "alerts"
+        "Real-time temperature monitoring",
+        "Critical-fault email alerts",
+        "Remote on/off control",
+        "Maintenance history log",
+        "Email support"
       ]
     },
     {
       "id": "2",
-      "name": "Business Pro",
-      "price": 99.99,
+      "name": "Standard (Snow Bear)",
+      "price": 35.13,
       "billingCycle": "monthly",
-      "maxEquipment": 15,
+      "maxEquipment": 12,
       "features": [
-        "temperature_control",
-        "advanced_monitoring",
-        "alerts",
-        "energy_optimization",
-        "technical_reports"
+        "Everything in Basic",
+        "Advanced monitoring (energy, usage)",
+        "Remote temperature adjustment",
+        "Monthly energy reports",
+        "Scheduled maintenance"
+      ]
+    },
+    {
+      "id": "3",
+      "name": "Premium (Glacial Bear)",
+      "price": 67.56,
+      "billingCycle": "monthly",
+      "maxEquipment": 24,
+      "features": [
+        "Everything in Standard",
+        "Full monitoring (temp, energy, run-time)",
+        "Auto-scheduled preventive maintenance",
+        "Exclusive analytics dashboard"
+      ]
+    }
+  ],
+  "providerPlans": [
+    {
+      "id": "1",
+      "name": "Small Company",
+      "price": 40.51,
+      "billingCycle": "monthly",
+      "maxClients": 10,
+      "features": [
+        "Client & unit management",
+        "Technician visit scheduling",
+        "Basic technical reports",
+        "Client-fault notifications",
+        "Service history log",
+        "Email support"
+      ]
+    },
+    {
+      "id": "2",
+      "name": "Medium Company",
+      "price": 81.08,
+      "billingCycle": "monthly",
+      "maxClients": 30,
+      "features": [
+        "Everything in Small Company",
+        "Detailed technical reports",
+        "Tech performance metrics",
+        "Client feedback surveys",
+        "Service dashboard",
+        "Priority support"
+      ]
+    },
+    {
+      "id": "3",
+      "name": "Enterprise Premium",
+      "price": 162.16,
+      "billingCycle": "monthly",
+      "maxClients": null,
+      "features": [
+        "Everything in Medium Company",
+        "Advanced admin dashboard",
+        "Predictive maintenance alerts",
+        "Historical data exports",
+        "Custom reporting & branding"
       ]
     }
   ],
@@ -125,7 +186,7 @@
         "address": "Av. Larco 1301, Miraflores, Lima",
         "coordinates": {
           "lat": -12.1198,
-          "lng": -77.0280
+          "lng": -77.028
         }
       },
       "model": "CF-200",
@@ -265,197 +326,129 @@
     }
   ],
   "rentalEquipment": [
-
     {
-
       "id": "1",
-
       "name": "Cámara frigorífica modular",
-
       "type": "cold_room",
-
       "model": "CM-2000",
-
       "manufacturer": "CoolTech",
-
       "monthlyPrice": 200,
-
       "currency": "$",
-
       "imageUrl": "/assets/images/modular-cold-room.jpg",
-
       "isAvailable": true,
-
       "description": "Cámara modular de fácil instalación",
-
       "technicalSpecs": "Capacidad 2000L, temperatura -5°C a 5°C",
-
       "minimumRentalPeriod": 3,
-
       "stock": 5,
-
-      "features": ["Instalación rápida", "Bajo consumo", "Control digital"]
-
+      "features": [
+        "Instalación rápida",
+        "Bajo consumo",
+        "Control digital"
+      ]
     },
-
     {
-
       "id": "2",
-
       "name": "Puerta Corredera Frigorífica",
-
       "type": "accessory",
-
       "model": "PCF-100",
-
       "manufacturer": "FrigoTech",
-
       "monthlyPrice": 99,
-
       "currency": "$",
-
       "imageUrl": "/assets/images/sliding-door.jpg",
-
       "isAvailable": true,
-
       "description": "Puerta corredera para cámaras frigoríficas",
-
       "technicalSpecs": "Ancho 1.2m, alto 2.1m, aislamiento 80mm",
-
       "minimumRentalPeriod": 1,
-
       "stock": 8,
-
-      "features": ["Cierre hermético", "Fácil instalación", "Ahorro energético"]
-
+      "features": [
+        "Cierre hermético",
+        "Fácil instalación",
+        "Ahorro energético"
+      ]
     },
-
     {
-
       "id": "3",
-
       "name": "Enfriadora de agua",
-
       "type": "water_cooler",
-
       "model": "EA-500",
-
       "manufacturer": "AquaCool",
-
       "monthlyPrice": 200,
-
       "currency": "$",
-
       "imageUrl": "/assets/images/water-cooler.jpg",
-
       "isAvailable": true,
-
       "description": "Sistema de enfriamiento de agua industrial",
-
       "technicalSpecs": "Capacidad 500L/h, temperatura 2°C a 8°C",
-
       "minimumRentalPeriod": 6,
-
       "stock": 3,
-
-      "features": ["Alta capacidad", "Eficiencia energética", "Mantenimiento simple"]
-
+      "features": [
+        "Alta capacidad",
+        "Eficiencia energética",
+        "Mantenimiento simple"
+      ]
     },
-
     {
-
       "id": "4",
-
       "name": "Climatizador de agua",
-
       "type": "air_conditioner",
-
       "model": "CA-300",
-
       "manufacturer": "ClimateTech",
-
       "monthlyPrice": 99,
-
       "currency": "$",
-
       "imageUrl": "/assets/images/water-ac.jpg",
-
       "isAvailable": true,
-
       "description": "Climatizador evaporativo para espacios industriales",
-
       "technicalSpecs": "Cobertura 300m², consumo 1.5kW",
-
       "minimumRentalPeriod": 1,
-
       "stock": 10,
-
-      "features": ["Bajo consumo", "Ecológico", "Silencioso"]
-
+      "features": [
+        "Bajo consumo",
+        "Ecológico",
+        "Silencioso"
+      ]
     }
-
   ],
-
   "rentalPricing": [
-
     {
-
       "id": "1",
-
       "rentalEquipmentId": "1",
-
       "baseMonthlyPrice": 200,
-
       "currency": "$",
-
       "discounts": [
-
-        {"months": 6, "percentage": 10},
-
-        {"months": 12, "percentage": 15}
-
+        {
+          "months": 6,
+          "percentage": 10
+        },
+        {
+          "months": 12,
+          "percentage": 15
+        }
       ],
-
       "setupFee": 150,
-
       "deliveryFee": 50,
-
       "insuranceMonthlyFee": 20
-
     },
-
     {
-
       "id": "2",
-
       "rentalEquipmentId": "2",
-
       "baseMonthlyPrice": 99,
-
       "currency": "$",
-
       "discounts": [
-
-        {"months": 3, "percentage": 5},
-
-        {"months": 6, "percentage": 10}
-
+        {
+          "months": 3,
+          "percentage": 5
+        },
+        {
+          "months": 6,
+          "percentage": 10
+        }
       ],
-
       "setupFee": 50,
-
       "deliveryFee": 25,
-
       "insuranceMonthlyFee": 10
-
     }
-
   ],
-
   "rentalRequests": [],
-
   "rentalContracts": [],
-
   "rentalPayments": [],
   "temperatureReadings": [
     {
@@ -475,7 +468,7 @@
     {
       "id": "3",
       "equipmentId": 1,
-      "temperature": 24.0,
+      "temperature": 24,
       "timestamp": "2023-04-20T12:00:00",
       "status": "warning"
     },
@@ -503,7 +496,7 @@
     {
       "id": "7",
       "equipmentId": 1,
-      "temperature": 22.0,
+      "temperature": 22,
       "timestamp": "2023-04-20T16:00:00",
       "status": "normal"
     },
@@ -552,7 +545,7 @@
     {
       "id": "14",
       "equipmentId": 2,
-      "temperature": -3.0,
+      "temperature": -3,
       "timestamp": "2023-04-20T14:00:00",
       "status": "normal"
     },
@@ -657,7 +650,7 @@
     {
       "id": "29",
       "equipmentId": 4,
-      "temperature": -26.0,
+      "temperature": -26,
       "timestamp": "2023-04-20T14:00:00",
       "status": "normal"
     },
@@ -692,7 +685,7 @@
     {
       "id": "50",
       "equipmentId": 5,
-      "temperature": 2.0,
+      "temperature": 2,
       "timestamp": "2023-04-20T13:00:00",
       "status": "normal"
     },
@@ -762,7 +755,7 @@
     {
       "id": "44",
       "equipmentId": 3,
-      "temperature": 4.0,
+      "temperature": 4,
       "timestamp": "2023-04-20T17:00:00",
       "status": "normal"
     },
@@ -781,7 +774,7 @@
       "date": "2023-04-14",
       "averageTemperature": 19.2,
       "minTemperature": 17.5,
-      "maxTemperature": 21.0
+      "maxTemperature": 21
     },
     {
       "id": "2",
@@ -812,7 +805,7 @@
       "equipmentId": 1,
       "date": "2023-04-18",
       "averageTemperature": 22.1,
-      "minTemperature": 20.0,
+      "minTemperature": 20,
       "maxTemperature": 24.3
     },
     {
@@ -828,8 +821,8 @@
       "equipmentId": 1,
       "date": "2023-04-20",
       "averageTemperature": 25.5,
-      "minTemperature": 22.0,
-      "maxTemperature": 28.0
+      "minTemperature": 22,
+      "maxTemperature": 28
     },
     {
       "id": "8",
@@ -852,7 +845,7 @@
       "equipmentId": 2,
       "date": "2023-04-16",
       "averageTemperature": -3.2,
-      "minTemperature": -4.0,
+      "minTemperature": -4,
       "maxTemperature": -2.4
     },
     {
@@ -939,7 +932,7 @@
       "id": "21",
       "equipmentId": 5,
       "date": "2023-04-18",
-      "averageTemperature": 2.0,
+      "averageTemperature": 2,
       "minTemperature": 1.5,
       "maxTemperature": 2.6
     },
