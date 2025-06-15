@@ -16,7 +16,7 @@ export default {
   },
   methods: {
     /**
-     * Sets the active tab and emits an event to notify parent component.
+     * Sets the active tab and emits an event to notify the parent component.
      * @param {string} tab - The tab to activate ('users' or 'providers').
      */
     setActiveTab(tab) {
@@ -29,8 +29,8 @@ export default {
 
 <template>
   <div class="plan-tabs">
-    <pv-button :class="{ active: activeTab === 'users' }" @click="setActiveTab('users')" label="For Users" />
-    <pv-button :class="{ active: activeTab === 'providers' }" @click="setActiveTab('providers')" label="For Providers" />
+    <pv-button :class="{ active: activeTab === 'users' }" @click="setActiveTab('users')" :label="$t('plans.forUsers')" />
+    <pv-button :class="{ active: activeTab === 'providers' }" @click="setActiveTab('providers')" :label="$t('plans.forProviders')" />
   </div>
 </template>
 
