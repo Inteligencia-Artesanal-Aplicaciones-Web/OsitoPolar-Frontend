@@ -23,6 +23,7 @@ const PageNotFoundComponent    = () => import('../public/pages/page-not-found.co
 const RentalCatalogComponent   = () => import('../rental/pages/rental-catalog.page.vue');
 const RentalCheckoutComponent  = () => import('../rental/pages/rental-checkout.page.vue');
 const ContactComponent        = () => import('../public/pages/contact.page.vue');
+const PlansComponent          = () => import('../subscriptions/pages/plans.component.vue');
 /**
  * @type {import('vue-router').RouteRecordRaw[]}
  * @description Application route definitions.
@@ -54,6 +55,8 @@ const routes = [
     { path: '/rental/checkout/:equipmentId', name: 'rental-checkout', component: RentalCheckoutComponent,    meta: { title: 'Rental Checkout' } },
     // Contact page
     {path: '/contact', name: 'contact', component: ContactComponent, meta: {title: 'Contact Us'}},
+    //Plans page
+    {path: '/plans', name: 'plans', component: PlansComponent, meta: {title: 'Subscription Plans'}},
     // Default route
     {path: '/', name: 'default', redirect: {name: 'home'}},
     // Not found route
