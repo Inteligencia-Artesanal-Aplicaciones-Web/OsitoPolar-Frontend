@@ -225,6 +225,51 @@ body {
   margin-top: 1rem;
 }
 
+.rating-dialog-custom .p-dialog {
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+}
+
+.rating-dialog-custom .p-dialog-header {
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #e9ecef;
+  padding: 1.25rem 1.5rem;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+.rating-dialog-custom .p-dialog-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #34495e;
+}
+
+.rating-dialog-custom .dialog-content {
+  padding: 1.5rem;
+  text-align: center;
+  background-color: #f2f7fa;
+}
+
+
+.rating-dialog-custom .rating-error-message {
+  display: block;
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  color: #e74c3c;
+}
+
+.rating-dialog-custom .p-dialog-footer {
+  border-top: 1px solid #e9ecef;
+  padding: 1rem 1.5rem;
+  background-color: #f8f9fa;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+
 #app {
   width: 100%;
   display: flex;
