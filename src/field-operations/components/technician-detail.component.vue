@@ -29,7 +29,7 @@ export default {
       :modal="true"
       :closable="true"
       :style="{ width: '500px' }"
-      class="detail-dialog"
+      class="technician-detail-dialog"
       @update:visible="$emit('update:visible', $event)"
   >
     <div v-if="technician" class="dialog-content">
@@ -49,28 +49,6 @@ export default {
 </template>
 
 <style scoped>
-.detail-dialog .p-dialog {
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-}
-
-.detail-dialog .p-dialog-header {
-  background-color: #007bff;
-  color: #fff;
-  font-weight: 700;
-  font-size: 1.3rem;
-  border-top-left-radius: 16px;
-  border-top-right-radius: 16px;
-  padding: 1.2rem 1.5rem;
-}
-
-.detail-dialog .p-dialog-content {
-  background-color: #ffffff;
-  padding: 2.5rem;
-  border-bottom-left-radius: 16px;
-  border-bottom-right-radius: 16px;
-}
 
 .dialog-content {
   display: flex;
