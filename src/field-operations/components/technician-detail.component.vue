@@ -33,10 +33,10 @@ export default {
       @update:visible="$emit('update:visible', $event)"
   >
     <div v-if="technician" class="dialog-content">
-      <div class="field"><i class="pi pi-user field-icon"></i><strong>{{ $t('common.name') }}:</strong> <span class="field-value">{{ technician.name }}</span></div>
+      <div class="field"><i class="pi pi-user field-icon"></i><strong>{{ $t('technicians.name') }}:</strong> <span class="field-value">{{ technician.name }}</span></div>
       <div class="field"><i class="pi pi-tag field-icon"></i><strong>{{ $t('technicians.specialization') }}:</strong> <span class="field-value">{{ technician.specialization }}</span></div>
-      <div class="field"><i class="pi pi-phone field-icon"></i><strong>{{ $t('common.phone') }}:</strong> <span class="field-value">{{ technician.phone }}</span></div>
-      <div class="field"><i class="pi pi-at field-icon"></i><strong>{{ $t('common.email') }}:</strong> <span class="field-value">{{ technician.email }}</span></div>
+      <div class="field"><i class="pi pi-phone field-icon"></i><strong>{{ $t('technicians.phone') }}:</strong> <span class="field-value">{{ technician.phone }}</span></div>
+      <div class="field"><i class="pi pi-at field-icon"></i><strong>{{ $t('technicians.email') }}:</strong> <span class="field-value">{{ technician.email }}</span></div>
       <div class="field"><i class="pi pi-star field-icon"></i><strong>{{ $t('technicians.averageRating') }}:</strong> <span class="field-value">{{ technician.getAverageRating() }}</span></div>
       <div class="field"><i class="pi pi-building field-icon"></i><strong>{{ $t('technicians.company') }}:</strong> <span class="field-value">{{ technician.companyId }}</span></div>
       <div class="field"><i class="pi pi-globe field-icon"></i><strong>{{ $t('technicians.availability') }}:</strong>
