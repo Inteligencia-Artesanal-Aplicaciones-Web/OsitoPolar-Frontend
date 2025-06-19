@@ -17,8 +17,9 @@ export default {
         { label: 'option.home', to: '/home' },
         { label: 'option.myMachines', to: '/equipment' },
         { label: 'option.myServiceRequests', to: '/service-requests' },
-        { label: 'option.rent', to: '/rent' },
-        { label: 'option.contact', to: '/contact' }
+        { label: 'option.rent', to: '/rental' },
+        { label: 'option.plans', to: '/plans' },
+        { label: 'option.contact', to: '/contact' },
       ],
       mobileMenuOpen: false
     }

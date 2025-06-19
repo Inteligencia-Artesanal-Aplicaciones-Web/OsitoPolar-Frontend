@@ -40,8 +40,7 @@ export default {
       } catch (error) {
         console.error("Error loading data:", error);
         this.hasError = true;
-        this.errorMessage = "Failed to load service requests.";
-        this.loading = false;
+        this.errorMessage = this.$t('service.error');        this.loading = false;
       }
     },
 
@@ -51,7 +50,7 @@ export default {
     },
 
     formatDate(date) {
-      if (!date) return "Not scheduled";
+      if (!date) return this.$t('service.notScheduled');
       return new Date(date).toLocaleDateString();
     },
 
@@ -78,9 +77,9 @@ export default {
 <template>
   <div class="service-request-list">
     <div class="page-header">
-      <h1>Service Requests</h1>
+      <h1>{{ $t('service.title') }}</h1>
       <pv-button
-          label="New Request"
+          :label="$t('service.newRequest')"
           icon="pi pi-plus"
           class="p-button-primary new-request-button"
           @click="openNewRequestForm"
@@ -89,12 +88,12 @@ export default {
 
     <div class="loading" v-if="loading">
       <pv-progress-spinner />
-      <p>Loading service requests...</p>
+      <p>{{ $t('service.loading') }}</p>
     </div>
 
     <div class="error" v-else-if="hasError">
       <p>{{ errorMessage }}</p>
-      <pv-button label="Retry" @click="loadRequests" />
+      <pv-button :label="$t('service.retry')" @click="loadRequests" />
     </div>
 
     <div class="request-grid" v-else>
@@ -105,19 +104,19 @@ export default {
           @click="viewRequestDetail(req)"
       >
         <template #title>
-          <p><i class="pi pi-box"></i> <strong>Equipment:</strong> {{ getEquipmentDisplay(req.equipmentId) }}</p>
+          <p><i class="pi pi-box"></i> <strong>{{ $t('service.equipment') }}:</strong> {{ getEquipmentDisplay(req.equipmentId) }}</p>
         </template>
         <template #subtitle>
-          <span class="pi pi-info-circle"></span> Status:
+          <span class="pi pi-info-circle"></span> {{ $t('service.status') }}:
           <span :class="req.getStatusBadgeClass()">
-            {{ req.status.replace('_', ' ') }}
+            {{ $t(`service.status.${req.status}`) }}
           </span>
         </template>
         <template #content>
-          <p><i class="pi pi-map-marker"></i> <strong>Location:</strong> {{ equipmentList.find(e => e.id === req.equipmentId)?.location?.name || 'Not specified' }}</p>
-          <p><i class="pi pi-clock"></i> <strong>Requested On:</strong> {{ req.requestTime }}</p>
-          <p><i class="pi pi-calendar"></i> <strong>Scheduled For:</strong> {{ formatDate(req.scheduledDate) }}</p>
-          <p><i class="pi pi-cog"></i> <strong>Service Type:</strong> {{ req.serviceType }}</p>
+          <p><i class="pi pi-map-marker"></i> <strong>{{ $t('service.location') }}:</strong> {{ equipmentList.find(e => e.id === req.equipmentId)?.location?.name || $t('service.notSpecified') }}</p>
+          <p><i class="pi pi-clock"></i> <strong>{{ $t('service.requestedOn') }}:</strong> {{ req.requestTime }}</p>
+          <p><i class="pi pi-calendar"></i> <strong>{{ $t('service.scheduledFor') }}:</strong> {{ formatDate(req.scheduledDate) }}</p>
+          <p><i class="pi pi-cog"></i> <strong>{{ $t('service.serviceType') }}:</strong> {{ req.serviceType }}</p>
         </template>
       </pv-card>
     </div>

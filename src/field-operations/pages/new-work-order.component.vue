@@ -1,26 +1,30 @@
 <script lang="ts">
 import { useRouter } from 'vue-router';
 import { EquipmentService } from '../../equipment/services/equipment.service';
-import { ServiceRequestService } from '../services/service-request.service';
-
+import { WorkOrderService } from '../services/work-order.service';
+import { ServiceRequestService } from '../../service/services/service-request.service';
 export default {
-  name: 'new-service-request',
+  name: 'new-work-order',
   data() {
     return {
       currentStep: 1,
       router: useRouter(),
       formData: {
+        serviceRequestId: null,
+        title: '',
+        description: '',
+        issueDetails: '',
         equipmentId: '',
         serviceType: '',
-        description: '',
-        urgency: 'normal',
-        date: null,
+        priority: 'medium',
+        scheduledDate: null,
         timeSlot: '',
-        asap: false,
         serviceAddress: ''
       },
       equipments: [],
+      serviceRequests: [],
       equipmentService: new EquipmentService(),
+      workOrderService: new WorkOrderService(),
       serviceRequestService: new ServiceRequestService()
     };
   },
@@ -33,6 +37,9 @@ export default {
         { id: 4, time: '14:00 - 16:00', available: true },
         { id: 5, time: '16:00 - 18:00', available: true }
       ];
+    },
+      availableServiceRequests() {
+      return this.serviceRequests;
     }
   },
   methods: {
@@ -50,52 +57,49 @@ export default {
     },
     async handleSubmit() {
       this.$confirm.require({
-        message: this.$t('service.form.confirmMessage'),
-        header: this.$t('service.form.confirmSubmission'),
+        message: this.$t('workOrders.form.confirmMessage'),
+        header: this.$t('workOrders.form.confirmSubmission'),
         icon: 'pi pi-exclamation-triangle',
-        acceptLabel: this.$t('service.yes'),
-        rejectLabel: this.$t('service.no'),
+        acceptLabel: this.$t('common.yes'),
+        rejectLabel: this.$t('common.no'),
         accept: async () => {
           try {
             const payload = {
-              id: undefined,
-              orderNumber: '',
+              serviceRequestId: this.formData.serviceRequestId || null,
+              title: this.formData.title,
               description: this.formData.description,
-              requestTime: null,
-              status: 'pending',
-              priority: 'normal',
-              userId: null,
-              companyId: null,
-              equipmentId: this.formData.equipmentId,
-              technicianId: null,
+              issueDetails: this.formData.issueDetails,
+              equipmentId: parseInt(this.formData.equipmentId),
               serviceType: this.formData.serviceType,
-              urgency: this.formData.urgency,
-              asap: this.formData.asap,
+              priority: this.formData.priority,
+              scheduledDate: this.formData.scheduledDate ? new Date(this.formData.scheduledDate).toISOString() : null,
               timeSlot: this.formData.timeSlot,
-              serviceAddress: this.formData.serviceAddress,
-              scheduledDate: this.formData.date ? new Date(this.formData.date).toISOString() : null,
-              completionDate: null,
-              resolution: null
+              serviceAddress: this.formData.serviceAddress
             };
 
-            const response = await this.serviceRequestService.createRequest(payload);
-            console.log('Request created:', response);
+            const response = await this.workOrderService.createWorkOrder(payload);
+            console.log('Work Order created:', response);
 
             this.$toast.add({
               severity: 'success',
-              summary: this.$t('service.form.success'),
-              detail: this.$t('service.form.successMessage'),
+              summary: this.$t('workOrders.form.success'),
+              detail: this.$t('workOrders.form.successMessage'),
               life: 3000
             });
 
-            this.router.push('/service-requests');
+            this.router.push('/work-orders');
           } catch (error) {
             console.error('Error submitting:', error);
 
+            let errorMessage = this.$t('workOrders.form.errorMessageGeneric');
+            if (error.response && error.response.data && error.response.data.message) {
+              errorMessage = error.response.data.message;
+            }
+
             this.$toast.add({
               severity: 'error',
-              summary: 'Submission failed',
-              detail: 'An error occurred while sending the request.',
+              summary: this.$t('common.submissionFailed'),
+              detail: errorMessage,
               life: 3000
             });
           }
@@ -103,14 +107,16 @@ export default {
         reject: () => {
           this.$toast.add({
             severity: 'info',
-            summary: this.$t('service.form.cancelled'),
-            detail: this.$t('service.form.cancelledMessage'),
+            summary: this.$t('common.cancelled'),
+            detail: this.$t('workOrders.form.cancelledMessage'),
             life: 2000
           });
         }
       });
+    },
+    getServiceRequestSummary(sr) {
+      return `SR #${sr.orderNumber} - ${sr.description.substring(0, 50)}${sr.description.length > 50 ? '...' : ''} (${this.$t(`service.status.${sr.status}`)})`;
     }
-
   },
   created() {
     this.equipmentService.getAll()
@@ -121,8 +127,23 @@ export default {
           console.error('Error loading equipment:', error);
           this.$toast.add({
             severity: 'error',
-            summary: this.$t('service.error'),
-            detail: this.$t('service.form.errorMessage'),
+            summary: this.$t('common.error'),
+            detail: this.$t('common.errorMessageLoadingEquipment'),
+            life: 3000
+          });
+        });
+
+    this.serviceRequestService.getAll()
+        .then(response => {
+          this.serviceRequests = this.serviceRequestService.mapServiceRequests(response.data)
+              .filter(sr => sr.status === 'pending' || sr.status === 'accepted');
+        })
+        .catch(error => {
+          console.error('Error loading service requests:', error);
+          this.$toast.add({
+            severity: 'error',
+            summary: this.$t('common.error'),
+            detail: this.$t('common.errorMessageLoadingServiceRequests'),
             life: 3000
           });
         });
@@ -130,18 +151,16 @@ export default {
 }
 </script>
 
-
-
 <template>
   <div class="container">
-    <RouterLink to="/service-requests" class="link-back">
-      {{ $t('service.backToRequests') }}
+    <RouterLink to="/work-orders" class="link-back">
+      {{ $t('workOrders.backToWorkOrders') }}
     </RouterLink>
 
-    <h1 class="title">{{ $t('service.newServiceRequest') }}</h1>
+    <h1 class="title">{{ $t('workOrders.newWorkOrder') }}</h1>
     <div class="step-indicator mb-8">
       <div
-          v-for="(step, index) in [$t('service.steps.equipment'), $t('service.steps.scheduling'), $t('service.steps.confirmation')]"
+          v-for="(step, index) in [$t('workOrders.steps.details'), $t('workOrders.steps.equipmentScheduling'), $t('workOrders.steps.confirmation')]"
           :key="index"
           class="step"
           :class="{
@@ -156,11 +175,44 @@ export default {
 
     <div v-if="currentStep === 1" class="card">
       <div>
-        <label>{{ $t('service.form.selectEquipment') }}</label>
+        <label>{{ $t('workOrders.form.linkToServiceRequest') }}</label>
+        <select v-model="formData.serviceRequestId" class="input">
+          <option :value="null">{{ $t('workOrders.form.createIndependentWorkOrder') }}</option>
+          <option v-for="sr in availableServiceRequests" :key="sr.id" :value="sr.id">
+            {{ getServiceRequestSummary(sr) }}
+          </option>
+        </select>
+      </div>
+
+      <div>
+        <label>{{ $t('workOrders.form.title') }}</label>
+        <input type="text" v-model="formData.title" class="input" />
+      </div>
+
+      <div>
+        <label>{{ $t('workOrders.form.description') }}</label>
+        <textarea v-model="formData.description" class="input" rows="3"></textarea>
+      </div>
+
+      <div>
+        <label>{{ $t('workOrders.form.issueDetails') }}</label>
+        <textarea v-model="formData.issueDetails" class="input" rows="3"></textarea>
+      </div>
+
+      <div class="flex justify-end">
+        <button class="btn" @click="handleNext" :disabled="!formData.title || !formData.description || !formData.issueDetails">
+          {{ $t('common.continue') }}
+        </button>
+      </div>
+    </div>
+
+    <div v-if="currentStep === 2" class="card">
+      <div>
+        <label>{{ $t('workOrders.form.selectEquipment') }}</label>
         <select v-model="formData.equipmentId" class="input">
-          <option disabled value="">{{ $t('service.form.selectEquipmentPlaceholder') }}</option>
+          <option disabled value="">{{ $t('workOrders.form.selectEquipmentPlaceholder') }}</option>
           <option v-for="e in equipments" :key="e.id" :value="e.id.toString()">
-            {{ e.name }} - {{ e.location?.name || $t('service.notSpecified') }}
+            {{ e.name }} - {{ e.location?.name || $t('common.notSpecified') }}
           </option>
         </select>
       </div>
@@ -172,16 +224,16 @@ export default {
             class="grid grid-cols-2 gap-2"
         >
           <div><strong>{{ $t('equipment.name') }}:</strong> {{ e.name }}</div>
-          <div><strong>{{ $t('service.location') }}:</strong> {{ e.location?.name || $t('service.notSpecified') }}</div>
+          <div><strong>{{ $t('common.location') }}:</strong> {{ e.location?.name || $t('common.notSpecified') }}</div>
           <div><strong>{{ $t('equipment.type') }}:</strong> {{ $t(`equipment.types.${e.type}`) }}</div>
           <div><strong>{{ $t('equipment.status') }}:</strong> {{ $t(`equipment.status.${e.getTemperatureStatus()}`) }}</div>
         </div>
       </div>
 
       <div>
-        <label>{{ $t('service.form.serviceType') }}</label>
+        <label>{{ $t('workOrders.form.serviceType') }}</label>
         <select v-model="formData.serviceType" class="input">
-          <option disabled value="">{{ $t('service.form.selectServiceType') }}</option>
+          <option disabled value="">{{ $t('workOrders.form.selectServiceType') }}</option>
           <option value="preventive">{{ $t('service.form.preventive') }}</option>
           <option value="repair">{{ $t('service.form.repair') }}</option>
           <option value="installation">{{ $t('service.form.installation') }}</option>
@@ -190,42 +242,22 @@ export default {
       </div>
 
       <div>
-        <label>{{ $t('service.form.description') }}</label>
-        <textarea v-model="formData.description" class="input" rows="3"></textarea>
-      </div>
-
-      <div>
-        <label>{{ $t('service.form.urgency') }}</label>
+        <label>{{ $t('workOrders.form.priority') }}</label>
         <div class="radio-group">
-          <label><input type="radio" value="normal" v-model="formData.urgency" /> {{ $t('service.form.normal') }}</label>
-          <label><input type="radio" value="high" v-model="formData.urgency" /> {{ $t('service.form.high') }}</label>
-          <label><input type="radio" value="critical" v-model="formData.urgency" /> {{ $t('service.form.critical') }}</label>
+          <label><input type="radio" value="low" v-model="formData.priority" /> {{ $t('workOrders.form.low') }}</label>
+          <label><input type="radio" value="medium" v-model="formData.priority" /> {{ $t('workOrders.form.medium') }}</label>
+          <label><input type="radio" value="high" v-model="formData.priority" /> {{ $t('workOrders.form.high') }}</label>
+          <label><input type="radio" value="critical" v-model="formData.priority" /> {{ $t('workOrders.form.critical') }}</label>
         </div>
       </div>
 
-      <div class="flex justify-end">
-        <button class="btn" @click="handleNext" :disabled="!formData.equipmentId || !formData.serviceType || !formData.description">
-          {{ $t('service.form.continue') }}
-        </button>
-      </div>
-    </div>
-
-    <div v-if="currentStep === 2" class="card">
       <div>
-        <label>{{ $t('service.form.asapQuestion') }}</label>
-        <label class="checkbox">
-          <input type="checkbox" v-model="formData.asap" />
-          {{ $t('service.form.asapYes') }}
-        </label>
-      </div>
+        <label>{{ $t('workOrders.form.scheduledDate') }}</label>
+        <input type="date" v-model="formData.scheduledDate" class="input" />
 
-      <div v-if="!formData.asap">
-        <label>{{ $t('service.form.desiredDate') }}</label>
-        <input type="date" v-model="formData.date" class="input" />
-
-        <label>{{ $t('service.form.availableTimeSlot') }}</label>
+        <label>{{ $t('workOrders.form.availableTimeSlot') }}</label>
         <select v-model="formData.timeSlot" class="input">
-          <option disabled value="">{{ $t('service.form.selectTimeSlot') }}</option>
+          <option disabled value="">{{ $t('workOrders.form.selectTimeSlot') }}</option>
           <option v-for="slot in timeSlots.filter(s => s.available)" :key="slot.id" :value="slot.time">
             {{ slot.time }}
           </option>
@@ -233,42 +265,45 @@ export default {
       </div>
 
       <div class="actions">
-        <button class="btn-outline" @click="handleBack">{{ $t('service.form.back') }}</button>
+        <button class="btn-outline" @click="handleBack">{{ $t('common.back') }}</button>
         <button
             class="btn"
             @click="handleNext"
-            :disabled="!formData.asap && (!formData.date || !formData.timeSlot)"
+            :disabled="!formData.equipmentId || !formData.serviceType || !formData.priority || !formData.scheduledDate || !formData.timeSlot"
         >
-          {{ $t('service.form.continue') }}
+          {{ $t('common.continue') }}
         </button>
       </div>
     </div>
 
     <div v-if="currentStep === 3" class="card">
-      <label>{{ $t('service.form.serviceAddress') }}</label>
+      <label>{{ $t('workOrders.form.serviceAddress') }}</label>
       <textarea
           v-model="formData.serviceAddress"
           class="input"
           rows="3"
-          :placeholder="$t('service.form.serviceAddressPlaceholder')"
+          :placeholder="$t('workOrders.form.serviceAddressPlaceholder')"
       ></textarea>
 
       <div class="info-box">
-        <h2 class="text-primary font-semibold mb-2">{{ $t('service.form.requestSummary') }}</h2>
+        <h2 class="text-primary font-semibold mb-2">{{ $t('workOrders.form.workOrderSummary') }}</h2>
         <ul class="space-y-1 text-gray-700 text-sm">
-          <li><strong>{{ $t('service.equipment') }}:</strong> {{ equipments.find(e => e.id.toString() === formData.equipmentId)?.name || '-' }}</li>
-          <li><strong>{{ $t('service.serviceType') }}:</strong> {{ $t(`service.form.${formData.serviceType}`) }}</li>
-          <li><strong>{{ $t('service.urgency') }}:</strong> {{ $t(`service.form.${formData.urgency}`) }}</li>
-          <li><strong>{{ $t('service.description') }}:</strong> {{ formData.description }}</li>
-          <li><strong>{{ $t('service.form.immediateAttention') }}</strong> {{ formData.asap ? $t('service.yes') : $t('service.no') }}</li>
-          <li v-if="!formData.asap"><strong>{{ $t('service.form.scheduledFor') }}</strong> {{ formData.date }}<br /><strong>{{ $t('service.timeSlot') }}:</strong> {{ formData.timeSlot }}</li>
-          <li v-if="formData.serviceAddress"><strong>{{ $t('service.address') }}:</strong> {{ formData.serviceAddress }}</li>
+          <li v-if="formData.serviceRequestId"><strong>{{ $t('service.serviceRequest') }}:</strong> {{ getServiceRequestSummary(serviceRequests.find(sr => sr.id === formData.serviceRequestId)) || '-' }}</li>
+          <li><strong>{{ $t('workOrders.title') }}:</strong> {{ formData.title }}</li>
+          <li><strong>{{ $t('workOrders.description') }}:</strong> {{ formData.description }}</li>
+          <li><strong>{{ $t('workOrders.issueDetails') }}:</strong> {{ formData.issueDetails }}</li>
+          <li><strong>{{ $t('equipment.equipment') }}:</strong> {{ equipments.find(e => e.id.toString() === formData.equipmentId)?.name || '-' }}</li>
+          <li><strong>{{ $t('workOrders.serviceType') }}:</strong> {{ $t(`service.form.${formData.serviceType}`) }}</li>
+          <li><strong>{{ $t('workOrders.priority') }}:</strong> {{ $t(`workOrders.form.${formData.priority}`) }}</li>
+          <li><strong>{{ $t('workOrders.scheduledFor') }}:</strong> {{ formData.scheduledDate }}</li>
+          <li><strong>{{ $t('workOrders.timeSlot') }}:</strong> {{ formData.timeSlot }}</li>
+          <li v-if="formData.serviceAddress"><strong>{{ $t('common.address') }}:</strong> {{ formData.serviceAddress }}</li>
         </ul>
       </div>
 
       <div class="actions">
-        <button class="btn-outline" @click="handleBack">{{ $t('service.form.back') }}</button>
-        <button class="btn" @click="handleSubmit">{{ $t('service.form.sendRequest') }}</button>
+        <button class="btn-outline" @click="handleBack">{{ $t('common.back') }}</button>
+        <button class="btn" @click="handleSubmit">{{ $t('workOrders.form.sendWorkOrder') }}</button>
       </div>
     </div>
   </div>
@@ -454,6 +489,4 @@ export default {
   font-weight: 500;
   color: #4b5563;
 }
-
-
 </style>

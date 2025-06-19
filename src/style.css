@@ -137,6 +137,50 @@ body {
   opacity: 0.8;
 }
 
+.technician-detail-dialog .p-dialog {
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+}
+
+.technician-detail-dialog .p-dialog-header {
+  background-color: #007bff;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.3rem;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  padding: 1.2rem 1.5rem;
+}
+
+.technician-detail-dialog .p-dialog-content {
+  background-color: #ffffff;
+  padding: 2.5rem;
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 16px;
+}
+
+.work-order-detail-dialog .p-dialog {
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.work-order-detail-dialog .p-dialog-header {
+  background-color: #0884c4;
+  color: #fff;
+  font-weight: bold;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  padding: 1rem;
+}
+
+.work-order-detail-dialog .p-dialog-content {
+  background-color: #ffffff;
+  padding: 2rem;
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 16px;
+}
+
 #app {
   width: 100%;
   display: flex;

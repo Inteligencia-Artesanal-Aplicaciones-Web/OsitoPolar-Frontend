@@ -20,6 +20,13 @@ const NewServiceRequestComponent = () => import('../service/pages/new-service-re
 const ServiceRequestListComponent = () => import('../service/pages/service-request-list.component.vue');
 const NotificationsComponent   = () => import('../notifications/pages/notifications.component.vue');
 const PageNotFoundComponent    = () => import('../public/pages/page-not-found.component.vue');
+const RentalCatalogComponent   = () => import('../rental/pages/rental-catalog.page.vue');
+const RentalCheckoutComponent  = () => import('../rental/pages/rental-checkout.page.vue');
+const ContactComponent        = () => import('../public/pages/contact.page.vue');
+const PlansComponent          = () => import('../subscriptions/pages/plans.component.vue');
+const WorkOrderListComponent = () => import('../field-operations/pages/work-order-list.component.vue');
+const NewWorkOrderComponent = () => import('../field-operations/pages/new-work-order.component.vue');
+const TechnicianListComponent = () => import('../field-operations/pages/technician-list.component.vue');
 
 /**
  * @type {import('vue-router').RouteRecordRaw[]}
@@ -47,10 +54,22 @@ const routes = [
     // Service Requests
     { path: '/service-requests',       name: 'service-requests',     component: ServiceRequestListComponent, meta: { title: 'Service Requests' } },
     { path: '/service-request/new',    name: 'new-service-request',  component: NewServiceRequestComponent, meta: { title: 'New Service Requests' } },
+    // Rental module
+    { path: '/rental',                 name: 'rental-catalog',       component: RentalCatalogComponent,     meta: { title: 'Rent Equipment' } },
+    { path: '/rental/checkout/:equipmentId', name: 'rental-checkout', component: RentalCheckoutComponent,    meta: { title: 'Rental Checkout' } },
+    // Contact page
+    {path: '/contact', name: 'contact', component: ContactComponent, meta: {title: 'Contact Us'}},
+    //Plans page
+    {path: '/plans', name: 'plans', component: PlansComponent, meta: {title: 'Subscription Plans'}},
+    //Work Orders
+    {path: '/work-orders', name: 'work-orders-list', component: WorkOrderListComponent, meta: {title: 'Work Orders'}},
+    {path: '/work-orders/new', name:'new-work-order', component: NewWorkOrderComponent, meta: { title: 'New Work Order' } },
+    //Technicians page
+    {path: '/technicians', name:'technician-list', component: TechnicianListComponent, meta: { title: 'Technician' } },
     // Default route
-    { path: '/',                       name: 'default',              redirect: { name: 'home' } },
+    {path: '/', name: 'default', redirect: {name: 'home'}},
     // Not found route
-    { path: '/:pathMatch(.*)*',        name: 'not-found',            component: PageNotFoundComponent,      meta: { title: 'Page not found' } },
+    {path: '/:pathMatch(.*)*', name: 'not-found', component: PageNotFoundComponent, meta: {title: 'Page not found'}},
 ];
 
 /**
