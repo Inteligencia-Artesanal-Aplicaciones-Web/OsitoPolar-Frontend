@@ -2,13 +2,13 @@
 import { ServiceRequestService } from '../services/service-request.service';
 import { EquipmentService } from '../../equipment/services/equipment.service';
 import { TechnicianService } from '../../field-operations/services/technician.service';
-import CompanyServiceRequestCard from '../components/service-request/company-service-request-card.component.vue';
+import CompanyServiceRequestCardComponent from '../components/service-request/company-service-request-card.component.vue';
 import ServiceRequestDetailModal from '../../service/components/service-request/service-request-detail.component.vue';
 
 export default {
   name: 'CompanyServiceRequestsList',
   components: {
-    CompanyServiceRequestCard,
+    CompanyServiceRequestCard: CompanyServiceRequestCardComponent,
     ServiceRequestDetailModal
   },
   data() {
