@@ -24,6 +24,10 @@ const RentalCatalogComponent   = () => import('../rental/pages/rental-catalog.pa
 const RentalCheckoutComponent  = () => import('../rental/pages/rental-checkout.page.vue');
 const ContactComponent        = () => import('../public/pages/contact.page.vue');
 const PlansComponent          = () => import('../subscriptions/pages/plans.component.vue');
+const WorkOrderListComponent = () => import('../field-operations/pages/work-order-list.component.vue');
+const NewWorkOrderComponent = () => import('../field-operations/pages/new-work-order.component.vue');
+const TechnicianListComponent = () => import('../field-operations/pages/technician-list.component.vue');
+
 /**
  * @type {import('vue-router').RouteRecordRaw[]}
  * @description Application route definitions.
@@ -57,6 +61,11 @@ const routes = [
     {path: '/contact', name: 'contact', component: ContactComponent, meta: {title: 'Contact Us'}},
     //Plans page
     {path: '/plans', name: 'plans', component: PlansComponent, meta: {title: 'Subscription Plans'}},
+    //Work Orders
+    {path: '/work-orders', name: 'work-orders-list', component: WorkOrderListComponent, meta: {title: 'Work Orders'}},
+    {path: '/work-orders/new', name:'new-work-order', component: NewWorkOrderComponent, meta: { title: 'New Work Order' } },
+    //Technicians page
+    {path: '/technicians', name:'technician-list', component: TechnicianListComponent, meta: { title: 'Technician' } },
     // Default route
     {path: '/', name: 'default', redirect: {name: 'home'}},
     // Not found route
