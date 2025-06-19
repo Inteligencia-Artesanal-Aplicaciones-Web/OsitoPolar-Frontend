@@ -181,6 +181,50 @@ body {
   border-bottom-right-radius: 16px;
 }
 
+.company-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.company-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.company-card .p-card-header {
+  background-color: #f2f7fa;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #e0e7eb;
+}
+
+.company-card .p-card-title {
+  padding: 1.5rem 1.5rem 0.5rem;
+  font-size: 1.25rem;
+  color: #34495e;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.company-card .p-card-subtitle {
+  padding: 0 1.5rem 1rem;
+  font-size: 0.95rem;
+  color: #7f8c8d;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.company-card .p-card-content {
+  padding: 0 1.5rem 1.5rem;
+  border-top: 1px dashed #ecf0f1;
+  margin-top: 1rem;
+}
+
 #app {
   width: 100%;
   display: flex;
