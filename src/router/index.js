@@ -27,6 +27,7 @@ const PlansComponent          = () => import('../subscriptions/pages/plans.compo
 const WorkOrderListComponent = () => import('../field-operations/pages/work-order-list.component.vue');
 const NewWorkOrderComponent = () => import('../field-operations/pages/new-work-order.component.vue');
 const TechnicianListComponent = () => import('../field-operations/pages/technician-list.component.vue');
+const CompanyServiceRequestsListComponent = () => import('../service/pages/company-service-requests-list.component.vue');
 
 /**
  * @type {import('vue-router').RouteRecordRaw[]}
@@ -57,6 +58,8 @@ const routes = [
     // Rental module
     { path: '/rental',                 name: 'rental-catalog',       component: RentalCatalogComponent,     meta: { title: 'Rent Equipment' } },
     { path: '/rental/checkout/:equipmentId', name: 'rental-checkout', component: RentalCheckoutComponent,    meta: { title: 'Rental Checkout' } },
+    // Service Requests (Company Perspective)
+    { path: '/company/service-requests', name: 'company-service-requests', component: CompanyServiceRequestsListComponent, meta: { title: 'Company Service Requests' } },
     // Contact page
     {path: '/contact', name: 'contact', component: ContactComponent, meta: {title: 'Contact Us'}},
     //Plans page

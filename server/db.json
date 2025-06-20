@@ -1031,20 +1031,21 @@
       "orderNumber": "SR-2023-001",
       "description": "Irregular temperature in freezer",
       "requestTime": "2023-04-15T09:30:00",
-      "status": "pending",
+      "status": "completed",
       "priority": "high",
       "userId": 1,
       "companyId": null,
       "equipmentId": 1,
-      "technicianId": null,
+      "technicianId": "2",
       "serviceType": "diagnostic",
       "urgency": "high",
       "asap": false,
       "timeSlot": "08:00 - 10:00",
       "serviceAddress": "Warehouse #3, Sector A",
       "scheduledDate": "2023-04-18T08:00:00",
-      "completionDate": null,
-      "resolution": null
+      "completionDate": "2025-06-20T00:56:46.259Z",
+      "resolution": null,
+      "rating": 2
     },
     {
       "id": "2",
@@ -1156,6 +1157,38 @@
       "contactEmail": "info@tecnofrio.com",
       "contactPhone": "987987987",
       "address": "Av. Industriales 456, Lima"
+    }
+  ],
+  "workOrders": [
+    {
+      "id": "wo-001",
+      "serviceRequestId": "sr-1001",
+      "equipmentId": "eq-101",
+      "title": "Revisión Preventiva Sistema Enfriamiento A-300",
+      "description": "Realizar mantenimiento preventivo y revisión de componentes del sistema de enfriamiento A-300.",
+      "assignedTechnicianId": "tech-001",
+      "status": "assigned",
+      "priority": "medium",
+      "creationDate": "2024-05-10T11:00:00Z",
+      "scheduledDate": "2024-05-15T09:00:00Z",
+      "resolutionDetails": "",
+      "technicianNotes": [],
+      "cost": 0
+    },
+    {
+      "id": "wo-002",
+      "serviceRequestId": "sr-1002",
+      "equipmentId": "eq-102",
+      "title": "Diagnóstico y Reparación Máquina B-500",
+      "description": "Diagnosticar y reparar fallas intermitentes y ruidos en la máquina de producción B-500.",
+      "assignedTechnicianId": null,
+      "status": "pending_assignment",
+      "priority": "high",
+      "creationDate": "2024-05-11T15:00:00Z",
+      "scheduledDate": null,
+      "resolutionDetails": "",
+      "technicianNotes": [],
+      "cost": 0
     }
   ]
 }
