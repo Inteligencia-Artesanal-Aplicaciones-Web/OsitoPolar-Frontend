@@ -182,7 +182,7 @@ body {
 }
 
 .company-card {
-  background-color: #ffffff;
+  background-color: #ffffff !important;
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
   overflow: hidden;
@@ -195,9 +195,9 @@ body {
 }
 
 .company-card .p-card-header {
-  background-color: #f2f7fa;
+  background-color: #B0E0E6;
   padding: 1rem 1.5rem;
-  border-bottom: 1px solid #e0e7eb;
+  border-bottom: 1px solid #87CEEB;
 }
 
 .company-card .p-card-title {
@@ -225,9 +225,70 @@ body {
   margin-top: 1rem;
 }
 
-.rating-dialog-custom .p-dialog {
+.assign-technician-dialog .p-dialog {
   border-radius: 12px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  background-color: #ffffff;
+}
+
+.assign-technician-dialog .p-dialog-header {
+  background-color: #0884c4;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 1.15rem;
+  padding: 1.25rem 1.5rem;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+.assign-technician-dialog .p-dialog-content {
+  padding: 1.5rem;
+  background-color: #f9fafb;
+  color: #34495e;
+}
+
+.assign-technician-dialog .dialog-label {
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  font-size: 0.9rem;
+  color: #4a5568;
+}
+
+.assign-technician-dialog .p-dialog-footer {
+  background-color: #f2f7fa;
+  padding: 1rem 1.5rem;
+  border-top: 1px solid #e0e7eb;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+
+.assign-technician-dialog .p-button.p-button-text {
+  color: #6c757d;
+  transition: color 0.2s ease-in-out;
+}
+
+.assign-technician-dialog .p-button.p-button-text:hover {
+  color: #343a40;
+  background-color: transparent;
+}
+
+.assign-technician-dialog .p-button.p-button-primary {
+  background-color: #0884c4;
+  border-color: #0884c4;
+  color: #ffffff;
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+}
+
+.assign-technician-dialog .p-button.p-button-primary:hover {
+  background-color: #056a9d;
+  border-color: #056a9d;
 }
 
 .rating-dialog-custom .p-dialog-header {

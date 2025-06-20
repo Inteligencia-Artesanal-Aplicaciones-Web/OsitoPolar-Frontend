@@ -236,13 +236,13 @@ export default {
 
         <template v-if="request.status === 'pending'">
           <pv-button
-              :label="$t('company.serviceRequests.accept')"
+              :label="$t('service.accept')"
               icon="pi pi-check"
               class="p-button-success p-button-sm"
               @click="acceptRequest"
           />
           <pv-button
-              :label="$t('company.serviceRequests.reject')"
+              :label="$t('service.reject')"
               icon="pi pi-times"
               class="p-button-danger p-button-sm"
               @click="rejectRequest"
@@ -251,7 +251,7 @@ export default {
 
         <template v-else-if="request.status === 'accepted' || request.status === 'in_progress'">
           <pv-button
-              :label="$t('company.serviceRequests.markResolved')"
+              :label="$t('service.markResolved')"
               icon="pi pi-check-double"
               class="p-button-info p-button-sm"
               @click="markAsResolved"
@@ -259,40 +259,38 @@ export default {
         </template>
 
         <template v-else-if="request.status === 'resolved'">
-          <span class="status-message">{{ $t('company.serviceRequests.waitingForRating') }}</span>
+          <span class="status-message">{{ $t('service.waitingForRating') }}</span>
         </template>
 
         <template v-else-if="request.status === 'completed'">
-          <span class="status-message-completed">{{ $t('company.serviceRequests.rated') }}</span>
+          <span class="status-message-completed">{{ $t('service.rated') }}</span>
         </template>
       </div>
     </template>
   </pv-card>
-
-  <pv-dialog
-      :header="$t('company.serviceRequests.assignTechnician')"
-      v-model:visible="showAssignDialog"
-      :modal="true"
-      :style="{ width: '400px' }"
-      @hide="selectedTechnicianId = null"
-  >
-    <div class="p-fluid">
-      <label for="technician-select" class="dialog-label">{{ $t('company.serviceRequests.selectTechnician') }}</label>
-      <pv-dropdown
-          id="technician-select"
-          v-model="selectedTechnicianId"
-          :options="allTechnicians"
-          optionLabel="name"
-          optionValue="id"
-          :placeholder="$t('company.serviceRequests.selectTechnicianPlaceholder')"
-      />
-    </div>
-    <template #footer>
-      <pv-button :label="$t('common.cancel')" icon="pi pi-times" class="p-button-text" @click="showAssignDialog = false" />
-      <pv-button :label="$t('company.serviceRequests.assign')" icon="pi pi-user-plus" class="p-button-primary" @click="assignTechnician" />
-    </template>
-  </pv-dialog>
-
+    <pv-dialog
+        :header="$t('service.assignTechnician')"
+        v-model:visible="showAssignDialog"
+        :modal="true"
+        :style="{ width: '400px' }"
+        @hide="selectedTechnicianId = null"
+        class="assign-technician-dialog" >
+      <div class="p-fluid">
+        <label for="technician-select" class="dialog-label">{{ $t('service.selectTechnician') }}</label>
+        <pv-dropdown
+            id="technician-select"
+            v-model="selectedTechnicianId"
+            :options="allTechnicians"
+            optionLabel="name"
+            optionValue="id"
+            :placeholder="$t('service.selectTechnicianPlaceholder')"
+        />
+      </div>
+      <template #footer>
+        <pv-button :label="$t('common.cancel')" icon="pi pi-times" class="p-button-text" @click="showAssignDialog = false" />
+        <pv-button :label="$t('service.assign')" icon="pi pi-user-plus" class="p-button-primary" @click="assignTechnician" />
+      </template>
+    </pv-dialog>
   <pv-confirm-dialog />
   <pv-toast />
 </template>
@@ -328,30 +326,38 @@ export default {
 
 .details-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 1rem;
-  font-size: 0.9rem;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.5rem 1.25rem;
+  font-size: 0.95rem;
   color: #555;
+  padding-top: 0.5rem;
 }
 
 .detail-item {
   display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  align-items: flex-start;
+  gap: 0.75rem;
 }
 
 .detail-item i {
-  color: #95a5a6;
-  font-size: 1rem;
+  color: #333333;
+  font-size: 1.1rem;
+  margin-top: 0.15rem;
 }
 
 .detail-item strong {
-  color: #333;
-  min-width: 80px;
+  color: #0884c4;
+  min-width: 90px;
+}
+
+.detail-item span {
+  flex-grow: 1;
+  word-break: break-word;
 }
 
 .detail-item.full-width {
   grid-column: 1 / -1;
+  padding-top: 0.5rem;
 }
 
 .card-header-content {
@@ -419,4 +425,5 @@ export default {
 .p-dialog-footer .p-button {
   margin-left: 0.5rem;
 }
+
 </style>

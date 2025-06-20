@@ -8,10 +8,10 @@
       "username": "juanp",
       "phone": "987654321",
       "type": "individual",
-      "planId": "2",
+      "planId": "1",
       "subscription": {
-        "startDate": "2025-06-20",
-        "endDate": "2026-06-20",
+        "startDate": "2023-01-15",
+        "endDate": "2024-01-15",
         "status": "active",
         "autoRenew": true
       }
@@ -1031,21 +1031,20 @@
       "orderNumber": "SR-2023-001",
       "description": "Irregular temperature in freezer",
       "requestTime": "2023-04-15T09:30:00",
-      "status": "completed",
+      "status": "pending",
       "priority": "high",
       "userId": 1,
       "companyId": null,
       "equipmentId": 1,
-      "technicianId": "2",
+      "technicianId": null,
       "serviceType": "diagnostic",
       "urgency": "high",
       "asap": false,
       "timeSlot": "08:00 - 10:00",
       "serviceAddress": "Warehouse #3, Sector A",
       "scheduledDate": "2023-04-18T08:00:00",
-      "completionDate": "2025-06-20T00:56:46.259Z",
-      "resolution": null,
-      "rating": 2
+      "completionDate": null,
+      "resolution": null
     },
     {
       "id": "2",
