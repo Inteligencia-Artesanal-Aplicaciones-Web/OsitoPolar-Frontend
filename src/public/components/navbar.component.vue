@@ -1,10 +1,6 @@
 ﻿<script>
-/**
- * @component navbar
- * @description Main navigation bar component with responsive slide drawer menu
- * Integrates PrimeVue components and i18n translations
- */
 import LanguageSwitcher from "./language-switcher.component.vue";
+import eventBus from '../../event-bus';
 
 export default {
   name: "navbar",
@@ -13,26 +9,67 @@ export default {
   },
   data() {
     return {
-      menu: [
-        { label: 'option.home', to: '/home' },
-        { label: 'option.myMachines', to: '/equipment' },
-        { label: 'option.myServiceRequests', to: '/service-requests' },
-        { label: 'option.rent', to: '/rental' },
-        { label: 'option.plans', to: '/plans' },
-        { label: 'option.contact', to: '/contact' },
+      allMenuItems: [
+        { label: 'option.home', to: '/home', roles: ['client', 'company'] },
+        { label: 'option.myMachines', to: '/equipment', roles: ['client'] },
+        { label: 'option.myServiceRequests', to: '/service-requests', roles: ['client'] },
+        { label: 'option.rent', to: '/rental', roles: ['client'] },
+        { label: 'option.companyServiceRequests', to: '/company/service-requests', roles: ['company'] },
+        { label: 'option.workOrders', to: '/work-orders', roles: ['company'] },
+        { label: 'option.technicians', to: '/technicians', roles: ['company'] },
+        { label: 'option.notifications', to: '/notifications', roles: ['client', 'company'] },
+        { label: 'option.plans', to: '/plans', roles: ['client', 'company'] },
+        { label: 'option.contact', to: '/contact', roles: ['client', 'company'] },
       ],
-      mobileMenuOpen: false
+      mobileMenuOpen: false,
+      currentActiveRole: localStorage.getItem('userRole') || 'public'
     }
+  },
+  computed: {
+    currentUserRole() {
+      return this.currentActiveRole;
+    },
+    menu() {
+      return this.allMenuItems.filter(item =>
+          item.roles.includes(this.currentUserRole)
+      );
+    }
+  },
+  watch: {
+    '$route'() {
+      this.closeMobileMenu();
+    }
+  },
+  created() {
+    eventBus.on('role-changed', (newRole) => {
+      this.currentActiveRole = newRole;
+    });
+  },
+  beforeUnmount() {
+    eventBus.off('role-changed');
   },
   methods: {
     toggleMobileMenu() {
       this.mobileMenuOpen = !this.mobileMenuOpen;
+      if (this.mobileMenuOpen) {
+        document.body.classList.add('mobile-menu-open');
+      } else {
+        document.body.classList.remove('mobile-menu-open');
+      }
     },
     closeMobileMenu() {
       this.mobileMenuOpen = false;
+      document.body.classList.remove('mobile-menu-open');
     },
     goNotifications(){
       this.$router.push({ name: 'notifications' });
+      this.closeMobileMenu();
+    },
+    logout() {
+      localStorage.removeItem('userRole');
+      this.currentActiveRole = 'public';
+      eventBus.emit('role-changed', 'public');
+      this.$router.push({ name: 'select-role' });
       this.closeMobileMenu();
     }
   }
@@ -42,10 +79,8 @@ export default {
 <template>
   <header class="navbar-container">
     <div class="navbar">
-      <!-- Logo section -->
       <div class="navbar-brand">
         <div class="logo">
-          <!-- Logo SVG Icon -->
           <svg class="logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28">
             <path fill="#0079c2" d="M14,15.25C14,15.11 13.89,15 13.75,15H13.5V10.37C13.5,10.23 13.39,10.12 13.25,10.12H10.75C10.61,10.12 10.5,10.23 10.5,10.37V15H10.25C10.11,15 10,15.11 10,15.25V18.5C10,18.64 10.11,18.75 10.25,18.75H13.75C13.89,18.75 14,18.64 14,18.5V15.25M12,9.25C12.83,9.25 13.5,8.58 13.5,7.75C13.5,6.92 12.83,6.25 12,6.25C11.17,6.25 10.5,6.92 10.5,7.75C10.5,8.58 11.17,9.25 12,9.25M16.08,16.22C15.8,15.94 15.36,15.94 15.08,16.22L12,19.29L8.92,16.22C8.64,15.94 8.2,15.94 7.92,16.22C7.65,16.5 7.65,16.93 7.92,17.21L11.5,20.79C11.7,21 12.3,21 12.5,20.79L16.07,17.22C16.35,16.94 16.35,16.5 16.08,16.22Z" />
           </svg>
@@ -56,7 +91,6 @@ export default {
         </div>
       </div>
 
-      <!-- Hamburger menu button - Only visible on mobile -->
       <pv-button
           icon="pi pi-bars"
           class="p-button-text hamburger-button"
@@ -64,9 +98,7 @@ export default {
           :aria-label="$t('mobile.menu')"
       />
 
-      <!-- Desktop menu and actions -->
       <div class="desktop-menu-container">
-        <!-- Menu items -->
         <nav class="navbar-menu">
           <pv-button v-for="item in menu"
                      :key="item.label"
@@ -79,29 +111,33 @@ export default {
           </pv-button>
         </nav>
 
-        <!-- User section -->
         <div class="navbar-actions">
-          <!-- Language Switcher -->
           <div class="language-switcher">
             <LanguageSwitcher />
           </div>
 
-          <!-- Notification Bell -->
-          <pv-button icon="pi pi-bell"
+          <pv-button v-if="currentUserRole !== 'public'"
+                     icon="pi pi-bell"
                      class="p-button-text p-button-rounded notification-button"
                      @click="goNotifications"/>
 
-          <!-- User Profile -->
-          <pv-button icon="pi pi-user" class="p-button-text p-button-rounded user-button" />
+          <pv-button v-if="currentUserRole !== 'public'"
+                     icon="pi pi-power-off"
+                     :label="$t('common.logout')"
+                     class="p-button-text p-button-rounded logout-button"
+                     @click="logout" />
+          <pv-button v-else
+                     icon="pi pi-user"
+                     :label="$t('common.selectRole')"
+                     class="p-button-text p-button-rounded user-button"
+                     @click="$router.push({ name: 'select-role' })" />
         </div>
       </div>
     </div>
 
-    <!-- Mobile menu drawer -->
     <transition name="slide">
       <div v-if="mobileMenuOpen" class="mobile-menu-backdrop" @click="closeMobileMenu">
         <div class="mobile-menu-drawer" @click.stop>
-          <!-- Close button -->
           <div class="mobile-menu-header">
             <h3>{{ $t('mobile.menu') }}</h3>
             <pv-button icon="pi pi-times"
@@ -110,7 +146,6 @@ export default {
                        :aria-label="$t('mobile.close') || 'Close'" />
           </div>
 
-          <!-- Menu items -->
           <nav class="mobile-nav">
             <router-link v-for="item in menu"
                          :key="item.label"
@@ -122,26 +157,29 @@ export default {
             </router-link>
           </nav>
 
-          <!-- Divider -->
           <div class="menu-divider"></div>
 
-          <!-- Language switcher -->
           <div class="mobile-section">
             <h4>{{ $t('option.language') }}</h4>
             <LanguageSwitcher />
           </div>
 
-          <!-- User actions -->
           <div class="mobile-section">
-            <pv-button
-                icon="pi pi-bell"
-                :label="$t('mobile.notifications')"
-                class="p-button-text p-button-plain mobile-action-button"
-                @click="goNotifications" />
-            <pv-button
-                icon="pi pi-user"
-                :label="$t('mobile.myAccount')"
-                class="p-button-text p-button-plain mobile-action-button" />
+            <pv-button v-if="currentUserRole !== 'public'"
+                       icon="pi pi-bell"
+                       :label="$t('mobile.notifications')"
+                       class="p-button-text p-button-plain mobile-action-button"
+                       @click="goNotifications" />
+            <pv-button v-if="currentUserRole !== 'public'"
+                       icon="pi pi-power-off"
+                       :label="$t('common.logout')"
+                       class="p-button-text p-button-plain mobile-action-button"
+                       @click="logout" />
+            <pv-button v-else
+                       icon="pi pi-user"
+                       :label="$t('common.selectRole')"
+                       class="p-button-text p-button-plain mobile-action-button"
+                       @click="$router.push({ name: 'select-role' })" />
           </div>
         </div>
       </div>
@@ -204,7 +242,7 @@ export default {
 
 .navbar-menu {
   display: flex;
-  gap: 0.5rem;
+  gap: 1.5rem;
 }
 
 .menu-button {
@@ -404,5 +442,20 @@ export default {
 /* Prevent body scroll when menu is open */
 body.mobile-menu-open {
   overflow: hidden;
+}
+
+/* New style for the logout button */
+.logout-button {
+  color: #dc3545 !important;
+}
+
+.logout-button:hover {
+  background-color: #f8d7da !important;
+  color: #c82333 !important;
+}
+
+/* Adjustments for the select role button if not logged in */
+.user-button {
+  color: #0079c2 !important;
 }
 </style>

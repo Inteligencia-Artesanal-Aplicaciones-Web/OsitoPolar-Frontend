@@ -131,7 +131,12 @@
     "rent": "Alquilar",
     "plans": "Planes",
     "contact": "Contacto",
-    "language": "Idioma"
+    "language": "Idioma",
+    "notifications": "Notificaciones",
+    "companyServiceRequests": "Solicitudes de Servicio (Empresa)",
+    "workOrders": "Órdenes de Trabajo",
+    "technicians": "Técnicos",
+    "dashboard": "Panel de Control"
   },
   "language": {
     "english": "Inglés",
@@ -141,7 +146,8 @@
   "mobile": {
     "menu": "Menú",
     "notifications": "Notificaciones",
-    "myAccount": "Mi Cuenta"
+    "myAccount": "Mi Cuenta",
+    "close": "Cerrar"
   },
   "footer": {
     "company": "OsitoPolar",
@@ -187,7 +193,6 @@
       "title": "Configuración del Alquiler",
       "period": "Período de alquiler",
       "month": "mes | meses",
-      "months": " ",
       "quantity": "Cantidad",
       "unit": "unidad | unidades",
       "units": " ",
@@ -361,7 +366,14 @@
     "cancel": "Cancelar",
     "address": "Dirección",
     "viewDetails": "Ver Detalles",
-    "notAvailable": "No disponible"
+    "notAvailable": "No disponible",
+    "logout": "Cerrar Sesión",
+    "selectRole": "Seleccionar Rol"
+  },
+  "roleSelection": {
+    "title": "Bienvenido a OsitoPolar",
+    "description": "Selecciona tu tipo de cuenta para continuar.",
+    "client": "Cliente (Dueño de Equipo)",
+    "company": "Compañía (Proveedor de Servicios)"
   }
-
 }

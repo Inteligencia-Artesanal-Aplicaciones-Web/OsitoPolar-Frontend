@@ -1,26 +1,27 @@
-﻿{  "home": {
-  "welcome": "Welcome to OsitoPolar",
-  "subtitle": "Intelligent management of refrigeration equipment",
-  "features": {
-    "title": "Monitor Your Equipment",
-    "monitoring": "Real-Time Monitoring",
-    "monitoringDesc": "Track temperature, energy consumption, and receive real-time alerts for all your refrigeration systems.",
-    "alerts": "Smart Alerts",
-    "alertsDesc": "Automatic notifications for any anomaly in your equipment.",
-    "management": "Centralized Management",
-    "managementDesc": "Manage all your equipment from a single platform."
+﻿{
+  "home": {
+    "welcome": "Welcome to OsitoPolar",
+    "subtitle": "Intelligent management of refrigeration equipment",
+    "features": {
+      "title": "Monitor Your Equipment",
+      "monitoring": "Real-Time Monitoring",
+      "monitoringDesc": "Track temperature, energy consumption, and receive real-time alerts for all your refrigeration systems.",
+      "alerts": "Smart Alerts",
+      "alertsDesc": "Automatic notifications for any anomaly in your equipment.",
+      "management": "Centralized Management",
+      "managementDesc": "Manage all your equipment from a single platform."
+    },
+    "dashboard": {
+      "myEquipment": "My Equipment",
+      "rentEquipment": "Rent Equipment",
+      "noEquipment": "You don't have any equipment :(",
+      "addEquipment": "Add Equipment",
+      "noRentalEquipment": "No equipment available for rent",
+      "available": "Available"
+    }
   },
-  "dashboard": {
-    "myEquipment": "My Equipment",
-    "rentEquipment": "Rent Equipment",
-    "noEquipment": "You don't have any equipment :(",
-    "addEquipment": "Add Equipment",
-    "noRentalEquipment": "No equipment available for rent",
-    "available": "Available"
-  }
-},
   "equipment": {
-    "title": "My Equipments",
+    "title": "My Equipment",
     "addButton": "Add Equipment",
     "loading": "Loading equipment...",
     "errorMessage": "Failed to load equipment list. Please try again later.",
@@ -28,9 +29,9 @@
     "control": "Control",
     "edit": "Edit",
     "delete": "Delete",
-    "confirmDelete": "Confirm Delete",
+    "confirmDelete": "Confirm Deletion",
     "deleteConfirmation": "Are you sure you want to delete <strong>{name}</strong>?<br>This action cannot be undone.",
-    "deleteSuccess": "{name} has been deleted successfully",
+    "deleteSuccess": "{name} has been successfully deleted",
     "deleteError": "Failed to delete equipment. Please try again.",
     "yes": "Yes",
     "no": "No",
@@ -49,7 +50,7 @@
     "title": "Service Requests",
     "newRequest": "New Request",
     "loading": "Loading service requests...",
-    "error": "Failed to load service requests.",
+    "error": "Error loading service requests.",
     "retry": "Retry",
     "equipment": "Equipment",
     "location": "Location",
@@ -62,7 +63,7 @@
     "orderNumber": "Order Number",
     "description": "Description",
     "urgency": "Urgency",
-    "asap": "ASAP",
+    "asap": "As soon as possible",
     "yes": "Yes",
     "no": "No",
     "timeSlot": "Time Slot",
@@ -70,8 +71,8 @@
     "technician": "Technician",
     "completed": "Completed",
     "notAssigned": "Not assigned",
-    "serviceRequest": "Service Request",
     "backToRequests": "← Back to Requests",
+    "serviceRequest": "Service Request",
     "newServiceRequest": "New Service Request",
     "steps": {
       "equipment": "Equipment",
@@ -79,11 +80,11 @@
       "confirmation": "Confirmation"
     },
     "form": {
-      "selectEquipment": "Select the equipment",
-      "selectEquipmentPlaceholder": "Select equipment",
-      "serviceType": "Service type",
-      "selectServiceType": "Select service type",
-      "preventive": "Preventive maintenance",
+      "selectEquipment": "Select Equipment",
+      "selectEquipmentPlaceholder": "Select an equipment",
+      "serviceType": "Service Type",
+      "selectServiceType": "Select Service Type",
+      "preventive": "Preventive Maintenance",
       "repair": "Repair",
       "installation": "Installation",
       "diagnostic": "Diagnostic",
@@ -93,24 +94,24 @@
       "high": "High",
       "critical": "Critical",
       "continue": "Continue →",
-      "asapQuestion": "Attention as soon as possible?",
+      "asapQuestion": "ASAP attention?",
       "asapYes": "Yes, I need immediate attention",
-      "desiredDate": "Desired date",
-      "availableTimeSlot": "Available time slot",
-      "selectTimeSlot": "Select a time slot",
+      "desiredDate": "Desired Date",
+      "availableTimeSlot": "Available Time Slot",
+      "selectTimeSlot": "Select a Time Slot",
       "back": "← Back",
-      "serviceAddress": "Service address (optional)",
-      "serviceAddressPlaceholder": "E.g: Building B, 2nd floor, refrigerated lab",
-      "requestSummary": "Request summary:",
-      "immediateAttention": "Immediate attention (ASAP):",
-      "scheduledFor": "Scheduled for:",
-      "sendRequest": "Send request",
+      "serviceAddress": "Service Address (optional)",
+      "serviceAddressPlaceholder": "Ex: Building B, 2nd floor, refrigerated laboratory",
+      "requestSummary": "Request Summary:",
+      "immediateAttention": "Immediate Attention (ASAP):",
+      "scheduledFor": "Scheduled For:",
+      "sendRequest": "Send Request",
       "confirmSubmission": "Confirm Submission",
-      "confirmMessage": "Are you sure you want to send this request?",
-      "success": "Request sent",
-      "successMessage": "Your service request has been submitted.",
-      "error": "Submission failed",
-      "errorMessage": "An error occurred while sending the request.",
+      "confirmMessage": "Are you sure you want to submit this request?",
+      "success": "Request Sent",
+      "successMessage": "Your service request has been sent.",
+      "error": "Submission Error",
+      "errorMessage": "An error occurred while submitting the request.",
       "cancelled": "Cancelled",
       "cancelledMessage": "Submission cancelled."
     },
@@ -130,7 +131,12 @@
     "rent": "Rent",
     "plans": "Plans",
     "contact": "Contact",
-    "language": "Language"
+    "language": "Language",
+    "notifications": "Notifications",
+    "companyServiceRequests": "Company Service Requests",
+    "workOrders": "Work Orders",
+    "technicians": "Technicians",
+    "dashboard": "Dashboard"
   },
   "language": {
     "english": "English",
@@ -140,7 +146,8 @@
   "mobile": {
     "menu": "Menu",
     "notifications": "Notifications",
-    "myAccount": "My Account"
+    "myAccount": "My Account",
+    "close": "Close"
   },
   "footer": {
     "company": "OsitoPolar",
@@ -152,14 +159,14 @@
   "authoring-phrase": {
     "intro": "Made with",
     "use": "using",
-    "author": "by the team at {brand}"
+    "author": "by {brand} team"
   },
   "rental": {
     "catalog": {
       "title": "Rent Equipment",
-      "subtitle": "Grow your business with our rental equipment solutions",
+      "subtitle": "Grow your business with our equipment rental solutions",
       "loading": "Loading resources",
-      "noEquipment": "There is no equipment for this moment",
+      "noEquipment": "No equipment available at the moment",
       "available": "Available",
       "from": "From",
       "request": "Request"
@@ -170,7 +177,7 @@
       "allEquipment": "All Equipment",
       "priceRange": "Price Range ($/month)",
       "sortBy": "Sort by",
-      "clean": "Clean Filters",
+      "clean": "Clear Filters",
       "sortOptions": {
         "lowToHigh": "Price: Low to High",
         "highToLow": "Price: High to Low",
@@ -183,21 +190,22 @@
       "maxPrice": "Max"
     },
     "configuration": {
-      "title": "Rent Configuration",
+      "title": "Rental Configuration",
       "period": "Rental period",
       "month": "month | months",
-      "unit": "unit | units",
       "quantity": "Quantity",
+      "unit": "unit | units",
+      "units": " ",
       "startDate": "Preferred start date",
       "selectDate": "Select Date",
-      "deliveryAddress": "Delivery Address *",
-      "addressPlaceholder": "Enter the full delivery address",
+      "deliveryAddress": "Delivery address *",
+      "addressPlaceholder": "Enter full delivery address",
       "notes": "Additional notes (optional)",
       "notesPlaceholder": "Special instructions or comments"
     },
     "summary": {
       "selectedEquipment": "Selected Equipment",
-      "loading": "Loading equipment information...",
+      "loading": "Loading equipment info...",
       "costSummary": "Cost Summary",
       "monthlyRent": "Monthly rent",
       "setupAndDelivery": "Setup and delivery",
@@ -212,12 +220,12 @@
       "rentalSummary": "Rental Summary",
       "equipment": "Equipment",
       "period": "Period",
-      "monthlyPrice": "Monthly price",
-      "firstMonthTotal": "First month total",
+      "monthlyPrice": "Monthly Price",
+      "firstMonthTotal": "First Month Total",
       "paymentMethod": "Payment Method",
       "creditDebitCard": "Credit/Debit Card",
       "bankTransfer": "Bank Transfer",
-      "termsAccept": "I accept the terms and conditions of the rental service",
+      "termsAccept": "I accept the rental service terms and conditions",
       "cancel": "Cancel",
       "confirmAndPay": "Confirm and Pay"
     },
@@ -234,7 +242,7 @@
     "mondayToFriday": "Monday to Friday",
     "saturday": "Saturday",
     "followUs": "Follow us on social media",
-    "scanQR": "Scan QR code to save our contact information"
+    "scanQR": "Scan QR code to save our contact info"
   },
   "plans": {
     "title": "Upgrade Your Plan",
@@ -308,11 +316,11 @@
       "selectEquipment": "Select Equipment",
       "selectEquipmentPlaceholder": "Select an equipment",
       "serviceType": "Service Type",
-      "selectServiceType": "Select a service type",
+      "selectServiceType": "Select Service Type",
       "priority": "Priority",
-      "normal": "Normal",
       "low": "Low",
       "medium": "Medium",
+      "normal": "Normal",
       "high": "High",
       "critical": "Critical",
       "scheduledDate": "Scheduled Date",
@@ -325,7 +333,7 @@
       "confirmMessage": "Are you sure you want to create this Work Order?",
       "confirmSubmission": "Confirm Submission",
       "success": "Success",
-      "successMessage": "The Work Order has been created successfully.",
+      "successMessage": "The Work Order has been successfully created.",
       "errorMessageGeneric": "An error occurred while submitting the Work Order.",
       "cancelledMessage": "The operation has been cancelled."
     }
@@ -337,7 +345,7 @@
       "submitRating": "Submit Rating",
       "success": "Rating submitted",
       "successMessage": "Thank you for your rating!",
-      "error": "Rating failed",
+      "error": "Rating error",
       "errorMessage": "An error occurred while submitting your rating.",
       "warning": "Warning",
       "selectRatingPrompt": "Please select a rating.",
@@ -348,7 +356,7 @@
   },
   "common": {
     "continue": "Continue",
-    "notSpecified": "Not Specified",
+    "notSpecified": "Not specified",
     "back": "Back",
     "yes": "Yes",
     "no": "No",
@@ -358,6 +366,14 @@
     "cancel": "Cancel",
     "address": "Address",
     "viewDetails": "View Details",
-    "notAvailable": "Not Available"
+    "notAvailable": "Not available",
+    "logout": "Logout",
+    "selectRole": "Select Role"
+  },
+  "roleSelection": {
+    "title": "Welcome to OsitoPolar",
+    "description": "Select your account type to continue.",
+    "client": "Client (Equipment Owner)",
+    "company": "Company (Service Provider)"
   }
 }

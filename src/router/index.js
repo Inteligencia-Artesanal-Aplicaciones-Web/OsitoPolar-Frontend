@@ -28,6 +28,7 @@ const WorkOrderListComponent = () => import('../field-operations/pages/work-orde
 const NewWorkOrderComponent = () => import('../field-operations/pages/new-work-order.component.vue');
 const TechnicianListComponent = () => import('../field-operations/pages/technician-list.component.vue');
 const CompanyServiceRequestsListComponent = () => import('../service/pages/company-service-requests-list.component.vue');
+const RoleSelectionComponent = () => import('../public/pages/role-selection.component.vue'); // Nuevo import
 
 /**
  * @type {import('vue-router').RouteRecordRaw[]}
@@ -70,7 +71,9 @@ const routes = [
     //Technicians page
     {path: '/technicians', name:'technician-list', component: TechnicianListComponent, meta: { title: 'Technician' } },
     // Default route
-    {path: '/', name: 'default', redirect: {name: 'home'}},
+    { path: '/', name: 'default', redirect: { name: 'select-role' } },
+    //Select role route
+    { path: '/select-role', name: 'select-role', component: RoleSelectionComponent, meta: { title: 'Select Role' } },
     // Not found route
     {path: '/:pathMatch(.*)*', name: 'not-found', component: PageNotFoundComponent, meta: {title: 'Page not found'}},
 ];
