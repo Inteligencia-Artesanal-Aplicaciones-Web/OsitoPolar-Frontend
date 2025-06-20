@@ -35,6 +35,8 @@
     "deleteError": "No se pudo eliminar el equipo. Por favor, inténtelo de nuevo.",
     "yes": "Sí",
     "no": "No",
+    "equipmentId": "Equipo ID",
+    "equipment": "Equipo",
     "types": {
       "freezer": "Congelador",
       "cold_room": "Cámara Frigorífica",
@@ -49,6 +51,7 @@
   "service": {
     "title": "Solicitudes de Servicio",
     "newRequest": "Nueva Solicitud",
+    "requestId": "Solicitud ID",
     "loading": "Cargando solicitudes de servicio...",
     "error": "Error al cargar las solicitudes de servicio.",
     "retry": "Reintentar",
@@ -269,6 +272,9 @@
     "averageRating": "Rating Promedio",
     "company": "ID de Compañía",
     "availability": "Disponibilidad",
+    "notAssigned": "No asignado",
+    "technicianId": "Técnico ID",
+    "assignedTechnician": "Técnico Asignado",
     "name": "Nombre",
     "phone": "Teléfono",
     "email": "Email",
@@ -279,7 +285,11 @@
     "workOrderDetails": "Detalles de la Orden de Trabajo",
     "workOrderNumber": "Número de Orden de Trabajo",
     "newWorkOrder": "Nueva orden de trabajo",
+    "noCode": "Sin Código",
+    "notSpecified": "No especificado",
+    "notFromServiceRequest": "No de Solicitud de Servicio",
     "status": {
+      "pending": "Pending",
       "created": "Creada",
       "assigned": "Asignada",
       "in_progress": "En Progreso",
@@ -377,7 +387,8 @@
     "viewDetails": "Ver Detalles",
     "notAvailable": "No disponible",
     "logout": "Cerrar Sesión",
-    "selectRole": "Seleccionar Rol"
+    "selectRole": "Seleccionar Rol",
+    "location": "Ubicación"
   },
   "roleSelection": {
     "title": "Bienvenido a OsitoPolar",

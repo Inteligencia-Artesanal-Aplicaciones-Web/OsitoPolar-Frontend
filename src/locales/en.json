@@ -35,6 +35,8 @@
     "deleteError": "Failed to delete equipment. Please try again.",
     "yes": "Yes",
     "no": "No",
+    "equipmentId": "Equipment ID",
+    "equipment": "Equipment",
     "types": {
       "freezer": "Freezer",
       "cold_room": "Cold Room",
@@ -48,6 +50,7 @@
   },
   "service": {
     "title": "Service Requests",
+    "requestId": "Request ID",
     "newRequest": "New Request",
     "loading": "Loading service requests...",
     "error": "Error loading service requests.",
@@ -269,6 +272,9 @@
     "averageRating": "Average Rating",
     "company": "Company ID",
     "availability": "Availability",
+    "notAssigned": "Not Assigned",
+    "technicianId": "Technician ID",
+    "assignedTechnician": "Assigned Technician",
     "name": "Name",
     "phone": "Phone",
     "email": "Email",
@@ -279,7 +285,11 @@
     "workOrderDetails": "Work Order Details",
     "workOrderNumber": "Work Order Number",
     "newWorkOrder": "New Work Order",
+    "noCode": "No Code",
+    "notSpecified": "Not Specified",
+    "notFromServiceRequest": "Not from Service Request",
     "status": {
+      "pending": "Pendiente",
       "created": "Created",
       "assigned": "Assigned",
       "in_progress": "In Progress",
@@ -377,7 +387,8 @@
     "viewDetails": "View Details",
     "notAvailable": "Not available",
     "logout": "Logout",
-    "selectRole": "Select Role"
+    "selectRole": "Select Role",
+    "location": "Location"
   },
   "roleSelection": {
     "title": "Welcome to OsitoPolar",

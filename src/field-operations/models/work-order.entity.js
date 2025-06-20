@@ -109,6 +109,7 @@ export class WorkOrder {
      */
     getStatusBadgeClass() {
         switch (this.status) {
+            case 'pending': return "status-pending";
             case "created": return "status-created";
             case "assigned": return "status-assigned";
             case "in_progress": return "status-in-progress";
