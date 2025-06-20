@@ -2,11 +2,13 @@
 import { ServiceRequestService } from "../services/service-request.service.js";
 import { EquipmentService } from "../../equipment/services/equipment.service.js";
 import ServiceRequestDetailComponent from "../components/service-request/service-request-detail.component.vue";
+import RatingDialog from "../components/rating/rating-dialog.component.vue";
 
 export default {
   name: "service-request-list",
   components: {
-    ServiceRequestDetailModal: ServiceRequestDetailComponent
+    ServiceRequestDetailModal: ServiceRequestDetailComponent,
+    RatingDialog
   },
   data() {
     return {
@@ -18,9 +20,11 @@ export default {
       hasError: false,
       errorMessage: "",
       showDetailModal: false,
+      showRatingDialog: false,
       selectedEquipmentDisplay: '',
       selectedLocationDisplay: '',
-      selectedRequest: null
+      selectedRequest: null,
+      ratingValue: 0
     };
   },
   methods: {
@@ -51,7 +55,13 @@ export default {
 
     formatDate(date) {
       if (!date) return this.$t('service.notScheduled');
-      return new Date(date).toLocaleDateString();
+      return new Date(date).toLocaleString('es-PE', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
     },
 
     viewRequestDetail(request) {
@@ -65,6 +75,38 @@ export default {
     openNewRequestForm() {
       this.$router.push({ name: 'new-service-request' });
     },
+
+    openRatingForm(request) {
+      this.selectedRequest = request;
+      this.ratingValue = request.rating || 0;
+      this.showRatingDialog = true;
+    },
+    async submitRating(rating) {
+      try {
+        const updatedRequest = {
+          ...this.selectedRequest,
+          rating: rating,
+          status: 'completed'
+        };
+        await this.serviceRequestService.updateRequest(this.selectedRequest.id, updatedRequest);
+        this.$toast.add({
+          severity: 'success',
+          summary: this.$t('client.rating.success'),
+          detail: this.$t('client.rating.successMessage'),
+          life: 3000
+        });
+        this.showRatingDialog = false;
+        this.loadRequests();
+      } catch (error) {
+        console.error('Error submitting rating:', error);
+        this.$toast.add({
+          severity: 'error',
+          summary: this.$t('client.rating.error'),
+          detail: this.$t('client.rating.errorMessage'),
+          life: 3000
+        });
+      }
+    }
   },
   created() {
     this.serviceRequestService = new ServiceRequestService();
@@ -86,12 +128,12 @@ export default {
       />
     </div>
 
-    <div class="loading" v-if="loading">
+    <div class="loading-state" v-if="loading">
       <pv-progress-spinner />
       <p>{{ $t('service.loading') }}</p>
     </div>
 
-    <div class="error" v-else-if="hasError">
+    <div class="error-state" v-else-if="hasError">
       <p>{{ errorMessage }}</p>
       <pv-button :label="$t('service.retry')" @click="loadRequests" />
     </div>
@@ -101,22 +143,57 @@ export default {
           v-for="req in serviceRequests"
           :key="req.id"
           class="request-card"
-          @click="viewRequestDetail(req)"
       >
         <template #title>
-          <p><i class="pi pi-box"></i> <strong>{{ $t('service.equipment') }}:</strong> {{ getEquipmentDisplay(req.equipmentId) }}</p>
+          <div class="card-title-content">
+            <i class="pi pi-box"></i>
+            <strong>{{ $t('service.equipment') }}:</strong>
+            <span>{{ getEquipmentDisplay(req.equipmentId) }}</span>
+          </div>
         </template>
         <template #subtitle>
-          <span class="pi pi-info-circle"></span> {{ $t('service.status') }}:
-          <span :class="req.getStatusBadgeClass()">
-            {{ $t(`service.status.${req.status}`) }}
-          </span>
+          <div class="card-subtitle-content">
+            <span class="pi pi-info-circle"></span>
+            <span>{{ $t('service.status') }}:</span>
+            <span :class="['status-badge', req.getStatusBadgeClass()]">
+              {{ $t(`service.status.${req.status}`) }}
+            </span>
+          </div>
         </template>
         <template #content>
-          <p><i class="pi pi-map-marker"></i> <strong>{{ $t('service.location') }}:</strong> {{ equipmentList.find(e => e.id === req.equipmentId)?.location?.name || $t('service.notSpecified') }}</p>
-          <p><i class="pi pi-clock"></i> <strong>{{ $t('service.requestedOn') }}:</strong> {{ req.requestTime }}</p>
-          <p><i class="pi pi-calendar"></i> <strong>{{ $t('service.scheduledFor') }}:</strong> {{ formatDate(req.scheduledDate) }}</p>
-          <p><i class="pi pi-cog"></i> <strong>{{ $t('service.serviceType') }}:</strong> {{ req.serviceType }}</p>
+          <div class="card-details">
+            <p class="detail-item"><i class="pi pi-map-marker"></i> <strong>{{ $t('service.location') }}:</strong> {{ equipmentList.find(e => e.id === req.equipmentId)?.location?.name || $t('service.notSpecified') }}</p>
+            <p class="detail-item"><i class="pi pi-clock"></i> <strong>{{ $t('service.requestedOn') }}:</strong> {{ formatDate(req.requestTime) }}</p>
+            <p class="detail-item"><i class="pi pi-calendar"></i> <strong>{{ $t('service.scheduledFor') }}:</strong> {{ formatDate(req.scheduledDate) }}</p>
+            <p class="detail-item"><i class="pi pi-cog"></i> <strong>{{ $t('service.serviceType') }}:</strong> {{ req.serviceType }}</p>
+            <p class="detail-item" v-if="req.status === 'completed' && req.rating">
+              <i class="pi pi-star-fill" style="color: gold;"></i> <strong>{{ $t('client.rating.yourRating') }}:</strong> {{ req.rating }} / 5
+            </p>
+          </div>
+        </template>
+        <template #footer>
+          <div class="card-actions">
+            <pv-button
+                :label="$t('common.viewDetails')"
+                icon="pi pi-eye"
+                class="p-button-outlined p-button-sm p-button-secondary-outline"
+                @click="viewRequestDetail(req)"
+            />
+            <pv-button
+                v-if="req.status === 'resolved' && !req.rating"
+                :label="$t('client.rating.rateService')"
+                icon="pi pi-star"
+                class="p-button-warning p-button-sm p-button-rate"
+                @click="openRatingForm(req)"
+            />
+            <pv-button
+                v-if="req.status === 'completed' && req.rating"
+                :label="$t('client.rating.viewRating')"
+                icon="pi pi-star-fill"
+                class="p-button-secondary p-button-sm p-button-view-rating"
+                disabled
+            />
+          </div>
         </template>
       </pv-card>
     </div>
@@ -128,43 +205,205 @@ export default {
         :locationDisplay="selectedLocationDisplay"
         @update:visible="showDetailModal = $event"
     />
+
+    <RatingDialog
+        :visible="showRatingDialog"
+        :currentRating="ratingValue"
+        @update:visible="showRatingDialog = $event"
+        @rating-submitted="submitRating"
+    />
   </div>
 </template>
 
 <style scoped>
 .service-request-list {
-  padding: 1rem;
+  padding: 1.5rem;
+  background-color: #f8f9fa;
+  min-height: calc(100vh - 60px);
 }
 
 .page-header {
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e0e7eb;
 }
 
-.loading,
-.error {
+h1 {
+  font-size: 2rem;
+  color: #055f84;
+  font-weight: 700;
+}
+
+.loading-state,
+.error-state {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 2rem;
+  padding: 3rem;
+  min-height: 200px;
+  color: #6c757d;
+  font-size: 1.1rem;
+  text-align: center;
 }
 
 .request-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 6rem;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
 }
 
 .request-card {
-  cursor: pointer;
-  transition: box-shadow 0.2s ease;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  cursor: default;
 }
 
 .request-card:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.request-card ::v-deep .p-card-title {
+  padding: 1rem 1.5rem 0.5rem;
+  font-size: 1.1rem;
+  color: #34495e;
+  font-weight: 600;
+}
+
+.card-title-content {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.card-title-content i {
+  color: #0884c4;
+  font-size: 1.25rem;
+}
+
+.request-card ::v-deep .p-card-subtitle {
+  padding: 0 1.5rem 1rem;
+  font-size: 0.9rem;
+  color: #7f8c8d;
+}
+
+.card-subtitle-content {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.card-subtitle-content i {
+  color: #95a5a6;
+  font-size: 1rem;
+}
+
+/* Status Badge inside subtitle */
+.status-badge {
+  padding: 0.25rem 0.6rem;
+  border-radius: 15px;
+  font-weight: bold;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: white;
+  margin-left: 0.5rem;
+}
+
+.status-pending { background-color: #f39c12; }
+.status-accepted { background-color: #1abc9c; }
+.status-in-progress { background-color: #3498db; }
+.status-resolved { background-color: #2ecc71; }
+.status-rejected { background-color: #e74c3c; }
+.status-completed { background-color: #50bb0e; }
+
+
+.request-card ::v-deep .p-card-content {
+  padding: 0 1.5rem 1rem;
+}
+
+.card-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.detail-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.detail-item i {
+  color: #95a5a6;
+  font-size: 1rem;
+}
+
+.detail-item strong {
+  color: #333;
+}
+
+.request-card ::v-deep .p-card-footer {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid #e0e7eb;
+  background-color: #fcfcfc;
+}
+
+.card-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.p-button-sm {
+  padding: 0.55rem 1.1rem;
+  font-size: 0.85rem;
+  border-radius: 8px;
+}
+
+.p-button-secondary-outline {
+  background-color: transparent !important;
+  color: #0884c4 !important;
+  border: 1px solid #0884c4 !important;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+.p-button-secondary-outline:hover {
+  background-color: #e0f2fe !important;
+  color: #055f84 !important;
+  border-color: #055f84 !important;
+}
+
+.p-button-rate {
+  background-color: #ffc107 !important;
+  border-color: #ffc107 !important;
+  color: #333 !important;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(255, 193, 7, 0.4);
+  transition: all 0.2s ease;
+}
+.p-button-rate:hover {
+  background-color: #e0a800 !important;
+  border-color: #e0a800 !important;
+  box-shadow: 0 4px 8px rgba(255, 193, 7, 0.5);
+}
+
+.p-button-view-rating {
+  background-color: #e9ecef !important;
+  border-color: #e9ecef !important;
+  color: #6c757d !important;
+  font-weight: 500;
+  cursor: not-allowed;
 }
 
 .new-request-button {
@@ -179,30 +418,6 @@ export default {
 }
 
 .new-request-button:hover {
-  background-color: #005f99;
-}
-.status-pending {
-  color: #f39c12;
-  font-weight: bold;
-}
-
-.status-accepted {
-  color:  #1abc9c;
-  font-weight: bold;
-}
-
-.status-in-progress {
-  color: #3498db;
-  font-weight: bold;
-}
-
-.status-resolved {
-  color: #2ecc71;
-  font-weight: bold;
-}
-
-.status-rejected {
-  color: #e74c3c;
-  font-weight: bold;
+  background-color: #056a9d;
 }
 </style>

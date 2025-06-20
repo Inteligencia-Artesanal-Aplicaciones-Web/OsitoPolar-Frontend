@@ -310,6 +310,22 @@
       "cancelledMessage": "The operation has been cancelled."
     }
   },
+  "client": {
+    "rating": {
+      "rateService": "Rate Service",
+      "howWasService": "How was the service?",
+      "submitRating": "Submit Rating",
+      "success": "Rating submitted",
+      "successMessage": "Thank you for your rating!",
+      "error": "Rating failed",
+      "errorMessage": "An error occurred while submitting your rating.",
+      "warning": "Warning",
+      "selectRatingPrompt": "Please select a rating.",
+      "required": "Rating is required.",
+      "yourRating": "Your Rating",
+      "viewRating": "View Rating"
+    }
+  },
   "common": {
     "continue": "Continue",
     "notSpecified": "Not Specified",
@@ -319,6 +335,9 @@
     "submissionFailed": "Submission Failed",
     "cancelled": "Cancelled",
     "error": "Error",
-    "address": "Address"
+    "cancel": "Cancel",
+    "address": "Address",
+    "viewDetails": "View Details",
+    "notAvailable": "Not Available"
   }
 }

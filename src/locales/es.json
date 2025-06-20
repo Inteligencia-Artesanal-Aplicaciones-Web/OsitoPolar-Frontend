@@ -312,6 +312,22 @@
       "cancelledMessage": "La operación ha sido cancelada."
     }
   },
+  "client": {
+    "rating": {
+      "rateService": "Calificar Servicio",
+      "howWasService": "¿Cómo fue el servicio?",
+      "submitRating": "Enviar Calificación",
+      "success": "Calificación enviada",
+      "successMessage": "¡Gracias por su calificación!",
+      "error": "Error al calificar",
+      "errorMessage": "Ocurrió un error al enviar su calificación.",
+      "warning": "Advertencia",
+      "selectRatingPrompt": "Por favor, seleccione una calificación.",
+      "required": "La calificación es obligatoria.",
+      "yourRating": "Tu Calificación",
+      "viewRating": "Ver Calificación"
+    }
+  },
   "common": {
     "continue": "Continuar",
     "notSpecified": "No especificado",
@@ -321,7 +337,10 @@
     "submissionFailed": "Envío fallido",
     "cancelled": "Cancelado",
     "error": "Error",
-    "address": "Dirección"
+    "cancel": "Cancelar",
+    "address": "Dirección",
+    "viewDetails": "Ver Detalles",
+    "notAvailable": "No disponible"
   }
 
 }
