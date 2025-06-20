@@ -1,4 +1,24 @@
-﻿{
+﻿{  "home": {
+  "welcome": "Welcome to OsitoPolar",
+  "subtitle": "Intelligent management of refrigeration equipment",
+  "features": {
+    "title": "Monitor Your Equipment",
+    "monitoring": "Real-Time Monitoring",
+    "monitoringDesc": "Track temperature, energy consumption, and receive real-time alerts for all your refrigeration systems.",
+    "alerts": "Smart Alerts",
+    "alertsDesc": "Automatic notifications for any anomaly in your equipment.",
+    "management": "Centralized Management",
+    "managementDesc": "Manage all your equipment from a single platform."
+  },
+  "dashboard": {
+    "myEquipment": "My Equipment",
+    "rentEquipment": "Rent Equipment",
+    "noEquipment": "You don't have any equipment :(",
+    "addEquipment": "Add Equipment",
+    "noRentalEquipment": "No equipment available for rent",
+    "available": "Available"
+  }
+},
   "equipment": {
     "title": "My Equipments",
     "addButton": "Add Equipment",
