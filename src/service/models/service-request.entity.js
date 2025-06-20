@@ -1,3 +1,5 @@
+// src/service/models/service-request.entity.js
+
 /**
  * @class ServiceRequest
  * @description Entity class representing a service request record
@@ -24,6 +26,7 @@ export class ServiceRequest {
      * @param {string|null} [params.scheduledDate=null] - Scheduled date for the service
      * @param {string|null} [params.completionDate=null] - Date the service was completed
      * @param {string|null} [params.resolution=null] - Resolution or result of the request
+     * @param {number|null} [params.rating=null] - Rating given by the customer (1-5)
      */
     constructor({
                     id = '',
@@ -43,7 +46,8 @@ export class ServiceRequest {
                     serviceAddress = '',
                     scheduledDate = null,
                     completionDate = null,
-                    resolution = null
+                    resolution = null,
+                    rating = null
                 } = {}) {
         this.id = id;
         this.orderNumber = orderNumber;
@@ -63,6 +67,7 @@ export class ServiceRequest {
         this.scheduledDate = scheduledDate;
         this.completionDate = completionDate;
         this.resolution = resolution;
+        this.rating = rating;
     }
 
     /**
@@ -102,6 +107,7 @@ export class ServiceRequest {
             case "in_progress": return "status-in-progress";
             case "resolved": return "status-resolved";
             case "rejected": return "status-rejected";
+            case "completed": return "status-completed";
             default: return "";
         }
     }
