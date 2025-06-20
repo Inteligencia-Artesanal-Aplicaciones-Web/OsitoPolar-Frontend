@@ -1,4 +1,25 @@
 ﻿{
+  "home": {
+    "welcome": "Bienvenido a OsitoPolar",
+    "subtitle": "Gestión inteligente de equipos de refrigeración",
+    "features": {
+      "title": "Monitorea tus Equipos",
+      "monitoring": "Monitoreo en Tiempo Real",
+      "monitoringDesc": "Controla temperatura, consumo energético y recibe alertas instantáneas.",
+      "alerts": "Alertas Inteligentes",
+      "alertsDesc": "Notificaciones automáticas ante cualquier anomalía en tus equipos.",
+      "management": "Gestión Centralizada",
+      "managementDesc": "Administra todos tus equipos desde una sola plataforma."
+    },
+    "dashboard": {
+      "myEquipment": "Mis Equipos",
+      "rentEquipment": "Alquilar equipos",
+      "noEquipment": "No tienes equipos registrados",
+      "addEquipment": "Agregar equipo",
+      "noRentalEquipment": "No hay equipos disponibles para alquiler",
+      "available": "Disponible"
+    }
+  },
   "equipment": {
     "title": "Mis Equipos",
     "addButton": "Añadir Equipo",
