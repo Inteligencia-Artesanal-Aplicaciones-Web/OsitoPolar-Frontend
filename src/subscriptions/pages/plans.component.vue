@@ -5,16 +5,16 @@ import { subscriptionService } from '../services/subscription.service.js';
 
 export default {
   name: 'Plans',
-  components: {
-    PlanTab,
-    PlanCard },
+  components: { PlanTab, PlanCard },
   data() {
     return {
       plans: [],
-      currentPlanId: null,
+      currentPlanId: null, // Initialized as null, will be set by fetch or verification
       upgrading: false,
       selectedPlanId: null,
-      userType: 'user', // Default, updated by tab change
+      userType: 'user',
+      loading: false,
+      error: null,
     };
   },
   computed: {
@@ -24,20 +24,78 @@ export default {
   },
   methods: {
     async fetchPlans() {
-      this.plans = await subscriptionService.getPlans(this.userType);
+      this.loading = true;
+      this.error = null;
+      try {
+        this.plans = await subscriptionService.getPlans(this.userType);
+        if (this.plans.length === 0) {
+          this.error = 'No plans available for this user type.';
+        }
+      } catch (err) {
+        this.error = 'Failed to load plans. Check your server or data.';
+        console.error('Fetch plans error:', err);
+      } finally {
+        this.loading = false;
+      }
     },
     async fetchCurrentPlan() {
-      this.currentPlanId = await subscriptionService.getUserPlan(1, this.userType); // Hardcoded userId
+      if (this.currentPlanId === null) {
+        this.loading = true;
+        this.error = null;
+        try {
+          this.currentPlanId = await subscriptionService.getUserPlan(1, this.userType);
+          console.log('Fetched current plan ID:', this.currentPlanId);
+        } catch (err) {
+          this.error = 'Failed to load current plan.';
+          console.error('Fetch current plan error:', err);
+          this.currentPlanId = null;
+        } finally {
+          this.loading = false;
+        }
+      }
     },
     async upgradePlan(plan) {
       this.selectedPlanId = plan.id;
       this.upgrading = true;
-      setTimeout(async () => {
-        await subscriptionService.updateUserPlan(1, plan.id, this.userType);
-        this.currentPlanId = plan.id;
+      this.error = null;
+
+      try {
+        localStorage.setItem('selectedPlanId', this.selectedPlanId);
+        const paymentVerificationCode = await subscriptionService.initiateStripePayment(1, this.selectedPlanId, this.userType);
+        console.log('Payment session initiated, code:', paymentVerificationCode);
+      } catch (err) {
+        this.error = 'Failed to initiate payment. Please try again.';
+        console.error('Upgrade error:', err);
+      } finally {
         this.upgrading = false;
-        this.selectedPlanId = null;
-      }, 1500);
+      }
+    },
+    async verifyPaymentAndUpdate() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const sessionId = urlParams.get('session_id');
+
+      if (sessionId) {
+        this.loading = true;
+        this.error = null;
+        try {
+          const storedPlanId = localStorage.getItem('selectedPlanId');
+          if (storedPlanId) {
+            console.log('Verifying payment with session ID:', sessionId, 'for plan:', storedPlanId);
+            await subscriptionService.updateUserPlan(1, storedPlanId, this.userType, sessionId);
+            this.currentPlanId = storedPlanId;
+            localStorage.removeItem('selectedPlanId');
+            console.log('Plan updated to:', this.currentPlanId);
+            await this.fetchCurrentPlan();
+          } else {
+            this.error = 'No selected plan to update.';
+          }
+        } catch (err) {
+          this.error = 'Payment verification failed. Plan not updated.';
+          console.error('Verification error:', err);
+        } finally {
+          this.loading = false;
+        }
+      }
     },
     handleTabChange(tab) {
       this.userType = tab === 'providers' ? 'provider' : 'user';
@@ -45,9 +103,24 @@ export default {
       this.fetchCurrentPlan();
     },
   },
+  created() {
+    this.verifyPaymentAndUpdate();
+    const storedPlanId = localStorage.getItem('selectedPlanId');
+    if (storedPlanId) {
+      this.selectedPlanId = storedPlanId;
+    }
+  },
   mounted() {
     this.fetchPlans();
     this.fetchCurrentPlan();
+  },
+  watch: {
+    currentPlanId(newVal, oldVal) {
+      if (newVal !== oldVal) {
+        console.log('currentPlanId changed to:', newVal);
+        this.fetchCurrentPlan(); // Sync with db.json if changed externally
+      }
+    },
   },
 };
 </script>
@@ -56,17 +129,20 @@ export default {
   <div class="plans-container">
     <h2 class="page-title">{{ $t('plans.title') }}</h2>
     <PlanTab @tab-changed="handleTabChange" />
-    <div class="plan-list">
+    <div v-if="loading" class="loading">Loading...</div>
+    <div v-if="error" class="error">{{ error }}</div>
+    <div v-else-if="plans.length" class="plan-list">
       <PlanCard
           v-for="plan in plans"
           :key="plan.id"
           :plan="plan"
-          :current-plan-id="currentPlanId"
-          :upgrading="upgrading"
-          :selected-plan-id="selectedPlanId"
-          :on-upgrade="upgradePlan"
+          :current-plan-id="currentPlanId || undefined"
+      :upgrading="upgrading"
+      :selected-plan-id="selectedPlanId"
+      :on-upgrade="upgradePlan"
       />
     </div>
+    <div v-else class="no-plans">No plans available.</div>
   </div>
 </template>
 
@@ -89,6 +165,26 @@ export default {
   justify-content: center;
   gap: 20px;
   flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.loading {
+  text-align: center;
+  color: #0079c2;
+  font-size: 1.2rem;
+}
+
+.error {
+  text-align: center;
+  color: #dc3545;
+  font-size: 1.2rem;
+  margin-top: 20px;
+}
+
+.no-plans {
+  text-align: center;
+  color: #6c757d;
+  font-size: 1.1rem;
   margin-top: 20px;
 }
 </style>
