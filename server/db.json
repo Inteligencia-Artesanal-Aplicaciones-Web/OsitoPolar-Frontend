@@ -8,10 +8,10 @@
       "username": "juanp",
       "phone": "987654321",
       "type": "individual",
-      "planId": "1",
+      "planId": "2",
       "subscription": {
-        "startDate": "2023-01-15",
-        "endDate": "2024-01-15",
+        "startDate": "2025-06-20",
+        "endDate": "2026-06-20",
         "status": "active",
         "autoRenew": true
       }
