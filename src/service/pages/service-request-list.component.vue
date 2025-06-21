@@ -38,19 +38,31 @@ export default {
           this.equipmentService.getAllEquipments()
         ]);
 
-        this.serviceRequests = this.serviceRequestService.mapServiceRequests(requestsResponse.data);
-        this.equipmentList = equipmentResponse.data;
+        this.serviceRequests = this.serviceRequestService.mapServiceRequests(requestsResponse.data || []);
+        this.equipmentList = equipmentResponse.data || [];
         this.loading = false;
       } catch (error) {
         console.error("Error loading data:", error);
         this.hasError = true;
-        this.errorMessage = this.$t('service.error');        this.loading = false;
+        this.errorMessage = this.$t('service.error');
+        this.loading = false;
       }
     },
 
     getEquipmentDisplay(equipmentId) {
+      if (!this.equipmentList || this.equipmentList.length === 0) {
+        return `Equipment ID: ${equipmentId}`;
+      }
       const match = this.equipmentList.find(eq => String(eq.id) === String(equipmentId));
       return match ? `${match.name} (${match.code || 'No code'})` : `Equipment ID: ${equipmentId}`;
+    },
+
+    getLocationDisplay(equipmentId) {
+      if (!this.equipmentList || this.equipmentList.length === 0) {
+        return this.$t('service.notSpecified');
+      }
+      const equipment = this.equipmentList.find(e => String(e.id) === String(equipmentId));
+      return equipment?.location?.name || this.$t('service.notSpecified');
     },
 
     formatDate(date) {
@@ -81,6 +93,7 @@ export default {
       this.ratingValue = request.rating || 0;
       this.showRatingDialog = true;
     },
+
     async cancelRequest(request) {
       try {
         await this.serviceRequestService.cancelRequest(request.id);
@@ -101,6 +114,7 @@ export default {
         });
       }
     },
+
     async submitRating(rating) {
       try {
         // Usar el endpoint específico para agregar calificación
@@ -179,7 +193,7 @@ export default {
         </template>
         <template #content>
           <div class="card-details">
-            <p class="detail-item"><i class="pi pi-map-marker"></i> <strong>{{ $t('service.location') }}:</strong> {{ equipmentList.find(e => e.id === req.equipmentId)?.location?.name || $t('service.notSpecified') }}</p>
+            <p class="detail-item"><i class="pi pi-map-marker"></i> <strong>{{ $t('service.location') }}:</strong> {{ getLocationDisplay(req.equipmentId) }}</p>
             <p class="detail-item"><i class="pi pi-clock"></i> <strong>{{ $t('service.requestedOn') }}:</strong> {{ formatDate(req.requestTime) }}</p>
             <p class="detail-item"><i class="pi pi-calendar"></i> <strong>{{ $t('service.scheduledFor') }}:</strong> {{ formatDate(req.scheduledDate) }}</p>
             <p class="detail-item"><i class="pi pi-cog"></i> <strong>{{ $t('service.serviceType') }}:</strong> {{ req.serviceType }}</p>
