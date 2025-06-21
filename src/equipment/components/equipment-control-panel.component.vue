@@ -5,8 +5,8 @@
  *              now with a mini analytics preview (gauge + line chart).
  */
 import EquipmentTemperatureControl from './equipment-temperature-control.component.vue';
-import EquipmentPowerToggle         from './equipment-power-toggle.component.vue';
-import TemperatureGaugeComponent     from "../../analytics/components/temperature-gauge.component.vue";
+import EquipmentPowerToggle from './equipment-power-toggle.component.vue';
+import TemperatureGaugeComponent from "../../analytics/components/temperature-gauge.component.vue";
 import TemperatureChartComponent from "../../analytics/components/temperature-chart.component.vue";
 import { AnalyticsService } from '../../analytics/services/analytics.service.js';
 
@@ -21,7 +21,7 @@ export default {
   props: {
     /**
      * @type {Object}
-     * @description Equipment object to control
+     * @description Equipment object to control (instance of Equipment class)
      */
     equipment: {
       type: Object,
@@ -58,94 +58,21 @@ export default {
     },
 
     /**
-     * Prepare chart.js data config from this.readings
+     * Get the status color dynamically from equipment entity
      */
-    chartData() {
-      if (!this.readings || this.readings.length === 0) {
-        return {
-          labels: [],
-          datasets: [{
-            label: 'Temperature',
-            data: [],
-            borderColor: '#2196F3',
-            backgroundColor: 'rgba(33, 150, 243, 0.1)',
-            tension: 0.4,
-            pointRadius: 4
-          }]
-        };
-      }
-
-      const sortedReadings = [...this.readings].sort((a, b) =>
-          new Date(a.timestamp) - new Date(b.timestamp)
-      );
-      return {
-        labels: sortedReadings.map(reading => reading.getFormattedTime()),
-        datasets: [{
-          label: 'Temperature',
-          data: sortedReadings.map(reading => reading.temperature),
-          borderColor: '#2196F3',
-          backgroundColor: 'rgba(33, 150, 243, 0.1)',
-          tension: 0.4,
-          pointRadius: 4,
-          pointBackgroundColor: '#2196F3'
-        }]
-      };
+    statusColor() {
+      return this.equipment.getStatusColor ?
+          this.equipment.getStatusColor() :
+          this.getDefaultStatusColor();
     },
 
     /**
-     * Chart.js options with dynamic temperature range
+     * Get the temperature status text from equipment entity
      */
-    chartOptions() {
-      let minTemp, maxTemp, stepSize;
-
-      if (this.equipment.currentTemperature < 0) {
-        minTemp = -6.0;
-        maxTemp = 1.0;
-        stepSize = 1.0;
-      } else {
-        minTemp = 21.5;
-        maxTemp = 25.0;
-        stepSize = 0.5;
-      }
-
-      return {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          y: {
-            min: minTemp,
-            max: maxTemp,
-            ticks: {
-              stepSize: stepSize,
-              callback: function(value) {
-                return value + '°';
-              }
-            },
-            grid: {
-              display: true,
-              color: '#e0e0e0'
-            }
-          },
-          x: {
-            grid: {
-              display: true,
-              color: '#e0e0e0'
-            }
-          }
-        },
-        plugins: {
-          legend: {
-            display: false
-          },
-          tooltip: {
-            callbacks: {
-              label: function(context) {
-                return `${context.formattedValue}°C`;
-              }
-            }
-          }
-        }
-      };
+    temperatureStatus() {
+      return this.equipment.getTemperatureStatus ?
+          this.equipment.getTemperatureStatus() :
+          this.getDefaultTemperatureStatus();
     }
   },
   methods: {
@@ -155,36 +82,95 @@ export default {
     onUpdateTemperature(newTemp) {
       this.$emit('update-temperature', newTemp);
     },
+
     /**
      * Emit up to parent to toggle power
      */
     onTogglePower(newState) {
       this.$emit('toggle-power', newState);
     },
+
     /**
      * Fetch the last 9 readings for the mini-chart
-     * with improved debugging and dynamic range handling
      */
     async loadPreviewData() {
       try {
         this.loadingAnalytics = true;
 
-        const { data } = await this.analyticsService.getTemperatureReadings(
+        const response = await this.analyticsService.getEquipmentReadings(
             this.equipment.id,
+            'temperature',
+            24,
             9
         );
 
-        if (data && data.length > 0) {
-          this.readings = this.analyticsService.mapTemperatureReadings(data);
+        if (response.data?.data && response.data.data.length > 0) {
+          this.readings = response.data.data.map(reading => ({
+            temperature: reading.value || reading.temperature,
+            timestamp: reading.timestamp,
+            status: reading.status || 'normal',
+            getFormattedTime() {
+              return new Date(this.timestamp).toLocaleTimeString([], {
+                hour: '2-digit',
+                minute: '2-digit'
+              });
+            }
+          }));
+
+          console.log('Temperature readings loaded:', this.readings.length, 'items');
         } else {
           this.readings = [];
+          console.log('ℹ No temperature readings available for equipment', this.equipment.id);
         }
 
-        this.loadingAnalytics = false;
       } catch (error) {
         console.error('Error loading temperature data:', error);
+        this.readings = [];
+      } finally {
         this.loadingAnalytics = false;
       }
+    },
+
+    /**
+     * Format temperature for display
+     */
+    formatTemperature(temp) {
+      return temp.toFixed(1);
+    },
+
+    /**
+     * Default status color method when equipment entity method is unavailable
+     */
+    getDefaultStatusColor() {
+      const tempStatus = this.getDefaultTemperatureStatus();
+      switch(tempStatus) {
+        case 'critical': return '#FF5252';
+        case 'warning': return '#FFC107';
+        default: return '#4CAF50';
+      }
+    },
+
+    /**
+     * Default temperature status method when equipment entity method is unavailable
+     */
+    getDefaultTemperatureStatus() {
+      if (!this.equipment) return 'normal';
+
+      const { currentTemperature, optimalTemperatureMin, optimalTemperatureMax } = this.equipment;
+
+      if (currentTemperature < optimalTemperatureMin ||
+          currentTemperature > optimalTemperatureMax) {
+
+        const minDiff = Math.abs(currentTemperature - optimalTemperatureMin);
+        const maxDiff = Math.abs(currentTemperature - optimalTemperatureMax);
+        const threshold = Math.abs(optimalTemperatureMax - optimalTemperatureMin) * 0.2;
+
+        if (minDiff > threshold || maxDiff > threshold) {
+          return 'critical';
+        }
+        return 'warning';
+      }
+      return 'normal';
     }
   },
   created() {
@@ -228,10 +214,10 @@ export default {
     <div class="status-section">
       <div
           class="status-indicator"
-          :style="{ backgroundColor: equipment.getStatusColor() }"
+          :style="{ backgroundColor: statusColor }"
       ></div>
       <div class="status-text">
-        <strong>Status:</strong> {{ equipment.getTemperatureStatus() }}
+        <strong>Status:</strong> {{ temperatureStatus }}
       </div>
     </div>
 
@@ -241,7 +227,7 @@ export default {
 
       <div v-if="loadingAnalytics" class="analytics-loading">
         <pv-progress-spinner style="width:40px; height:40px" />
-        <span>Loading analytics…</span>
+        <span>Loading analytics...</span>
       </div>
 
       <div v-else class="analytics-preview-container">
@@ -255,7 +241,7 @@ export default {
                 <div class="gauge-line"></div>
               </div>
               <div class="temperature-value" :style="displayProperties">
-                {{ equipment.currentTemperature.toFixed(1) }}°C
+                {{ formatTemperature(equipment.currentTemperature) }}°C
               </div>
             </div>
           </div>
@@ -265,7 +251,6 @@ export default {
             <h4 class="card-title">Temperature Over Time</h4>
             <div class="chart-container">
               <temperature-chart-component :readings="readings" />
-
             </div>
           </div>
         </div>
@@ -350,7 +335,6 @@ export default {
   flex-direction: column;
   gap: 1rem;
 }
-
 
 .analytics-cards {
   display: grid;
