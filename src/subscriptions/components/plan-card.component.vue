@@ -11,7 +11,7 @@ export default {
       required: true,
     },
     currentPlanId: {
-      type: [String, Number],
+      type: [String, Number, null],
       required: true,
     },
     upgrading: {
@@ -19,7 +19,7 @@ export default {
       required: true,
     },
     selectedPlanId: {
-      type: [String, Number],
+      type: [String, Number, null],
       required: true,
     },
     onUpgrade: {
