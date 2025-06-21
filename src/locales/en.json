@@ -340,6 +340,7 @@
       "linkToServiceRequest": "Link to Service Request",
       "createIndependentWorkOrder": "Create Independent Work Order",
       "title": "Title",
+      "corrective": "Corrective Maintenance",
       "description": "Description",
       "issueDetails": "Issue Details",
       "selectEquipment": "Select Equipment",
