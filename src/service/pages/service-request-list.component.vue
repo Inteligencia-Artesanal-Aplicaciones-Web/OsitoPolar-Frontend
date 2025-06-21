@@ -35,11 +35,11 @@ export default {
       try {
         const [requestsResponse, equipmentResponse] = await Promise.all([
           this.serviceRequestService.getAll(),
-          this.equipmentService.getAll()
+          this.equipmentService.getAllEquipments()
         ]);
 
         this.serviceRequests = this.serviceRequestService.mapServiceRequests(requestsResponse.data);
-        this.equipmentList = this.equipmentService.mapEquipment(equipmentResponse.data);
+        this.equipmentList = equipmentResponse.data;
         this.loading = false;
       } catch (error) {
         console.error("Error loading data:", error);
@@ -81,14 +81,31 @@ export default {
       this.ratingValue = request.rating || 0;
       this.showRatingDialog = true;
     },
+    async cancelRequest(request) {
+      try {
+        await this.serviceRequestService.cancelRequest(request.id);
+        this.$toast.add({
+          severity: 'success',
+          summary: this.$t('common.success'),
+          detail: this.$t('service.cancelSuccess'),
+          life: 3000
+        });
+        this.loadRequests();
+      } catch (error) {
+        console.error('Error cancelling request:', error);
+        this.$toast.add({
+          severity: 'error',
+          summary: this.$t('common.error'),
+          detail: this.$t('service.cancelError'),
+          life: 3000
+        });
+      }
+    },
     async submitRating(rating) {
       try {
-        const updatedRequest = {
-          ...this.selectedRequest,
-          rating: rating,
-          status: 'completed'
-        };
-        await this.serviceRequestService.updateRequest(this.selectedRequest.id, updatedRequest);
+        // Usar el endpoint específico para agregar calificación
+        await this.serviceRequestService.addFeedback(this.selectedRequest.id, rating);
+
         this.$toast.add({
           severity: 'success',
           summary: this.$t('client.rating.success'),
@@ -166,8 +183,9 @@ export default {
             <p class="detail-item"><i class="pi pi-clock"></i> <strong>{{ $t('service.requestedOn') }}:</strong> {{ formatDate(req.requestTime) }}</p>
             <p class="detail-item"><i class="pi pi-calendar"></i> <strong>{{ $t('service.scheduledFor') }}:</strong> {{ formatDate(req.scheduledDate) }}</p>
             <p class="detail-item"><i class="pi pi-cog"></i> <strong>{{ $t('service.serviceType') }}:</strong> {{ req.serviceType }}</p>
-            <p class="detail-item" v-if="req.status === 'completed' && req.rating">
-              <i class="pi pi-star-fill" style="color: gold;"></i> <strong>{{ $t('client.rating.yourRating') }}:</strong> {{ req.rating }} / 5
+            <p class="detail-item" v-if="req.status === 'completed' && req.customerFeedbackRating">
+              <strong>{{ $t('client.rating.yourRating') }}:</strong>
+              {{ req.customerFeedbackRating }} / 5
             </p>
           </div>
         </template>
@@ -180,11 +198,18 @@ export default {
                 @click="viewRequestDetail(req)"
             />
             <pv-button
-                v-if="req.status === 'resolved' && !req.rating"
+                v-if="req.status === 'resolved' && !req.customerFeedbackRating"
                 :label="$t('client.rating.rateService')"
                 icon="pi pi-star"
                 class="p-button-warning p-button-sm p-button-rate"
                 @click="openRatingForm(req)"
+            />
+            <pv-button
+                v-if="req.status === 'pending' || req.status === 'accepted'"
+                :label="$t('service.cancel')"
+                icon="pi pi-times"
+                class="p-button-danger p-button-sm"
+                @click="cancelRequest(req)"
             />
             <pv-button
                 v-if="req.status === 'completed' && req.rating"
