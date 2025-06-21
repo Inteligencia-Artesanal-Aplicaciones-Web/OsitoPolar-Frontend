@@ -1,202 +1,243 @@
 ﻿<script>
-/**
- * Import component dependencies
- */
-import EquipmentControlPanel from "../components/equipment-control-panel.component.vue";
-import EquipmentInfoCard from "../components/equipment-info-card.component.vue";
-
-/**
- * Import service and models
- */
 import { EquipmentService } from "../services/equipment.service.js";
 import { Equipment } from "../models/equipment.entity.js";
+import EquipmentInfoCard from "../components/equipment-info-card.component.vue";
+import EquipmentControlPanel from "../components/equipment-control-panel.component.vue";
+import EquipmentFormComponent from "../components/equipment-form.component.vue";
 
-/**
- * @component equipment-detail
- * @description Page component that displays equipment details and controls
- */
 export default {
   name: "equipment-detail",
   components: {
+    EquipmentInfoCard,
     EquipmentControlPanel,
-    EquipmentInfoCard
+    EquipmentFormComponent
   },
   data() {
     return {
-      /**
-       * @type {Equipment|null}
-       * @description The equipment being displayed
-       */
       equipment: null,
-
-      /**
-       * @type {EquipmentService|null}
-       * @description Service for equipment operations
-       */
-      equipmentService: null,
-
-      /**
-       * @type {Boolean}
-       * @description Loading state
-       */
       loading: true,
-
-      /**
-       * @type {Boolean}
-       * @description Error state
-       */
       hasError: false,
-
-      /**
-       * @type {String}
-       * @description Error message
-       */
-      errorMessage: '',
-
-      /**
-       * @type {Boolean}
-       * @description Success state
-       */
-      showSuccess: false
+      saving: false,
+      isNewEquipment: false,
+      isEditMode: false,
+      equipmentService: new EquipmentService()
     };
   },
   computed: {
-    /**
-     * Gets the equipment ID from the route params
-     * @returns {string} Equipment ID
-     */
     equipmentId() {
       return this.$route.params.id;
+    },
+
+    currentView() {
+      if (this.isNewEquipment) return 'form';
+      if (this.isEditMode) return 'form';
+      return 'detail';
+    },
+
+    pageTitle() {
+      if (this.isNewEquipment) return 'Create New Equipment';
+      if (this.isEditMode) return 'Edit Equipment';
+      return 'Equipment Details';
     }
   },
   methods: {
-    /**
-     * Loads equipment data from the API
-     */
-    loadEquipment() {
+    async loadEquipment() {
       this.loading = true;
       this.hasError = false;
 
-      this.equipmentService.getById(this.equipmentId)
-          .then(response => {
-            this.equipment = this.equipmentService.mapEquipment(response.data);
-            this.loading = false;
-          })
-          .catch(error => {
-            console.error('Error loading equipment:', error);
-            this.loading = false;
-            this.hasError = true;
-            this.errorMessage = 'Failed to load equipment details. Please try again later.';
+      try {
+        if (this.equipmentId === 'new') {
+          console.log('🆕 Creating new equipment form');
+
+          this.equipment = new Equipment({
+            name: '',
+            type: 'Freezer',
+            model: '',
+            manufacturer: '',
+            serialNumber: '',
+            code: '',
+            cost: 0,
+            technicalDetails: '',
+            currentTemperature: -2.0,
+            setTemperature: -2.0,
+            optimalTemperatureMin: -4.0,
+            optimalTemperatureMax: 0.0,
+            locationName: '',
+            locationAddress: '',
+            locationLatitude: -12.046374,
+            locationLongitude: -77.042793,
+            energyConsumptionCurrent: 0,
+            energyConsumptionUnit: 'watts',
+            energyConsumptionAverage: 0,
+            ownerId: 1,
+            ownerType: 'user',
+            ownershipType: 'Owned',
+            notes: '',
+            status: 'Active',
+            isPoweredOn: false
           });
+
+          this.isNewEquipment = true;
+          this.isEditMode = false;
+          this.loading = false;
+          return;
+        }
+
+
+        console.log(` Loading equipment: ${this.equipmentId}`);
+        this.equipment = await this.equipmentService.getEquipmentById(this.equipmentId);
+        this.isNewEquipment = false;
+        this.isEditMode = false;
+        this.loading = false;
+
+      } catch (error) {
+        console.error('Error loading equipment:', error);
+        this.hasError = true;
+        this.loading = false;
+      }
     },
 
-    /**
-     * Updates equipment temperature setting
-     * @param {number} newTemperature - The new temperature setting
-     */
-    updateTemperature(newTemperature) {
-      this.equipmentService.updateTemperature(this.equipmentId, newTemperature)
-          .then(response => {
-            this.equipment.setTemperature = newTemperature;
-            this.showSuccessMessage('Temperature updated successfully');
-          })
-          .catch(error => {
-            console.error('Error updating temperature:', error);
-            this.showErrorMessage('Failed to update temperature. Please try again.');
-          });
+    enterEditMode() {
+      this.isEditMode = true;
     },
 
-    /**
-     * Toggles equipment power state
-     * @param {boolean} newState - The new power state
-     */
-    togglePower(newState) {
-      this.equipmentService.updatePowerState(this.equipmentId, newState)
-          .then(response => {
-            this.equipment.isPoweredOn = newState;
-            const status = newState ? 'turned on' : 'turned off';
-            this.showSuccessMessage(`Equipment successfully ${status}`);
-          })
-          .catch(error => {
-            console.error('Error toggling power:', error);
-            this.showErrorMessage('Failed to change power state. Please try again.');
-          });
+    cancelEdit() {
+      this.isEditMode = false;
+      if (!this.isNewEquipment) {
+        this.loadEquipment();
+      }
     },
 
-    /**
-     * Displays a success toast notification
-     * @param {string} message - The message to display
-     */
-    showSuccessMessage(message) {
-      this.$toast.add({
-        severity: 'success',
-        summary: 'Success',
-        detail: message,
-        life: 3000
-      });
+
+    async saveEquipment(equipmentData) {
+      try {
+        if (this.isNewEquipment) {
+
+          this.$router.push('/equipment');
+        } else {
+
+          this.isEditMode = false;
+
+          await this.loadEquipment();
+        }
+      } catch (error) {
+        console.error('Error in saveEquipment callback:', error);
+      }
     },
 
-    /**
-     * Displays an error toast notification
-     * @param {string} message - The message to display
-     */
-    showErrorMessage(message) {
-      this.$toast.add({
-        severity: 'error',
-        summary: 'Error',
-        detail: message,
-        life: 5000
-      });
+    async updateTemperature(newTemperature) {
+      if (!this.equipment || this.isNewEquipment) return;
+
+      try {
+        await this.equipmentService.updateEquipmentOperations(this.equipment.id, {
+          setTemperature: newTemperature
+        });
+        this.equipment.setTemperature = newTemperature;
+      } catch (error) {
+        console.error('Error updating temperature:', error);
+      }
+    },
+
+    async togglePower(newPowerState) {
+      if (!this.equipment || this.isNewEquipment) return;
+
+      try {
+        await this.equipmentService.updateEquipmentOperations(this.equipment.id, {
+          isPoweredOn: newPowerState
+        });
+        this.equipment.isPoweredOn = newPowerState;
+      } catch (error) {
+        console.error('Error toggling power:', error);
+      }
     }
   },
   created() {
-    this.equipmentService = new EquipmentService();
     this.loadEquipment();
+  },
+  watch: {
+    '$route.params.id'(newId, oldId) {
+      if (newId !== oldId) {
+        this.loadEquipment();
+      }
+    }
   }
-}
+};
 </script>
 
 <template>
   <div class="equipment-detail">
-    <h1 class="page-title">Equipment Controls</h1>
+    <div class="page-header">
+      <h1>{{ pageTitle }}</h1>
 
-    <div class="loading-container" v-if="loading">
-      <pv-progress-spinner />
-      <p>Loading equipment details...</p>
-    </div>
-
-    <div class="error-container" v-else-if="hasError">
-      <p class="error-message">{{ errorMessage }}</p>
-      <pv-button label="Try Again" @click="loadEquipment" class="p-button-primary" />
-    </div>
-
-    <div class="equipment-container" v-else>
-      <h2 class="equipment-name">{{ equipment.name }}</h2>
-
-      <div class="equipment-grid">
-        <!-- Control Panel -->
-        <div class="equipment-control">
-          <equipment-control-panel
-              :equipment="equipment"
-              @update-temperature="updateTemperature"
-              @toggle-power="togglePower"
+      <div class="header-actions">
+        <template v-if="isNewEquipment">
+          <pv-button
+              label="Cancel"
+              @click="$router.push('/equipment')"
+              class="p-button-secondary"
+              :disabled="saving"
           />
-        </div>
+        </template>
 
-        <!-- Information Panel -->
-        <div class="equipment-info">
-          <equipment-info-card :equipment="equipment" />
-        </div>
+        <template v-else-if="!isNewEquipment && currentView === 'detail'">
+          <pv-button
+              label="Edit Equipment"
+              @click="enterEditMode"
+              class="p-button-primary"
+              icon="pi pi-pencil"
+          />
+        </template>
+
+        <template v-else-if="isEditMode">
+          <pv-button
+              label="Cancel"
+              @click="cancelEdit"
+              class="p-button-secondary"
+              :disabled="saving"
+          />
+        </template>
+      </div>
+    </div>
+
+    <div v-if="loading" class="loading-container">
+      <pv-progress-spinner />
+      <p>Loading equipment...</p>
+    </div>
+
+    <div v-else-if="hasError" class="error-container">
+      <pv-message severity="error" :closable="false">
+        <p>Error loading equipment. Please try again.</p>
+      </pv-message>
+      <pv-button label="Retry" @click="loadEquipment" class="p-button-secondary" />
+    </div>
+
+
+    <div v-else-if="equipment" class="equipment-content">
+
+      <div v-if="currentView === 'form'" class="form-view">
+        <equipment-form-component
+            :equipment="equipment"
+            :is-edit-mode="!isNewEquipment"
+            :loading="saving"
+            @save="saveEquipment"
+            @cancel="isNewEquipment ? $router.push('/equipment') : cancelEdit()"
+        />
       </div>
 
-      <!-- Back button -->
-      <div class="actions-container">
-        <pv-button
-            label="Back to Equipment List"
-            icon="pi pi-arrow-left"
-            class="p-button-secondary"
-            @click="$router.push('/equipment')"
-        />
+      <div v-else class="detail-view">
+        <div class="content-grid">
+          <div class="info-section">
+            <equipment-info-card :equipment="equipment" />
+          </div>
+
+          <div class="control-section">
+            <equipment-control-panel
+                :equipment="equipment"
+                @update-temperature="updateTemperature"
+                @toggle-power="togglePower"
+            />
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -204,45 +245,67 @@ export default {
 
 <style scoped>
 .equipment-detail {
-  padding: 1rem;
+  padding: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 1rem;
+}
+
+.page-header h1 {
+  margin: 0;
+  color: #333;
+}
+
+.header-actions {
+  display: flex;
+  gap: 0.5rem;
 }
 
 .loading-container, .error-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 3rem;
   gap: 1rem;
+  padding: 3rem;
+  text-align: center;
 }
 
-.error-message {
-  color: #e74c3c;
-  font-size: 1.1rem;
+.equipment-content {
+  width: 100%;
 }
 
-.equipment-name {
-  font-size: 1.8rem;
-  color: #333;
-  margin-bottom: 1.5rem;
+.form-view {
+  max-width: 800px;
+  margin: 0 auto;
 }
 
-.equipment-grid {
+.detail-view .content-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 1.5rem;
-  margin-bottom: 2rem;
-}
-
-.actions-container {
-  margin-top: 2rem;
-  display: flex;
-  justify-content: flex-start;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
 }
 
 @media (max-width: 768px) {
-  .equipment-grid {
+  .detail-view .content-grid {
     grid-template-columns: 1fr;
+  }
+
+  .page-header {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+  }
+
+  .header-actions {
+    justify-content: center;
   }
 }
 </style>
