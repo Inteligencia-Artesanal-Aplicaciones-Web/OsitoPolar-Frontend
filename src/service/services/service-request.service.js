@@ -38,6 +38,10 @@ export class ServiceRequestService {
             ? requestData.toApiFormat()
             : requestData;
 
+        // Log the payload to debug
+        console.log('ServiceRequestService sending payload:', payload);
+
+        // Don't stringify here - axios does it automatically
         return httpInstance.post(this.baseUrl, payload);
     }
 
