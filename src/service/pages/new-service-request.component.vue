@@ -36,6 +36,23 @@ export default {
     }
   },
   methods: {
+    getServiceTypeEnum(serviceType) {
+      const mapping = {
+        'preventive': 1,
+        'repair': 2,
+        'installation': 3,
+        'diagnostic': 4
+      };
+      return mapping[serviceType] || 1;
+    },
+    getPriorityEnum(urgency) {
+      const mapping = {
+        'normal': 1,
+        'high': 2,
+        'critical': 3
+      };
+      return mapping[urgency] || 1;
+    },
     handleNext() {
       if (this.currentStep < 3) {
         this.currentStep++;
@@ -58,24 +75,20 @@ export default {
         accept: async () => {
           try {
             const payload = {
-              id: undefined,
-              orderNumber: '',
+              title: this.formData.serviceType + ' - ' + this.formData.description.substring(0, 40),
               description: this.formData.description,
-              requestTime: null,
-              status: 'pending',
-              priority: 'normal',
-              userId: null,
-              companyId: null,
-              equipmentId: this.formData.equipmentId,
-              technicianId: null,
-              serviceType: this.formData.serviceType,
+              issueDetails: this.formData.description,
+              clientId: 1,
+              companyId: 1,
+              equipmentId: parseInt(this.formData.equipmentId),
+              serviceType: this.getServiceTypeEnum(this.formData.serviceType),
+              reportedByUserId: 1,
+              priority: this.getPriorityEnum(this.formData.urgency),
               urgency: this.formData.urgency,
-              asap: this.formData.asap,
-              timeSlot: this.formData.timeSlot,
-              serviceAddress: this.formData.serviceAddress,
+              isEmergency: this.formData.asap,
               scheduledDate: this.formData.date ? new Date(this.formData.date).toISOString() : null,
-              completionDate: null,
-              resolution: null
+              timeSlot: this.formData.timeSlot,
+              serviceAddress: this.formData.serviceAddress
             };
 
             const response = await this.serviceRequestService.createRequest(payload);
@@ -113,9 +126,9 @@ export default {
 
   },
   created() {
-    this.equipmentService.getAll()
+    this.equipmentService.getAllEquipments()
         .then(response => {
-          this.equipments = this.equipmentService.mapEquipment(response.data);
+          this.equipments = response.data;
         })
         .catch(error => {
           console.error('Error loading equipment:', error);
