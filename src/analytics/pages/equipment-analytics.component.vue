@@ -66,33 +66,73 @@ export default {
     /**
      * Loads all required data for the analytics view
      */
+    /**
+     * Loads all required data for the analytics view
+     */
     async loadAll() {
       try {
         this.loading = true;
         this.hasError = false;
 
-        // 0) Cargar todos los equipos para el mapa
-        const allEquipmentResponse = await httpInstance.get('/equipment');
+        console.log(' Loading analytics data for equipment:', this.equipmentId);
+
+        // 1) Load all equipment for the map
+        const allEquipmentResponse = await httpInstance.get('/equipments');
         this.allEquipment = allEquipmentResponse.data;
 
-        // 1) Load equipment details
-        const equipmentResponse = await this.equipmentService.getById(this.equipmentId);
-        this.equipment = this.equipmentService.mapEquipment(equipmentResponse.data);
+        // 2) Load specific equipment details
+        this.equipment = await this.equipmentService.getEquipmentById(this.equipmentId);
 
-        // 2) Load temperature readings (last 24 hours)
-        const readingsResponse = await this.analyticsService.getTemperatureReadings(this.equipmentId, 24);
-        this.readings = this.analyticsService.mapTemperatureReadings(readingsResponse.data);
+        // 3) Load temperature readings (last 24 hours)
+        const readingsResponse = await this.analyticsService.getEquipmentReadings(
+            this.equipmentId,
+            'temperature',
+            24,
+            100
+        );
 
-        // 3) Load daily temperature averages (last 7 days)
-        const averagesResponse = await this.analyticsService.getDailyTemperatureAverages(this.equipmentId, 7);
-        this.dailyAverages = this.analyticsService.mapDailyAverages(averagesResponse.data);
+        if (readingsResponse.data?.data) {
+          this.readings = readingsResponse.data.data.map(reading => ({
+            id: reading.id,
+            equipmentId: reading.equipmentId,
+            temperature: reading.value || reading.temperature,
+            timestamp: reading.timestamp,
+            status: reading.status || 'normal'
+          }));
+        } else {
+          this.readings = [];
+        }
+        console.log('Temperature readings loaded:', this.readings.length, 'items');
+
+        // 4) Load daily summaries (last 7 days)
+        const summariesResponse = await this.analyticsService.getEquipmentSummaries(
+            this.equipmentId,
+            'daily-averages',
+            7
+        );
+
+        if (summariesResponse.data?.data) {
+          this.dailyAverages = summariesResponse.data.data.map(summary => ({
+            id: summary.id,
+            equipmentId: summary.equipmentId,
+            date: summary.date,
+            averageTemperature: summary.averageTemperature,
+            minTemperature: summary.minTemperature,
+            maxTemperature: summary.maxTemperature
+          }));
+        } else {
+          this.dailyAverages = [];
+        }
+        console.log('Daily averages loaded:', this.dailyAverages.length, 'items');
 
         this.loading = false;
+        console.log('🎉 Analytics data loaded successfully!');
+
       } catch (error) {
-        console.error('Error loading analytics data:', error);
+        console.error(' Error loading analytics data:', error);
         this.loading = false;
         this.hasError = true;
-        this.errorMessage = 'Failed to load analytics data. Please try again later.';
+        this.errorMessage = `Failed to load analytics data: ${error.message}`;
       }
     }
   },
