@@ -35,15 +35,17 @@
     "deleteError": "No se pudo eliminar el equipo. Por favor, inténtelo de nuevo.",
     "yes": "Sí",
     "no": "No",
+    "name": "Nombre",
+    "type": "Tipo",
     "types": {
       "freezer": "Congelador",
       "cold_room": "Cámara Frigorífica",
       "refrigerator": "Refrigerador"
     },
     "status": {
-      "normal": "normal",
-      "warning": "advertencia",
-      "critical": "crítico"
+      "normal": "Normal",
+      "warning": "Advertencia",
+      "critical": "Crítico"
     }
   },
   "service": {
@@ -74,6 +76,10 @@
     "backToRequests": "← Volver a Solicitudes",
     "serviceRequest": "Solicitud de servicio",
     "newServiceRequest": "Nueva Solicitud de Servicio",
+    "cancel": "Cancelar",
+    "cancelSuccess": "Solicitud cancelada exitosamente",
+    "cancelError": "Error al cancelar la solicitud",
+    "loadError": "Error al cargar datos",
     "steps": {
       "equipment": "Equipo",
       "scheduling": "Programación",
@@ -121,8 +127,36 @@
       "in_progress": "en progreso",
       "resolved": "resuelto",
       "rejected": "rechazado",
-      "completed": "completado"
+      "completed": "completado",
+      "cancelled": "cancelado"
     }
+  },
+  "company": {
+    "serviceRequests": {
+      "confirmReject": "¿Está seguro de rechazar esta solicitud?",
+      "rejectRequest": "Rechazar Solicitud",
+      "rejectSuccess": "Solicitud rechazada exitosamente",
+      "rejectError": "Error al rechazar la solicitud",
+      "accept": "Aceptar",
+      "reject": "Rechazar",
+      "assignTechnician": "Asignar Técnico",
+      "selectTechnician": "Seleccionar Técnico",
+      "selectTechnicianPlaceholder": "Seleccione un técnico...",
+      "selectTechnicianPrompt": "Debe seleccionar un técnico",
+      "assign": "Asignar",
+      "acceptSuccess": "Técnico asignado exitosamente",
+      "assignError": "Error al asignar técnico",
+      "markResolved": "Marcar como Resuelto",
+      "confirmResolve": "¿Está seguro de marcar como resuelto?",
+      "resolveRequest": "Resolver Solicitud",
+      "resolveSuccess": "Solicitud resuelta exitosamente",
+      "resolveError": "Error al resolver solicitud",
+      "waitingForRating": "Esperando calificación del cliente",
+      "rated": "Calificado"
+    }
+  },
+  "serviceRequests": {
+    "noRequests": "No hay solicitudes de servicio"
   },
   "option": {
     "home": "Inicio",
@@ -353,7 +387,7 @@
     "continue": "Continuar",
     "notSpecified": "No especificado",
     "back": "Regresar",
-    "yes": "Si",
+    "yes": "Sí",
     "no": "No",
     "submissionFailed": "Envío fallido",
     "cancelled": "Cancelado",
@@ -361,7 +395,9 @@
     "cancel": "Cancelar",
     "address": "Dirección",
     "viewDetails": "Ver Detalles",
-    "notAvailable": "No disponible"
+    "notAvailable": "No disponible",
+    "success": "Éxito",
+    "warning": "Advertencia",
+    "retry": "Reintentar"
   }
-
 }
