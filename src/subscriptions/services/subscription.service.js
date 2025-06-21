@@ -1,90 +1,147 @@
 import httpInstance from '../../shared/http.instance.js';
-import { loadStripe } from '@stripe/stripe-js';
 import { Plan } from '../models/plan.entity.js';
 
-// Initialize Stripe with your publishable key
-const stripePromise = loadStripe('pk_test_51RbjOrIpwjcJDlEvHFp2d6cTYDsdQts9m8UQoL7GWT0BkVrzIBRoxlidFATPF4f18dnIDfzTzdwdMluB4IAPx0ty00oMeQKcrh');
+class SubscriptionService {
+    constructor() {
+        this.baseUrl = '/subscriptions';
+        this.paymentsUrl = '/payments';
+    }
 
-// Mock Price IDs (replace with real IDs from Stripe Dashboard)
-const PRICE_IDS = {
-    '1': 'price_1RbjtZIpwjcJDlEvwENLApxN', // Basic (Polar Bear)
-    '2': 'price_1RbkNFIpwjcJDlEvSDiPeGM2', // Standard (Snow Bear)
-    '3': 'price_1RbjvyIpwjcJDlEvU7q0oDnS', // Premium (Glacial Bear)
-    'provider_1': 'price_1RbjwoIpwjcJDlEvqkqCJqUs', // Small Company
-    'provider_2': 'price_1RbjxLIpwjcJDlEvCGicb8wf', // Medium Company
-    'provider_3': 'price_1RbjxpIpwjcJDlEvV1pbNbYs', // Enterprise Premium
-};
-
-export const subscriptionService = {
+    /**
+     * Get all plans for a specific user type
+     * @param {string} userType - 'user' or 'prvider'
+     * @returns {Promise<Plan[]>}
+     */
     async getPlans(userType) {
-        const endpoint = userType === 'provider' ? 'providerPlans' : 'plans';
         try {
-            const response = await httpInstance.get(endpoint);
-            console.log('Fetched plans data:', response.data);
-            return response.data.map(plan => new Plan(plan));
+            const response = await httpInstance.get(`${this.baseUrl}?userType=${userType}`);
+            return response.data.map(planData => new Plan({
+                id: planData.id,
+                name: planData.planName, // Mapear planName a name
+                price: planData.price,
+                billingCycle: planData.billingCycle,
+                maxEquipment: planData.maxEquipment,
+                maxClients: planData.maxClients,
+                features: planData.features
+            }));
         } catch (error) {
-            console.error(`Failed to fetch ${endpoint}:`, error);
-            return [];
+            console.error('Error fetching plans:', error);
+            throw error;
         }
-    },
+    }
 
-    async getUserPlan(userId, userType) {
-        const endpoint = userType === 'provider' ? 'companies' : 'users';
+    /**
+     * Get subscription by ID
+     * @param {number} subscriptionId
+     * @returns {Promise<Plan>}
+     */
+    async getSubscriptionById(subscriptionId) {
         try {
-            const response = await httpInstance.get(`${endpoint}/${userId}`);
-            console.log('Fetched user plan:', response.data);
-            return userType === 'provider' ? response.data.planId : response.data.planId;
+            const response = await httpInstance.get(`${this.baseUrl}/${subscriptionId}`);
+            const planData = response.data;
+            return new Plan({
+                id: planData.id,
+                name: planData.planName,
+                price: planData.price,
+                billingCycle: planData.billingCycle,
+                maxEquipment: planData.maxEquipment,
+                maxClients: planData.maxClients,
+                features: planData.features
+            });
         } catch (error) {
-            console.error(`Failed to fetch ${endpoint} plan for ID ${userId}:`, error);
-            return null;
+            console.error('Error fetching subscription:', error);
+            throw error;
         }
-    },
+    }
 
-    async initiateStripePayment(userId, planId, userType) {
-        const stripe = await stripePromise;
-        const endpoint = userType === 'provider' ? 'companies' : 'users';
-        const response = await httpInstance.get(`${endpoint}/${userId}`);
-        const user = response.data;
-        const plans = await this.getPlans(userType);
-        const plan = plans.find(p => p.id === planId);
+    /**
+     * Create Stripe checkout session and redirect to Stripe
+     * @param {number} userId
+     * @param {number} planId
+     * @param {string} successUrl - Optional custom success URL
+     * @param {string} cancelUrl - Optional custom cancel URL
+     * @returns {Promise<void>} - Redirects to Stripe, doesn't return
+     */
+    async createCheckoutSession(userId, planId, successUrl = null, cancelUrl = null) {
+        try {
+            const payload = {
+                userId: userId,
+                planId: planId,
+                successUrl: successUrl,
+                cancelUrl: cancelUrl
+            };
 
-        const priceId = userType === 'provider' ? PRICE_IDS[`provider_${planId}`] : PRICE_IDS[planId];
-        console.log('Using priceId:', priceId);
+            console.log('Creating Stripe checkout session:', payload);
 
-        const session = await stripe.redirectToCheckout({
-            lineItems: [{
-                price: priceId,
-                quantity: 1,
-            }],
-            mode: 'subscription',
-            successUrl: `${window.location.origin}/plans?session_id={CHECKOUT_SESSION_ID}`,
-            cancelUrl: `${window.location.origin}/plans?canceled=true`,
-        });
+            const response = await httpInstance.post(`${this.paymentsUrl}/create-checkout-session`, payload);
 
-        if (session.error) throw new Error(session.error.message);
+            const { checkoutUrl, sessionId, paymentId } = response.data;
 
-        return session.id;
-    },
+            console.log('Checkout session created:', { checkoutUrl, sessionId, paymentId });
 
-    async updateUserPlan(userId, planId, userType, paymentVerificationCode) {
-        const endpoint = userType === 'provider' ? 'companies' : 'users';
-        const response = await httpInstance.get(`${endpoint}/${userId}`);
-        let user = response.data;
+            // Redirect to Stripe Checkout
+            window.location.href = checkoutUrl;
 
-        if (!paymentVerificationCode) throw new Error('Payment verification required');
-        console.log(`Validating payment with code: ${paymentVerificationCode}`);
+        } catch (error) {
+            console.error('Error creating checkout session:', error);
+            throw error;
+        }
+    }
 
-        // Simulate payment verification (in production, call Stripe API to confirm session)
-        // For now, assume session_id is sufficient proof of payment
-        user.planId = planId;
-        user.subscription = {
-            startDate: new Date().toISOString().split('T')[0],
-            endDate: new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toISOString().split('T')[0],
-            status: 'active',
-            autoRenew: true,
-        };
+    /**
+     * Upgrade subscription directly (without Stripe - for testing)
+     * @param {number} userId
+     * @param {number} planId
+     * @returns {Promise<Plan>}
+     */
+    async upgradePlan(userId, planId) {
+        try {
+            const response = await httpInstance.post(`${this.baseUrl}/upgrade`, {
+                userId: userId,
+                planId: planId
+            });
 
-        await httpInstance.patch(`${endpoint}/${userId}`, user);
-        return user;
-    },
-};
+            const planData = response.data;
+            return new Plan({
+                id: planData.id,
+                name: planData.planName,
+                price: planData.price,
+                billingCycle: planData.billingCycle,
+                maxEquipment: planData.maxEquipment,
+                maxClients: planData.maxClients,
+                features: planData.features
+            });
+        } catch (error) {
+            console.error('Error upgrading plan:', error);
+            throw error;
+        }
+    }
+
+    /**
+     * Process successful payment return from Stripe
+     * @param {string} sessionId - Stripe session ID from URL params
+     * @returns {Promise<boolean>}
+     */
+    async processPaymentSuccess(sessionId) {
+        try {
+            // In a real app, you might want to verify the payment status
+            // For now, we'll just return true since the webhook handles the actual processing
+            console.log('Payment successful for session:', sessionId);
+            return true;
+        } catch (error) {
+            console.error('Error processing payment success:', error);
+            return false;
+        }
+    }
+
+    /**
+     * Handle payment cancellation
+     * @returns {Promise<boolean>}
+     */
+    async processPaymentCancellation() {
+        console.log('Payment was cancelled by user');
+        return true;
+    }
+}
+
+export const subscriptionService = new SubscriptionService();
