@@ -64,9 +64,9 @@ export default {
       this.loading = true;
       this.hasError = false;
 
-      this.equipmentService.getAll()
-          .then(response => {
-            this.equipment = this.equipmentService.mapEquipment(response.data);
+      this.equipmentService.getAllEquipments()
+          .then(equipments => {
+            this.equipment = equipments;
             this.loading = false;
           })
           .catch(error => {
