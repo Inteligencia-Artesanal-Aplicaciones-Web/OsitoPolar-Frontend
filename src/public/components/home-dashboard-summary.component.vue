@@ -26,8 +26,7 @@ export default {
     async loadUserEquipment() {
       try {
         this.loadingUserEquipment = true;
-        const response = await this.equipmentService.getAll();
-        this.userEquipment = this.equipmentService.mapEquipment(response.data);
+        this.userEquipment = await this.equipmentService.getAllEquipments();
       } catch (error) {
         console.error('Error loading user equipment:', error);
       } finally {
@@ -38,7 +37,7 @@ export default {
     async loadRentalEquipment() {
       try {
         this.loadingRentalEquipment = true;
-        const response = await this.rentalService.getAllRentalEquipment();
+        this.userEquipment = await this.equipmentService.getAllEquipments();
         this.rentalEquipment = this.rentalService.mapRentalEquipment(response.data);
       } catch (error) {
         console.error('Error loading rental equipment:', error);
