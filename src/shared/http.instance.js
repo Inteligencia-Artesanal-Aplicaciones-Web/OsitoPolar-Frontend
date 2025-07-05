@@ -1,7 +1,8 @@
 ﻿import axios from 'axios';
 
+const baseURL = import.meta.env.VITE_API_BASE_URL || 'https://ositopolar-platform.onrender.com/api/v1';
 const httpInstance = axios.create({
-    baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:5128',
+    baseURL: baseURL,
     headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
