@@ -33,7 +33,10 @@ import {
     Textarea,
     Toast,
     ToastService,
-    Toolbar
+    Toolbar,
+    Message,
+    Fieldset,
+
 } from "primevue";
 
 import Chart from 'primevue/chart';
@@ -77,5 +80,8 @@ app.use(i18n)
     .component('pv-textarea',       Textarea)
     .component('pv-toolbar',        Toolbar)
     .component('pv-toast',          Toast)
+    .component('pv-message',        Message)
+    .component('pv-fieldset',       Fieldset)
+
     .use(router)
     .mount('#app')

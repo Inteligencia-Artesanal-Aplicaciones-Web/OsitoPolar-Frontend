@@ -51,7 +51,8 @@ const routes = [
     {path: '/equipment/:id/analytics', name: 'equipment-analytics', component: EquipmentAnalyticsComponent, meta: { title: 'Equipment Analytics' } },
     // Equipment module
     { path: '/equipment',              name: 'equipment-list',       component: EquipmentListComponent,     meta: { title: 'My Equipment' } },
-    { path: '/equipment/:id',          name: 'equipment-detail',     component: EquipmentDetailComponent,   meta: { title: 'Equipment Control' } },
+    { path: '/equipment/new', name: 'equipment-new', component: EquipmentFormComponent },
+    { path: '/equipment/:id', name: 'equipment-detail', component: EquipmentDetailComponent },
     // Service Requests
     { path: '/service-requests',       name: 'service-requests',     component: ServiceRequestListComponent, meta: { title: 'Service Requests' } },
     { path: '/service-request/new',    name: 'new-service-request',  component: NewServiceRequestComponent, meta: { title: 'New Service Requests' } },

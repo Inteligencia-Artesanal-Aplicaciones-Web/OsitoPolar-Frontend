@@ -6,12 +6,16 @@ import { ServiceRequest } from "../models/service-request.entity.js";
  * @description Service class for handling service request operations using HTTP requests
  */
 export class ServiceRequestService {
+    constructor() {
+        this.baseUrl = '/service-requests';
+    }
+
     /**
      * Fetches all service requests from the server
      * @returns {Promise} A promise resolving to an array of service requests
      */
     getAll() {
-        return httpInstance.get("/serviceRequests");
+        return httpInstance.get(this.baseUrl);
     }
 
     /**
@@ -20,7 +24,7 @@ export class ServiceRequestService {
      * @returns {Promise} A promise resolving to a service request object
      */
     getById(id) {
-        return httpInstance.get(`/serviceRequests/${id}`);
+        return httpInstance.get(`${this.baseUrl}/${id}`);
     }
 
     /**
@@ -29,7 +33,16 @@ export class ServiceRequestService {
      * @returns {Promise} A promise resolving to the created service request
      */
     createRequest(requestData) {
-        return httpInstance.post("/serviceRequests", requestData);
+        // If it's a ServiceRequest instance, convert to API format
+        const payload = requestData instanceof ServiceRequest
+            ? requestData.toApiFormat()
+            : requestData;
+
+        // Log the payload to debug
+        console.log('ServiceRequestService sending payload:', payload);
+
+        // Don't stringify here - axios does it automatically
+        return httpInstance.post(this.baseUrl, payload);
     }
 
     /**
@@ -39,7 +52,56 @@ export class ServiceRequestService {
      * @returns {Promise} A promise resolving to the updated service request
      */
     updateRequest(id, requestData) {
-        return httpInstance.put(`/serviceRequests/${id}`, requestData);
+        // If it's a ServiceRequest instance, convert to API format
+        const payload = requestData instanceof ServiceRequest
+            ? requestData.toApiFormat()
+            : requestData;
+
+        return httpInstance.put(`${this.baseUrl}/${id}`, payload);
+    }
+
+    /**
+     * Assign a technician to a service request
+     * @param {number|string} serviceRequestId - The ID of the service request
+     * @param {number} technicianId - The ID of the technician to assign
+     * @returns {Promise} A promise resolving to the updated service request
+     */
+    assignTechnician(serviceRequestId, technicianId) {
+        return httpInstance.put(
+            `${this.baseUrl}/${serviceRequestId}/assign-technician`,
+            { technicianId }
+        );
+    }
+
+    /**
+     * Add customer feedback rating to a service request
+     * @param {number|string} serviceRequestId - The ID of the service request
+     * @param {number} rating - Rating value (1-5)
+     * @returns {Promise} A promise resolving to the updated service request
+     */
+    addFeedback(serviceRequestId, rating) {
+        return httpInstance.put(
+            `${this.baseUrl}/${serviceRequestId}/feedback`,
+            { rating }
+        );
+    }
+
+    /**
+     * Reject a pending service request
+     * @param {number|string} serviceRequestId - The ID of the service request
+     * @returns {Promise} A promise resolving to the updated service request
+     */
+    rejectRequest(serviceRequestId) {
+        return httpInstance.put(`${this.baseUrl}/${serviceRequestId}/reject`);
+    }
+
+    /**
+     * Cancel a service request
+     * @param {number|string} serviceRequestId - The ID of the service request
+     * @returns {Promise} A promise resolving to the updated service request
+     */
+    cancelRequest(serviceRequestId) {
+        return httpInstance.put(`${this.baseUrl}/${serviceRequestId}/cancel`);
     }
 
     /**
@@ -48,7 +110,7 @@ export class ServiceRequestService {
      * @returns {Promise} A promise resolving when the service request is deleted
      */
     deleteRequest(id) {
-        return httpInstance.delete(`/serviceRequests/${id}`);
+        return httpInstance.delete(`${this.baseUrl}/${id}`);
     }
 
     /**
@@ -57,7 +119,7 @@ export class ServiceRequestService {
      * @returns {Promise} A promise resolving to a filtered list of service requests
      */
     getByStatus(status) {
-        return httpInstance.get(`/serviceRequests?status=${status}`);
+        return httpInstance.get(`${this.baseUrl}?status=${status}`);
     }
 
     /**
@@ -66,7 +128,7 @@ export class ServiceRequestService {
      * @returns {Promise}
      */
     getByUser(userId) {
-        return httpInstance.get(`/serviceRequests?userId=${userId}`);
+        return httpInstance.get(`${this.baseUrl}?userId=${userId}`);
     }
 
     /**
@@ -75,7 +137,7 @@ export class ServiceRequestService {
      * @returns {Promise}
      */
     getByCompany(companyId) {
-        return httpInstance.get(`/serviceRequests?companyId=${companyId}`);
+        return httpInstance.get(`${this.baseUrl}?companyId=${companyId}`);
     }
 
     /**
@@ -84,7 +146,7 @@ export class ServiceRequestService {
      * @returns {Promise}
      */
     getByEquipment(equipmentId) {
-        return httpInstance.get(`/serviceRequests?equipmentId=${equipmentId}`);
+        return httpInstance.get(`${this.baseUrl}?equipmentId=${equipmentId}`);
     }
 
     /**
@@ -94,8 +156,23 @@ export class ServiceRequestService {
      */
     mapServiceRequests(data) {
         if (Array.isArray(data)) {
-            return data.map(item => new ServiceRequest(item));
+            return data.map(item => new ServiceRequest({
+                ...item,
+                assignedTechnicianId: item.assignedTechnicianId || item.technicianId, // Handle legacy field
+                customerFeedbackRating: item.customerFeedbackRating || item.rating // Handle legacy field
+            }));
         }
-        return new ServiceRequest(data);
+        return new ServiceRequest({
+            ...data,
+            assignedTechnicianId: data.assignedTechnicianId || data.technicianId, // Handle legacy field
+            customerFeedbackRating: data.customerFeedbackRating || data.rating // Handle legacy field
+        });
     }
+    updateStatus(serviceRequestId, newStatus) {
+        return httpInstance.put(
+            `${this.baseUrl}/${serviceRequestId}/status`,
+            { newStatus }
+        );
+    }
+
 }

@@ -49,10 +49,8 @@ export default {
         rejectLabel: this.$t('common.no'),
         accept: async () => {
           try {
-            await this.serviceRequestService.updateRequest(this.request.id, {
-              ...this.request,
-              status: 'rejected'
-            });
+            await this.serviceRequestService.rejectRequest(this.request.id);
+
             this.$toast.add({
               severity: 'success',
               summary: this.$t('common.success'),
@@ -83,11 +81,11 @@ export default {
         return;
       }
       try {
-        await this.serviceRequestService.updateRequest(this.request.id, {
-          ...this.request,
-          status: 'accepted',
-          technicianId: this.selectedTechnicianId
-        });
+        await this.serviceRequestService.assignTechnician(
+            this.request.id,
+            this.selectedTechnicianId
+        );
+
         this.$toast.add({
           severity: 'success',
           summary: this.$t('common.success'),
@@ -116,11 +114,7 @@ export default {
         rejectLabel: this.$t('common.no'),
         accept: async () => {
           try {
-            await this.serviceRequestService.updateRequest(this.request.id, {
-              ...this.request,
-              status: 'resolved',
-              completionDate: new Date().toISOString()
-            });
+            await this.serviceRequestService.updateStatus(this.request.id, 4); // 4 = Resolved
             this.$toast.add({
               severity: 'success',
               summary: this.$t('common.success'),

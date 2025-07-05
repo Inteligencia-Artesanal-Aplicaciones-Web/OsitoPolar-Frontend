@@ -35,12 +35,12 @@ export default {
       try {
         const [requestsResponse, equipmentResponse, techniciansResponse] = await Promise.all([
           this.serviceRequestService.getAll(),
-          this.equipmentService.getAll(),
+          this.equipmentService.getAllEquipments(),
           this.technicianService.getAll()
         ]);
 
         this.serviceRequests = this.serviceRequestService.mapServiceRequests(requestsResponse.data);
-        this.equipmentList = this.equipmentService.mapEquipment(equipmentResponse.data);
+        this.equipmentList = equipmentResponse.data;
         this.technicians = this.technicianService.mapTechnicians(techniciansResponse.data);
 
         this.loading = false;

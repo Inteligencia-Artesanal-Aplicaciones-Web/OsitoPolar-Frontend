@@ -10,7 +10,8 @@ import TemperatureHistory from "../components/temperature-history.component.vue"
 /**
  * Import service and models
  */
-import { AnalyticsService} from "../services/analytics.service.js";
+import { AnalyticsService } from "../services/analytics.service.js";
+import { EquipmentService } from "../../equipment/services/equipment.service.js";
 import { TemperatureReading } from "../models/temperature-reading.entity.js";
 import { DailyTemperatureAverage } from "../models/daily-temperature-average.entity.js";
 import httpInstance from "../../shared/http.instance.js";
@@ -67,6 +68,12 @@ export default {
       analyticsService: null,
 
       /**
+       * @type {EquipmentService|null}
+       * @description Service for equipment operations
+       */
+      equipmentService: null,
+
+      /**
        * @type {Boolean}
        * @description Loading state for data fetching
        */
@@ -100,12 +107,11 @@ export default {
     loadData() {
       this.loading = true;
 
-      // Load all equipment for the map
-      httpInstance.get('/equipment').then(response => {
+      httpInstance.get('/equipments').then(response => {
         this.allEquipment = response.data;
         this.loadEquipmentData(this.selectedEquipmentId);
       }).catch(error => {
-        console.error('Error loading equipment:', error);
+        console.error(' Error loading equipment:', error);
         this.loading = false;
       });
     },
@@ -114,27 +120,64 @@ export default {
      * Loads data for a specific equipment item
      * @param {Number} equipmentId - ID of the equipment to load
      */
-    loadEquipmentData(equipmentId) {
-      this.loading = true;
+    async loadEquipmentData(equipmentId) {
+      try {
+        this.loading = true;
 
-      // Get specific equipment details
-      this.analyticsService.getEquipment(equipmentId).then(response => {
-        this.equipment = response.data;
+        this.equipment = await this.equipmentService.getEquipmentById(equipmentId);
 
-        // Get temperature readings
-        return this.analyticsService.getTemperatureReadings(equipmentId);
-      }).then(response => {
-        this.temperatureReadings = this.analyticsService.mapTemperatureReadings(response.data);
+        const readingsResponse = await this.analyticsService.getEquipmentReadings(
+            equipmentId,
+            'temperature',
+            24,
+            50
+        );
 
-        // Get daily temperature averages
-        return this.analyticsService.getDailyTemperatureAverages(equipmentId);
-      }).then(response => {
-        this.dailyAverages = this.analyticsService.mapDailyAverages(response.data);
+        if (readingsResponse.data?.data) {
+          this.temperatureReadings = readingsResponse.data.data.map(reading => ({
+            id: reading.id,
+            equipmentId: reading.equipmentId,
+            temperature: reading.value || reading.temperature,
+            timestamp: reading.timestamp,
+            status: reading.status || 'normal'
+          }));
+        } else {
+          this.temperatureReadings = [];
+        }
+
+        const summariesResponse = await this.analyticsService.getEquipmentSummaries(
+            equipmentId,
+            'daily-averages',
+            7
+        );
+
+        if (summariesResponse.data?.data) {
+          this.dailyAverages = summariesResponse.data.data.map(summary => ({
+            id: summary.id,
+            equipmentId: summary.equipmentId,
+            date: summary.date,
+            averageTemperature: summary.averageTemperature,
+            minTemperature: summary.minTemperature,
+            maxTemperature: summary.maxTemperature
+          }));
+        } else {
+          this.dailyAverages = [];
+        }
+
         this.loading = false;
-      }).catch(error => {
-        console.error('Error loading equipment data:', error);
+
+      } catch (error) {
         this.loading = false;
-      });
+
+        if (this.$toast) {
+          this.$toast.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Failed to load dashboard data. Please try again.',
+            life: 5000
+          });
+        }
+      }
     },
 
     /**
@@ -143,6 +186,7 @@ export default {
      */
     onSelectEquipment(equipmentId) {
       if (this.selectedEquipmentId !== equipmentId) {
+        console.log('🎯 Selecting equipment:', equipmentId);
         this.selectedEquipmentId = equipmentId;
         this.loadEquipmentData(equipmentId);
       }
@@ -150,6 +194,7 @@ export default {
   },
   created() {
     this.analyticsService = new AnalyticsService();
+    this.equipmentService = new EquipmentService();
     this.loadData();
   }
 }

@@ -30,7 +30,8 @@ export default {
 
       <div class="info-item">
         <div class="info-label">Type</div>
-        <div class="info-value">{{ equipment.getTypeDisplay() }}</div>
+
+        <div class="info-value">{{ equipment.getTypeDisplay ? equipment.getTypeDisplay() : equipment.type }}</div>
       </div>
 
       <div class="info-item">
@@ -55,22 +56,24 @@ export default {
 
       <div class="info-item">
         <div class="info-label">Installation Date</div>
-        <div class="info-value">{{ equipment.getFormattedInstallationDate() }}</div>
+        <div class="info-value">{{ equipment.getFormattedInstallationDate ? equipment.getFormattedInstallationDate() : equipment.installationDate }}</div>
       </div>
 
       <div class="info-item">
         <div class="info-label">Energy Consumption</div>
-        <div class="info-value">{{ equipment.energyConsumption.current }} {{ equipment.energyConsumption.unit }}</div>
+
+        <div class="info-value">{{ equipment.energyConsumptionCurrent }} {{ equipment.energyConsumptionUnit }}</div>
       </div>
 
       <div class="info-item">
         <div class="info-label">Location</div>
-        <div class="info-value">{{ equipment.location.name }}</div>
+
+        <div class="info-value">{{ equipment.locationName }}</div>
       </div>
 
       <div class="info-item">
         <div class="info-label">Address</div>
-        <div class="info-value">{{ equipment.location.address }}</div>
+        <div class="info-value">{{ equipment.locationAddress }}</div>
       </div>
     </div>
 

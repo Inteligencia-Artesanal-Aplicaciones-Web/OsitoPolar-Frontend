@@ -1,60 +1,63 @@
-﻿{  "home": {
-  "welcome": "Welcome to OsitoPolar",
-  "subtitle": "Intelligent management of refrigeration equipment",
-  "features": {
-    "title": "Monitor Your Equipment",
-    "monitoring": "Real-Time Monitoring",
-    "monitoringDesc": "Track temperature, energy consumption, and receive real-time alerts for all your refrigeration systems.",
-    "alerts": "Smart Alerts",
-    "alertsDesc": "Automatic notifications for any anomaly in your equipment.",
-    "management": "Centralized Management",
-    "managementDesc": "Manage all your equipment from a single platform."
+﻿{
+  "home": {
+    "welcome": "Welcome to OsitoPolar",
+    "subtitle": "Smart refrigeration equipment management",
+    "features": {
+      "title": "Monitor Your Equipment",
+      "monitoring": "Real-Time Monitoring",
+      "monitoringDesc": "Track temperature, energy consumption, and receive instant alerts.",
+      "alerts": "Smart Alerts",
+      "alertsDesc": "Automatic notifications for any anomaly in your equipment.",
+      "management": "Centralized Management",
+      "managementDesc": "Manage all your equipment from a single platform."
+    },
+    "dashboard": {
+      "myEquipment": "My Equipment",
+      "rentEquipment": "Rent Equipment",
+      "noEquipment": "You don’t have any equipment registered",
+      "addEquipment": "Add Equipment",
+      "noRentalEquipment": "No equipment available for rent",
+      "available": "Available"
+    }
   },
-  "dashboard": {
-    "myEquipment": "My Equipment",
-    "rentEquipment": "Rent Equipment",
-    "noEquipment": "You don't have any equipment :(",
-    "addEquipment": "Add Equipment",
-    "noRentalEquipment": "No equipment available for rent",
-    "available": "Available"
-  }
-},
   "equipment": {
-    "title": "My Equipments",
+    "title": "My Equipment",
     "addButton": "Add Equipment",
     "loading": "Loading equipment...",
-    "errorMessage": "Failed to load equipment list. Please try again later.",
+    "errorMessage": "Could not load the equipment list. Please try again later.",
     "tryAgain": "Try Again",
     "control": "Control",
     "edit": "Edit",
     "delete": "Delete",
-    "confirmDelete": "Confirm Delete",
+    "confirmDelete": "Confirm Deletion",
     "deleteConfirmation": "Are you sure you want to delete <strong>{name}</strong>?<br>This action cannot be undone.",
-    "deleteSuccess": "{name} has been deleted successfully",
-    "deleteError": "Failed to delete equipment. Please try again.",
+    "deleteSuccess": "{name} was deleted successfully",
+    "deleteError": "Could not delete the equipment. Please try again.",
     "yes": "Yes",
     "no": "No",
+    "name": "Name",
+    "type": "Type",
     "types": {
       "freezer": "Freezer",
       "cold_room": "Cold Room",
       "refrigerator": "Refrigerator"
     },
     "status": {
-      "normal": "normal",
-      "warning": "warning",
-      "critical": "critical"
+      "normal": "Normal",
+      "warning": "Warning",
+      "critical": "Critical"
     }
   },
   "service": {
     "title": "Service Requests",
     "newRequest": "New Request",
     "loading": "Loading service requests...",
-    "error": "Failed to load service requests.",
+    "error": "Error loading service requests.",
     "retry": "Retry",
     "equipment": "Equipment",
     "location": "Location",
-    "requestedOn": "Requested On",
-    "scheduledFor": "Scheduled For",
+    "requestedOn": "Requested on",
+    "scheduledFor": "Scheduled for",
     "serviceType": "Service Type",
     "notSpecified": "Not specified",
     "notScheduled": "Not scheduled",
@@ -62,7 +65,7 @@
     "orderNumber": "Order Number",
     "description": "Description",
     "urgency": "Urgency",
-    "asap": "ASAP",
+    "asap": "As soon as possible",
     "yes": "Yes",
     "no": "No",
     "timeSlot": "Time Slot",
@@ -70,16 +73,20 @@
     "technician": "Technician",
     "completed": "Completed",
     "notAssigned": "Not assigned",
-    "serviceRequest": "Service Request",
     "backToRequests": "← Back to Requests",
+    "serviceRequest": "Service Request",
     "newServiceRequest": "New Service Request",
+    "cancel": "Cancel",
+    "cancelSuccess": "Request cancelled successfully",
+    "cancelError": "Error cancelling the request",
+    "loadError": "Error loading data",
     "steps": {
       "equipment": "Equipment",
       "scheduling": "Scheduling",
       "confirmation": "Confirmation"
     },
     "form": {
-      "selectEquipment": "Select the equipment",
+      "selectEquipment": "Select equipment",
       "selectEquipmentPlaceholder": "Select equipment",
       "serviceType": "Service type",
       "selectServiceType": "Select service type",
@@ -93,35 +100,63 @@
       "high": "High",
       "critical": "Critical",
       "continue": "Continue →",
-      "asapQuestion": "Attention as soon as possible?",
+      "asapQuestion": "Immediate attention?",
       "asapYes": "Yes, I need immediate attention",
       "desiredDate": "Desired date",
       "availableTimeSlot": "Available time slot",
       "selectTimeSlot": "Select a time slot",
       "back": "← Back",
       "serviceAddress": "Service address (optional)",
-      "serviceAddressPlaceholder": "E.g: Building B, 2nd floor, refrigerated lab",
+      "serviceAddressPlaceholder": "E.g., Building B, 2nd floor, refrigerated lab",
       "requestSummary": "Request summary:",
       "immediateAttention": "Immediate attention (ASAP):",
       "scheduledFor": "Scheduled for:",
-      "sendRequest": "Send request",
+      "sendRequest": "Submit request",
       "confirmSubmission": "Confirm Submission",
-      "confirmMessage": "Are you sure you want to send this request?",
+      "confirmMessage": "Are you sure you want to submit this request?",
       "success": "Request sent",
-      "successMessage": "Your service request has been submitted.",
-      "error": "Submission failed",
-      "errorMessage": "An error occurred while sending the request.",
+      "successMessage": "Your service request has been sent.",
+      "error": "Submission error",
+      "errorMessage": "An error occurred while submitting the request.",
       "cancelled": "Cancelled",
       "cancelledMessage": "Submission cancelled."
     },
     "status": {
-      "pending": "pending",
-      "accepted": "accepted",
-      "in_progress": "in progress",
-      "resolved": "resolved",
-      "rejected": "rejected",
-      "completed": "completed"
+      "pending": "Pending",
+      "accepted": "Accepted",
+      "in_progress": "In progress",
+      "resolved": "Resolved",
+      "rejected": "Rejected",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
     }
+  },
+  "company": {
+    "serviceRequests": {
+      "confirmReject": "Are you sure you want to reject this request?",
+      "rejectRequest": "Reject Request",
+      "rejectSuccess": "Request rejected successfully",
+      "rejectError": "Error rejecting the request",
+      "accept": "Accept",
+      "reject": "Reject",
+      "assignTechnician": "Assign Technician",
+      "selectTechnician": "Select Technician",
+      "selectTechnicianPlaceholder": "Select a technician...",
+      "selectTechnicianPrompt": "You must select a technician",
+      "assign": "Assign",
+      "acceptSuccess": "Technician assigned successfully",
+      "assignError": "Error assigning technician",
+      "markResolved": "Mark as Resolved",
+      "confirmResolve": "Are you sure you want to mark as resolved?",
+      "resolveRequest": "Resolve Request",
+      "resolveSuccess": "Request resolved successfully",
+      "resolveError": "Error resolving the request",
+      "waitingForRating": "Waiting for customer rating",
+      "rated": "Rated"
+    }
+  },
+  "serviceRequests": {
+    "noRequests": "No service requests"
   },
   "option": {
     "home": "Home",
@@ -145,21 +180,21 @@
   "footer": {
     "company": "OsitoPolar",
     "rights": "All rights reserved",
-    "terms": "Terms and conditions",
+    "terms": "Terms and Conditions",
     "privacy": "Privacy Policy",
     "cookies": "Cookie Policy"
   },
   "authoring-phrase": {
     "intro": "Made with",
     "use": "using",
-    "author": "by the team at {brand}"
+    "author": "by the {brand} team"
   },
   "rental": {
     "catalog": {
       "title": "Rent Equipment",
-      "subtitle": "Grow your business with our rental equipment solutions",
-      "loading": "Loading resources",
-      "noEquipment": "There is no equipment for this moment",
+      "subtitle": "Grow your business with our rental solutions",
+      "loading": "Loading assets...",
+      "noEquipment": "No equipment available at the moment",
       "available": "Available",
       "from": "From",
       "request": "Request"
@@ -170,7 +205,7 @@
       "allEquipment": "All Equipment",
       "priceRange": "Price Range ($/month)",
       "sortBy": "Sort by",
-      "clean": "Clean Filters",
+      "clean": "Clear Filters",
       "sortOptions": {
         "lowToHigh": "Price: Low to High",
         "highToLow": "Price: High to Low",
@@ -183,14 +218,16 @@
       "maxPrice": "Max"
     },
     "configuration": {
-      "title": "Rent Configuration",
+      "title": "Rental Configuration",
       "period": "Rental period",
       "month": "month | months",
-      "unit": "unit | units",
+      "months": "months",
       "quantity": "Quantity",
+      "unit": "unit | units",
+      "units": "units",
       "startDate": "Preferred start date",
       "selectDate": "Select Date",
-      "deliveryAddress": "Delivery Address *",
+      "deliveryAddress": "Delivery address *",
       "addressPlaceholder": "Enter the full delivery address",
       "notes": "Additional notes (optional)",
       "notesPlaceholder": "Special instructions or comments"
@@ -202,7 +239,7 @@
       "monthlyRent": "Monthly rent",
       "setupAndDelivery": "Setup and delivery",
       "discount": "Discount of",
-      "firstMonthTotal": "First month total",
+      "firstMonthTotal": "First-month total",
       "monthlyCharge": "${amount} will be automatically charged to your payment method each subsequent month",
       "proceedToPayment": "Proceed to Payment",
       "processing": "Processing..."
@@ -213,16 +250,16 @@
       "equipment": "Equipment",
       "period": "Period",
       "monthlyPrice": "Monthly price",
-      "firstMonthTotal": "First month total",
+      "firstMonthTotal": "First-month total",
       "paymentMethod": "Payment Method",
       "creditDebitCard": "Credit/Debit Card",
       "bankTransfer": "Bank Transfer",
-      "termsAccept": "I accept the terms and conditions of the rental service",
+      "termsAccept": "I accept the rental service terms and conditions",
       "cancel": "Cancel",
       "confirmAndPay": "Confirm and Pay"
     },
     "header": {
-      "backToCatalog": "Back to catalog"
+      "backToCatalog": "Back to Catalog"
     }
   },
   "contact": {
@@ -234,7 +271,7 @@
     "mondayToFriday": "Monday to Friday",
     "saturday": "Saturday",
     "followUs": "Follow us on social media",
-    "scanQR": "Scan QR code to save our contact information"
+    "scanQR": "Scan the QR code to save our contact info"
   },
   "plans": {
     "title": "Upgrade Your Plan",
@@ -255,7 +292,7 @@
     "name": "Name",
     "phone": "Phone",
     "email": "Email",
-    "loading": "Loading",
+    "loading": "Loading...",
     "retry": "Retry"
   },
   "workOrders": {
@@ -265,8 +302,8 @@
     "status": {
       "created": "Created",
       "assigned": "Assigned",
-      "in_progress": "In Progress",
-      "on_hold": "On Hold",
+      "in_progress": "In progress",
+      "on_hold": "On hold",
       "resolved": "Resolved",
       "completed": "Completed",
       "cancelled": "Cancelled"
@@ -277,7 +314,7 @@
     "location": "Location",
     "serviceType": "Service Type",
     "priority": "Priority",
-    "creationTime": "Creation Time",
+    "creationTime": "Creation Date",
     "scheduledFor": "Scheduled For",
     "timeSlot": "Time Slot",
     "address": "Address",
@@ -287,7 +324,7 @@
     "technicianNotes": "Technician Notes",
     "cost": "Cost",
     "customerRating": "Customer Rating",
-    "feedbackDate": "Feedback Date",
+    "feedbackDate": "Rating Date",
     "notScheduled": "Not Scheduled",
     "notRecorded": "Not Recorded",
     "notProvided": "Not Provided",
@@ -303,31 +340,32 @@
       "linkToServiceRequest": "Link to Service Request",
       "createIndependentWorkOrder": "Create Independent Work Order",
       "title": "Title",
+      "corrective": "Corrective Maintenance",
       "description": "Description",
       "issueDetails": "Issue Details",
       "selectEquipment": "Select Equipment",
-      "selectEquipmentPlaceholder": "Select an equipment",
+      "selectEquipmentPlaceholder": "Select equipment",
       "serviceType": "Service Type",
       "selectServiceType": "Select a service type",
       "priority": "Priority",
-      "normal": "Normal",
       "low": "Low",
       "medium": "Medium",
+      "normal": "Normal",
       "high": "High",
       "critical": "Critical",
       "scheduledDate": "Scheduled Date",
-      "availableTimeSlot": "Available Time Slot",
+      "availableTimeSlot": "Available time slot",
       "selectTimeSlot": "Select a time slot",
       "serviceAddress": "Service Address",
       "serviceAddressPlaceholder": "Enter the address where the service will be performed",
       "workOrderSummary": "Work Order Summary",
-      "sendWorkOrder": "Send Work Order",
+      "sendWorkOrder": "Submit Work Order",
       "confirmMessage": "Are you sure you want to create this Work Order?",
       "confirmSubmission": "Confirm Submission",
       "success": "Success",
       "successMessage": "The Work Order has been created successfully.",
       "errorMessageGeneric": "An error occurred while submitting the Work Order.",
-      "cancelledMessage": "The operation has been cancelled."
+      "cancelledMessage": "Operation cancelled."
     }
   },
   "client": {
@@ -335,10 +373,10 @@
       "rateService": "Rate Service",
       "howWasService": "How was the service?",
       "submitRating": "Submit Rating",
-      "success": "Rating submitted",
+      "success": "Rating sent",
       "successMessage": "Thank you for your rating!",
-      "error": "Rating failed",
-      "errorMessage": "An error occurred while submitting your rating.",
+      "error": "Rating error",
+      "errorMessage": "An error occurred while sending your rating.",
       "warning": "Warning",
       "selectRatingPrompt": "Please select a rating.",
       "required": "Rating is required.",
@@ -348,16 +386,19 @@
   },
   "common": {
     "continue": "Continue",
-    "notSpecified": "Not Specified",
+    "notSpecified": "Not specified",
     "back": "Back",
     "yes": "Yes",
     "no": "No",
-    "submissionFailed": "Submission Failed",
+    "submissionFailed": "Submission failed",
     "cancelled": "Cancelled",
     "error": "Error",
     "cancel": "Cancel",
     "address": "Address",
     "viewDetails": "View Details",
-    "notAvailable": "Not Available"
+    "notAvailable": "Not available",
+    "success": "Success",
+    "warning": "Warning",
+    "retry": "Retry"
   }
 }

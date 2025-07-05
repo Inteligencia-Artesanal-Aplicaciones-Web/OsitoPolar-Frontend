@@ -56,9 +56,9 @@ export default {
       if (!this.equipmentId) return;
 
       this.loading = true;
-      this.equipmentService.getById(this.equipmentId)
-          .then(response => {
-            this.equipmentData = this.equipmentService.mapEquipment(response.data);
+      this.equipmentService.getEquipmentById(this.equipmentId)
+          .then(equipment => {
+            this.equipmentData = equipment;
             this.loading = false;
           })
           .catch(error => {

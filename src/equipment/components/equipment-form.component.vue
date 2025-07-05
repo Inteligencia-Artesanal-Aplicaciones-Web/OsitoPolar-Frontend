@@ -1,9 +1,10 @@
-﻿<script>
+﻿
+<script>
 import { EquipmentService } from "../services/equipment.service.js";
 
 /**
  * @component equipment-form
- * @description Reusable form component for adding/editing equipment
+ * @description Form for adding/editing equipment with C# API compatibility
  */
 export default {
   name: "equipment-form",
@@ -23,39 +24,51 @@ export default {
   },
   data() {
     return {
+
       formData: {
         name: '',
         type: '',
-        serialNumber: '',
-        code: '',
         model: '',
         manufacturer: '',
+        serialNumber: '',
+        code: '',
+        cost: 0,
         technicalDetails: '',
-        location: {
-          name: '',
-          address: '',
-          coordinates: {
-            lat: -12.046374,
-            lng: -77.042793
-          }
-        },
         currentTemperature: 22,
         setTemperature: 22,
         optimalTemperatureMin: 18,
         optimalTemperatureMax: 25,
-        energyConsumption: {
-          current: 0,
-          unit: 'watts',
-          average: 0
-        },
+        //Ubication
+        locationName: '',
+        locationAddress: '',
+        locationLatitude: -12.046374,
+        locationLongitude: -77.042793,
+        //Energy
+        energyConsumptionCurrent: 0,
+        energyConsumptionUnit: 'watts',
+        energyConsumptionAverage: 0,
+        ownerId: 1,
+        ownerType: 'user',
+        ownershipType: 'Owned',
         notes: ''
       },
       submitting: false,
       errors: {},
       typeOptions: [
-        { label: 'Freezer', value: 'freezer' },
-        { label: 'Cold Room', value: 'cold_room' },
-        { label: 'Refrigerator', value: 'refrigerator' }
+        { label: 'Freezer', value: 'Freezer' },
+        { label: 'Cold Room', value: 'ColdRoom' },
+        { label: 'Refrigerator', value: 'Refrigerator' }
+      ],
+      statusOptions: [
+        { label: 'Active', value: 'Active' },
+        { label: 'Inactive', value: 'Inactive' },
+        { label: 'Maintenance', value: 'Maintenance' },
+        { label: 'Out of Service', value: 'OutOfService' }
+      ],
+      ownershipOptions: [
+        { label: 'Owned', value: 'Owned' },
+        { label: 'Rented', value: 'Rented' },
+        { label: 'Leased', value: 'Leased' }
       ],
       equipmentService: null
     };
@@ -77,31 +90,42 @@ export default {
   },
   methods: {
     resetForm() {
+      const generateUniqueSerial = () => {
+        const fullTimestamp = Date.now();
+        const random = Math.random().toString(36).substring(2, 8).toUpperCase();
+        return `EQ${fullTimestamp}-${random}`;
+      };
+
+
+      const generateUniqueCode = () => {
+        const fullTimestamp = Date.now();
+        const random = Math.random().toString(36).substring(2, 6).toUpperCase();
+        return `CODE${fullTimestamp}${random}`;
+      };
+
       this.formData = {
         name: '',
         type: '',
-        serialNumber: '',
-        code: '',
         model: '',
         manufacturer: '',
+        serialNumber: generateUniqueSerial(),
+        code: generateUniqueCode(),
+        cost: 0,
         technicalDetails: '',
-        location: {
-          name: '',
-          address: '',
-          coordinates: {
-            lat: -12.046374,
-            lng: -77.042793
-          }
-        },
         currentTemperature: 22,
         setTemperature: 22,
         optimalTemperatureMin: 18,
         optimalTemperatureMax: 25,
-        energyConsumption: {
-          current: 0,
-          unit: 'watts',
-          average: 0
-        },
+        locationName: '',
+        locationAddress: '',
+        locationLatitude: -12.046374,
+        locationLongitude: -77.042793,
+        energyConsumptionCurrent: 0,
+        energyConsumptionUnit: 'watts',
+        energyConsumptionAverage: 0,
+        ownerId: 1,
+        ownerType: 'user',
+        ownershipType: 'Owned',
         notes: ''
       };
 
@@ -113,48 +137,60 @@ export default {
     },
 
     populateFormData(equipment) {
+      if (!equipment) {
+        this.resetForm();
+        return;
+      }
       this.formData = {
         name: equipment.name || '',
-        type: equipment.type || '',  // ← CAMBIADO: no default value
-        serialNumber: equipment.serialNumber || '',
-        code: equipment.code || '',
+        type: equipment.type || '',
         model: equipment.model || '',
         manufacturer: equipment.manufacturer || '',
+        serialNumber: equipment.serialNumber || '',
+        code: equipment.code || '',
+        cost: equipment.cost || 0,
         technicalDetails: equipment.technicalDetails || '',
-        location: {
-          name: equipment.location?.name || '',
-          address: equipment.location?.address || '',
-          coordinates: {
-            lat: equipment.location?.coordinates?.lat || -12.046374,
-            lng: equipment.location?.coordinates?.lng || -77.042793
-          }
-        },
         currentTemperature: equipment.currentTemperature || 22,
         setTemperature: equipment.setTemperature || 22,
         optimalTemperatureMin: equipment.optimalTemperatureMin || 18,
         optimalTemperatureMax: equipment.optimalTemperatureMax || 25,
-        energyConsumption: {
-          current: equipment.energyConsumption?.current || 0,
-          unit: equipment.energyConsumption?.unit || 'watts',
-          average: equipment.energyConsumption?.average || 0
-        },
+
+        locationName: equipment.locationName || '',
+        locationAddress: equipment.locationAddress || '',
+        locationLatitude: equipment.locationLatitude || -12.046374,
+        locationLongitude: equipment.locationLongitude || -77.042793,
+
+        energyConsumptionCurrent: equipment.energyConsumptionCurrent || 0,
+        energyConsumptionUnit: equipment.energyConsumptionUnit || 'watts',
+        energyConsumptionAverage: equipment.energyConsumptionAverage || 0,
+        ownerId: equipment.ownerId || 1,
+        ownerType: equipment.ownerType || 'user',
+        ownershipType: equipment.ownershipType || 'owned',
         notes: equipment.notes || ''
       };
     },
 
-    validateForm() {
+    async validateForm() {
       this.errors = {};
 
       if (!this.formData.name?.trim()) {
         this.errors.name = 'Name is required';
       }
 
-      if (!this.formData.type) {  // ← VALIDACIÓN AGREGADA
+      if (!this.formData.type) {
         this.errors.type = 'Type is required';
       }
 
-      if (!this.formData.serialNumber?.trim()) {
-        this.errors.serialNumber = 'Serial number is required';
+      if (this.formData.serialNumber?.trim()) {
+        try {
+          const existingEquipment = await this.equipmentService.getBySerialNumber(this.formData.serialNumber);
+          if (existingEquipment && (!this.isEditMode || existingEquipment.id !== this.equipment?.id)) {
+            this.errors.serialNumber = 'Serial number already exists';
+          }
+        } catch (error) {
+          console.error('Error checking serial number:', error);
+          this.errors.serialNumber = 'Failed to validate serial number';
+        }
       }
 
       if (!this.formData.code?.trim()) {
@@ -169,11 +205,11 @@ export default {
         this.errors.manufacturer = 'Manufacturer is required';
       }
 
-      if (!this.formData.location.name?.trim()) {
+      if (!this.formData.locationName?.trim()) {
         this.errors.locationName = 'Location name is required';
       }
 
-      if (!this.formData.location.address?.trim()) {
+      if (!this.formData.locationAddress?.trim()) {
         this.errors.locationAddress = 'Location address is required';
       }
 
@@ -184,8 +220,13 @@ export default {
       return Object.keys(this.errors).length === 0;
     },
 
-    submitForm() {
-      if (!this.validateForm()) {
+    async submitForm() {
+      if (this.submitting) {
+        return;
+      }
+
+      const isValid = await this.validateForm();
+      if (!isValid) {
         this.$toast.add({
           severity: 'error',
           summary: 'Validation Error',
@@ -196,22 +237,32 @@ export default {
       }
 
       this.submitting = true;
+      console.log('Preparing equipment data...');
 
-      const equipmentData = {
-        ...this.formData,
-        status: 'active',
-        isPoweredOn: true,
-        installationDate: new Date().toISOString().split('T')[0],
-        ownerId: 1,
-        ownerType: 'user',
-        ownershipType: 'owned'
-      };
+      try {
+        const equipmentData = {
+          ...this.formData,
+          status: 'Active',
+          isPoweredOn: true,
+          installationDate: new Date().toISOString()
+        };
 
-      if (this.isEditMode && this.equipment?.id) {
-        equipmentData.id = this.equipment.id;
+        this.$emit('save', equipmentData);
+
+      } catch (error) {
+        console.error('Error preparing equipment data:', error);
+        this.$toast.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Failed to prepare equipment data',
+          life: 5000
+        });
+      } finally {
+        setTimeout(() => {
+          this.submitting = false;
+          console.log(' Submit unlocked');
+        }, 1000);
       }
-
-      this.$emit('save', equipmentData);
     },
 
     cancel() {
@@ -251,7 +302,6 @@ export default {
           <div class="form-col">
             <div class="p-field">
               <label for="type">Type*</label>
-              <!-- ← REEMPLAZADO: Dropdown de PrimeVue por select nativo -->
               <select
                   id="type"
                   v-model="formData.type"
@@ -259,9 +309,9 @@ export default {
                   required
               >
                 <option value="">-- Select Equipment Type --</option>
-                <option value="freezer">Freezer</option>
-                <option value="cold_room">Cold Room</option>
-                <option value="refrigerator">Refrigerator</option>
+                <option value="Freezer">Freezer</option>
+                <option value="ColdRoom">Cold Room</option>
+                <option value="Refrigerator">Refrigerator</option>
               </select>
               <small v-if="errors.type" class="p-error">{{ errors.type }}</small>
             </div>
@@ -393,7 +443,7 @@ export default {
               <label for="locationName">Location Name*</label>
               <pv-input-text
                   id="locationName"
-                  v-model="formData.location.name"
+                  v-model="formData.locationName"
                   :class="{'p-invalid': errors.locationName}"
                   placeholder="Enter location name"
               />
@@ -406,11 +456,82 @@ export default {
               <label for="locationAddress">Address*</label>
               <pv-input-text
                   id="locationAddress"
-                  v-model="formData.location.address"
+                  v-model="formData.locationAddress"
                   :class="{'p-invalid': errors.locationAddress}"
                   placeholder="Enter full address"
               />
               <small v-if="errors.locationAddress" class="p-error">{{ errors.locationAddress }}</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- ✅ AGREGADO: Coordenadas opcionales -->
+        <div class="form-row">
+          <div class="form-col">
+            <div class="p-field">
+              <label for="locationLatitude">Latitude (Optional)</label>
+              <pv-input-number
+                  id="locationLatitude"
+                  v-model="formData.locationLatitude"
+                  :min-fraction-digits="6"
+                  :max-fraction-digits="6"
+                  placeholder="-12.046374"
+              />
+            </div>
+          </div>
+
+          <div class="form-col">
+            <div class="p-field">
+              <label for="locationLongitude">Longitude (Optional)</label>
+              <pv-input-number
+                  id="locationLongitude"
+                  v-model="formData.locationLongitude"
+                  :min-fraction-digits="6"
+                  :max-fraction-digits="6"
+                  placeholder="-77.042793"
+              />
+            </div>
+          </div>
+        </div>
+      </pv-field-set>
+
+      <!-- Energy Information -->
+      <pv-field-set legend="Energy Information">
+        <div class="form-row">
+          <div class="form-col">
+            <div class="p-field">
+              <label for="energyCurrent">Current Consumption</label>
+              <pv-input-number
+                  id="energyCurrent"
+                  v-model="formData.energyConsumptionCurrent"
+                  placeholder="0"
+              />
+            </div>
+          </div>
+
+          <div class="form-col">
+            <div class="p-field">
+              <label for="energyUnit">Energy Unit</label>
+              <select
+                  id="energyUnit"
+                  v-model="formData.energyConsumptionUnit"
+                  class="custom-select"
+              >
+                <option value="watts">Watts</option>
+                <option value="kw">Kilowatts</option>
+                <option value="kwh">kWh</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-col">
+            <div class="p-field">
+              <label for="energyAverage">Average Consumption</label>
+              <pv-input-number
+                  id="energyAverage"
+                  v-model="formData.energyConsumptionAverage"
+                  placeholder="0"
+              />
             </div>
           </div>
         </div>
@@ -459,11 +580,12 @@ export default {
           :disabled="submitting"
       />
       <pv-button
-          label="Save Equipment"
+          :label="submitting ? 'Creating...' : (isEditMode ? 'Update Equipment' : 'Create Equipment')"
           icon="pi pi-check"
           class="p-button-success"
           @click="submitForm"
           :loading="submitting"
+          :disabled="submitting"
       />
     </div>
   </div>

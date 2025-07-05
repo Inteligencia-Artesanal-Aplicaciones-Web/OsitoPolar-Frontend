@@ -35,15 +35,17 @@
     "deleteError": "No se pudo eliminar el equipo. Por favor, inténtelo de nuevo.",
     "yes": "Sí",
     "no": "No",
+    "name": "Nombre",
+    "type": "Tipo",
     "types": {
       "freezer": "Congelador",
       "cold_room": "Cámara Frigorífica",
       "refrigerator": "Refrigerador"
     },
     "status": {
-      "normal": "normal",
-      "warning": "advertencia",
-      "critical": "crítico"
+      "normal": "Normal",
+      "warning": "Advertencia",
+      "critical": "Crítico"
     }
   },
   "service": {
@@ -74,6 +76,10 @@
     "backToRequests": "← Volver a Solicitudes",
     "serviceRequest": "Solicitud de servicio",
     "newServiceRequest": "Nueva Solicitud de Servicio",
+    "cancel": "Cancelar",
+    "cancelSuccess": "Solicitud cancelada exitosamente",
+    "cancelError": "Error al cancelar la solicitud",
+    "loadError": "Error al cargar datos",
     "steps": {
       "equipment": "Equipo",
       "scheduling": "Programación",
@@ -121,8 +127,36 @@
       "in_progress": "en progreso",
       "resolved": "resuelto",
       "rejected": "rechazado",
-      "completed": "completado"
+      "completed": "completado",
+      "cancelled": "cancelado"
     }
+  },
+  "company": {
+    "serviceRequests": {
+      "confirmReject": "¿Está seguro de rechazar esta solicitud?",
+      "rejectRequest": "Rechazar Solicitud",
+      "rejectSuccess": "Solicitud rechazada exitosamente",
+      "rejectError": "Error al rechazar la solicitud",
+      "accept": "Aceptar",
+      "reject": "Rechazar",
+      "assignTechnician": "Asignar Técnico",
+      "selectTechnician": "Seleccionar Técnico",
+      "selectTechnicianPlaceholder": "Seleccione un técnico...",
+      "selectTechnicianPrompt": "Debe seleccionar un técnico",
+      "assign": "Asignar",
+      "acceptSuccess": "Técnico asignado exitosamente",
+      "assignError": "Error al asignar técnico",
+      "markResolved": "Marcar como Resuelto",
+      "confirmResolve": "¿Está seguro de marcar como resuelto?",
+      "resolveRequest": "Resolver Solicitud",
+      "resolveSuccess": "Solicitud resuelta exitosamente",
+      "resolveError": "Error al resolver solicitud",
+      "waitingForRating": "Esperando calificación del cliente",
+      "rated": "Calificado"
+    }
+  },
+  "serviceRequests": {
+    "noRequests": "No hay solicitudes de servicio"
   },
   "option": {
     "home": "Inicio",
@@ -303,34 +337,41 @@
       "confirmation": "Confirmación"
     },
     "form": {
-      "linkToServiceRequest": "Vincular a Solicitud de Servicio",
-      "createIndependentWorkOrder": "Crear Orden de Trabajo Independiente",
-      "title": "Título",
-      "description": "Descripción",
-      "issueDetails": "Detalles del Problema",
-      "selectEquipment": "Seleccionar Equipo",
+      "selectEquipment": "Seleccione el equipo",
       "selectEquipmentPlaceholder": "Seleccione un equipo",
-      "serviceType": "Tipo de Servicio",
-      "selectServiceType": "Seleccione un tipo de servicio",
+      "serviceType": "Tipo de servicio",
+      "selectServiceType": "Seleccione tipo de servicio",
+      "preventive": "Mantenimiento preventivo",
+      "corrective": "Mantenimiento correctivo",
+      "installation": "Instalación",
+      "diagnostic": "Diagnóstico",
+      "description": "Descripción",
       "priority": "Prioridad",
       "low": "Baja",
       "medium": "Media",
-      "normal": "Normal",
       "high": "Alta",
       "critical": "Crítica",
-      "scheduledDate": "Fecha Programada",
-      "availableTimeSlot": "Franja Horaria Disponible",
+      "continue": "Continuar →",
+      "asapQuestion": "¿Atención lo antes posible?",
+      "asapYes": "Sí, necesito atención inmediata",
+      "desiredDate": "Fecha deseada",
+      "availableTimeSlot": "Franja horaria disponible",
       "selectTimeSlot": "Seleccione una franja horaria",
-      "serviceAddress": "Dirección del Servicio",
-      "serviceAddressPlaceholder": "Ingrese la dirección donde se realizará el servicio",
-      "workOrderSummary": "Resumen de la Orden de Trabajo",
-      "sendWorkOrder": "Enviar Orden de Trabajo",
-      "confirmMessage": "¿Está seguro de que desea crear esta Orden de Trabajo?",
+      "back": "← Atrás",
+      "serviceAddress": "Dirección de servicio (opcional)",
+      "serviceAddressPlaceholder": "Ej: Edificio B, 2do piso, laboratorio refrigerado",
+      "requestSummary": "Resumen de la solicitud:",
+      "immediateAttention": "Atención inmediata (ASAP):",
+      "scheduledFor": "Programado para:",
+      "sendRequest": "Enviar solicitud",
       "confirmSubmission": "Confirmar Envío",
-      "success": "Éxito",
-      "successMessage": "La Orden de Trabajo ha sido creada exitosamente.",
-      "errorMessageGeneric": "Ha ocurrido un error al enviar la Orden de Trabajo.",
-      "cancelledMessage": "La operación ha sido cancelada."
+      "confirmMessage": "¿Está seguro que desea enviar esta solicitud?",
+      "success": "Solicitud enviada",
+      "successMessage": "Su solicitud de servicio ha sido enviada.",
+      "error": "Error en el envío",
+      "errorMessage": "Ocurrió un error al enviar la solicitud.",
+      "cancelled": "Cancelado",
+      "cancelledMessage": "Envío cancelado."
     }
   },
   "client": {
@@ -353,7 +394,7 @@
     "continue": "Continuar",
     "notSpecified": "No especificado",
     "back": "Regresar",
-    "yes": "Si",
+    "yes": "Sí",
     "no": "No",
     "submissionFailed": "Envío fallido",
     "cancelled": "Cancelado",
@@ -361,7 +402,9 @@
     "cancel": "Cancelar",
     "address": "Dirección",
     "viewDetails": "Ver Detalles",
-    "notAvailable": "No disponible"
+    "notAvailable": "No disponible",
+    "success": "Éxito",
+    "warning": "Advertencia",
+    "retry": "Reintentar"
   }
-
 }

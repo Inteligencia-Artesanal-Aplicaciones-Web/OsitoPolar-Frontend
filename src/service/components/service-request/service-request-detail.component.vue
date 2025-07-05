@@ -58,12 +58,12 @@ export default {
       <div class="field"><strong>{{ $t('service.location') }}:</strong> {{ locationDisplay }}</div>
       <div class="field"><strong>{{ $t('service.serviceType') }}:</strong> {{ request.serviceType }}</div>
       <div class="field"><strong>{{ $t('service.urgency') }}:</strong> {{ request.urgency }}</div>
-      <div class="field"><strong>{{ $t('service.asap') }}:</strong> {{ request.asap ? $t('service.yes') : $t('service.no') }}</div>
+      <div class="field"><strong>{{ $t('service.asap') }}:</strong> {{ request.isEmergency ? $t('service.yes') : $t('service.no') }}</div>
       <div class="field" v-if="!request.asap"><strong>{{ $t('service.scheduledFor') }}:</strong> {{ formatDate(request.scheduledDate) }}</div>
       <div class="field" v-if="!request.asap"><strong>{{ $t('service.timeSlot') }}:</strong> {{ request.timeSlot || '-' }}</div>
       <div class="field"><strong>{{ $t('service.address') }}:</strong> {{ request.serviceAddress || $t('service.notSpecified') }}</div>
-      <div class="field"><strong>{{ $t('service.technician') }}:</strong> {{ request.technicianId || $t('service.notAssigned') }}</div>
-      <div class="field"><strong>{{ $t('service.completed') }}:</strong> {{ formatDate(request.completionDate) }}</div>
+      <div class="field"><strong>{{ $t('service.technician') }}:</strong> {{ request.assignedTechnicianId || $t('service.notAssigned') }}</div>
+      <div class="field"><strong>{{ $t('service.completed') }}:</strong> {{ formatDate(request.actualCompletionDate) }}</div>
     </div>
   </pv-dialog>
 </template>

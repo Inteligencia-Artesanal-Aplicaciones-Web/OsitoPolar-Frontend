@@ -1,35 +1,48 @@
 ﻿import axios from 'axios';
 
+const baseURL = import.meta.env.VITE_API_BASE_URL || 'https://ositopolar-platform.onrender.com/api/v1';
 const httpInstance = axios.create({
-    baseURL: 'http://localhost:3000',
-    headers: { 'Content-Type': 'application/json' }
+    baseURL: baseURL,
+    headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+    },
+    timeout: 10000
 });
 
-httpInstance.interceptors.request.use((config) => {
-    const originalPath = config.url || '';
-    config.url = originalPath.startsWith('/') ? originalPath.substring(1) : originalPath;
-    config._resourcePath = config.url;
-    console.log('Request URL:', `${httpInstance.defaults.baseURL}/${config.url}`);
-    return config;
-});
+httpInstance.interceptors.request.use(
+    (config) => {
+        console.log(`[API Request] ${config.method?.toUpperCase()} ${config.baseURL}${config.url}`);
+        return config;
+    },
+    (error) => {
+        console.error('[API Request Error]:', error);
+        return Promise.reject(error);
+    }
+);
 
-httpInstance.interceptors.response.use((response) => {
-    if (response.data && response.config._resourcePath) {
-        const resourcePath = response.config._resourcePath.split('/')[0];
-        const id = response.config._resourcePath.split('/')[1];
+httpInstance.interceptors.response.use(
+    (response) => {
+        console.log(`[API Response] ${response.status} ${response.config.url}`);
+        return response;
+    },
+    (error) => {
+        const errorMessage = error.response?.data?.message || error.message;
+        const status = error.response?.status;
+        const url = error.config?.url;
 
-        const data = response.data[resourcePath] || response.data;
+        console.error(`[API Error] ${status} ${url}:`, errorMessage);
 
-        if (id && Array.isArray(data)) {
-            return { ...response, data: data.find(item => String(item.id) === String(id)) || null };
+        if (status === 401) {
+            console.warn('Expired token or unauthorized access');
+        } else if (status === 404) {
+            console.warn('Not found');
+        } else if (status >= 500) {
+            console.error('Error in the server');
         }
 
-        return { ...response, data: data };
+        return Promise.reject(error);
     }
-    return response;
-}, (error) => {
-    console.error('Error en la solicitud:', error.response ? { status: error.response.status, url: error.response.config.url } : error.message);
-    return Promise.reject(error);
-});
+);
 
 export default httpInstance;

@@ -13,6 +13,7 @@ export default {
         equipmentId: '',
         serviceType: '',
         description: '',
+        priority: 'medium',
         urgency: 'normal',
         date: null,
         timeSlot: '',
@@ -36,6 +37,33 @@ export default {
     }
   },
   methods: {
+    // Convert frontend values to C# enum string names
+    getServiceTypeString(serviceType) {
+      const mapping = {
+        'preventive': 'PreventiveMaintenance',
+        'corrective': 'CorrectiveMaintenance',
+        'installation': 'Installation',
+        'diagnostic': 'Diagnostic'
+      };
+      return mapping[serviceType] || 'Diagnostic';
+    },
+    getUrgencyString(urgency) {
+      const mapping = {
+        'normal': 'Normal',
+        'urgent': 'Urgent',
+        'emergency': 'Emergency'
+      };
+      return mapping[urgency] || 'Normal';
+    },
+    getPriorityString(priority) {
+      const mapping = {
+        'low': 'Low',
+        'medium': 'Medium',
+        'high': 'High',
+        'critical': 'Critical'
+      };
+      return mapping[priority] || 'Medium';
+    },
     handleNext() {
       if (this.currentStep < 3) {
         this.currentStep++;
@@ -57,29 +85,25 @@ export default {
         rejectLabel: this.$t('service.no'),
         accept: async () => {
           try {
+
             const payload = {
-              id: undefined,
-              orderNumber: '',
+              title: `${this.formData.serviceType} - ${this.formData.description.substring(0, 40)}`,
               description: this.formData.description,
-              requestTime: null,
-              status: 'pending',
-              priority: 'normal',
-              userId: null,
-              companyId: null,
-              equipmentId: this.formData.equipmentId,
-              technicianId: null,
-              serviceType: this.formData.serviceType,
-              urgency: this.formData.urgency,
-              asap: this.formData.asap,
-              timeSlot: this.formData.timeSlot,
-              serviceAddress: this.formData.serviceAddress,
+              issueDetails: this.formData.description,
+              clientId: 1,
+              companyId: 1,
+              equipmentId: parseInt(this.formData.equipmentId),
+              serviceType: this.getServiceTypeString(this.formData.serviceType),
+              reportedByUserId: 1,
+              priority: this.getPriorityString(this.formData.priority),
+              urgency: this.getUrgencyString(this.formData.urgency),
+              isEmergency: this.formData.asap,
               scheduledDate: this.formData.date ? new Date(this.formData.date).toISOString() : null,
-              completionDate: null,
-              resolution: null
+              timeSlot: this.formData.timeSlot || '',
+              serviceAddress: this.formData.serviceAddress || ''
             };
 
             const response = await this.serviceRequestService.createRequest(payload);
-            console.log('Request created:', response);
 
             this.$toast.add({
               severity: 'success',
@@ -90,14 +114,50 @@ export default {
 
             this.router.push('/service-requests');
           } catch (error) {
-            console.error('Error submitting:', error);
+            console.error('❌ Error submitting:', error);
 
-            this.$toast.add({
-              severity: 'error',
-              summary: 'Submission failed',
-              detail: 'An error occurred while sending the request.',
-              life: 3000
-            });
+            if (error.response) {
+              console.error('📋 Error Response Status:', error.response.status);
+              console.error('📋 Error Response Data:', error.response.data);
+
+              if (error.response.data.errors) {
+                console.error('🔍 Validation Errors:', JSON.stringify(error.response.data.errors, null, 2));
+
+                // Display specific validation errors to user
+                const errors = error.response.data.errors;
+                let errorMessage = 'Validation errors occurred:';
+
+                Object.keys(errors).forEach(field => {
+                  errors[field].forEach(message => {
+                    errorMessage += `\n• ${message}`;
+                  });
+                });
+
+                this.$toast.add({
+                  severity: 'error',
+                  summary: 'Validation Error',
+                  detail: errorMessage,
+                  life: 5000
+                });
+              } else {
+                this.$toast.add({
+                  severity: 'error',
+                  summary: 'Submission failed',
+                  detail: error.response.data.detail || 'An error occurred while sending the request.',
+                  life: 3000
+                });
+              }
+
+              console.error('📋 Error Response Headers:', error.response.headers);
+            } else {
+              // Network or other error
+              this.$toast.add({
+                severity: 'error',
+                summary: 'Network Error',
+                detail: 'Could not connect to the server. Please check your connection.',
+                life: 3000
+              });
+            }
           }
         },
         reject: () => {
@@ -110,15 +170,14 @@ export default {
         }
       });
     }
-
   },
   created() {
-    this.equipmentService.getAll()
-        .then(response => {
-          this.equipments = this.equipmentService.mapEquipment(response.data);
+    this.equipmentService.getAllEquipments()
+        .then(equipments => {
+          this.equipments = equipments;
         })
         .catch(error => {
-          console.error('Error loading equipment:', error);
+          console.error('❌ Error loading equipment:', error);
           this.$toast.add({
             severity: 'error',
             summary: this.$t('service.error'),
@@ -154,7 +213,9 @@ export default {
       </div>
     </div>
 
+    <!-- ✅ STEP 1: Equipment and Service Details -->
     <div v-if="currentStep === 1" class="card">
+      <!-- ✅ AGREGAR: Equipment Selection (FALTABA) -->
       <div>
         <label>{{ $t('service.form.selectEquipment') }}</label>
         <select v-model="formData.equipmentId" class="input">
@@ -165,6 +226,7 @@ export default {
         </select>
       </div>
 
+      <!-- Equipment Info Box (solo si hay equipo seleccionado) -->
       <div v-if="formData.equipmentId" class="info-box">
         <div
             v-for="e in equipments.filter(e => e.id.toString() === formData.equipmentId)"
@@ -178,28 +240,42 @@ export default {
         </div>
       </div>
 
+      <!-- ✅ CORREGIR: Solo UN select de Service Type -->
       <div>
         <label>{{ $t('service.form.serviceType') }}</label>
         <select v-model="formData.serviceType" class="input">
           <option disabled value="">{{ $t('service.form.selectServiceType') }}</option>
           <option value="preventive">{{ $t('service.form.preventive') }}</option>
-          <option value="repair">{{ $t('service.form.repair') }}</option>
+          <option value="corrective">{{ $t('service.form.corrective') }}</option>
           <option value="installation">{{ $t('service.form.installation') }}</option>
           <option value="diagnostic">{{ $t('service.form.diagnostic') }}</option>
         </select>
       </div>
 
+      <!-- Description -->
       <div>
         <label>{{ $t('service.form.description') }}</label>
         <textarea v-model="formData.description" class="input" rows="3"></textarea>
       </div>
 
+      <!-- Priority (EPriority) -->
+      <div>
+        <label>{{ $t('service.form.priority') }}</label>
+        <div class="radio-group">
+          <label><input type="radio" value="low" v-model="formData.priority" /> {{ $t('service.form.low') }}</label>
+          <label><input type="radio" value="medium" v-model="formData.priority" /> {{ $t('service.form.medium') }}</label>
+          <label><input type="radio" value="high" v-model="formData.priority" /> {{ $t('service.form.high') }}</label>
+          <label><input type="radio" value="critical" v-model="formData.priority" /> {{ $t('service.form.critical') }}</label>
+        </div>
+      </div>
+
+      <!-- Urgency (EUrgency) -->
       <div>
         <label>{{ $t('service.form.urgency') }}</label>
         <div class="radio-group">
           <label><input type="radio" value="normal" v-model="formData.urgency" /> {{ $t('service.form.normal') }}</label>
-          <label><input type="radio" value="high" v-model="formData.urgency" /> {{ $t('service.form.high') }}</label>
-          <label><input type="radio" value="critical" v-model="formData.urgency" /> {{ $t('service.form.critical') }}</label>
+          <label><input type="radio" value="urgent" v-model="formData.urgency" /> {{ $t('service.form.urgent') }}</label>
+          <label><input type="radio" value="emergency" v-model="formData.urgency" /> {{ $t('service.form.emergency') }}</label>
         </div>
       </div>
 
@@ -244,6 +320,7 @@ export default {
       </div>
     </div>
 
+    <!-- ✅ STEP 3: Confirmation -->
     <div v-if="currentStep === 3" class="card">
       <label>{{ $t('service.form.serviceAddress') }}</label>
       <textarea
