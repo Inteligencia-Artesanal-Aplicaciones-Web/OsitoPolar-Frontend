@@ -1,6 +1,7 @@
 ﻿import axios from 'axios';
+import authService from "../iam/services/auth.service.js";
 
-const baseURL = import.meta.env.VITE_API_BASE_URL || 'https://ositopolar-platform.onrender.com/api/v1';
+const baseURL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api/v1';
 const httpInstance = axios.create({
     baseURL: baseURL,
     headers: {
@@ -12,6 +13,10 @@ const httpInstance = axios.create({
 
 httpInstance.interceptors.request.use(
     (config) => {
+        const token = authService.getToken();
+        if (token) {
+            config.headers['Authorization'] = `Bearer ${token}`;
+        }
         console.log(`[API Request] ${config.method?.toUpperCase()} ${config.baseURL}${config.url}`);
         return config;
     },
@@ -23,16 +28,16 @@ httpInstance.interceptors.request.use(
 
 httpInstance.interceptors.response.use(
     (response) => {
-        console.log(`[API Response] ${response.status} ${response.config.url}`);
         return response;
     },
     (error) => {
         const errorMessage = error.response?.data?.message || error.message;
+        const errorDetail = error.response?.data;
         const status = error.response?.status;
         const url = error.config?.url;
 
         console.error(`[API Error] ${status} ${url}:`, errorMessage);
-
+        console.error('[API Error Detail]:', errorDetail);
         if (status === 401) {
             console.warn('Expired token or unauthorized access');
         } else if (status === 404) {
