@@ -41,7 +41,7 @@ export default {
 
   computed: {
     userRole() {
-      // Si tienes roles en el futuro
+
       return this.user.role || 'CLIENT';
     },
 

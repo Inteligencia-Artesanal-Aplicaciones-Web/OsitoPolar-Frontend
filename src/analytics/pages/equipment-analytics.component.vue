@@ -27,7 +27,9 @@ export default {
 
       // Analytics data
       readings: [],
+      energyReadings: [],
       dailyAverages: [],
+      summariesAvailable: true,
 
       // for the map
       allEquipment: [],
@@ -69,70 +71,143 @@ export default {
     /**
      * Loads all required data for the analytics view
      */
+    /**
+     * Loads all required data for the analytics view
+     * IMPROVED: Each section loads independently, failures don't break the whole page
+     */
     async loadAll() {
+      console.log('Loading analytics data for equipment:', this.equipmentId);
+
+      this.loading = true;
+      this.hasError = false;
+
+      // Initialize arrays to avoid undefined errors
+      this.readings = [];
+      this.dailyAverages = [];
+      this.allEquipment = [];
+
       try {
-        this.loading = true;
-        this.hasError = false;
+        // 1) Load all equipment for the map (independent)
+        try {
+          const allEquipmentResponse = await httpInstance.get('/equipments');
+          this.allEquipment = allEquipmentResponse.data;
+          console.log('📍 All equipment loaded for map:', this.allEquipment.length, 'items');
+        } catch (error) {
+          console.warn('⚠️ Could not load equipment list for map:', error.message);
+          this.allEquipment = [];
+        }
 
-        console.log(' Loading analytics data for equipment:', this.equipmentId);
+        // 2) Load specific equipment details (critical)
+        try {
+          this.equipment = await this.equipmentService.getEquipmentById(this.equipmentId);
+          console.log('🔧 Equipment details loaded:', this.equipment.name);
+        } catch (error) {
+          console.error(' Could not load equipment details:', error.message);
+          this.hasError = true;
+          this.errorMessage = `Equipment ${this.equipmentId} not found`;
+          this.loading = false;
+          return; // Exit early if equipment doesn't exist
+        }
 
-        // 1) Load all equipment for the map
-        const allEquipmentResponse = await httpInstance.get('/equipments');
-        this.allEquipment = allEquipmentResponse.data;
+        // 3) Load temperature readings (independent)
+        try {
+          const readingsResponse = await this.analyticsService.getEquipmentReadings(
+              this.equipmentId,
+              'temperature',
+              24,
+              100
+          );
 
-        // 2) Load specific equipment details
-        this.equipment = await this.equipmentService.getEquipmentById(this.equipmentId);
-
-        // 3) Load temperature readings (last 24 hours)
-        const readingsResponse = await this.analyticsService.getEquipmentReadings(
-            this.equipmentId,
-            'temperature',
-            24,
-            100
-        );
-
-        if (readingsResponse.data?.data) {
-          this.readings = readingsResponse.data.data.map(reading => ({
-            id: reading.id,
-            equipmentId: reading.equipmentId,
-            temperature: reading.value || reading.temperature,
-            timestamp: reading.timestamp,
-            status: reading.status || 'normal'
-          }));
-        } else {
+          if (readingsResponse.data?.data) {
+            this.readings = readingsResponse.data.data.map(reading => ({
+              id: reading.id,
+              equipmentId: reading.equipmentId,
+              temperature: reading.value || reading.temperature,
+              timestamp: reading.timestamp,
+              status: reading.status || 'normal'
+            }));
+            console.log('Temperature readings loaded:', this.readings.length, 'items');
+          } else {
+            this.readings = [];
+            console.log('ℹ No temperature readings available');
+          }
+        } catch (error) {
+          console.warn(' Could not load temperature readings:', error.message);
           this.readings = [];
         }
-        console.log('Temperature readings loaded:', this.readings.length, 'items');
 
-        // 4) Load daily summaries (last 7 days)
-        const summariesResponse = await this.analyticsService.getEquipmentSummaries(
-            this.equipmentId,
-            'daily-averages',
-            7
-        );
+        // 4) Load energy readings (independent) - NUEVO
+        try {
+          const energyResponse = await this.analyticsService.getEquipmentReadings(
+              this.equipmentId,
+              'energy',
+              24,
+              100
+          );
 
-        if (summariesResponse.data?.data) {
-          this.dailyAverages = summariesResponse.data.data.map(summary => ({
-            id: summary.id,
-            equipmentId: summary.equipmentId,
-            date: summary.date,
-            averageTemperature: summary.averageTemperature,
-            minTemperature: summary.minTemperature,
-            maxTemperature: summary.maxTemperature
-          }));
-        } else {
-          this.dailyAverages = [];
+          if (energyResponse.data?.data) {
+            this.energyReadings = energyResponse.data.data.map(reading => ({
+              id: reading.id,
+              equipmentId: reading.equipmentId,
+              consumption: reading.value || reading.consumption,
+              timestamp: reading.timestamp,
+              status: reading.status || 'normal'
+            }));
+            console.log('⚡ Energy readings loaded:', this.energyReadings.length, 'items');
+          } else {
+            this.energyReadings = [];
+            console.log('ℹNo energy readings available');
+          }
+        } catch (error) {
+          console.warn('Could not load energy readings:', error.message);
+          this.energyReadings = [];
         }
-        console.log('Daily averages loaded:', this.dailyAverages.length, 'items');
+
+        try {
+          const summariesResponse = await this.analyticsService.getEquipmentSummaries(
+              this.equipmentId,
+              'daily-averages',
+              7
+          );
+
+          if (summariesResponse.data?.data) {
+            this.dailyAverages = summariesResponse.data.data.map(summary => ({
+              id: summary.id,
+              equipmentId: summary.equipmentId,
+              date: summary.date,
+              averageTemperature: summary.averageTemperature,
+              minTemperature: summary.minTemperature,
+              maxTemperature: summary.maxTemperature
+            }));
+            console.log('Daily averages loaded:', this.dailyAverages.length, 'items');
+            this.summariesAvailable = true;
+          } else {
+            this.dailyAverages = [];
+            this.summariesAvailable = false;
+            console.log('ℹ No daily summaries available');
+          }
+        } catch (error) {
+          console.warn(' Daily summaries not available:', error.message);
+          this.dailyAverages = [];
+          this.summariesAvailable = false;
+
+        }
 
         this.loading = false;
-        console.log('🎉 Analytics data loaded successfully!');
+
+        // Show success message based on what we got
+        const loadedFeatures = [];
+        if (this.readings.length > 0) loadedFeatures.push('temperature');
+        if (this.energyReadings?.length > 0) loadedFeatures.push('energy');
+        if (this.dailyAverages.length > 0) loadedFeatures.push('summaries');
+
+        console.log(`🎉 Analytics loaded successfully! Available: [${loadedFeatures.join(', ')}]`);
 
       } catch (error) {
-        console.error(' Error loading analytics data:', error);
+        console.error(' Unexpected error loading analytics:', error);
         this.loading = false;
         this.hasError = true;
-        this.errorMessage = `Failed to load analytics data: ${error.message}`;
+        this.errorMessage = `Unexpected error: ${error.message}`;
       }
     }
   },
