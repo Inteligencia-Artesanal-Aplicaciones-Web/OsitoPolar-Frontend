@@ -1,4 +1,5 @@
 import { createApp } from 'vue'
+import {useAuthStore} from "./iam/store/auth.store.js";
 import './style.css'
 import i18n from "./i18n.js";
 import { PrimeVue } from "@primevue/core";
@@ -36,6 +37,7 @@ import {
     Toolbar,
     Message,
     Fieldset,
+    Password
 
 } from "primevue";
 
@@ -48,7 +50,6 @@ import App from "./App.vue";
 const app = createApp(App);
 app.use(i18n)
     .use(pinia)
-
     .use(PrimeVue, { ripple: true})
     .use(ConfirmationService)
     .use(DialogService)
@@ -56,8 +57,8 @@ app.use(i18n)
     .component('pv-button',         Button)
     .component('pv-card',           Card)
     .component('pv-chart',          Chart)
-    .component('pv-input-switch', ToggleSwitch)
-    .component('pv-slider', Slider)
+    .component('pv-input-switch',   ToggleSwitch)
+    .component('pv-slider',         Slider)
     .component('pv-column',         Column)
     .component('pv-confirm-dialog', ConfirmDialog)
     .component('pv-data-table',     DataTable)
@@ -82,6 +83,8 @@ app.use(i18n)
     .component('pv-toast',          Toast)
     .component('pv-message',        Message)
     .component('pv-fieldset',       Fieldset)
-
+    .component('pv-password',       Password)
     .use(router)
     .mount('#app')
+const authStore = useAuthStore();
+authStore.initializeAuth();
