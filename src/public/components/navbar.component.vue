@@ -2,9 +2,10 @@
 /**
  * @component navbar
  * @description Main navigation bar component with responsive slide drawer menu
- * Integrates PrimeVue components and i18n translations
+ * Integrates PrimeVue components, i18n translations, and authentication
  */
 import LanguageSwitcher from "./language-switcher.component.vue";
+import authService from "../../iam/services/auth.service.js";
 
 export default {
   name: "navbar",
@@ -21,19 +22,81 @@ export default {
         { label: 'option.plans', to: '/plans' },
         { label: 'option.contact', to: '/contact' },
       ],
-      mobileMenuOpen: false
+      mobileMenuOpen: false,
+      isAuthenticated: false,
+      currentUser: null,
+      userMenuItems: []
     }
   },
+  mounted() {
+    this.checkAuth();
+    // Listen for auth changes
+    window.addEventListener('auth-changed', this.checkAuth);
+  },
+  beforeUnmount() {
+    window.removeEventListener('auth-changed', this.checkAuth);
+  },
   methods: {
+    checkAuth() {
+      this.isAuthenticated = authService.isAuthenticated();
+      this.currentUser = authService.getCurrentUser();
+      this.setupUserMenu();
+    },
+
+    setupUserMenu() {
+      if (this.isAuthenticated) {
+        this.userMenuItems = [
+          {
+            label: 'My Profile',
+            icon: 'pi pi-user',
+            command: () => {
+              this.$router.push('/profile');
+              this.closeMobileMenu();
+            }
+          },
+          { separator: true },
+          {
+            label: 'Sign Out',
+            icon: 'pi pi-sign-out',
+            command: () => this.handleSignOut()
+          }
+        ];
+      }
+    },
+
     toggleMobileMenu() {
       this.mobileMenuOpen = !this.mobileMenuOpen;
     },
+
     closeMobileMenu() {
       this.mobileMenuOpen = false;
     },
-    goNotifications(){
+
+    goNotifications() {
       this.$router.push({ name: 'notifications' });
       this.closeMobileMenu();
+    },
+
+    goToSignIn() {
+      this.$router.push({ name: 'sign-in' });
+      this.closeMobileMenu();
+    },
+
+    handleSignOut() {
+      authService.signOut();
+      this.checkAuth();
+      this.$toast.add({
+        severity: 'success',
+        summary: 'Signed Out',
+        detail: 'You have been signed out successfully',
+        life: 3000
+      });
+      this.$router.push('/home');
+      this.closeMobileMenu();
+    },
+
+    toggleUserMenu(event) {
+      this.$refs.userMenu.toggle(event);
     }
   }
 }
@@ -66,17 +129,20 @@ export default {
 
       <!-- Desktop menu and actions -->
       <div class="desktop-menu-container">
-        <!-- Menu items -->
+        <!-- Menu items (only show protected routes if authenticated) -->
         <nav class="navbar-menu">
-          <pv-button v-for="item in menu"
-                     :key="item.label"
-                     class="p-button-text menu-button"
-                     as-child
-                     v-slot="slotProps">
-            <router-link :to="item.to" :class="slotProps['class']" class="menu-item">
-              {{ $t(item.label) }}
-            </router-link>
-          </pv-button>
+          <template v-for="item in menu" :key="item.label">
+            <!-- Show all items if authenticated, or only home/contact if not -->
+            <pv-button
+                v-if="isAuthenticated || item.to === '/home' || item.to === '/contact'"
+                class="p-button-text menu-button"
+                as-child
+                v-slot="slotProps">
+              <router-link :to="item.to" :class="slotProps['class']" class="menu-item">
+                {{ $t(item.label) }}
+              </router-link>
+            </pv-button>
+          </template>
         </nav>
 
         <!-- User section -->
@@ -86,13 +152,36 @@ export default {
             <LanguageSwitcher />
           </div>
 
-          <!-- Notification Bell -->
-          <pv-button icon="pi pi-bell"
-                     class="p-button-text p-button-rounded notification-button"
-                     @click="goNotifications"/>
+          <!-- Not authenticated: Show Login button -->
+          <template v-if="!isAuthenticated">
+            <pv-button
+                label="Sign In"
+                icon="pi pi-sign-in"
+                class="p-button-text sign-in-button"
+                @click="goToSignIn" />
+          </template>
 
-          <!-- User Profile -->
-          <pv-button icon="pi pi-user" class="p-button-text p-button-rounded user-button" />
+          <!-- Authenticated: Show user menu -->
+          <template v-else>
+            <!-- Notification Bell -->
+            <pv-button
+                icon="pi pi-bell"
+                class="p-button-text p-button-rounded notification-button"
+                @click="goNotifications" />
+
+            <!-- User Profile Menu -->
+            <pv-button
+                :label="currentUser?.username || 'User'"
+                icon="pi pi-user"
+                class="p-button-text user-button"
+                @click="toggleUserMenu" />
+
+            <pv-menu
+                ref="userMenu"
+                :model="userMenuItems"
+                :popup="true"
+                class="user-dropdown-menu" />
+          </template>
         </div>
       </div>
     </div>
@@ -112,14 +201,16 @@ export default {
 
           <!-- Menu items -->
           <nav class="mobile-nav">
-            <router-link v-for="item in menu"
-                         :key="item.label"
-                         :to="item.to"
-                         class="mobile-menu-item"
-                         @click="closeMobileMenu">
-              <i class="pi pi-angle-right menu-icon"></i>
-              {{ $t(item.label) }}
-            </router-link>
+            <template v-for="item in menu" :key="item.label">
+              <router-link
+                  v-if="isAuthenticated || item.to === '/home' || item.to === '/contact'"
+                  :to="item.to"
+                  class="mobile-menu-item"
+                  @click="closeMobileMenu">
+                <i class="pi pi-angle-right menu-icon"></i>
+                {{ $t(item.label) }}
+              </router-link>
+            </template>
           </nav>
 
           <!-- Divider -->
@@ -133,15 +224,33 @@ export default {
 
           <!-- User actions -->
           <div class="mobile-section">
-            <pv-button
-                icon="pi pi-bell"
-                :label="$t('mobile.notifications')"
-                class="p-button-text p-button-plain mobile-action-button"
-                @click="goNotifications" />
-            <pv-button
-                icon="pi pi-user"
-                :label="$t('mobile.myAccount')"
-                class="p-button-text p-button-plain mobile-action-button" />
+            <!-- If not authenticated -->
+            <template v-if="!isAuthenticated">
+              <pv-button
+                  icon="pi pi-sign-in"
+                  label="Sign In"
+                  class="p-button-text p-button-plain mobile-action-button"
+                  @click="goToSignIn" />
+            </template>
+
+            <!-- If authenticated -->
+            <template v-else>
+              <pv-button
+                  icon="pi pi-bell"
+                  :label="$t('mobile.notifications')"
+                  class="p-button-text p-button-plain mobile-action-button"
+                  @click="goNotifications" />
+              <pv-button
+                  icon="pi pi-user"
+                  :label="currentUser?.username || 'My Account'"
+                  class="p-button-text p-button-plain mobile-action-button"
+                  @click="() => { $router.push('/profile'); closeMobileMenu(); }" />
+              <pv-button
+                  icon="pi pi-sign-out"
+                  label="Sign Out"
+                  class="p-button-text p-button-plain mobile-action-button"
+                  @click="handleSignOut" />
+            </template>
           </div>
         </div>
       </div>
