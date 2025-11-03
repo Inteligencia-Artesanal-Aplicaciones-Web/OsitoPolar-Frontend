@@ -1,9 +1,150 @@
+/**
+ * CSS Custom Properties for Theme Support
+ * Light Theme (Default)
+ */
+:root,
+:root.light {
+  /* Primary Colors - Azul Osito Polar */
+  --color-primary: #0079c2;
+  --color-primary-dark: #005a94;
+  --color-primary-light: #0085cd;
+  --color-primary-hover: #056a9d;
+
+  /* Background & Surface */
+  --color-background: #f5f7fa;
+  --color-background-alt: #ffffff;
+  --color-surface: #ffffff;
+  --color-surface-alt: #f8f9fa;
+  --color-surface-hover: #f2f7fa;
+
+  /* Text Colors */
+  --color-text: #333333;
+  --color-text-secondary: #7f8c8d;
+  --color-text-tertiary: #95a5a6;
+  --color-text-inverse: #ffffff;
+
+  /* Border & Divider */
+  --color-border: #e0e7eb;
+  --color-border-light: #ecf0f1;
+  --color-divider: #e9ecef;
+
+  /* Status Colors */
+  --color-success: #4CAF50;
+  --color-success-light: #d1e7dd;
+  --color-success-border: #badbcc;
+  --color-warning: #FFC107;
+  --color-warning-light: #fff3cd;
+  --color-error: #FF5252;
+  --color-error-light: #f8d7da;
+  --color-error-border: #f5c2c7;
+  --color-info: #0ea5e9;
+  --color-info-light: #dbeafe;
+  --color-info-dark: #1e3a8a;
+
+  /* Card & Component Specific */
+  --color-card-background: #ffffff;
+  --color-card-border: #e0e7eb;
+  --color-card-hover: rgba(0, 0, 0, 0.04);
+
+  /* Dialog & Modal */
+  --color-dialog-background: #ffffff;
+  --color-dialog-header-bg: #f8f9fa;
+  --color-dialog-border: #e9ecef;
+
+  /* Button */
+  --color-button-primary-bg: #0884c4;
+  --color-button-primary-hover: #056a9d;
+  --color-button-secondary-bg: #f8fafc;
+  --color-button-secondary-text: #1e293b;
+  --color-button-secondary-border: #cbd5e1;
+  --color-button-secondary-hover: #e2e8f0;
+
+  /* Gradient */
+  --color-gradient-start: #0079c2;
+  --color-gradient-end: #005a94;
+
+  /* Shadow */
+  --color-shadow: rgba(0, 0, 0, 0.1);
+  --color-shadow-medium: rgba(0, 0, 0, 0.15);
+  --color-shadow-large: rgba(0, 0, 0, 0.2);
+}
+
+/**
+ * Dark Theme
+ */
+:root.dark {
+  /* Primary Colors - Lighter variant for dark mode */
+  --color-primary: #0ea5e9;
+  --color-primary-dark: #0369a1;
+  --color-primary-light: #38bdf8;
+  --color-primary-hover: #0284c7;
+
+  /* Background & Surface */
+  --color-background: #0f172a;
+  --color-background-alt: #1e293b;
+  --color-surface: #1e293b;
+  --color-surface-alt: #334155;
+  --color-surface-hover: #475569;
+
+  /* Text Colors */
+  --color-text: #f1f5f9;
+  --color-text-secondary: #cbd5e1;
+  --color-text-tertiary: #94a3b8;
+  --color-text-inverse: #0f172a;
+
+  /* Border & Divider */
+  --color-border: #334155;
+  --color-border-light: #475569;
+  --color-divider: #475569;
+
+  /* Status Colors */
+  --color-success: #22c55e;
+  --color-success-light: #166534;
+  --color-success-border: #15803d;
+  --color-warning: #fbbf24;
+  --color-warning-light: #713f12;
+  --color-error: #ef4444;
+  --color-error-light: #7f1d1d;
+  --color-error-border: #991b1b;
+  --color-info: #38bdf8;
+  --color-info-light: #075985;
+  --color-info-dark: #0ea5e9;
+
+  /* Card & Component Specific */
+  --color-card-background: #1e293b;
+  --color-card-border: #334155;
+  --color-card-hover: rgba(255, 255, 255, 0.05);
+
+  /* Dialog & Modal */
+  --color-dialog-background: #1e293b;
+  --color-dialog-header-bg: #334155;
+  --color-dialog-border: #475569;
+
+  /* Button */
+  --color-button-primary-bg: #0ea5e9;
+  --color-button-primary-hover: #0284c7;
+  --color-button-secondary-bg: #334155;
+  --color-button-secondary-text: #f1f5f9;
+  --color-button-secondary-border: #475569;
+  --color-button-secondary-hover: #475569;
+
+  /* Gradient */
+  --color-gradient-start: #0ea5e9;
+  --color-gradient-end: #0369a1;
+
+  /* Shadow */
+  --color-shadow: rgba(0, 0, 0, 0.4);
+  --color-shadow-medium: rgba(0, 0, 0, 0.5);
+  --color-shadow-large: rgba(0, 0, 0, 0.6);
+}
+
 :root {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  color: #333333;
-  background-color: #f5f7fa;
+  color: var(--color-text);
+  background-color: var(--color-background);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 * {
@@ -21,11 +162,11 @@ body {
 }
 
 .custom-confirm-dialog {
-  background-color: #ffffff !important;
+  background-color: var(--color-dialog-background) !important;
   border-radius: 1rem !important;
   padding: 1.5rem !important;
-  border: 2px solid #0ea5e9 !important;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
+  border: 2px solid var(--color-primary) !important;
+  box-shadow: 0 10px 30px var(--color-shadow) !important;
   width: 100% !important;
   max-width: 500px !important;
   display: flex;
@@ -36,20 +177,20 @@ body {
 .custom-confirm-dialog .custom-confirm-header {
   font-weight: bold;
   font-size: 1.3rem;
-  color: #055f84;
+  color: var(--color-primary-dark);
   margin-bottom: 0.5rem;
 }
 
 .custom-confirm-dialog .custom-confirm-icon {
   font-size: 2rem;
-  color: #f59e0b;
+  color: var(--color-warning);
   margin-right: 0.75rem;
   vertical-align: middle;
 }
 
 .custom-confirm-dialog .custom-confirm-message {
   font-size: 1.3rem;
-  color: #374151;
+  color: var(--color-text);
   line-height: 1.6;
   margin-bottom: 1rem;
 
@@ -63,8 +204,8 @@ body {
 }
 
 .custom-confirm-dialog .custom-confirm-footer button:first-child {
-  background-color: #0884c4;
-  color: white;
+  background-color: var(--color-button-primary-bg);
+  color: var(--color-text-inverse);
   border: none;
   padding: 0.5rem 1.25rem;
   border-radius: 0.5rem;
@@ -73,13 +214,13 @@ body {
 }
 
 .custom-confirm-dialog .custom-confirm-footer button:first-child:hover {
-  background-color: #056a9d;
+  background-color: var(--color-button-primary-hover);
 }
 
 .custom-confirm-dialog .custom-confirm-footer button:last-child {
-  background-color: #f8fafc;
-  color: #1e293b;
-  border: 1px solid #cbd5e1;
+  background-color: var(--color-button-secondary-bg);
+  color: var(--color-button-secondary-text);
+  border: 1px solid var(--color-button-secondary-border);
   padding: 0.5rem 1.25rem;
   border-radius: 0.5rem;
   font-weight: 600;
@@ -87,7 +228,7 @@ body {
 }
 
 .custom-confirm-dialog .custom-confirm-footer button:last-child:hover {
-  background-color: #e2e8f0;
+  background-color: var(--color-button-secondary-hover);
 }
 
 .p-toast {
@@ -114,21 +255,21 @@ body {
 }
 
 .p-toast .p-toast-message-success {
-  background-color: #d1e7dd;
-  color: #155724;
-  border: 4px solid #badbcc;
+  background-color: var(--color-success-light);
+  color: var(--color-success);
+  border: 4px solid var(--color-success-border);
 }
 
 .p-toast .p-toast-message-error {
-  background-color: #f8d7da;
-  color: #721c24;
-  border: 4px solid #f5c2c7;
+  background-color: var(--color-error-light);
+  color: var(--color-error);
+  border: 4px solid var(--color-error-border);
 }
 
 .p-toast .p-toast-message-info {
-  background-color: #dbeafe;
-  color: #1e3a8a;
-  border: 4px solid #bfdbfe;
+  background-color: var(--color-info-light);
+  color: var(--color-info-dark);
+  border: 4px solid var(--color-info);
 }
 
 .p-toast .p-toast-message-icon {
@@ -144,8 +285,8 @@ body {
 }
 
 .technician-detail-dialog .p-dialog-header {
-  background-color: #007bff;
-  color: #fff;
+  background-color: var(--color-primary);
+  color: var(--color-text-inverse);
   font-weight: 700;
   font-size: 1.3rem;
   border-top-left-radius: 16px;
@@ -154,7 +295,7 @@ body {
 }
 
 .technician-detail-dialog .p-dialog-content {
-  background-color: #ffffff;
+  background-color: var(--color-dialog-background);
   padding: 2.5rem;
   border-bottom-left-radius: 16px;
   border-bottom-right-radius: 16px;
@@ -166,8 +307,8 @@ body {
 }
 
 .work-order-detail-dialog .p-dialog-header {
-  background-color: #0884c4;
-  color: #fff;
+  background-color: var(--color-button-primary-bg);
+  color: var(--color-text-inverse);
   font-weight: bold;
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
@@ -175,35 +316,35 @@ body {
 }
 
 .work-order-detail-dialog .p-dialog-content {
-  background-color: #ffffff;
+  background-color: var(--color-dialog-background);
   padding: 2rem;
   border-bottom-left-radius: 16px;
   border-bottom-right-radius: 16px;
 }
 
 .company-card {
-  background-color: #ffffff;
+  background-color: var(--color-card-background);
   border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 15px var(--color-shadow);
   overflow: hidden;
   transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
 .company-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 25px var(--color-shadow-medium);
 }
 
 .company-card .p-card-header {
-  background-color: #f2f7fa;
+  background-color: var(--color-surface-hover);
   padding: 1rem 1.5rem;
-  border-bottom: 1px solid #e0e7eb;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .company-card .p-card-title {
   padding: 1.5rem 1.5rem 0.5rem;
   font-size: 1.25rem;
-  color: #34495e;
+  color: var(--color-text);
   font-weight: 600;
   display: flex;
   align-items: center;
@@ -213,7 +354,7 @@ body {
 .company-card .p-card-subtitle {
   padding: 0 1.5rem 1rem;
   font-size: 0.95rem;
-  color: #7f8c8d;
+  color: var(--color-text-secondary);
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -221,7 +362,7 @@ body {
 
 .company-card .p-card-content {
   padding: 0 1.5rem 1.5rem;
-  border-top: 1px dashed #ecf0f1;
+  border-top: 1px dashed var(--color-border-light);
   margin-top: 1rem;
 }
 
@@ -231,8 +372,8 @@ body {
 }
 
 .rating-dialog-custom .p-dialog-header {
-  background-color: #f8f9fa;
-  border-bottom: 1px solid #e9ecef;
+  background-color: var(--color-dialog-header-bg);
+  border-bottom: 1px solid var(--color-dialog-border);
   padding: 1.25rem 1.5rem;
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
@@ -241,13 +382,13 @@ body {
 .rating-dialog-custom .p-dialog-title {
   font-size: 1.2rem;
   font-weight: 600;
-  color: #34495e;
+  color: var(--color-text);
 }
 
 .rating-dialog-custom .dialog-content {
   padding: 1.5rem;
   text-align: center;
-  background-color: #f2f7fa;
+  background-color: var(--color-surface-hover);
 }
 
 
@@ -255,13 +396,13 @@ body {
   display: block;
   margin-top: 0.75rem;
   font-size: 0.85rem;
-  color: #e74c3c;
+  color: var(--color-error);
 }
 
 .rating-dialog-custom .p-dialog-footer {
-  border-top: 1px solid #e9ecef;
+  border-top: 1px solid var(--color-dialog-border);
   padding: 1rem 1.5rem;
-  background-color: #f8f9fa;
+  background-color: var(--color-dialog-header-bg);
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
   display: flex;
