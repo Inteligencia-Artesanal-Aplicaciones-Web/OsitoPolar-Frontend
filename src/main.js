@@ -1,5 +1,6 @@
 import { createApp } from 'vue'
 import {useAuthStore} from "./iam/store/auth.store.js";
+import {useThemeStore} from "./shared/theme.store.js";
 import './style.css'
 import i18n from "./i18n.js";
 import { PrimeVue } from "@primevue/core";
@@ -86,5 +87,11 @@ app.use(i18n)
     .component('pv-password',       Password)
     .use(router)
     .mount('#app')
+
+// Initialize auth store
 const authStore = useAuthStore();
 authStore.initializeAuth();
+
+// Initialize theme store
+const themeStore = useThemeStore();
+themeStore.initializeTheme();
