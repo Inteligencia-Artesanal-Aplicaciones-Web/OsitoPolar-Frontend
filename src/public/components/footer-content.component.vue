@@ -41,8 +41,8 @@ export default {
 
 <style scoped>
 .footer-container {
-  background-color: white;
-  border-top: 1px solid #e0e0e0;
+  background-color: var(--color-surface);
+  border-top: 1px solid var(--color-border);
   padding: 2.5rem 0;
   margin-top: 2rem;
 }
@@ -57,7 +57,7 @@ export default {
 }
 
 .footer-copyright {
-  color: #666;
+  color: var(--color-text-secondary);
   font-size: 0.9rem;
 }
 
@@ -67,7 +67,7 @@ export default {
 }
 
 .footer-link {
-  color: #0079c2;
+  color: var(--color-primary);
   font-size: 0.9rem;
   text-decoration: none;
   transition: color 0.2s ease;
@@ -75,7 +75,7 @@ export default {
 
 .footer-link:hover {
   text-decoration: underline;
-  color: #005a91;
+  opacity: 0.8;
 }
 
 @media (max-width: 768px) {
