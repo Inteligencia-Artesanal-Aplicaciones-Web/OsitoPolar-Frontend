@@ -72,7 +72,7 @@ export default {
 }
 
 .hero-section {
-  background: linear-gradient(135deg, #0079c2 0%, #005a94 100%);
+  background: var(--color-primary);
   color: white;
   padding: 4rem 2rem;
   text-align: center;
@@ -98,13 +98,13 @@ export default {
 }
 
 .summary-section {
-  background: #f8f9fa;
+  background: var(--color-background-alt);
   padding: 3rem 0;
 }
 
 .features-section {
   padding: 4rem 2rem;
-  background: white;
+  background: var(--color-background);
 }
 
 .features-container {
@@ -114,7 +114,7 @@ export default {
 
 .features-title {
   text-align: center;
-  color: #333;
+  color: var(--color-text);
   font-size: 2.5rem;
   font-weight: 600;
   margin-bottom: 3rem;
@@ -127,10 +127,10 @@ export default {
 }
 
 .feature-card {
-  background: white;
+  background: var(--color-surface);
   padding: 2rem;
   border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-md);
   text-align: center;
   transition: all 0.3s ease;
   border: 2px solid transparent;
@@ -138,14 +138,14 @@ export default {
 
 .feature-card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-  border-color: #0079c2;
+  box-shadow: var(--shadow-lg);
+  border-color: var(--color-primary);
 }
 
 .feature-icon {
   width: 80px;
   height: 80px;
-  background: linear-gradient(135deg, #0079c2 0%, #005a94 100%);
+  background: var(--color-primary);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -159,14 +159,14 @@ export default {
 }
 
 .feature-card h3 {
-  color: #333;
+  color: var(--color-text);
   font-size: 1.4rem;
   font-weight: 600;
   margin: 0 0 1rem;
 }
 
 .feature-card p {
-  color: #666;
+  color: var(--color-text-secondary);
   line-height: 1.6;
   margin: 0;
 }
