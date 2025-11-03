@@ -5,12 +5,14 @@
  * Integrates PrimeVue components, i18n translations, and authentication
  */
 import LanguageSwitcher from "./language-switcher.component.vue";
+import ThemeToggle from "../../shared/components/theme-toggle.component.vue";
 import authService from "../../iam/services/auth.service.js";
 
 export default {
   name: "navbar",
   components: {
-    LanguageSwitcher
+    LanguageSwitcher,
+    ThemeToggle
   },
   data() {
     return {
@@ -110,7 +112,7 @@ export default {
         <div class="logo">
           <!-- Logo SVG Icon -->
           <svg class="logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28">
-            <path fill="#0079c2" d="M14,15.25C14,15.11 13.89,15 13.75,15H13.5V10.37C13.5,10.23 13.39,10.12 13.25,10.12H10.75C10.61,10.12 10.5,10.23 10.5,10.37V15H10.25C10.11,15 10,15.11 10,15.25V18.5C10,18.64 10.11,18.75 10.25,18.75H13.75C13.89,18.75 14,18.64 14,18.5V15.25M12,9.25C12.83,9.25 13.5,8.58 13.5,7.75C13.5,6.92 12.83,6.25 12,6.25C11.17,6.25 10.5,6.92 10.5,7.75C10.5,8.58 11.17,9.25 12,9.25M16.08,16.22C15.8,15.94 15.36,15.94 15.08,16.22L12,19.29L8.92,16.22C8.64,15.94 8.2,15.94 7.92,16.22C7.65,16.5 7.65,16.93 7.92,17.21L11.5,20.79C11.7,21 12.3,21 12.5,20.79L16.07,17.22C16.35,16.94 16.35,16.5 16.08,16.22Z" />
+            <path class="logo-svg-path" d="M14,15.25C14,15.11 13.89,15 13.75,15H13.5V10.37C13.5,10.23 13.39,10.12 13.25,10.12H10.75C10.61,10.12 10.5,10.23 10.5,10.37V15H10.25C10.11,15 10,15.11 10,15.25V18.5C10,18.64 10.11,18.75 10.25,18.75H13.75C13.89,18.75 14,18.64 14,18.5V15.25M12,9.25C12.83,9.25 13.5,8.58 13.5,7.75C13.5,6.92 12.83,6.25 12,6.25C11.17,6.25 10.5,6.92 10.5,7.75C10.5,8.58 11.17,9.25 12,9.25M16.08,16.22C15.8,15.94 15.36,15.94 15.08,16.22L12,19.29L8.92,16.22C8.64,15.94 8.2,15.94 7.92,16.22C7.65,16.5 7.65,16.93 7.92,17.21L11.5,20.79C11.7,21 12.3,21 12.5,20.79L16.07,17.22C16.35,16.94 16.35,16.5 16.08,16.22Z" />
           </svg>
           <div class="logo-text">
             <span class="company-name">OsitoPolar</span>
@@ -150,6 +152,11 @@ export default {
           <!-- Language Switcher -->
           <div class="language-switcher">
             <LanguageSwitcher />
+          </div>
+
+          <!-- Theme Toggle -->
+          <div class="theme-toggle">
+            <ThemeToggle />
           </div>
 
           <!-- Not authenticated: Show Login button -->
@@ -222,6 +229,12 @@ export default {
             <LanguageSwitcher />
           </div>
 
+          <!-- Theme Toggle -->
+          <div class="mobile-section">
+            <h4>Theme</h4>
+            <ThemeToggle />
+          </div>
+
           <!-- User actions -->
           <div class="mobile-section">
             <!-- If not authenticated -->
@@ -260,10 +273,11 @@ export default {
 
 <style scoped>
 .navbar-container {
-  background-color: white;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  background-color: var(--color-surface);
+  box-shadow: 0 2px 4px var(--color-shadow);
   position: relative;
   z-index: 100;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .navbar {
@@ -290,6 +304,11 @@ export default {
   margin-right: 0.5rem;
 }
 
+.logo-svg-path {
+  fill: var(--color-primary);
+  transition: fill 0.3s ease;
+}
+
 .logo-text {
   display: flex;
   flex-direction: column;
@@ -298,12 +317,14 @@ export default {
 .company-name {
   font-size: 1.5rem;
   font-weight: bold;
-  color: #0079c2;
+  color: var(--color-primary);
+  transition: color 0.3s ease;
 }
 
 .company-slogan {
   font-size: 0.7rem;
-  color: #666;
+  color: var(--color-text-secondary);
+  transition: color 0.3s ease;
 }
 
 .desktop-menu-container {
@@ -321,15 +342,16 @@ export default {
 }
 
 .menu-item {
-  color: #333;
+  color: var(--color-text);
   text-decoration: none;
   font-weight: 500;
   position: relative;
   padding: 0.5rem 0;
+  transition: color 0.3s ease;
 }
 
 .menu-item:hover {
-  color: #0079c2;
+  color: var(--color-primary);
   text-decoration: none;
 }
 
@@ -340,7 +362,7 @@ export default {
   left: 0;
   width: 100%;
   height: 2px;
-  background-color: #0079c2;
+  background-color: var(--color-primary);
 }
 
 .navbar-actions {
@@ -389,10 +411,11 @@ export default {
   width: 300px;
   max-width: 85vw;
   height: 100vh;
-  background-color: white;
-  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.1);
+  background-color: var(--color-surface);
+  box-shadow: -4px 0 20px var(--color-shadow);
   overflow-y: auto;
   z-index: 1000;
+  transition: background-color 0.3s ease;
 }
 
 .mobile-menu-header {
@@ -405,8 +428,9 @@ export default {
 
 .mobile-menu-header h3 {
   margin: 0;
-  color: #0079c2;
+  color: var(--color-primary);
   font-size: 1.25rem;
+  transition: color 0.3s ease;
 }
 
 .close-button {
@@ -421,15 +445,15 @@ export default {
   display: flex;
   align-items: center;
   padding: 0.875rem 1.5rem;
-  color: #333;
+  color: var(--color-text);
   text-decoration: none;
   font-size: 1rem;
   transition: all 0.2s ease;
 }
 
 .mobile-menu-item:hover {
-  background-color: #f8f9fa;
-  color: #0079c2;
+  background-color: var(--color-surface-hover);
+  color: var(--color-primary);
 }
 
 .menu-icon {
@@ -450,10 +474,11 @@ export default {
 
 .mobile-section h4 {
   margin: 0 0 1rem 0;
-  color: #666;
+  color: var(--color-text-secondary);
   font-size: 0.875rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  transition: color 0.3s ease;
 }
 
 .mobile-action-button {
@@ -466,7 +491,7 @@ export default {
 }
 
 .mobile-action-button:hover {
-  background-color: #f8f9fa;
+  background-color: var(--color-surface-hover);
 }
 
 /* Slide transition */
