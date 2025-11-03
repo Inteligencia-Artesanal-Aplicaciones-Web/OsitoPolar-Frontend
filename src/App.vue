@@ -34,8 +34,9 @@ body {
 
 main {
   min-height: 80vh;
-  background-color: #f5f7fa;
+  background-color: var(--color-background);
   padding: 2rem 0;
+  transition: background-color 0.3s ease;
 }
 
 .container {
@@ -45,9 +46,10 @@ main {
 }
 
 .page-title {
-  color: #0079c2;
+  color: var(--color-primary);
   text-align: center;
   font-size: 2.5rem;
   margin-bottom: 2rem;
+  transition: color 0.3s ease;
 }
 </style>
