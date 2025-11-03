@@ -193,35 +193,21 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--color-background-alt);
+  background: var(--color-background);
   padding: 2rem 0;
-  transition: background 0.3s ease;
 }
 
 .sign-in-container {
   width: 100%;
   max-width: 480px;
   padding: 1rem;
-  animation: slideDown 0.5s ease-out;
-}
-
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 .sign-in-card {
-  box-shadow: var(--shadow-lg);
-  border-radius: 16px;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
-  transition: all 0.3s ease;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   overflow: hidden;
 }
 
@@ -234,18 +220,14 @@ export default {
 }
 
 /* Smooth view transitions */
-.fade-enter-active, .fade-leave-active {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.15s ease;
 }
 
-.fade-enter-from {
-  opacity: 0;
-  transform: translateX(-10px);
-}
-
+.fade-enter-from,
 .fade-leave-to {
   opacity: 0;
-  transform: translateX(10px);
 }
 
 /* Responsive */
@@ -258,10 +240,6 @@ export default {
   .sign-in-container {
     max-width: 100%;
     padding: 0.5rem;
-  }
-
-  .sign-in-card {
-    border-radius: 12px;
   }
 }
 </style>
