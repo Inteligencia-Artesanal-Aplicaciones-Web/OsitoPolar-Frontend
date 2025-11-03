@@ -41,16 +41,16 @@ export default {
 .social-links {
   flex: 1;
   min-width: 300px;
-  background: #f8f9fa;
+  background: var(--color-surface);
   padding: 2rem;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: var(--shadow-md);
 }
 
 h2 {
   margin-top: 0;
   margin-bottom: 1.5rem;
-  color: #333;
+  color: var(--color-text);
   font-size: 1.5rem;
   text-align: center;
 }
@@ -109,15 +109,15 @@ h2 {
 .qr-code img {
   width: 150px;
   height: 150px;
-  border: 1px solid #e1e8ed;
+  border: 1px solid var(--color-border);
   border-radius: 8px;
   padding: 0.5rem;
-  background: white;
+  background: var(--color-background);
   margin-bottom: 1rem;
 }
 
 .qr-code p {
-  color: #666;
+  color: var(--color-text-secondary);
   margin: 0;
 }
 
