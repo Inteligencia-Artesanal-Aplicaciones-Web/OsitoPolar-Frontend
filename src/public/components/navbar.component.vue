@@ -163,8 +163,7 @@ export default {
           <template v-if="!isAuthenticated">
             <pv-button
                 label="Sign In"
-                icon="pi pi-sign-in"
-                class="p-button-text sign-in-button"
+                class="sign-in-button"
                 @click="goToSignIn" />
           </template>
 
@@ -379,12 +378,34 @@ export default {
 /* Customize PrimeVue button styles */
 :deep(.notification-button), :deep(.user-button) {
   padding: 0.5rem;
-  color: #555;
+  color: var(--color-text-secondary);
 }
 
 :deep(.notification-button:hover), :deep(.user-button:hover) {
-  color: #0079c2;
-  background-color: #f0f7ff;
+  color: var(--color-primary);
+  background-color: var(--color-surface-hover);
+}
+
+/* Sign In button styling */
+:deep(.sign-in-button) {
+  background: var(--color-primary);
+  color: white;
+  border: none;
+  padding: 0.625rem 1.25rem;
+  font-weight: 500;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+:deep(.sign-in-button:hover) {
+  background: var(--color-primary);
+  opacity: 0.9;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+:deep(.sign-in-button:active) {
+  transform: translateY(0);
 }
 
 /* Hamburger button - Hidden by default */
@@ -423,7 +444,7 @@ export default {
   justify-content: space-between;
   align-items: center;
   padding: 1.5rem;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .mobile-menu-header h3 {
@@ -459,12 +480,12 @@ export default {
 .menu-icon {
   margin-right: 0.75rem;
   font-size: 0.875rem;
-  color: #999;
+  color: var(--color-text-secondary);
 }
 
 .menu-divider {
   height: 1px;
-  background-color: #eee;
+  background-color: var(--color-border);
   margin: 1rem 0;
 }
 
@@ -523,7 +544,7 @@ export default {
 
   .hamburger-button {
     display: inline-flex;
-    color: #0079c2;
+    color: var(--color-primary);
   }
 
   .navbar {
