@@ -47,9 +47,9 @@ export default {
 
     roleLabel() {
       const roleLabels = {
-        'ADMIN': 'Administrator',
-        'TECHNICIAN': 'Technician',
-        'CLIENT': 'Client'
+        'ADMIN': this.$t('auth.userInfo.role.admin'),
+        'TECHNICIAN': this.$t('auth.userInfo.role.technician'),
+        'CLIENT': this.$t('auth.userInfo.role.client')
       };
       return roleLabels[this.userRole] || 'User';
     },
@@ -64,7 +64,7 @@ export default {
     },
 
     membershipDuration() {
-      if (!this.user.createdAt) return 'Unknown';
+      if (!this.user.createdAt) return this.$t('auth.userInfo.unknown');
 
       const now = new Date();
       const created = new Date(this.user.createdAt);
@@ -72,13 +72,13 @@ export default {
       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
       if (diffDays < 30) {
-        return `${diffDays} days`;
+        return this.$t('auth.userInfo.days', { count: diffDays });
       } else if (diffDays < 365) {
         const months = Math.floor(diffDays / 30);
-        return `${months} month${months > 1 ? 's' : ''}`;
+        return this.$t('auth.userInfo.months', { count: months }, months);
       } else {
         const years = Math.floor(diffDays / 365);
-        return `${years} year${years > 1 ? 's' : ''}`;
+        return this.$t('auth.userInfo.years', { count: years }, years);
       }
     }
   },
@@ -91,7 +91,7 @@ export default {
 
   methods: {
     formatDate(dateString) {
-      if (!dateString) return 'Not available';
+      if (!dateString) return this.$t('auth.userInfo.notAvailable');
 
       return new Date(dateString).toLocaleDateString('en-US', {
         year: 'numeric',
@@ -132,15 +132,15 @@ export default {
 
     handleSignOut() {
       this.$confirm.require({
-        message: 'Are you sure you want to sign out?',
-        header: 'Confirm Sign Out',
+        message: this.$t('auth.userInfo.signOutConfirm'),
+        header: this.$t('auth.userInfo.signOutHeader'),
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
           this.authStore.signOut();
           this.$toast.add({
             severity: 'success',
-            summary: 'Signed Out',
-            detail: 'You have been signed out successfully',
+            summary: this.$t('auth.userInfo.signedOut'),
+            detail: this.$t('auth.userInfo.signedOutSuccess'),
             life: 3000
           });
           this.$router.push('/home');
@@ -182,16 +182,16 @@ export default {
         <div class="info-section">
           <h4 class="section-title">
             <i class="pi pi-info-circle"></i>
-            Account Information
+            {{ $t('auth.userInfo.accountInfo') }}
           </h4>
 
           <div class="detail-item">
-            <span class="label">Member Since:</span>
+            <span class="label">{{ $t('auth.userInfo.memberSince') }}:</span>
             <span class="value">{{ formatDate(user.createdAt) }}</span>
           </div>
 
           <div class="detail-item">
-            <span class="label">Membership Duration:</span>
+            <span class="label">{{ $t('auth.userInfo.memberSince') }}:</span>
             <span class="value">{{ membershipDuration }}</span>
           </div>
 
@@ -210,23 +210,23 @@ export default {
         <div class="info-section" v-if="showStats">
           <h4 class="section-title">
             <i class="pi pi-chart-bar"></i>
-            Activity Summary
+            {{ $t('auth.userInfo.activitySummary') }}
           </h4>
 
           <div class="stats-grid">
             <div class="stat-item">
               <div class="stat-value">{{ userStats.equipmentCount }}</div>
-              <div class="stat-label">Equipment</div>
+              <div class="stat-label">{{ $t('auth.userInfo.equipment') }}</div>
             </div>
 
             <div class="stat-item">
               <div class="stat-value">{{ userStats.activeServiceRequests }}</div>
-              <div class="stat-label">Active Requests</div>
+              <div class="stat-label">{{ $t('auth.userInfo.activeRequests') }}</div>
             </div>
 
             <div class="stat-item">
               <div class="stat-value">{{ userStats.totalServiceRequests }}</div>
-              <div class="stat-label">Total Requests</div>
+              <div class="stat-label">{{ $t('auth.userInfo.totalRequests') }}</div>
             </div>
           </div>
         </div>
@@ -235,30 +235,30 @@ export default {
         <div class="actions-section" v-if="showActions">
           <h4 class="section-title">
             <i class="pi pi-cog"></i>
-            Account Actions
+            {{ $t('auth.userInfo.accountActions') }}
           </h4>
 
           <div class="action-buttons">
             <pv-button
-                label="Edit Profile"
+                :label="$t('auth.userInfo.editProfile')"
                 icon="pi pi-pencil"
                 class="p-button-outlined p-button-primary action-btn"
                 @click="handleEditProfile" />
 
             <pv-button
-                label="Change Password"
+                :label="$t('auth.userInfo.changePassword')"
                 icon="pi pi-key"
                 class="p-button-outlined p-button-secondary action-btn"
                 @click="handleChangePassword" />
 
             <pv-button
-                label="View Activity"
+                :label="$t('auth.userInfo.viewActivity')"
                 icon="pi pi-history"
                 class="p-button-outlined p-button-info action-btn"
                 @click="handleViewActivity" />
 
             <pv-button
-                label="Sign Out"
+                :label="$t('auth.userInfo.signOut')"
                 icon="pi pi-sign-out"
                 class="p-button-outlined p-button-danger action-btn"
                 @click="handleSignOut" />
