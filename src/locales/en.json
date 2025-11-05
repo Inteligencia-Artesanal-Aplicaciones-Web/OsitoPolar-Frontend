@@ -45,7 +45,57 @@
     "status": {
       "normal": "Normal",
       "warning": "Warning",
-      "critical": "Critical"
+      "critical": "Critical",
+      "active": "Active",
+      "inactive": "Inactive",
+      "maintenance": "Maintenance",
+      "outOfService": "Out of Service"
+    },
+    "form": {
+      "editTitle": "Edit Equipment",
+      "addTitle": "Add New Equipment",
+      "detailsTitle": "Equipment Details",
+      "createTitle": "Create New Equipment",
+      "namePlaceholder": "Enter equipment name",
+      "model": "Model",
+      "modelPlaceholder": "Enter model number",
+      "manufacturer": "Manufacturer",
+      "manufacturerPlaceholder": "Enter manufacturer name",
+      "serialNumber": "Serial Number",
+      "serialNumberPlaceholder": "Enter serial number",
+      "code": "Equipment Code",
+      "codePlaceholder": "Enter equipment code",
+      "minTemp": "Min Temperature (°C)",
+      "maxTemp": "Max Temperature (°C)",
+      "optimalTemp": "Optimal Temperature (°C)",
+      "location": "Location",
+      "locationPlaceholder": "Enter location name",
+      "address": "Address",
+      "addressPlaceholder": "Enter full address",
+      "latitude": "Latitude",
+      "latitudePlaceholder": "-12.046374",
+      "longitude": "Longitude",
+      "longitudePlaceholder": "-77.042793",
+      "installationDate": "Installation Date",
+      "manufactureYear": "Manufacture Year",
+      "yearPlaceholder": "0",
+      "ownership": "Ownership",
+      "ownershipOwned": "Owned",
+      "ownershipRented": "Rented",
+      "ownershipLeased": "Leased",
+      "specifications": "Technical Specifications",
+      "specificationsPlaceholder": "Enter technical specifications...",
+      "notes": "Additional Notes",
+      "notesPlaceholder": "Enter additional notes...",
+      "cancel": "Cancel",
+      "creating": "Creating...",
+      "create": "Create Equipment",
+      "update": "Update Equipment",
+      "loadingError": "Error loading equipment. Please try again.",
+      "retry": "Retry",
+      "power": "Power",
+      "on": "ON",
+      "off": "OFF"
     }
   },
   "service": {
@@ -400,5 +450,106 @@
     "success": "Success",
     "warning": "Warning",
     "retry": "Retry"
+  },
+  "navbar": {
+    "companySlogan": "Intelligent management of refrigeration equipment",
+    "myProfile": "My Profile",
+    "signOut": "Sign Out",
+    "signIn": "Sign In",
+    "user": "User",
+    "myAccount": "My Account",
+    "theme": "Theme"
+  },
+  "pageNotFound": {
+    "title": "Page not found",
+    "message": "The path {path} is not available.",
+    "goHome": "Go to Home"
+  },
+  "about": {
+    "mission": "Our mission is to provide innovative solutions for monitoring and managing refrigeration equipment, helping businesses maintain product quality and reduce operating costs.",
+    "vision": "We envision a future where every business, regardless of size, can access advanced refrigeration monitoring technology to optimize their operations and contribute to a more sustainable world."
+  },
+  "analytics": {
+    "loading": "Loading analytics data...",
+    "equipmentAnalytics": "Equipment Analytics",
+    "currentTemperature": "Current Temperature",
+    "setTemperature": "Set Temperature",
+    "powerStatus": "Power Status",
+    "temperatureGauge": "Temperature Gauge",
+    "equipmentLocation": "Equipment Location",
+    "dashboard": {
+      "title": "Equipment Monitoring Dashboard",
+      "currentTemp": "Current Temperature",
+      "tempOverTime": "Temperature Over Time",
+      "tempByLocation": "Temperature by Location",
+      "tempHistory": "Temperature History"
+    },
+    "optimalRange": "Optimal range: {min}°C - {max}°C"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "markAsRead": "Mark as read"
+  },
+  "auth": {
+    "signIn": {
+      "title": "Sign In",
+      "welcomeBack": "Welcome back",
+      "username": "Username",
+      "usernamePlaceholder": "Enter your username",
+      "password": "Password",
+      "passwordPlaceholder": "Enter your password",
+      "signInButton": "Sign In",
+      "or": "OR",
+      "adminButton": "I'm an Administrator"
+    },
+    "signUp": {
+      "title": "Create New User",
+      "subtitle": "Enter credentials for the new account",
+      "username": "Username",
+      "usernamePlaceholder": "Enter username",
+      "password": "Password",
+      "passwordPlaceholder": "Enter password",
+      "confirmPassword": "Confirm Password",
+      "confirmPasswordPlaceholder": "Re-enter password",
+      "createButton": "Create User",
+      "backToSignIn": "Back to Sign In",
+      "passwordMismatch": "Passwords do not match",
+      "fillAllFields": "Please fill all fields"
+    },
+    "adminKey": {
+      "title": "Administrator Access",
+      "subtitle": "Enter the admin key to create new users",
+      "adminKey": "Admin Key",
+      "adminKeyPlaceholder": "Enter admin key",
+      "validateButton": "Validate Key",
+      "backToSignIn": "Back to Sign In"
+    },
+    "userInfo": {
+      "role": {
+        "admin": "Administrator",
+        "technician": "Technician",
+        "client": "Client"
+      },
+      "memberSince": "Member since",
+      "unknown": "Unknown",
+      "days": "{count} days",
+      "months": "{count} month | {count} months",
+      "years": "{count} year | {count} years",
+      "notAvailable": "Not available",
+      "signOutConfirm": "Are you sure you want to sign out?",
+      "signOutHeader": "Confirm Sign Out",
+      "signedOut": "Signed Out",
+      "signedOutSuccess": "You have been signed out successfully",
+      "accountInfo": "Account Information",
+      "activitySummary": "Activity Summary",
+      "accountActions": "Account Actions",
+      "equipment": "Equipment",
+      "activeRequests": "Active Requests",
+      "totalRequests": "Total Requests",
+      "editProfile": "Edit Profile",
+      "changePassword": "Change Password",
+      "viewActivity": "View Activity",
+      "signOut": "Sign Out"
+    }
   }
 }
