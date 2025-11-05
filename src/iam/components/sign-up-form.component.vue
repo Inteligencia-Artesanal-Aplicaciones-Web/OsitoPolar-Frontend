@@ -34,12 +34,12 @@ export default {
       }
 
       if (this.newUser.password !== this.newUser.confirmPassword) {
-        this.$emit('error', 'Passwords do not match');
+        this.$emit('error', this.$t('auth.signUp.passwordMismatch'));
         return;
       }
 
       if (!this.isFormValid) {
-        this.$emit('error', 'Please fill all fields');
+        this.$emit('error', this.$t('auth.signUp.fillAllFields'));
         return;
       }
 
@@ -67,37 +67,37 @@ export default {
 <template>
   <form @submit.prevent="handleSubmit" class="sign-up-form">
     <div class="form-header">
-      <h1>Create New User</h1>
-      <p class="subtitle">Enter credentials for the new account</p>
+      <h1>{{ $t('auth.signUp.title') }}</h1>
+      <p class="subtitle">{{ $t('auth.signUp.subtitle') }}</p>
     </div>
 
     <div class="form-fields">
       <div class="field">
-        <label for="newUsername" class="field-label">Username</label>
+        <label for="newUsername" class="field-label">{{ $t('auth.signUp.username') }}</label>
         <pv-input-text
             id="newUsername"
             v-model="newUser.username"
-            placeholder="Enter username"
+            :placeholder="$t('auth.signUp.usernamePlaceholder')"
             class="w-full input-field" />
       </div>
 
       <div class="field">
-        <label for="newPassword" class="field-label">Password</label>
+        <label for="newPassword" class="field-label">{{ $t('auth.signUp.password') }}</label>
         <pv-password
             id="newPassword"
             v-model="newUser.password"
-            placeholder="Enter password"
+            :placeholder="$t('auth.signUp.passwordPlaceholder')"
             class="w-full password-field"
             :feedback="false"
             toggleMask />
       </div>
 
       <div class="field">
-        <label for="confirmPassword" class="field-label">Confirm Password</label>
+        <label for="confirmPassword" class="field-label">{{ $t('auth.signUp.confirmPassword') }}</label>
         <pv-password
             id="confirmPassword"
             v-model="newUser.confirmPassword"
-            placeholder="Re-enter password"
+            :placeholder="$t('auth.signUp.confirmPasswordPlaceholder')"
             class="w-full password-field"
             :feedback="false"
             toggleMask />
@@ -105,14 +105,14 @@ export default {
 
       <pv-button
           type="submit"
-          label="Create User"
+          :label="$t('auth.signUp.createButton')"
           :loading="loading"
           :disabled="loading || !isFormValid"
           class="w-full submit-button" />
 
       <pv-button
           type="button"
-          label="Back to Sign In"
+          :label="$t('auth.signUp.backToSignIn')"
           icon="pi pi-arrow-left"
           severity="secondary"
           text
