@@ -35,9 +35,9 @@ export default {
     },
 
     pageTitle() {
-      if (this.isNewEquipment) return 'Create New Equipment';
-      if (this.isEditMode) return 'Edit Equipment';
-      return 'Equipment Details';
+      if (this.isNewEquipment) return this.$t('equipment.form.createTitle');
+      if (this.isEditMode) return this.$t('equipment.form.editTitle');
+      return this.$t('equipment.form.detailsTitle');
     }
   },
   methods: {
@@ -172,7 +172,7 @@ export default {
       <div class="header-actions">
         <template v-if="isNewEquipment">
           <pv-button
-              label="Cancel"
+              :label="$t('equipment.form.cancel')"
               @click="$router.push('/equipment')"
               class="p-button-secondary"
               :disabled="saving"
@@ -181,7 +181,7 @@ export default {
 
         <template v-else-if="!isNewEquipment && currentView === 'detail'">
           <pv-button
-              label="Edit Equipment"
+              :label="$t('equipment.edit')"
               @click="enterEditMode"
               class="p-button-primary"
               icon="pi pi-pencil"
@@ -190,7 +190,7 @@ export default {
 
         <template v-else-if="isEditMode">
           <pv-button
-              label="Cancel"
+              :label="$t('equipment.form.cancel')"
               @click="cancelEdit"
               class="p-button-secondary"
               :disabled="saving"
@@ -201,14 +201,14 @@ export default {
 
     <div v-if="loading" class="loading-container">
       <pv-progress-spinner />
-      <p>Loading equipment...</p>
+      <p>{{ $t('equipment.loading') }}</p>
     </div>
 
     <div v-else-if="hasError" class="error-container">
       <pv-message severity="error" :closable="false">
-        <p>Error loading equipment. Please try again.</p>
+        <p>{{ $t('equipment.form.loadingError') }}</p>
       </pv-message>
-      <pv-button label="Retry" @click="loadEquipment" class="p-button-secondary" />
+      <pv-button :label="$t('equipment.form.retry')" @click="loadEquipment" class="p-button-secondary" />
     </div>
 
 
