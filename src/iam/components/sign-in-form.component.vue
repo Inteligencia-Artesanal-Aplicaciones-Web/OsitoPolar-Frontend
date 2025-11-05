@@ -64,26 +64,26 @@ export default {
 <template>
   <form @submit.prevent="handleSubmit" class="sign-in-form">
     <div class="form-header">
-      <h1>Sign In</h1>
-      <p class="subtitle">Welcome back</p>
+      <h1>{{ $t('auth.signIn.title') }}</h1>
+      <p class="subtitle">{{ $t('auth.signIn.welcomeBack') }}</p>
     </div>
 
     <div class="form-fields">
       <div class="field">
-        <label for="username" class="field-label">Username</label>
+        <label for="username" class="field-label">{{ $t('auth.signIn.username') }}</label>
         <pv-input-text
             id="username"
             v-model="credentials.username"
-            placeholder="Enter your username"
+            :placeholder="$t('auth.signIn.usernamePlaceholder')"
             class="w-full input-field" />
       </div>
 
       <div class="field">
-        <label for="password" class="field-label">Password</label>
+        <label for="password" class="field-label">{{ $t('auth.signIn.password') }}</label>
         <pv-password
             id="password"
             v-model="credentials.password"
-            placeholder="Enter your password"
+            :placeholder="$t('auth.signIn.passwordPlaceholder')"
             class="w-full password-field"
             :feedback="false"
             toggleMask />
@@ -91,18 +91,18 @@ export default {
 
       <pv-button
           type="submit"
-          label="Sign In"
+          :label="$t('auth.signIn.signInButton')"
           :loading="loading"
           :disabled="loading || submitted"
           class="w-full submit-button" />
 
       <div class="divider">
-        <span>OR</span>
+        <span>{{ $t('auth.signIn.or') }}</span>
       </div>
 
       <pv-button
           type="button"
-          label="I'm an Administrator"
+          :label="$t('auth.signIn.adminButton')"
           icon="pi pi-shield"
           class="w-full admin-button"
           severity="secondary"
