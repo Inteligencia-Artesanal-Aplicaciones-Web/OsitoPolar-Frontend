@@ -34,31 +34,31 @@ export default {
 <template>
   <form @submit.prevent="handleSubmit" class="admin-key-form">
     <div class="form-header">
-      <h1>Administrator Access</h1>
-      <p class="subtitle">Enter the admin key to create new users</p>
+      <h1>{{ $t('auth.adminKey.title') }}</h1>
+      <p class="subtitle">{{ $t('auth.adminKey.subtitle') }}</p>
     </div>
 
     <div class="form-fields">
       <div class="field">
-        <label for="adminKey" class="field-label">Admin Key</label>
+        <label for="adminKey" class="field-label">{{ $t('auth.adminKey.adminKey') }}</label>
         <pv-input-text
             id="adminKey"
             v-model="adminKey"
             type="password"
-            placeholder="Enter admin key"
+            :placeholder="$t('auth.adminKey.adminKeyPlaceholder')"
             class="w-full input-field" />
       </div>
 
       <pv-button
           type="submit"
-          label="Validate Key"
+          :label="$t('auth.adminKey.validateButton')"
           :loading="loading"
           :disabled="loading"
           class="w-full submit-button" />
 
       <pv-button
           type="button"
-          label="Back to Sign In"
+          :label="$t('auth.adminKey.backToSignIn')"
           icon="pi pi-arrow-left"
           severity="secondary"
           text
