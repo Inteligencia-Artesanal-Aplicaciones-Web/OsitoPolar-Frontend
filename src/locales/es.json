@@ -45,7 +45,57 @@
     "status": {
       "normal": "Normal",
       "warning": "Advertencia",
-      "critical": "Crítico"
+      "critical": "Crítico",
+      "active": "Activo",
+      "inactive": "Inactivo",
+      "maintenance": "Mantenimiento",
+      "outOfService": "Fuera de Servicio"
+    },
+    "form": {
+      "editTitle": "Editar Equipo",
+      "addTitle": "Agregar Nuevo Equipo",
+      "detailsTitle": "Detalles del Equipo",
+      "createTitle": "Crear Nuevo Equipo",
+      "namePlaceholder": "Ingrese nombre del equipo",
+      "model": "Modelo",
+      "modelPlaceholder": "Ingrese número de modelo",
+      "manufacturer": "Fabricante",
+      "manufacturerPlaceholder": "Ingrese nombre del fabricante",
+      "serialNumber": "Número de Serie",
+      "serialNumberPlaceholder": "Ingrese número de serie",
+      "code": "Código del Equipo",
+      "codePlaceholder": "Ingrese código del equipo",
+      "minTemp": "Temperatura Mínima (°C)",
+      "maxTemp": "Temperatura Máxima (°C)",
+      "optimalTemp": "Temperatura Óptima (°C)",
+      "location": "Ubicación",
+      "locationPlaceholder": "Ingrese nombre de ubicación",
+      "address": "Dirección",
+      "addressPlaceholder": "Ingrese dirección completa",
+      "latitude": "Latitud",
+      "latitudePlaceholder": "-12.046374",
+      "longitude": "Longitud",
+      "longitudePlaceholder": "-77.042793",
+      "installationDate": "Fecha de Instalación",
+      "manufactureYear": "Año de Fabricación",
+      "yearPlaceholder": "0",
+      "ownership": "Propiedad",
+      "ownershipOwned": "Propio",
+      "ownershipRented": "Alquilado",
+      "ownershipLeased": "Arrendado",
+      "specifications": "Especificaciones Técnicas",
+      "specificationsPlaceholder": "Ingrese especificaciones técnicas...",
+      "notes": "Notas Adicionales",
+      "notesPlaceholder": "Ingrese notas adicionales...",
+      "cancel": "Cancelar",
+      "creating": "Creando...",
+      "create": "Crear Equipo",
+      "update": "Actualizar Equipo",
+      "loadingError": "Error al cargar el equipo. Por favor, inténtelo de nuevo.",
+      "retry": "Reintentar",
+      "power": "Encendido",
+      "on": "ENCENDIDO",
+      "off": "APAGADO"
     }
   },
   "service": {
@@ -221,10 +271,10 @@
       "title": "Configuración del Alquiler",
       "period": "Período de alquiler",
       "month": "mes | meses",
-      "months": " ",
+      "months": "meses",
       "quantity": "Cantidad",
       "unit": "unidad | unidades",
-      "units": " ",
+      "units": "unidades",
       "startDate": "Fecha preferida de inicio",
       "selectDate": "Seleccionar Fecha",
       "deliveryAddress": "Dirección de entrega *",
@@ -337,6 +387,9 @@
       "confirmation": "Confirmación"
     },
     "form": {
+      "linkToServiceRequest": "Vincular a Solicitud de Servicio",
+      "createIndependentWorkOrder": "Crear Orden de Trabajo Independiente",
+      "title": "Título",
       "selectEquipment": "Seleccione el equipo",
       "selectEquipmentPlaceholder": "Seleccione un equipo",
       "serviceType": "Tipo de servicio",
@@ -349,8 +402,10 @@
       "priority": "Prioridad",
       "low": "Baja",
       "medium": "Media",
+      "normal": "Normal",
       "high": "Alta",
       "critical": "Crítica",
+      "scheduledDate": "Fecha Programada",
       "continue": "Continuar →",
       "asapQuestion": "¿Atención lo antes posible?",
       "asapYes": "Sí, necesito atención inmediata",
@@ -361,15 +416,18 @@
       "serviceAddress": "Dirección de servicio (opcional)",
       "serviceAddressPlaceholder": "Ej: Edificio B, 2do piso, laboratorio refrigerado",
       "requestSummary": "Resumen de la solicitud:",
+      "workOrderSummary": "Resumen de la Orden de Trabajo",
       "immediateAttention": "Atención inmediata (ASAP):",
       "scheduledFor": "Programado para:",
       "sendRequest": "Enviar solicitud",
+      "sendWorkOrder": "Enviar Orden de Trabajo",
       "confirmSubmission": "Confirmar Envío",
       "confirmMessage": "¿Está seguro que desea enviar esta solicitud?",
       "success": "Solicitud enviada",
       "successMessage": "Su solicitud de servicio ha sido enviada.",
       "error": "Error en el envío",
       "errorMessage": "Ocurrió un error al enviar la solicitud.",
+      "errorMessageGeneric": "Ocurrió un error al enviar la Orden de Trabajo.",
       "cancelled": "Cancelado",
       "cancelledMessage": "Envío cancelado."
     }
@@ -406,5 +464,106 @@
     "success": "Éxito",
     "warning": "Advertencia",
     "retry": "Reintentar"
+  },
+  "navbar": {
+    "companySlogan": "Gestión inteligente de equipos de refrigeración",
+    "myProfile": "Mi Perfil",
+    "signOut": "Cerrar Sesión",
+    "signIn": "Iniciar Sesión",
+    "user": "Usuario",
+    "myAccount": "Mi Cuenta",
+    "theme": "Tema"
+  },
+  "pageNotFound": {
+    "title": "Página no encontrada",
+    "message": "La ruta {path} no está disponible.",
+    "goHome": "Ir al Inicio"
+  },
+  "about": {
+    "mission": "Nuestra misión es proporcionar soluciones innovadoras para el monitoreo y gestión de equipos de refrigeración, ayudando a las empresas a mantener la calidad del producto y reducir los costos operativos.",
+    "vision": "Visualizamos un futuro donde cada negocio, sin importar su tamaño, pueda acceder a tecnología avanzada de monitoreo de refrigeración para optimizar sus operaciones y contribuir a un mundo más sostenible."
+  },
+  "analytics": {
+    "loading": "Cargando datos de análisis...",
+    "equipmentAnalytics": "Análisis de Equipos",
+    "currentTemperature": "Temperatura Actual",
+    "setTemperature": "Temperatura Configurada",
+    "powerStatus": "Estado de Encendido",
+    "temperatureGauge": "Medidor de Temperatura",
+    "equipmentLocation": "Ubicación del Equipo",
+    "dashboard": {
+      "title": "Panel de Monitoreo de Equipos",
+      "currentTemp": "Temperatura Actual",
+      "tempOverTime": "Temperatura en el Tiempo",
+      "tempByLocation": "Temperatura por Ubicación",
+      "tempHistory": "Historial de Temperatura"
+    },
+    "optimalRange": "Rango óptimo: {min}°C - {max}°C"
+  },
+  "notifications": {
+    "title": "Notificaciones",
+    "markAsRead": "Marcar como leído"
+  },
+  "auth": {
+    "signIn": {
+      "title": "Iniciar Sesión",
+      "welcomeBack": "Bienvenido de nuevo",
+      "username": "Nombre de usuario",
+      "usernamePlaceholder": "Ingrese su nombre de usuario",
+      "password": "Contraseña",
+      "passwordPlaceholder": "Ingrese su contraseña",
+      "signInButton": "Iniciar Sesión",
+      "or": "O",
+      "adminButton": "Soy Administrador"
+    },
+    "signUp": {
+      "title": "Crear Nuevo Usuario",
+      "subtitle": "Ingrese las credenciales para la nueva cuenta",
+      "username": "Nombre de usuario",
+      "usernamePlaceholder": "Ingrese nombre de usuario",
+      "password": "Contraseña",
+      "passwordPlaceholder": "Ingrese contraseña",
+      "confirmPassword": "Confirmar Contraseña",
+      "confirmPasswordPlaceholder": "Reingrese contraseña",
+      "createButton": "Crear Usuario",
+      "backToSignIn": "Volver a Iniciar Sesión",
+      "passwordMismatch": "Las contraseñas no coinciden",
+      "fillAllFields": "Por favor complete todos los campos"
+    },
+    "adminKey": {
+      "title": "Acceso de Administrador",
+      "subtitle": "Ingrese la clave de administrador para crear nuevos usuarios",
+      "adminKey": "Clave de Administrador",
+      "adminKeyPlaceholder": "Ingrese clave de administrador",
+      "validateButton": "Validar Clave",
+      "backToSignIn": "Volver a Iniciar Sesión"
+    },
+    "userInfo": {
+      "role": {
+        "admin": "Administrador",
+        "technician": "Técnico",
+        "client": "Cliente"
+      },
+      "memberSince": "Miembro desde",
+      "unknown": "Desconocido",
+      "days": "{count} días",
+      "months": "{count} mes | {count} meses",
+      "years": "{count} año | {count} años",
+      "notAvailable": "No disponible",
+      "signOutConfirm": "¿Está seguro de que desea cerrar sesión?",
+      "signOutHeader": "Confirmar Cierre de Sesión",
+      "signedOut": "Sesión Cerrada",
+      "signedOutSuccess": "Ha cerrado sesión exitosamente",
+      "accountInfo": "Información de la Cuenta",
+      "activitySummary": "Resumen de Actividad",
+      "accountActions": "Acciones de la Cuenta",
+      "equipment": "Equipos",
+      "activeRequests": "Solicitudes Activas",
+      "totalRequests": "Solicitudes Totales",
+      "editProfile": "Editar Perfil",
+      "changePassword": "Cambiar Contraseña",
+      "viewActivity": "Ver Actividad",
+      "signOut": "Cerrar Sesión"
+    }
   }
 }
