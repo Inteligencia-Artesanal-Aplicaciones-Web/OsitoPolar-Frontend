@@ -50,7 +50,7 @@ export default {
       if (this.isAuthenticated) {
         this.userMenuItems = [
           {
-            label: 'My Profile',
+            label: this.$t('navbar.myProfile'),
             icon: 'pi pi-user',
             command: () => {
               this.$router.push('/profile');
@@ -59,7 +59,7 @@ export default {
           },
           { separator: true },
           {
-            label: 'Sign Out',
+            label: this.$t('navbar.signOut'),
             icon: 'pi pi-sign-out',
             command: () => this.handleSignOut()
           }
@@ -96,8 +96,8 @@ export default {
       this.checkAuth();
       this.$toast.add({
         severity: 'success',
-        summary: 'Signed Out',
-        detail: 'You have been signed out successfully',
+        summary: this.$t('auth.userInfo.signedOut'),
+        detail: this.$t('auth.userInfo.signedOutSuccess'),
         life: 3000
       });
       this.$router.push('/home');
@@ -123,7 +123,7 @@ export default {
           </svg>
           <div class="logo-text">
             <span class="company-name">OsitoPolar</span>
-            <span class="company-slogan">Intelligent management of refrigeration equipment</span>
+            <span class="company-slogan">{{ $t('navbar.companySlogan') }}</span>
           </div>
         </div>
       </div>
@@ -169,7 +169,7 @@ export default {
           <!-- Not authenticated: Show Login button -->
           <template v-if="!isAuthenticated">
             <pv-button
-                label="Sign In"
+                :label="$t('navbar.signIn')"
                 class="sign-in-button"
                 @click="goToSignIn" />
           </template>
@@ -184,7 +184,7 @@ export default {
 
             <!-- User Profile Menu -->
             <pv-button
-                :label="currentUser?.username || 'User'"
+                :label="currentUser?.username || $t('navbar.user')"
                 icon="pi pi-user"
                 class="p-button-text user-button"
                 @click="toggleUserMenu" />
@@ -237,7 +237,7 @@ export default {
 
           <!-- Theme Toggle -->
           <div class="mobile-section">
-            <h4>Theme</h4>
+            <h4>{{ $t('navbar.theme') }}</h4>
             <ThemeToggle />
           </div>
 
@@ -247,7 +247,7 @@ export default {
             <template v-if="!isAuthenticated">
               <pv-button
                   icon="pi pi-sign-in"
-                  label="Sign In"
+                  :label="$t('navbar.signIn')"
                   class="p-button-text p-button-plain mobile-action-button"
                   @click="goToSignIn" />
             </template>
@@ -261,12 +261,12 @@ export default {
                   @click="goNotifications" />
               <pv-button
                   icon="pi pi-user"
-                  :label="currentUser?.username || 'My Account'"
+                  :label="currentUser?.username || $t('navbar.myAccount')"
                   class="p-button-text p-button-plain mobile-action-button"
                   @click="() => { $router.push('/profile'); closeMobileMenu(); }" />
               <pv-button
                   icon="pi pi-sign-out"
-                  label="Sign Out"
+                  :label="$t('navbar.signOut')"
                   class="p-button-text p-button-plain mobile-action-button"
                   @click="handleSignOut" />
             </template>
