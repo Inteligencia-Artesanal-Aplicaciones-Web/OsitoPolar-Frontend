@@ -19,9 +19,9 @@ export default {
 
 <template>
   <div class="w-full">
-    <h1>Page not found</h1>
-    <p>The path {{ unavailableRoute }} is not available.</p>
-    <router-link to="/home">Go to Home</router-link>
+    <h1>{{ $t('pageNotFound.title') }}</h1>
+    <p>{{ $t('pageNotFound.message', { path: unavailableRoute }) }}</p>
+    <router-link to="/home">{{ $t('pageNotFound.goHome') }}</router-link>
   </div>
 </template>
 
