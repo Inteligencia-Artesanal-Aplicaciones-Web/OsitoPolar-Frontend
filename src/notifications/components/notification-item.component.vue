@@ -23,7 +23,7 @@ export default {
 <template>
   <div class="notification-item" :class="{ unread: notification.isUnread() }">
     <p class="message">{{ notification.description }}</p>
-    <button @click="onMarkAsRead">Mark as read</button>
+    <button @click="onMarkAsRead">{{ $t('notifications.markAsRead') }}</button>
   </div>
 </template>
 
