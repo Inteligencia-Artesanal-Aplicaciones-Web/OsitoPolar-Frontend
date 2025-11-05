@@ -40,8 +40,8 @@ export default {
 
 <template>
   <div class="notifications-page">
-    <h1>Notifications</h1>
-    <div v-if="loading">Loading…</div>
+    <h1>{{ $t('notifications.title') }}</h1>
+    <div v-if="loading">{{ $t('equipment.loading') }}</div>
     <NotificationList
         v-else
         :notifications="notifications"
