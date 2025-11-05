@@ -54,28 +54,34 @@ export default {
       },
       submitting: false,
       errors: {},
-      typeOptions: [
-        { label: 'Freezer', value: 'Freezer' },
-        { label: 'Cold Room', value: 'ColdRoom' },
-        { label: 'Refrigerator', value: 'Refrigerator' }
-      ],
-      statusOptions: [
-        { label: 'Active', value: 'Active' },
-        { label: 'Inactive', value: 'Inactive' },
-        { label: 'Maintenance', value: 'Maintenance' },
-        { label: 'Out of Service', value: 'OutOfService' }
-      ],
-      ownershipOptions: [
-        { label: 'Owned', value: 'Owned' },
-        { label: 'Rented', value: 'Rented' },
-        { label: 'Leased', value: 'Leased' }
-      ],
       equipmentService: null
     };
   },
   computed: {
     pageTitle() {
-      return this.isEditMode ? 'Edit Equipment' : 'Add New Equipment';
+      return this.isEditMode ? this.$t('equipment.form.editTitle') : this.$t('equipment.form.addTitle');
+    },
+    typeOptions() {
+      return [
+        { label: this.$t('equipment.types.freezer'), value: 'Freezer' },
+        { label: this.$t('equipment.types.cold_room'), value: 'ColdRoom' },
+        { label: this.$t('equipment.types.refrigerator'), value: 'Refrigerator' }
+      ];
+    },
+    statusOptions() {
+      return [
+        { label: this.$t('equipment.status.active'), value: 'Active' },
+        { label: this.$t('equipment.status.inactive'), value: 'Inactive' },
+        { label: this.$t('equipment.status.maintenance'), value: 'Maintenance' },
+        { label: this.$t('equipment.status.outOfService'), value: 'OutOfService' }
+      ];
+    },
+    ownershipOptions() {
+      return [
+        { label: this.$t('equipment.form.ownershipOwned'), value: 'Owned' },
+        { label: this.$t('equipment.form.ownershipRented'), value: 'Rented' },
+        { label: this.$t('equipment.form.ownershipLeased'), value: 'Leased' }
+      ];
     }
   },
   watch: {
@@ -288,12 +294,12 @@ export default {
         <div class="form-row">
           <div class="form-col">
             <div class="p-field">
-              <label for="name">Name*</label>
+              <label for="name">{{ $t('equipment.name') }}*</label>
               <pv-input-text
                   id="name"
                   v-model="formData.name"
                   :class="{'p-invalid': errors.name}"
-                  placeholder="Enter equipment name"
+                  :placeholder="$t('equipment.form.namePlaceholder')"
               />
               <small v-if="errors.name" class="p-error">{{ errors.name }}</small>
             </div>
@@ -301,17 +307,17 @@ export default {
 
           <div class="form-col">
             <div class="p-field">
-              <label for="type">Type*</label>
+              <label for="type">{{ $t('equipment.type') }}*</label>
               <select
                   id="type"
                   v-model="formData.type"
                   :class="['custom-select', {'is-invalid': errors.type}]"
                   required
               >
-                <option value="">-- Select Equipment Type --</option>
-                <option value="Freezer">Freezer</option>
-                <option value="ColdRoom">Cold Room</option>
-                <option value="Refrigerator">Refrigerator</option>
+                <option value="">-- {{ $t('equipment.type') }} --</option>
+                <option value="Freezer">{{ $t('equipment.types.freezer') }}</option>
+                <option value="ColdRoom">{{ $t('equipment.types.cold_room') }}</option>
+                <option value="Refrigerator">{{ $t('equipment.types.refrigerator') }}</option>
               </select>
               <small v-if="errors.type" class="p-error">{{ errors.type }}</small>
             </div>
@@ -319,12 +325,12 @@ export default {
 
           <div class="form-col">
             <div class="p-field">
-              <label for="model">Model*</label>
+              <label for="model">{{ $t('equipment.form.model') }}*</label>
               <pv-input-text
                   id="model"
                   v-model="formData.model"
                   :class="{'p-invalid': errors.model}"
-                  placeholder="Enter model number"
+                  :placeholder="$t('equipment.form.modelPlaceholder')"
               />
               <small v-if="errors.model" class="p-error">{{ errors.model }}</small>
             </div>
@@ -334,12 +340,12 @@ export default {
         <div class="form-row">
           <div class="form-col">
             <div class="p-field">
-              <label for="manufacturer">Manufacturer*</label>
+              <label for="manufacturer">{{ $t('equipment.form.manufacturer') }}*</label>
               <pv-input-text
                   id="manufacturer"
                   v-model="formData.manufacturer"
                   :class="{'p-invalid': errors.manufacturer}"
-                  placeholder="Enter manufacturer name"
+                  :placeholder="$t('equipment.form.manufacturerPlaceholder')"
               />
               <small v-if="errors.manufacturer" class="p-error">{{ errors.manufacturer }}</small>
             </div>
@@ -347,12 +353,12 @@ export default {
 
           <div class="form-col">
             <div class="p-field">
-              <label for="serialNumber">Serial Number*</label>
+              <label for="serialNumber">{{ $t('equipment.form.serialNumber') }}*</label>
               <pv-input-text
                   id="serialNumber"
                   v-model="formData.serialNumber"
                   :class="{'p-invalid': errors.serialNumber}"
-                  placeholder="Enter serial number"
+                  :placeholder="$t('equipment.form.serialNumberPlaceholder')"
               />
               <small v-if="errors.serialNumber" class="p-error">{{ errors.serialNumber }}</small>
             </div>
@@ -360,12 +366,12 @@ export default {
 
           <div class="form-col">
             <div class="p-field">
-              <label for="code">Equipment Code*</label>
+              <label for="code">{{ $t('equipment.form.code') }}*</label>
               <pv-input-text
                   id="code"
                   v-model="formData.code"
                   :class="{'p-invalid': errors.code}"
-                  placeholder="Enter equipment code"
+                  :placeholder="$t('equipment.form.codePlaceholder')"
               />
               <small v-if="errors.code" class="p-error">{{ errors.code }}</small>
             </div>
@@ -378,7 +384,7 @@ export default {
         <div class="form-row">
           <div class="form-col">
             <div class="p-field">
-              <label for="currentTemperature">Current Temperature (°C)</label>
+              <label for="currentTemperature">{{ $t('equipment.form.optimalTemp') }}</label>
               <pv-input-number
                   id="currentTemperature"
                   v-model="formData.currentTemperature"
@@ -391,7 +397,7 @@ export default {
 
           <div class="form-col">
             <div class="p-field">
-              <label for="setTemperature">Set Temperature (°C)</label>
+              <label for="setTemperature">{{ $t('equipment.form.optimalTemp') }}</label>
               <pv-input-number
                   id="setTemperature"
                   v-model="formData.setTemperature"
@@ -406,7 +412,7 @@ export default {
         <div class="form-row">
           <div class="form-col">
             <div class="p-field">
-              <label for="optimalMin">Optimal Minimum (°C)</label>
+              <label for="optimalMin">{{ $t('equipment.form.minTemp') }}</label>
               <pv-input-number
                   id="optimalMin"
                   v-model="formData.optimalTemperatureMin"
@@ -420,7 +426,7 @@ export default {
 
           <div class="form-col">
             <div class="p-field">
-              <label for="optimalMax">Optimal Maximum (°C)</label>
+              <label for="optimalMax">{{ $t('equipment.form.maxTemp') }}</label>
               <pv-input-number
                   id="optimalMax"
                   v-model="formData.optimalTemperatureMax"
@@ -440,12 +446,12 @@ export default {
         <div class="form-row">
           <div class="form-col">
             <div class="p-field">
-              <label for="locationName">Location Name*</label>
+              <label for="locationName">{{ $t('equipment.form.location') }}*</label>
               <pv-input-text
                   id="locationName"
                   v-model="formData.locationName"
                   :class="{'p-invalid': errors.locationName}"
-                  placeholder="Enter location name"
+                  :placeholder="$t('equipment.form.locationPlaceholder')"
               />
               <small v-if="errors.locationName" class="p-error">{{ errors.locationName }}</small>
             </div>
@@ -453,12 +459,12 @@ export default {
 
           <div class="form-col">
             <div class="p-field">
-              <label for="locationAddress">Address*</label>
+              <label for="locationAddress">{{ $t('equipment.form.address') }}*</label>
               <pv-input-text
                   id="locationAddress"
                   v-model="formData.locationAddress"
                   :class="{'p-invalid': errors.locationAddress}"
-                  placeholder="Enter full address"
+                  :placeholder="$t('equipment.form.addressPlaceholder')"
               />
               <small v-if="errors.locationAddress" class="p-error">{{ errors.locationAddress }}</small>
             </div>
@@ -469,26 +475,26 @@ export default {
         <div class="form-row">
           <div class="form-col">
             <div class="p-field">
-              <label for="locationLatitude">Latitude (Optional)</label>
+              <label for="locationLatitude">{{ $t('equipment.form.latitude') }}</label>
               <pv-input-number
                   id="locationLatitude"
                   v-model="formData.locationLatitude"
                   :min-fraction-digits="6"
                   :max-fraction-digits="6"
-                  placeholder="-12.046374"
+                  :placeholder="$t('equipment.form.latitudePlaceholder')"
               />
             </div>
           </div>
 
           <div class="form-col">
             <div class="p-field">
-              <label for="locationLongitude">Longitude (Optional)</label>
+              <label for="locationLongitude">{{ $t('equipment.form.longitude') }}</label>
               <pv-input-number
                   id="locationLongitude"
                   v-model="formData.locationLongitude"
                   :min-fraction-digits="6"
                   :max-fraction-digits="6"
-                  placeholder="-77.042793"
+                  :placeholder="$t('equipment.form.longitudePlaceholder')"
               />
             </div>
           </div>
@@ -542,13 +548,13 @@ export default {
         <div class="form-row">
           <div class="form-col">
             <div class="p-field">
-              <label for="technicalDetails">Technical Details</label>
+              <label for="technicalDetails">{{ $t('equipment.form.specifications') }}</label>
               <pv-textarea
                   id="technicalDetails"
                   v-model="formData.technicalDetails"
                   rows="3"
                   auto-resize
-                  placeholder="Enter technical specifications..."
+                  :placeholder="$t('equipment.form.specificationsPlaceholder')"
               />
             </div>
           </div>
@@ -557,13 +563,13 @@ export default {
         <div class="form-row">
           <div class="form-col">
             <div class="p-field">
-              <label for="notes">Notes</label>
+              <label for="notes">{{ $t('equipment.form.notes') }}</label>
               <pv-textarea
                   id="notes"
                   v-model="formData.notes"
                   rows="3"
                   auto-resize
-                  placeholder="Enter additional notes..."
+                  :placeholder="$t('equipment.form.notesPlaceholder')"
               />
             </div>
           </div>
@@ -573,14 +579,14 @@ export default {
 
     <div class="form-footer">
       <pv-button
-          label="Cancel"
+          :label="$t('equipment.form.cancel')"
           icon="pi pi-times"
           class="p-button-text"
           @click="cancel"
           :disabled="submitting"
       />
       <pv-button
-          :label="submitting ? 'Creating...' : (isEditMode ? 'Update Equipment' : 'Create Equipment')"
+          :label="submitting ? $t('equipment.form.creating') : (isEditMode ? $t('equipment.form.update') : $t('equipment.form.create'))"
           icon="pi pi-check"
           class="p-button-success"
           @click="submitForm"
