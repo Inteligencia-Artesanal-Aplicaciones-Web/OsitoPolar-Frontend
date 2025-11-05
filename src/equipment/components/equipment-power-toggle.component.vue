@@ -41,7 +41,7 @@ export default {
           class="power-label"
           :style="{ color: isPoweredOn ? '#4CAF50' : '#666' }"
       >
-        {{ isPoweredOn ? 'ON' : 'OFF' }}
+        {{ isPoweredOn ? $t('equipment.form.on') : $t('equipment.form.off') }}
       </span>
     </div>
 
@@ -53,7 +53,7 @@ export default {
       >
         <i class="pi pi-power-off"></i>
       </button>
-      <span class="button-label">Power</span>
+      <span class="button-label">{{ $t('equipment.form.power') }}</span>
     </div>
   </div>
 </template>
