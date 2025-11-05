@@ -26,10 +26,10 @@ export default {
       ];
     },
     selectedTypeLabel() {
-      return this.equipmentTypes.find(type => type.value === this.selectedType)?.label || 'Todos los equipos';
+      return this.equipmentTypes.find(type => type.value === this.selectedType)?.label || this.$t('rental.filter.allEquipment');
     },
     selectedSortLabel() {
-      return this.sortOptions.find(option => option.value === this.sortBy)?.label || 'Precio: Menor a Mayor';
+      return this.sortOptions.find(option => option.value === this.sortBy)?.label || this.$t('rental.filter.sortOptions.lowToHigh');
     }
   },
   methods: {
@@ -132,7 +132,7 @@ export default {
                   min="0"
                   max="1000"
                   class="price-input"
-                  placeholder="Mín"
+                  :placeholder="$t('rental.filter.minPrice')"
               >
             </div>
             <span class="range-separator">-</span>
@@ -145,7 +145,7 @@ export default {
                   min="0"
                   max="1000"
                   class="price-input"
-                  placeholder="Máx"
+                  :placeholder="$t('rental.filter.maxPrice')"
               >
             </div>
           </div>
