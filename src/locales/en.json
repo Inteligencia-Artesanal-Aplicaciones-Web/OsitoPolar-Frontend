@@ -500,7 +500,9 @@
       "passwordPlaceholder": "Enter your password",
       "signInButton": "Sign In",
       "or": "OR",
-      "adminButton": "I'm an Administrator"
+      "adminButton": "I'm an Administrator",
+      "noAccount": "Don't have an account?",
+      "signUpLink": "Sign up"
     },
     "signUp": {
       "title": "Create New User",
