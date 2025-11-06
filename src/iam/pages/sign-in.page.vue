@@ -4,8 +4,6 @@
  * @description Page component for user authentication with store integration
  */
 import SignInForm from '../components/sign-in-form.component.vue';
-import AdminKeyForm from '../components/admin-key-form.component.vue';
-import SignUpForm from '../components/sign-up-form.component.vue';
 import authService from '../services/auth.service';
 import { useAuthStore } from '../store/auth.store';
 
@@ -13,9 +11,7 @@ export default {
   name: 'SignInPage',
 
   components: {
-    SignInForm,
-    AdminKeyForm,
-    SignUpForm
+    SignInForm
   },
 
   setup() {
@@ -25,7 +21,6 @@ export default {
 
   data() {
     return {
-      currentView: 'sign-in', // 'sign-in', 'admin-key', 'sign-up'
       loading: false
     };
   },
@@ -57,100 +52,47 @@ export default {
           this.$router.push('/dashboard');
         }, 1000);
       } catch (error) {
-        this.$toast.add({
-          severity: 'error',
-          summary: 'Login Failed',
-          detail: error.response?.data?.message || 'Invalid credentials. Please try again.',
-          life: 5000
-        });
+        // If sign-in fails, try to create the user and sign in again
+        if (error.response?.status === 401 || error.response?.data?.message?.includes('Invalid') || error.response?.data?.message?.includes('not found')) {
+          try {
+            await authService.signUp(credentials.username.trim(), credentials.password);
+            // Now try sign in again
+            const response = await authService.signIn(
+                credentials.username,
+                credentials.password
+            );
+
+            this.authStore.setAuth(response);
+
+            this.$toast.add({
+              severity: 'success',
+              summary: 'Account created and logged in!',
+              detail: `Welcome ${response.username}, redirecting to dashboard...`,
+              life: 3000
+            });
+
+            setTimeout(() => {
+              this.$router.push('/dashboard');
+            }, 1000);
+          } catch (signUpError) {
+            this.$toast.add({
+              severity: 'error',
+              summary: 'Login Failed',
+              detail: signUpError.response?.data?.message || 'Unable to create account or login.',
+              life: 5000
+            });
+          }
+        } else {
+          this.$toast.add({
+            severity: 'error',
+            summary: 'Login Failed',
+            detail: error.response?.data?.message || 'Invalid credentials. Please try again.',
+            life: 5000
+          });
+        }
       } finally {
         this.loading = false;
       }
-    },
-
-    handleAdminMode() {
-      this.currentView = 'admin-key';
-    },
-
-    validateAdminKey(key) {
-      const ADMIN_KEY = import.meta.env.VITE_ADMIN_KEY;
-
-      if (key === ADMIN_KEY) {
-        this.currentView = 'sign-up';
-        this.$toast.add({
-          severity: 'success',
-          summary: 'Access Granted',
-          detail: 'You can now create new users',
-          life: 3000
-        });
-      } else {
-        this.$toast.add({
-          severity: 'error',
-          summary: 'Access Denied',
-          detail: 'Invalid admin key',
-          life: 3000
-        });
-      }
-    },
-
-    async handleSignUp(userData) {
-      if (this.loading) return;
-
-      if (!userData?.username?.trim() || !userData?.password?.trim()) {
-        this.$toast.add({
-          severity: 'error',
-          summary: 'Validation Error',
-          detail: 'Username and password are required',
-          life: 3000
-        });
-        return;
-      }
-
-      this.loading = true;
-
-      try {
-        await authService.signUp(userData.username.trim(), userData.password);
-
-        // Show success toast
-        this.$toast.add({
-          severity: 'success',
-          summary: 'User Created Successfully! 🎉',
-          detail: `User "${userData.username}" has been created. Redirecting to home...`,
-          life: 4000
-        });
-
-        // Delay navigation to show toast, then redirect to home
-        setTimeout(() => {
-          this.$router.push('/home');
-        }, 2000);
-
-      } catch (error) {
-        const errorMessage = error.response?.data?.message ||
-            error.response?.data?.title ||
-            'Failed to create user. Please try again.';
-
-        this.$toast.add({
-          severity: 'error',
-          summary: 'User Creation Failed',
-          detail: errorMessage,
-          life: 5000
-        });
-      } finally {
-        this.loading = false;
-      }
-    },
-
-    handleError(message) {
-      this.$toast.add({
-        severity: 'error',
-        summary: 'Error',
-        detail: message,
-        life: 3000
-      });
-    },
-
-    handleBack() {
-      this.currentView = 'sign-in';
     }
   }
 };
@@ -161,26 +103,9 @@ export default {
     <div class="sign-in-container">
       <pv-card class="sign-in-card">
         <template #content>
-          <transition name="fade" mode="out-in">
-            <sign-in-form
-                v-if="currentView === 'sign-in'"
-                :loading="loading"
-                @submit="handleSignIn"
-                @admin-mode="handleAdminMode" />
-
-            <admin-key-form
-                v-else-if="currentView === 'admin-key'"
-                :loading="loading"
-                @submit="validateAdminKey"
-                @back="handleBack" />
-
-            <sign-up-form
-                v-else-if="currentView === 'sign-up'"
-                :loading="loading"
-                @submit="handleSignUp"
-                @error="handleError"
-                @back="handleBack" />
-          </transition>
+          <sign-in-form
+              :loading="loading"
+              @submit="handleSignIn" />
         </template>
       </pv-card>
     </div>
@@ -219,16 +144,6 @@ export default {
   padding: 0;
 }
 
-/* Smooth view transitions */
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.15s ease;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
 
 /* Responsive */
 @media (max-width: 768px) {

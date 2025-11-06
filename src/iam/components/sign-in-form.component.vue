@@ -51,11 +51,6 @@ export default {
         username: this.credentials.username.trim(), 
         password: this.credentials.password 
       });
-    },
-
-    handleAdminMode() {
-      if (this.loading || this.submitted) return;
-      this.$emit('admin-mode');
     }
   }
 };
@@ -96,18 +91,6 @@ export default {
           :disabled="loading || submitted"
           class="w-full submit-button" />
 
-      <div class="divider">
-        <span>{{ $t('auth.signIn.or') }}</span>
-      </div>
-
-      <pv-button
-          type="button"
-          :label="$t('auth.signIn.adminButton')"
-          icon="pi pi-shield"
-          class="w-full admin-button"
-          severity="secondary"
-          outlined
-          @click="handleAdminMode" />
     </div>
   </form>
 </template>
@@ -261,52 +244,6 @@ export default {
   cursor: not-allowed;
 }
 
-/* Divider - Simple and clean */
-.divider {
-  position: relative;
-  text-align: center;
-  margin: 0.5rem 0;
-}
-
-.divider span {
-  display: inline-block;
-  padding: 0 0.75rem;
-  font-size: 0.8rem;
-  font-weight: 500;
-  color: var(--color-text-secondary);
-  background: var(--color-surface);
-  position: relative;
-  z-index: 1;
-}
-
-.divider::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: var(--color-border);
-  z-index: 0;
-}
-
-/* Admin button - Secondary style */
-:deep(.admin-button) {
-  height: 48px;
-  padding: 0 1.5rem;
-  font-size: 0.95rem;
-  font-weight: 500;
-  border: 1.5px solid var(--color-border);
-  border-radius: 8px;
-  background: transparent;
-  color: var(--color-text);
-  transition: all 0.2s ease;
-}
-
-:deep(.admin-button:hover) {
-  border-color: var(--color-text-secondary);
-  background: var(--color-surface-hover);
-}
 
 /* Responsive */
 @media (max-width: 480px) {
