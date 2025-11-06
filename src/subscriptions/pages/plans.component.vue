@@ -46,6 +46,14 @@
       No plans available
     </div>
 
+    <!-- Upgrade Dialog with Stripe Integration -->
+    <UpgradeSubscriptionDialog
+      v-model:visible="upgradeDialog.visible"
+      :current-plan="upgradeDialog.currentPlan"
+      :new-plan="upgradeDialog.newPlan"
+      @upgraded="handleUpgraded"
+    />
+
     <!-- Toast Messages -->
     <pv-toast ref="toast" />
   </div>
@@ -54,11 +62,18 @@
 <script>
 import { subscriptionService } from '../services/subscription.service.js';
 import PlanCard from '../components/plan-card.component.vue';
+import UpgradeSubscriptionDialog from '../components/upgrade-subscription-dialog.component.vue';
+import { useAuthStore } from '@/iam/store/auth.store';
 
 export default {
   name: 'Plans',
   components: {
-    PlanCard
+    PlanCard,
+    UpgradeSubscriptionDialog
+  },
+  setup() {
+    const authStore = useAuthStore();
+    return { authStore };
   },
   data() {
     return {
@@ -68,7 +83,12 @@ export default {
       loading: false,
       upgrading: false,
       selectedPlanId: null,
-      error: null
+      error: null,
+      upgradeDialog: {
+        visible: false,
+        currentPlan: null,
+        newPlan: null
+      }
     };
   },
   computed: {
@@ -109,44 +129,35 @@ export default {
     },
 
     async handleUpgrade(plan) {
-      this.selectedPlanId = plan.id;
-      this.upgrading = true;
-      this.error = null;
+      console.log('[Plans] Opening upgrade dialog for plan:', plan);
 
-      try {
-        const userId = 1; // TODO: Get from auth
+      // Get current plan (if any)
+      const currentPlan = this.currentPlan || null;
 
-        console.log('Upgrading to plan:', plan);
+      // Open dialog with Stripe Elements integration
+      this.upgradeDialog = {
+        visible: true,
+        currentPlan,
+        newPlan: plan
+      };
+    },
 
-        // Create Stripe checkout session
-        const baseUrl = window.location.origin;
-        const successUrl = `${baseUrl}/plans?payment=success`;
-        const cancelUrl = `${baseUrl}/plans?payment=cancelled`;
+    handleUpgraded(updatedSubscription) {
+      console.log('[Plans] Subscription upgraded:', updatedSubscription);
 
-        await subscriptionService.createCheckoutSession(
-            userId,
-            plan.id,
-            successUrl,
-            cancelUrl
-        );
+      // Refresh plans to show updated state
+      this.fetchPlans();
 
-        // Should redirect to Stripe, if we get here there was an error
-        throw new Error('Failed to redirect to payment');
+      // Update current plan ID
+      this.currentPlanId = updatedSubscription.id;
 
-      } catch (error) {
-        console.error('Error upgrading plan:', error);
-        this.error = error.message || 'Failed to initiate payment. Please try again.';
-
-        this.$refs.toast.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: this.error,
-          life: 5000
-        });
-      } finally {
-        this.upgrading = false;
-        this.selectedPlanId = null;
-      }
+      // Show success message
+      this.$refs.toast.add({
+        severity: 'success',
+        summary: 'Success!',
+        detail: 'Your subscription has been upgraded successfully',
+        life: 5000
+      });
     },
 
     checkPaymentResult() {

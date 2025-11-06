@@ -1,9 +1,11 @@
 ﻿<script>
 /**
  * @component SignInPage
- * @description Page component for user authentication with store integration
+ * @description Page component for user authentication with 2FA support
  */
 import SignInForm from '../components/sign-in-form.component.vue';
+import TwoFactorSetupDialog from '../components/two-factor-setup-dialog.component.vue';
+import TwoFactorVerificationDialog from '../components/two-factor-verification-dialog.component.vue';
 import authService from '../services/auth.service';
 import { useAuthStore } from '../store/auth.store';
 
@@ -11,7 +13,9 @@ export default {
   name: 'SignInPage',
 
   components: {
-    SignInForm
+    SignInForm,
+    TwoFactorSetupDialog,
+    TwoFactorVerificationDialog
   },
 
   setup() {
@@ -21,7 +25,17 @@ export default {
 
   data() {
     return {
-      loading: false
+      loading: false,
+      twoFactorSetup: {
+        visible: false,
+        username: '',
+        qrCodeUrl: '',
+        manualKey: ''
+      },
+      twoFactorVerification: {
+        visible: false,
+        username: ''
+      }
     };
   },
 
@@ -37,59 +51,114 @@ export default {
             credentials.password
         );
 
-        // Update the auth store immediately
+        // Case 1: Needs 2FA setup (first login)
+        if (response.needsTwoFactorSetup()) {
+          this.twoFactorSetup = {
+            visible: true,
+            username: response.username,
+            qrCodeUrl: response.qrCodeDataUrl,
+            manualKey: response.manualEntryKey
+          };
+          return;
+        }
+
+        // Case 2: Needs 2FA verification
+        if (response.needsTwoFactorVerification()) {
+          this.twoFactorVerification = {
+            visible: true,
+            username: response.username
+          };
+          return;
+        }
+
+        // Case 3: Authentication complete
+        if (response.isAuthenticationComplete()) {
+          this.authStore.setAuth(response);
+          this.$toast.add({
+            severity: 'success',
+            summary: this.$t('auth.signIn.welcomeTitle'),
+            detail: `${this.$t('auth.signIn.welcomeMessage')} ${response.username}`,
+            life: 3000
+          });
+          setTimeout(() => {
+            this.$router.push('/dashboard');
+          }, 1000);
+        }
+      } catch (error) {
+        this.$toast.add({
+          severity: 'error',
+          summary: this.$t('auth.signIn.loginFailed'),
+          detail: error.response?.data?.message || this.$t('auth.signIn.invalidCredentials'),
+          life: 5000
+        });
+      } finally {
+        this.loading = false;
+      }
+    },
+
+    async handleTwoFactorSetupVerify(code) {
+      this.loading = true;
+
+      try {
+        const response = await authService.verifyTwoFactor(
+            this.twoFactorSetup.username,
+            code
+        );
+
         this.authStore.setAuth(response);
+        this.twoFactorSetup.visible = false;
 
         this.$toast.add({
           severity: 'success',
-          summary: 'Welcome!',
-          detail: `Hello ${response.username}, redirecting to dashboard...`,
+          summary: this.$t('auth.twoFactor.setupSuccess'),
+          detail: this.$t('auth.twoFactor.setupSuccessMessage'),
           life: 3000
         });
 
-        // Delay navigation to show toast
         setTimeout(() => {
           this.$router.push('/dashboard');
         }, 1000);
       } catch (error) {
-        // If sign-in fails, try to create the user and sign in again
-        if (error.response?.status === 401 || error.response?.data?.message?.includes('Invalid') || error.response?.data?.message?.includes('not found')) {
-          try {
-            await authService.signUp(credentials.username.trim(), credentials.password);
-            // Now try sign in again
-            const response = await authService.signIn(
-                credentials.username,
-                credentials.password
-            );
+        this.$toast.add({
+          severity: 'error',
+          summary: this.$t('auth.twoFactor.verificationFailed'),
+          detail: error.response?.data?.message || this.$t('auth.twoFactor.invalidCode'),
+          life: 5000
+        });
+      } finally {
+        this.loading = false;
+      }
+    },
 
-            this.authStore.setAuth(response);
+    async handleTwoFactorVerify(code) {
+      this.loading = true;
 
-            this.$toast.add({
-              severity: 'success',
-              summary: 'Account created and logged in!',
-              detail: `Welcome ${response.username}, redirecting to dashboard...`,
-              life: 3000
-            });
+      try {
+        const response = await authService.verifyTwoFactor(
+            this.twoFactorVerification.username,
+            code
+        );
 
-            setTimeout(() => {
-              this.$router.push('/dashboard');
-            }, 1000);
-          } catch (signUpError) {
-            this.$toast.add({
-              severity: 'error',
-              summary: 'Login Failed',
-              detail: signUpError.response?.data?.message || 'Unable to create account or login.',
-              life: 5000
-            });
-          }
-        } else {
-          this.$toast.add({
-            severity: 'error',
-            summary: 'Login Failed',
-            detail: error.response?.data?.message || 'Invalid credentials. Please try again.',
-            life: 5000
-          });
-        }
+        this.authStore.setAuth(response);
+        this.twoFactorVerification.visible = false;
+
+        this.$toast.add({
+          severity: 'success',
+          summary: this.$t('auth.signIn.welcomeTitle'),
+          detail: `${this.$t('auth.signIn.welcomeMessage')} ${response.username}`,
+          life: 3000
+        });
+
+        setTimeout(() => {
+          this.$router.push('/dashboard');
+        }, 1000);
+      } catch (error) {
+        this.$toast.add({
+          severity: 'error',
+          summary: this.$t('auth.twoFactor.verificationFailed'),
+          detail: error.response?.data?.message || this.$t('auth.twoFactor.invalidCode'),
+          life: 5000
+        });
       } finally {
         this.loading = false;
       }
@@ -109,6 +178,22 @@ export default {
         </template>
       </pv-card>
     </div>
+
+    <!-- 2FA Setup Dialog (first login) -->
+    <two-factor-setup-dialog
+        v-model:visible="twoFactorSetup.visible"
+        :qr-code-url="twoFactorSetup.qrCodeUrl"
+        :manual-key="twoFactorSetup.manualKey"
+        :loading="loading"
+        @verify="handleTwoFactorSetupVerify"
+    />
+
+    <!-- 2FA Verification Dialog (subsequent logins) -->
+    <two-factor-verification-dialog
+        v-model:visible="twoFactorVerification.visible"
+        :loading="loading"
+        @verify="handleTwoFactorVerify"
+    />
   </div>
 </template>
 

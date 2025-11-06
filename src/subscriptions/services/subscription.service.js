@@ -118,6 +118,45 @@ class SubscriptionService {
     }
 
     /**
+     * Upgrade subscription with Stripe payment
+     * Endpoint: PATCH /api/v1/subscriptions/{userId}
+     *
+     * @param {number} userId
+     * @param {number} planId
+     * @param {string} paymentMethodId - Stripe Payment Method ID
+     * @returns {Promise<Plan>}
+     */
+    async upgradeSubscriptionWithPayment(userId, planId, paymentMethodId) {
+        try {
+            console.log('[SubscriptionService] Upgrading subscription with payment:', {
+                userId,
+                planId,
+                paymentMethodId
+            });
+
+            const response = await httpInstance.patch(`${this.baseUrl}/${userId}`, {
+                userId,
+                planId,
+                paymentMethodId
+            });
+
+            const planData = response.data;
+            return new Plan({
+                id: planData.id,
+                name: planData.planName,
+                price: planData.price,
+                billingCycle: planData.billingCycle,
+                maxEquipment: planData.maxEquipment,
+                maxClients: planData.maxClients,
+                features: planData.features
+            });
+        } catch (error) {
+            console.error('[SubscriptionService] Error upgrading subscription:', error);
+            throw error;
+        }
+    }
+
+    /**
      * Process successful payment return from Stripe
      * @param {string} sessionId - Stripe session ID from URL params
      * @returns {Promise<boolean>}
