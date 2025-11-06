@@ -1,22 +1,34 @@
 ﻿import { defineStore } from 'pinia';
 import authService from '../services/auth.service';
 
+/**
+ * @store useAuthStore
+ * @description Global authentication state management with 2FA support
+ */
 export const useAuthStore = defineStore('auth', {
     state: () => ({
         user: null,
         token: null,
-        isAuthenticated: false
+        isAuthenticated: false,
+        twoFactorStatus: null
     }),
 
     getters: {
         currentUser: (state) => state.user,
         username: (state) => state.user?.username || '',
-        isLoggedIn: (state) => state.isAuthenticated
+        isLoggedIn: (state) => state.isAuthenticated,
+        userType: (state) => state.user?.userType || null,
+        isOwner: (state) => state.user?.isOwner() || false,
+        isProvider: (state) => state.user?.isProvider() || false,
+        profileId: (state) => state.user?.profileId || null,
+        balance: (state) => state.user?.balance || 0,
+        planId: (state) => state.user?.planId || null,
+        has2FAEnabled: (state) => state.twoFactorStatus?.twoFactorEnabled || false
     },
 
     actions: {
         /**
-         * Initialize auth state from localStorage
+         * Initialize auth state from localStorage on app load
          */
         initializeAuth() {
             const token = authService.getToken();
@@ -47,14 +59,48 @@ export const useAuthStore = defineStore('auth', {
             this.user = null;
             this.token = null;
             this.isAuthenticated = false;
+            this.twoFactorStatus = null;
         },
 
         /**
-         * Sign out user
+         * Sign out
          */
-        signOut() {
+        async logout() {
             authService.signOut();
             this.clearAuth();
+        },
+
+        /**
+         * Load 2FA status for current user
+         */
+        async load2FAStatus() {
+            if (!this.username) {
+                console.warn('[AuthStore] Cannot load 2FA status: no username');
+                return;
+            }
+
+            try {
+                this.twoFactorStatus = await authService.getTwoFactorStatus(this.username);
+            } catch (error) {
+                console.error('[AuthStore] Failed to load 2FA status:', error);
+                throw error;
+            }
+        },
+
+        /**
+         * Enable 2FA
+         */
+        async enableTwoFactor(code) {
+            await authService.enableTwoFactor(this.username, code);
+            await this.load2FAStatus();
+        },
+
+        /**
+         * Disable 2FA
+         */
+        async disableTwoFactor() {
+            await authService.disableTwoFactor(this.username);
+            await this.load2FAStatus();
         }
     }
 });

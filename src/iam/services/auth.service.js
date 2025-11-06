@@ -1,9 +1,11 @@
 ﻿import httpInstance from "../../shared/http.instance.js";
 import { AuthResponse } from '../models/auth-response.entity';
+import { TwoFactorStatus } from '../models/two-factor-status.entity';
 
 /**
  * @class AuthService
- * @description Service for handling authentication operations
+ * @description Service for handling all IAM/Authentication operations
+ * Maps to backend endpoints: /api/v1/authentication/*
  */
 class AuthService {
     constructor() {
@@ -13,9 +15,16 @@ class AuthService {
 
     /**
      * Sign in a user
+     * Endpoint: POST /api/v1/authentication/sign-in
+     *
      * @param {string} username
      * @param {string} password
      * @returns {Promise<AuthResponse>}
+     *
+     * Response cases:
+     * 1. requiresTwoFactorSetup=true (first login, needs 2FA setup)
+     * 2. requires2FA=true (2FA enabled, needs verification)
+     * 3. token present (authentication complete)
      */
     async signIn(username, password) {
         if (!username?.trim() || !password?.trim()) {
@@ -29,7 +38,8 @@ class AuthService {
 
         const authResponse = new AuthResponse(response.data);
 
-        if (authResponse.token) {
+        // Only save auth data if authentication is fully complete
+        if (authResponse.isAuthenticationComplete()) {
             this._saveAuthData(authResponse);
         }
 
@@ -38,13 +48,19 @@ class AuthService {
 
     /**
      * Sign up a new user
+     * Endpoint: POST /api/v1/authentication/sign-up
+     *
      * @param {string} username
      * @param {string} password
      * @returns {Promise<Object>}
      */
     async signUp(username, password) {
+        if (!username?.trim() || !password?.trim()) {
+            throw new Error('Username and password are required');
+        }
+
         const response = await httpInstance.post(`${this._authEndpoint}/sign-up`, {
-            username,
+            username: username.trim(),
             password
         });
 
@@ -52,7 +68,106 @@ class AuthService {
     }
 
     /**
+     * Verify 2FA code (for first-time setup or regular login)
+     * Endpoint: POST /api/v1/authentication/verify-2fa
+     *
+     * @param {string} username
+     * @param {string} code - 6-digit code from Google Authenticator
+     * @returns {Promise<AuthResponse>}
+     */
+    async verifyTwoFactor(username, code) {
+        if (!username?.trim() || !code?.trim()) {
+            throw new Error('Username and code are required');
+        }
+
+        if (code.length !== 6 || !/^\d{6}$/.test(code)) {
+            throw new Error('Code must be 6 digits');
+        }
+
+        const response = await httpInstance.post(`${this._authEndpoint}/verify-2fa`, {
+            username: username.trim(),
+            code: code.trim()
+        });
+
+        const authResponse = new AuthResponse(response.data);
+
+        if (authResponse.token) {
+            this._saveAuthData(authResponse);
+        }
+
+        return authResponse;
+    }
+
+    /**
+     * Enable 2FA for user (from settings)
+     * Endpoint: POST /api/v1/authentication/enable-2fa
+     *
+     * @param {string} username
+     * @param {string} code - 6-digit verification code
+     * @returns {Promise<Object>}
+     */
+    async enableTwoFactor(username, code) {
+        if (!username?.trim() || !code?.trim()) {
+            throw new Error('Username and code are required');
+        }
+
+        const response = await httpInstance.post(`${this._authEndpoint}/enable-2fa`, {
+            username: username.trim(),
+            code: code.trim()
+        });
+
+        return response.data;
+    }
+
+    /**
+     * Disable 2FA for user (from settings)
+     * Endpoint: POST /api/v1/authentication/disable-2fa
+     * Body: string (username as plain string, not JSON object)
+     *
+     * @param {string} username
+     * @returns {Promise<Object>}
+     */
+    async disableTwoFactor(username) {
+        if (!username?.trim()) {
+            throw new Error('Username is required');
+        }
+
+        // IMPORTANT: Backend expects a plain string, not a JSON object
+        const response = await httpInstance.post(
+            `${this._authEndpoint}/disable-2fa`,
+            JSON.stringify(username.trim()),
+            {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
+        );
+
+        return response.data;
+    }
+
+    /**
+     * Get 2FA status for user
+     * Endpoint: GET /api/v1/authentication/2fa-status?username={username}
+     *
+     * @param {string} username
+     * @returns {Promise<TwoFactorStatus>}
+     */
+    async getTwoFactorStatus(username) {
+        if (!username?.trim()) {
+            throw new Error('Username is required');
+        }
+
+        const response = await httpInstance.get(`${this._authEndpoint}/2fa-status`, {
+            params: { username: username.trim() }
+        });
+
+        return new TwoFactorStatus(response.data);
+    }
+
+    /**
      * Sign out current user
+     * Clears local storage and auth headers
      */
     signOut() {
         localStorage.removeItem('token');
