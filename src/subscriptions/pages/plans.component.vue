@@ -28,8 +28,8 @@
       <pv-button @click="fetchPlans" label="Retry" />
     </div>
 
-    <!-- Plans Grid -->
-    <div v-else-if="plans.length > 0" class="plans-grid">
+    <!-- Plans Grid (Desktop) -->
+    <div v-else-if="plans.length > 0" class="plans-grid desktop-grid">
       <plan-card
           v-for="plan in plans"
           :key="plan.id"
@@ -41,6 +41,32 @@
           :selected-plan-id="selectedPlanId"
           :on-upgrade="handleUpgrade"
       />
+    </div>
+
+    <!-- Plans Carousel (Mobile/Tablet) -->
+    <div v-else-if="plans.length > 0" class="plans-carousel mobile-carousel">
+      <pv-carousel
+          :value="plans"
+          :numVisible="1"
+          :numScroll="1"
+          :showNavigators="true"
+          :showIndicators="true"
+          :circular="true"
+          :autoplayInterval="0">
+        <template #item="slotProps">
+          <div class="carousel-item">
+            <plan-card
+                :plan="slotProps.data"
+                :current-plan-id="currentPlanId"
+                :current-plan="currentPlan"
+                :is-logged-in="isLoggedIn"
+                :upgrading="upgrading && selectedPlanId === slotProps.data.id"
+                :selected-plan-id="selectedPlanId"
+                :on-upgrade="handleUpgrade"
+            />
+          </div>
+        </template>
+      </pv-carousel>
     </div>
 
     <!-- No Plans State -->
@@ -276,7 +302,8 @@ export default {
   padding: 2rem;
 }
 
-.plans-grid {
+/* Desktop Grid */
+.desktop-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 340px));
   gap: 1.5rem;
@@ -287,26 +314,85 @@ export default {
   margin-right: auto;
 }
 
+/* Mobile Carousel */
+.mobile-carousel {
+  display: none;
+}
+
+.carousel-item {
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+}
+
+/* Carousel navigation button styling */
+:deep(.p-carousel .p-carousel-prev),
+:deep(.p-carousel .p-carousel-next) {
+  background: var(--color-surface);
+  color: var(--color-primary);
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  width: 3rem;
+  height: 3rem;
+  transition: all 0.2s ease;
+}
+
+:deep(.p-carousel .p-carousel-prev:hover),
+:deep(.p-carousel .p-carousel-next:hover) {
+  background: var(--color-primary);
+  color: white;
+  transform: scale(1.1);
+}
+
+:deep(.p-carousel .p-carousel-indicators) {
+  padding: 1rem;
+}
+
+:deep(.p-carousel .p-carousel-indicator button) {
+  background: var(--color-border);
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+:deep(.p-carousel .p-carousel-indicator.p-highlight button) {
+  background: var(--color-primary);
+  width: 2rem;
+  border-radius: 1rem;
+}
+
+/* Responsive behavior */
 @media (max-width: 1024px) {
-  .plans-grid {
+  .desktop-grid {
     grid-template-columns: repeat(auto-fit, minmax(260px, 320px));
     gap: 1.25rem;
   }
 }
 
 @media (max-width: 768px) {
-  .plans-grid {
-    grid-template-columns: 1fr;
-    max-width: 400px;
-    gap: 1rem;
+  /* Hide grid, show carousel on tablets and mobile */
+  .desktop-grid {
+    display: none;
+  }
+
+  .mobile-carousel {
+    display: block;
+    margin-top: 2rem;
+    max-width: 450px;
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 
 @media (max-width: 480px) {
-  .plans-grid {
-    grid-template-columns: 1fr;
+  .mobile-carousel {
     max-width: 100%;
     padding: 0 0.5rem;
+  }
+
+  .carousel-item {
+    padding: 0.5rem;
   }
 }
 
