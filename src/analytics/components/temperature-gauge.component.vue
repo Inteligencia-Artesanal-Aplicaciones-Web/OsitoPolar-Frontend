@@ -150,10 +150,11 @@ export default {
   left: 0;
   width: 200px;
   height: 200px;
-  background: white;
+  background: var(--color-card-background);
   border-radius: 50%;
   clip-path: polygon(0 100%, 100% 100%, 100% 60%, 0 60%);
   transform: scale(0.8);
+  transition: background-color 0.3s ease;
 }
 
 .gauge-needle {
@@ -162,16 +163,17 @@ export default {
   left: 100px;
   width: 3px;
   height: 80px;
-  background: #333;
+  background: var(--color-text);
   transform-origin: bottom center;
   transform: rotate(0deg);
-  transition: transform 0.5s ease-in-out;
+  transition: transform 0.5s ease-in-out, background-color 0.3s ease;
 }
 
 .temperature-value {
   font-size: 2rem;
   font-weight: bold;
   margin-top: 1rem;
-  color: #333;
+  color: var(--color-text);
+  transition: color 0.3s ease;
 }
 </style>
