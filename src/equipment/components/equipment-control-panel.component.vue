@@ -46,14 +46,14 @@ export default {
         return {
           fontSize: '2.5rem',
           fontWeight: 'bold',
-          color: '#1565C0'
+          color: 'var(--color-info)'
         };
       }
 
       return {
         fontSize: '2.5rem',
         fontWeight: 'bold',
-        color: '#333'
+        color: 'var(--color-text)'
       };
     },
 
@@ -270,23 +270,27 @@ export default {
 
 <style scoped>
 .control-panel {
-  background: #fff;
+  background: var(--color-card-background);
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px var(--color-shadow);
   padding: 1.5rem;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .control-panel-title {
   font-size: 1.5rem;
   margin-bottom: 1rem;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--color-border);
   padding-bottom: 0.5rem;
+  color: var(--color-text);
+  transition: color 0.3s ease, border-color 0.3s ease;
 }
 
 .section-title {
   font-size: 1.2rem;
-  color: #555;
+  color: var(--color-text-secondary);
   margin-bottom: 1rem;
+  transition: color 0.3s ease;
 }
 
 .control-section {
@@ -312,13 +316,15 @@ export default {
 }
 
 .status-text {
-  color: #555;
+  color: var(--color-text-secondary);
+  transition: color 0.3s ease;
 }
 
 .analytics-preview-section {
-  border-top: 1px solid #eee;
+  border-top: 1px solid var(--color-border);
   margin-top: 1.5rem;
   padding-top: 1.5rem;
+  transition: border-color 0.3s ease;
 }
 
 .analytics-loading {
@@ -326,8 +332,9 @@ export default {
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
-  color: #666;
+  color: var(--color-text-secondary);
   padding: 2rem 0;
+  transition: color 0.3s ease;
 }
 
 .analytics-preview-container {
@@ -343,20 +350,22 @@ export default {
 }
 
 .analytics-card {
-  background: #f9f9f9;
+  background: var(--color-surface-alt);
   border-radius: 8px;
   padding: 1rem;
   display: flex;
   flex-direction: column;
   min-height: 200px;
+  transition: background-color 0.3s ease;
 }
 
 .card-title {
   font-size: 1rem;
-  color: #666;
+  color: var(--color-text-secondary);
   margin-top: 0;
   margin-bottom: 1rem;
   font-weight: normal;
+  transition: color 0.3s ease;
 }
 
 /* Styles for current temperature card */
@@ -384,17 +393,19 @@ export default {
   position: absolute;
   width: 2px;
   height: 50px;
-  background-color: #333;
+  background-color: var(--color-text);
   left: 50%;
   top: 0;
   transform: rotate(-30deg);
   transform-origin: bottom center;
+  transition: background-color 0.3s ease;
 }
 
 .temperature-value {
   font-size: 2.5rem;
   font-weight: bold;
-  color: #333;
+  color: var(--color-text);
+  transition: color 0.3s ease;
 }
 
 /* Styles for the temperature chart */
@@ -421,17 +432,18 @@ export default {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  background: #2196F3;
-  color: #fff;
+  background: var(--color-info);
+  color: white;
   padding: 0.75rem 1rem;
   border-radius: 4px;
   text-decoration: none;
   justify-content: center;
-  transition: background 0.2s;
+  transition: background 0.2s, opacity 0.2s;
 }
 
 .view-analytics-button:hover {
-  background: #1976D2;
+  background: var(--color-info);
+  opacity: 0.9;
 }
 
 @media (max-width: 768px) {

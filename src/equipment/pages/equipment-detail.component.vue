@@ -255,13 +255,15 @@ export default {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 2rem;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--color-border);
   padding-bottom: 1rem;
+  transition: border-color 0.3s ease;
 }
 
 .page-header h1 {
   margin: 0;
-  color: #333;
+  color: var(--color-text);
+  transition: color 0.3s ease;
 }
 
 .header-actions {

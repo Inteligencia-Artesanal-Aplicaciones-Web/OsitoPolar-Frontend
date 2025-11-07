@@ -332,8 +332,9 @@ export default {
 
 .page-title {
   margin: 0;
-  color: #0079c2;
+  color: var(--color-primary);
   font-size: 2rem;
+  transition: color 0.3s ease;
 }
 
 .back-button {
@@ -341,15 +342,15 @@ export default {
   align-items: center;
   gap: 0.5rem;
   text-decoration: none;
-  color: #555;
+  color: var(--color-text-secondary);
   font-size: 1rem;
   padding: 0.5rem 1rem;
   border-radius: 4px;
-  transition: background-color 0.2s;
+  transition: background-color 0.2s, color 0.3s ease;
 }
 
 .back-button:hover {
-  background-color: #f0f0f0;
+  background-color: var(--color-surface-hover);
 }
 
 .loading-container, .error-container {
@@ -362,8 +363,9 @@ export default {
 }
 
 .error-message {
-  color: #e74c3c;
+  color: var(--color-error);
   font-size: 1.1rem;
+  transition: color 0.3s ease;
 }
 
 .summary-section {
@@ -377,9 +379,9 @@ export default {
 }
 
 .summary-card {
-  background-color: white;
+  background-color: var(--color-card-background);
   border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+  box-shadow: 0 4px 6px var(--color-shadow);
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
@@ -387,24 +389,27 @@ export default {
   text-align: center;
   min-width: 250px;
   max-width: 300px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .summary-label {
   font-size: 0.9rem;
-  color: #666;
+  color: var(--color-text-secondary);
   margin-bottom: 0.5rem;
   font-weight: 500;
+  transition: color 0.3s ease;
 }
 
 .summary-value {
   font-size: 2rem;
   font-weight: bold;
-  color: #333;
+  color: var(--color-text);
   margin-bottom: 0.5rem;
+  transition: color 0.3s ease;
 }
 
 .negative-temp {
-  color: #1565C0;
+  color: var(--color-info);
 }
 
 .summary-status {
@@ -416,32 +421,33 @@ export default {
 }
 
 .status-normal {
-  background-color: #4CAF50;
+  background-color: var(--color-success);
   color: white;
 }
 
 .status-warning {
-  background-color: #FFC107;
-  color: #333;
+  background-color: var(--color-warning);
+  color: var(--color-text);
 }
 
 .status-critical {
-  background-color: #F44336;
+  background-color: var(--color-error);
   color: white;
 }
 
 .power-status {
-  color: #F44336;
+  color: var(--color-error);
 }
 
 .power-status.on {
-  color: #4CAF50;
+  color: var(--color-success);
 }
 
 .summary-info {
   font-size: 0.85rem;
-  color: #666;
+  color: var(--color-text-secondary);
   margin-top: 0.5rem;
+  transition: color 0.3s ease;
 }
 
 .analytics-grid {
@@ -455,30 +461,31 @@ export default {
 }
 
 .analytics-card {
-  background-color: white;
+  background-color: var(--color-card-background);
   border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+  box-shadow: 0 4px 6px var(--color-shadow);
   padding: 1.5rem;
   min-height: 320px;
   max-height: 400px;
   display: flex;
   flex-direction: column;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease;
 }
 
 .analytics-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 15px var(--color-shadow-medium);
 }
 
 .card-title {
   font-size: 1.1rem;
-  color: #2c3e50;
+  color: var(--color-text);
   margin-top: 0;
   margin-bottom: 1.5rem;
   font-weight: 600;
-  border-bottom: 2px solid #e9ecef;
+  border-bottom: 2px solid var(--color-border);
   padding-bottom: 0.5rem;
+  transition: color 0.3s ease, border-color 0.3s ease;
 }
 
 /* Responsive adjustments */
