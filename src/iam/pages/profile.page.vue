@@ -299,32 +299,29 @@ export default {
      * Handle upgrade plan action
      */
     handleUpgradePlan() {
-      // TODO: Navigate to plans page or show upgrade modal
-      this.$router.push('/subscriptions/plans');
+      this.$router.push('/plans');
     },
 
     /**
      * Handle manage subscription action
      */
     handleManageSubscription() {
-      // TODO: Navigate to subscription management page
-      this.$router.push('/subscriptions/manage');
+      // Navigate to plans page (can be used for both viewing and managing)
+      this.$router.push('/plans');
     },
 
     /**
      * Handle become owner action (incomplete profile)
      */
     handleBecomeOwner() {
-      // TODO: Navigate to Owner plan selection
-      this.$router.push('/subscriptions/plans?type=owner');
+      this.$router.push('/plans?type=owner');
     },
 
     /**
      * Handle become provider action (incomplete profile)
      */
     handleBecomeProvider() {
-      // TODO: Navigate to Provider plan selection
-      this.$router.push('/subscriptions/plans?type=provider');
+      this.$router.push('/plans?type=provider');
     }
   }
 };
