@@ -271,81 +271,121 @@ export default {
 
 <style scoped>
 .user-info-card {
-  max-width: 500px;
+  max-width: 600px;
   margin: 0 auto;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 20px var(--color-shadow);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+}
+
+:deep(.p-card) {
+  background: var(--color-card-background) !important;
+  border: 1px solid var(--color-border) !important;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .user-header {
   position: relative;
   text-align: center;
-  padding: 2rem;
-  background: linear-gradient(135deg, #0079c2 0%, #005a8f 100%);
+  padding: 3rem 2rem;
+  background: linear-gradient(135deg, var(--color-primary, #0079c2) 0%, var(--color-info, #005a8f) 100%);
   color: white;
 }
 
 .user-avatar {
   margin-bottom: 1rem;
+  background: rgba(255, 255, 255, 0.2);
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
 .role-badge {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
-  font-size: 0.75rem;
-  font-weight: 600;
+  top: 1.5rem;
+  right: 1.5rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .user-title {
   text-align: center;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  padding: 1.5rem 1rem 0.5rem;
+  border-bottom: 2px solid var(--color-border);
+  transition: border-color 0.3s ease;
 }
 
 .user-title h3 {
-  margin: 0 0 0.5rem 0;
-  color: #333;
-  font-size: 1.5rem;
+  margin: 0 0 0.75rem 0;
+  color: var(--color-text);
+  font-size: 1.75rem;
+  font-weight: 700;
+  transition: color 0.3s ease;
 }
 
 .user-id {
-  color: #666;
+  color: var(--color-text-secondary);
   font-size: 0.875rem;
-  background: #f8f9fa;
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
+  background: var(--color-surface-alt);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  display: inline-block;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .user-details {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1.5rem;
 }
 
 .info-section {
-  border: 1px solid #e9ecef;
-  border-radius: 8px;
-  padding: 1rem;
-  background: #f8f9fa;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  background: var(--color-surface-alt);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .section-title {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  margin: 0 0 1rem 0;
-  color: #0079c2;
-  font-size: 1rem;
-  font-weight: 600;
-  border-bottom: 2px solid #e9ecef;
-  padding-bottom: 0.5rem;
+  gap: 0.75rem;
+  margin: 0 0 1.25rem 0;
+  color: var(--color-primary);
+  font-size: 1.1rem;
+  font-weight: 700;
+  border-bottom: 2px solid var(--color-border);
+  padding-bottom: 0.75rem;
+  transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.section-title i {
+  font-size: 1.25rem;
 }
 
 .detail-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.75rem 0;
-  border-bottom: 1px solid #e9ecef;
+  padding: 0.875rem 0;
+  border-bottom: 1px solid var(--color-border);
+  transition: border-color 0.3s ease;
 }
 
 .detail-item:last-child {
@@ -354,12 +394,15 @@ export default {
 
 .label {
   font-weight: 600;
-  color: #495057;
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
 }
 
 .value {
-  color: #212529;
-  font-weight: 500;
+  color: var(--color-text);
+  font-weight: 600;
+  transition: color 0.3s ease;
 }
 
 .stats-grid {
@@ -370,35 +413,53 @@ export default {
 
 .stat-item {
   text-align: center;
-  padding: 1rem;
-  background: white;
-  border-radius: 8px;
-  border: 1px solid #dee2e6;
+  padding: 1.25rem;
+  background: var(--color-surface);
+  border-radius: 12px;
+  border: 2px solid var(--color-border);
+  transition: all 0.3s ease;
+}
+
+.stat-item:hover {
+  border-color: var(--color-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px var(--color-shadow);
 }
 
 .stat-value {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #0079c2;
-  margin-bottom: 0.25rem;
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--color-primary);
+  margin-bottom: 0.5rem;
+  transition: color 0.3s ease;
 }
 
 .stat-label {
   font-size: 0.75rem;
-  color: #6c757d;
+  color: var(--color-text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  font-weight: 600;
+  transition: color 0.3s ease;
 }
 
 .action-buttons {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 0.75rem;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.875rem;
 }
 
 .action-btn {
   font-size: 0.875rem;
-  padding: 0.5rem;
+  padding: 0.75rem;
+  font-weight: 600;
+  border-width: 2px !important;
+  transition: all 0.3s ease !important;
+}
+
+.action-btn:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px var(--color-shadow) !important;
 }
 
 /* Responsive adjustments */

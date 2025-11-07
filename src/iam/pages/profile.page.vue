@@ -319,9 +319,11 @@ export default {
             <div class="section-actions">
               <pv-button
                   v-if="!has2FAEnabled"
-                  :label="$t('profile.2fa.enable') || 'Enable 2FA'"
+                  :label="$t('profile.2fa.enable') || 'Enable Two-Factor Authentication'"
                   icon="pi pi-shield"
                   severity="success"
+                  size="large"
+                  class="enable-2fa-button"
                   @click="openEnable2FADialog"
                   :loading="enabling2FA" />
 
@@ -331,6 +333,8 @@ export default {
                   icon="pi pi-ban"
                   severity="warning"
                   outlined
+                  size="large"
+                  class="disable-2fa-button"
                   @click="openDisable2FADialog"
                   :loading="disabling2FA" />
             </div>
@@ -355,6 +359,8 @@ export default {
             :label="$t('auth.signOut') || 'Sign Out'"
             icon="pi pi-sign-out"
             severity="danger"
+            size="large"
+            class="sign-out-button"
             @click="handleSignOut" />
       </div>
     </div>
@@ -487,10 +493,11 @@ export default {
 
 .page-title {
   text-align: center;
-  color: var(--color-primary, #0079c2);
+  color: var(--color-primary);
   margin-bottom: 2rem;
-  font-size: 2rem;
-  font-weight: 600;
+  font-size: 2.5rem;
+  font-weight: 700;
+  transition: color 0.3s ease;
 }
 
 .profile-content {
@@ -501,22 +508,30 @@ export default {
 
 /* Security Card */
 .security-card {
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  box-shadow: 0 4px 12px var(--color-shadow);
+}
+
+:deep(.security-card .p-card) {
+  background: var(--color-card-background) !important;
+  border: 1px solid var(--color-border) !important;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .section-title {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: var(--color-text, #1F2937);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--color-text);
+  transition: color 0.3s ease;
 }
 
 .section-title i {
-  font-size: 1.5rem;
-  color: var(--color-primary, #667eea);
+  font-size: 1.6rem;
+  color: var(--color-primary);
+  transition: color 0.3s ease;
 }
 
 /* Security Section */
@@ -540,23 +555,26 @@ export default {
 }
 
 .security-icon {
-  font-size: 2rem;
-  color: var(--color-primary, #667eea);
+  font-size: 2.25rem;
+  color: var(--color-primary);
   flex-shrink: 0;
+  transition: color 0.3s ease;
 }
 
 .header-text h3 {
-  margin: 0 0 0.25rem 0;
-  font-size: 1.125rem;
-  font-weight: 600;
-  color: var(--color-text, #1F2937);
+  margin: 0 0 0.5rem 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-text);
+  transition: color 0.3s ease;
 }
 
 .header-text .description {
   margin: 0;
-  font-size: 0.875rem;
-  color: var(--color-text-secondary, #6B7280);
-  line-height: 1.5;
+  font-size: 0.95rem;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  transition: color 0.3s ease;
 }
 
 /* Status Badges */
@@ -564,34 +582,39 @@ export default {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.5rem 1rem;
+  padding: 0.625rem 1.25rem;
   border-radius: 999px;
-  font-size: 0.875rem;
-  font-weight: 600;
+  font-size: 0.9rem;
+  font-weight: 700;
   white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 8px var(--color-shadow);
 }
 
 .status-badge.loading {
-  background: #EFF6FF;
-  color: #1E40AF;
+  background: var(--color-info-light);
+  color: var(--color-info);
 }
 
 .status-badge.enabled {
-  background: #D1FAE5;
-  color: #065F46;
+  background: var(--color-success-light);
+  color: var(--color-success);
 }
 
 .status-badge.enabled i {
-  color: #10B981;
+  color: var(--color-success);
+  font-size: 1.1rem;
 }
 
 .status-badge.disabled {
-  background: #FEE2E2;
-  color: #991B1B;
+  background: var(--color-error-light);
+  color: var(--color-error);
 }
 
 .status-badge.disabled i {
-  color: #EF4444;
+  color: var(--color-error);
+  font-size: 1.1rem;
 }
 
 /* Section Actions */
@@ -599,35 +622,83 @@ export default {
   margin: 1.5rem 0;
 }
 
+/* Enable 2FA Button Styling */
+:deep(.enable-2fa-button) {
+  width: 100%;
+  font-size: 1.1rem !important;
+  padding: 1rem 1.5rem !important;
+  font-weight: 700 !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 12px var(--color-shadow) !important;
+  transition: all 0.3s ease !important;
+}
+
+:deep(.enable-2fa-button:hover) {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 16px var(--color-shadow-medium) !important;
+}
+
+:deep(.disable-2fa-button) {
+  width: 100%;
+  font-size: 1rem !important;
+  padding: 0.875rem 1.25rem !important;
+  font-weight: 600 !important;
+  border-radius: 10px !important;
+}
+
 /* Info Box */
 .info-box {
   display: flex;
-  gap: 0.75rem;
-  padding: 1rem;
-  background: var(--surface-50, #F9FAFB);
-  border-left: 3px solid var(--color-primary, #667eea);
-  border-radius: 6px;
+  gap: 1rem;
+  padding: 1.25rem;
+  background: var(--color-surface-alt);
+  border-left: 4px solid var(--color-primary);
+  border-radius: 12px;
   margin-top: 1.5rem;
+  transition: background-color 0.3s ease;
 }
 
 .info-box i {
-  color: var(--color-primary, #667eea);
-  font-size: 1.25rem;
+  color: var(--color-primary);
+  font-size: 1.4rem;
   flex-shrink: 0;
   margin-top: 2px;
+  transition: color 0.3s ease;
 }
 
 .info-box p {
   margin: 0;
-  font-size: 0.875rem;
-  line-height: 1.6;
-  color: var(--color-text-secondary, #6B7280);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+  transition: color 0.3s ease;
 }
 
 /* Actions */
 .actions {
   text-align: center;
-  margin-top: 2rem;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 2px solid var(--color-border);
+  transition: border-color 0.3s ease;
+}
+
+/* Sign Out Button Styling */
+:deep(.sign-out-button) {
+  min-width: 300px;
+  font-size: 1.1rem !important;
+  padding: 1rem 2rem !important;
+  font-weight: 700 !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 12px var(--color-shadow) !important;
+  transition: all 0.3s ease !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+}
+
+:deep(.sign-out-button:hover) {
+  transform: translateY(-2px) scale(1.02) !important;
+  box-shadow: 0 6px 20px var(--color-shadow-medium) !important;
 }
 
 /* Dialog Styling */
@@ -671,16 +742,18 @@ export default {
 
 .step-content h4 {
   margin: 0 0 0.5rem 0;
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--color-text, #1F2937);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-text);
+  transition: color 0.3s ease;
 }
 
 .step-content p {
   margin: 0 0 1rem 0;
-  font-size: 0.875rem;
-  color: var(--color-text-secondary, #6B7280);
-  line-height: 1.5;
+  font-size: 0.925rem;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  transition: color 0.3s ease;
 }
 
 /* QR Code */
@@ -794,21 +867,24 @@ export default {
 
 /* Confirm Dialog */
 .confirm-dialog-content {
-  padding: 1rem;
+  padding: 1.5rem;
   text-align: center;
 }
 
 .warning-icon {
-  font-size: 4rem;
-  color: #F59E0B;
-  margin-bottom: 1rem;
+  font-size: 5rem;
+  color: var(--color-warning);
+  margin-bottom: 1.5rem;
+  transition: color 0.3s ease;
 }
 
 .warning-message {
-  font-size: 1rem;
-  line-height: 1.6;
-  color: var(--color-text, #1F2937);
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--color-text);
   margin: 0;
+  font-weight: 500;
+  transition: color 0.3s ease;
 }
 
 /* Dialog Overlay - Blur Effect */
