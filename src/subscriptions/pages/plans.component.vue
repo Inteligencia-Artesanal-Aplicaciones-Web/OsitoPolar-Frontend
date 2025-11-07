@@ -35,6 +35,8 @@
           :key="plan.id"
           :plan="plan"
           :current-plan-id="currentPlanId"
+          :current-plan="currentPlan"
+          :is-logged-in="isLoggedIn"
           :upgrading="upgrading && selectedPlanId === plan.id"
           :selected-plan-id="selectedPlanId"
           :on-upgrade="handleUpgrade"
@@ -78,7 +80,6 @@ export default {
   data() {
     return {
       plans: [],
-      currentPlanId: null,
       userType: 'user',
       loading: false,
       upgrading: false,
@@ -93,8 +94,18 @@ export default {
     };
   },
   computed: {
+    // Get current plan ID from auth store
+    currentPlanId() {
+      return this.authStore.planId;
+    },
+
     currentPlan() {
+      if (!this.currentPlanId) return null;
       return this.plans.find(plan => String(plan.id) === String(this.currentPlanId));
+    },
+
+    isLoggedIn() {
+      return this.authStore.isLoggedIn;
     }
   },
   async created() {
@@ -267,9 +278,36 @@ export default {
 
 .plans-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 340px));
+  gap: 1.5rem;
   margin-top: 2rem;
+  justify-content: center;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (max-width: 1024px) {
+  .plans-grid {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 320px));
+    gap: 1.25rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .plans-grid {
+    grid-template-columns: 1fr;
+    max-width: 400px;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .plans-grid {
+    grid-template-columns: 1fr;
+    max-width: 100%;
+    padding: 0 0.5rem;
+  }
 }
 
 .no-plans {

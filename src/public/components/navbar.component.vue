@@ -183,17 +183,25 @@ export default {
                 @click="goNotifications" />
 
             <!-- User Profile Menu -->
-            <pv-button
-                :label="currentUser?.username || $t('navbar.user')"
-                icon="pi pi-user"
-                class="p-button-text user-button"
-                @click="toggleUserMenu" />
+            <div class="user-menu-container">
+              <pv-button
+                  class="p-button-text user-button"
+                  aria-haspopup="true"
+                  :aria-expanded="userMenuItems.length > 0"
+                  @click="toggleUserMenu">
+                <span class="user-button-content">
+                  <i class="pi pi-user user-icon"></i>
+                  <span class="username-text">{{ currentUser?.username || $t('navbar.user') }}</span>
+                  <i class="pi pi-chevron-down chevron-icon"></i>
+                </span>
+              </pv-button>
 
-            <pv-menu
-                ref="userMenu"
-                :model="userMenuItems"
-                :popup="true"
-                class="user-dropdown-menu" />
+              <pv-menu
+                  ref="userMenu"
+                  :model="userMenuItems"
+                  :popup="true"
+                  class="user-dropdown-menu" />
+            </div>
           </template>
         </div>
       </div>
@@ -340,11 +348,12 @@ export default {
 
 .navbar-menu {
   display: flex;
-  gap: 0.5rem;
+  gap: 1.5rem;
 }
 
 .menu-button {
   margin: 0;
+  padding: 0;
 }
 
 .menu-item {
@@ -374,23 +383,149 @@ export default {
 .navbar-actions {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  margin-left: 2rem;
+  gap: 1.25rem;
+  margin-left: 3rem;
 }
 
 .language-switcher {
-  margin-right: 0.5rem;
+  margin-right: 0;
 }
 
 /* Customize PrimeVue button styles */
-:deep(.notification-button), :deep(.user-button) {
+:deep(.notification-button) {
+  padding: 0.625rem;
+  color: var(--color-text-secondary);
+  border-radius: 8px;
+}
+
+:deep(.notification-button:hover) {
+  color: var(--color-primary);
+  background-color: var(--color-surface-hover);
+  transform: translateY(-2px);
+}
+
+/* User menu container */
+.user-menu-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* User button with enhanced styling */
+:deep(.user-button) {
+  padding: 0.625rem 1rem;
+  color: var(--color-text);
+  border-radius: 8px;
+  font-weight: 500;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  transition: all 0.2s ease;
+}
+
+:deep(.user-button:hover) {
+  color: var(--color-primary);
+  background-color: var(--color-surface-hover);
+  border-color: var(--color-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* User button content wrapper */
+.user-button-content {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.user-icon {
+  font-size: 1rem;
+  color: var(--color-text-secondary);
+  transition: color 0.2s ease;
+}
+
+:deep(.user-button:hover) .user-icon {
+  color: var(--color-primary);
+}
+
+.username-text {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--color-text);
+  transition: color 0.2s ease;
+}
+
+:deep(.user-button:hover) .username-text {
+  color: var(--color-primary);
+}
+
+.chevron-icon {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+:deep(.user-button:hover) .chevron-icon {
+  transform: translateY(2px);
+  color: var(--color-primary);
+}
+
+/* User dropdown menu styling */
+:deep(.user-dropdown-menu) {
+  margin-top: 0.5rem;
+  min-width: 220px;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--color-border);
+  z-index: 1000;
+}
+
+:deep(.user-dropdown-menu .p-menu) {
+  background: var(--color-surface);
+  border: none;
+  box-shadow: none;
+}
+
+:deep(.user-dropdown-menu .p-menu-list) {
   padding: 0.5rem;
+}
+
+:deep(.user-dropdown-menu .p-menuitem) {
+  margin-bottom: 0.25rem;
+}
+
+:deep(.user-dropdown-menu .p-menuitem:last-child) {
+  margin-bottom: 0;
+}
+
+:deep(.user-dropdown-menu .p-menuitem-link) {
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  transition: all 0.15s ease;
+  color: var(--color-text);
+}
+
+:deep(.user-dropdown-menu .p-menuitem-link:hover) {
+  background: var(--color-surface-hover);
+  color: var(--color-primary);
+}
+
+:deep(.user-dropdown-menu .p-menuitem-icon) {
+  font-size: 1rem;
+  margin-right: 0.75rem;
   color: var(--color-text-secondary);
 }
 
-:deep(.notification-button:hover), :deep(.user-button:hover) {
+:deep(.user-dropdown-menu .p-menuitem-link:hover .p-menuitem-icon) {
   color: var(--color-primary);
-  background-color: var(--color-surface-hover);
+}
+
+:deep(.user-dropdown-menu .p-menuitem-text) {
+  font-weight: 500;
+}
+
+:deep(.user-dropdown-menu .p-menu-separator) {
+  margin: 0.5rem 0;
+  border-top: 1px solid var(--color-border);
 }
 
 /* Sign In button styling */
