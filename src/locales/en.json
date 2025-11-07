@@ -326,7 +326,10 @@
   "plans": {
     "title": "Upgrade Your Plan",
     "upgrade": "Upgrade",
-    "currentPlan": "Your Current Plan",
+    "downgrade": "Downgrade",
+    "subscribe": "Subscribe",
+    "getStarted": "Get Started",
+    "currentPlan": "Current Plan",
     "processingPayment": "Processing payment...",
     "forUsers": "For Users",
     "forProviders": "For Providers"
@@ -605,6 +608,71 @@
       "changePassword": "Change Password",
       "viewActivity": "View Activity",
       "signOut": "Sign Out"
+    },
+    "signOut": "Sign Out"
+  },
+  "profile": {
+    "title": "My Profile",
+    "security": {
+      "title": "Security Settings"
+    },
+    "2fa": {
+      "title": "Two-Factor Authentication",
+      "description": "Add an extra layer of security to your account",
+      "enabled": "Enabled",
+      "disabled": "Disabled",
+      "enable": "Enable 2FA",
+      "disable": "Disable 2FA",
+      "enabledInfo": "Your account is protected with two-factor authentication. You will need your authentication app when signing in.",
+      "disabledInfo": "Enable two-factor authentication to add an extra layer of security. You will need an authenticator app like Google Authenticator or Authy.",
+      "setupTitle": "Enable Two-Factor Authentication",
+      "disableTitle": "Disable Two-Factor Authentication",
+      "disableWarning": "Are you sure you want to disable two-factor authentication? This will make your account less secure.",
+      "confirmDisable": "Yes, Disable 2FA",
+      "step1Title": "Download an authenticator app",
+      "step1Description": "Install Google Authenticator, Authy, or any TOTP app",
+      "step2Title": "Scan the QR code",
+      "step3Title": "Enter verification code",
+      "step3Description": "Enter the 6-digit code from your authenticator app",
+      "manualEntry": "Or enter manually:",
+      "codePlaceholder": "000000",
+      "verify": "Verify & Enable",
+      "generatingQR": "Generating QR code...",
+      "invalidCode": "Invalid Code",
+      "invalidCodeDetail": "Please enter a valid 6-digit code",
+      "enableSuccess": "2FA Enabled!",
+      "enableSuccessDetail": "Two-factor authentication has been enabled successfully",
+      "disableSuccess": "2FA Disabled",
+      "disableSuccessDetail": "Two-factor authentication has been disabled",
+      "loadError": "Error",
+      "loadErrorDetail": "Failed to load 2FA status",
+      "setupError": "Setup Error",
+      "setupErrorDetail": "Failed to initiate 2FA setup",
+      "verifyError": "Verification Failed",
+      "verifyErrorDetail": "Invalid verification code. Please try again.",
+      "disableError": "Disable Failed",
+      "disableErrorDetail": "Failed to disable 2FA",
+      "keyCopied": "Manual entry key copied to clipboard"
     }
+  },
+  "common": {
+    "continue": "Continue",
+    "notSpecified": "Not specified",
+    "back": "Back",
+    "yes": "Yes",
+    "no": "No",
+    "cancel": "Cancel",
+    "copied": "Copied!",
+    "copy": "Copy",
+    "loading": "Loading...",
+    "submissionFailed": "Submission failed",
+    "cancelled": "Cancelled",
+    "error": "Error",
+    "address": "Address",
+    "viewDetails": "View Details",
+    "notAvailable": "Not available",
+    "success": "Success",
+    "warning": "Warning",
+    "retry": "Retry"
   }
 }

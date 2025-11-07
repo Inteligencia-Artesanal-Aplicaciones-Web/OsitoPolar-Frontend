@@ -326,7 +326,10 @@
   "plans": {
     "title": "Actualiza tu Plan",
     "upgrade": "Actualizar",
-    "currentPlan": "Tu Plan Actual",
+    "downgrade": "Cambiar a Plan Inferior",
+    "subscribe": "Suscribirse",
+    "getStarted": "Comenzar",
+    "currentPlan": "Plan Actual",
     "processingPayment": "Procesando pago...",
     "forUsers": "Para Usuarios",
     "forProviders": "Para Proveedores"
@@ -483,10 +486,13 @@
     "back": "Regresar",
     "yes": "Sí",
     "no": "No",
+    "cancel": "Cancelar",
+    "copied": "¡Copiado!",
+    "copy": "Copiar",
+    "loading": "Cargando...",
     "submissionFailed": "Envío fallido",
     "cancelled": "Cancelado",
     "error": "Error",
-    "cancel": "Cancelar",
     "address": "Dirección",
     "viewDetails": "Ver Detalles",
     "notAvailable": "No disponible",
@@ -619,6 +625,51 @@
       "changePassword": "Cambiar Contraseña",
       "viewActivity": "Ver Actividad",
       "signOut": "Cerrar Sesión"
+    },
+    "signOut": "Cerrar Sesión"
+  },
+  "profile": {
+    "title": "Mi Perfil",
+    "security": {
+      "title": "Configuración de Seguridad"
+    },
+    "2fa": {
+      "title": "Autenticación de Dos Factores",
+      "description": "Añade una capa adicional de seguridad a tu cuenta",
+      "enabled": "Habilitado",
+      "disabled": "Deshabilitado",
+      "enable": "Habilitar 2FA",
+      "disable": "Deshabilitar 2FA",
+      "enabledInfo": "Tu cuenta está protegida con autenticación de dos factores. Necesitarás tu aplicación de autenticación al iniciar sesión.",
+      "disabledInfo": "Habilita la autenticación de dos factores para añadir una capa adicional de seguridad. Necesitarás una aplicación de autenticación como Google Authenticator o Authy.",
+      "setupTitle": "Habilitar Autenticación de Dos Factores",
+      "disableTitle": "Deshabilitar Autenticación de Dos Factores",
+      "disableWarning": "¿Está seguro de que desea deshabilitar la autenticación de dos factores? Esto hará que su cuenta sea menos segura.",
+      "confirmDisable": "Sí, Deshabilitar 2FA",
+      "step1Title": "Descarga una aplicación de autenticación",
+      "step1Description": "Instala Google Authenticator, Authy, o cualquier aplicación TOTP",
+      "step2Title": "Escanea el código QR",
+      "step3Title": "Ingresa el código de verificación",
+      "step3Description": "Ingresa el código de 6 dígitos de tu aplicación de autenticación",
+      "manualEntry": "O ingresa manualmente:",
+      "codePlaceholder": "000000",
+      "verify": "Verificar y Habilitar",
+      "generatingQR": "Generando código QR...",
+      "invalidCode": "Código Inválido",
+      "invalidCodeDetail": "Por favor ingresa un código de 6 dígitos válido",
+      "enableSuccess": "¡2FA Habilitado!",
+      "enableSuccessDetail": "La autenticación de dos factores ha sido habilitada exitosamente",
+      "disableSuccess": "2FA Deshabilitado",
+      "disableSuccessDetail": "La autenticación de dos factores ha sido deshabilitada",
+      "loadError": "Error",
+      "loadErrorDetail": "Error al cargar el estado de 2FA",
+      "setupError": "Error de Configuración",
+      "setupErrorDetail": "Error al iniciar la configuración de 2FA",
+      "verifyError": "Verificación Fallida",
+      "verifyErrorDetail": "Código de verificación inválido. Por favor, inténtalo de nuevo.",
+      "disableError": "Deshabilitación Fallida",
+      "disableErrorDetail": "Error al deshabilitar 2FA",
+      "keyCopied": "Clave de entrada manual copiada al portapapeles"
     }
   }
 }
