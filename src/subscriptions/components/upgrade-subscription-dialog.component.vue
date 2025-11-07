@@ -25,7 +25,7 @@ export default {
     },
     newPlan: {
       type: Object,
-      required: true
+      default: null
     }
   },
 
@@ -45,6 +45,7 @@ export default {
 
   computed: {
     priceDifference() {
+      if (!this.newPlan) return 0;
       if (!this.currentPlan) return this.newPlan.price;
       return this.newPlan.price - this.currentPlan.price;
     },
@@ -137,6 +138,7 @@ export default {
 
 <template>
   <pv-dialog
+    v-if="newPlan"
     :visible="visible"
     :closable="!processing"
     modal
