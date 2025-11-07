@@ -99,6 +99,31 @@ class AuthService {
     }
 
     /**
+     * Initiate 2FA setup - Get QR code for enabling 2FA
+     * Endpoint: POST /api/v1/authentication/initiate-2fa
+     *
+     * @param {string} username
+     * @returns {Promise<Object>} Object with qrCodeDataUrl and manualEntryKey
+     */
+    async initiate2FASetup(username) {
+        if (!username?.trim()) {
+            throw new Error('Username is required');
+        }
+
+        const response = await httpInstance.post(
+            `${this._authEndpoint}/initiate-2fa`,
+            JSON.stringify(username.trim()),
+            {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
+        );
+
+        return response.data;
+    }
+
+    /**
      * Enable 2FA for user (from settings)
      * Endpoint: POST /api/v1/authentication/enable-2fa
      *
