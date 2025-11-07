@@ -61,22 +61,24 @@ export default {
 
 <style scoped>
 .rental-card {
-  background: white;
+  background: var(--color-surface);
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: var(--shadow-md);
+  transition: transform 0.2s, box-shadow 0.2s, background-color 0.3s ease;
+  border: 1px solid var(--color-border);
 }
 
 .rental-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  box-shadow: var(--shadow-lg);
 }
 
 .rental-card-image {
   position: relative;
   height: 200px;
-  background: #f5f5f5;
+  background: var(--color-surface-hover);
+  transition: background-color 0.3s ease;
 }
 
 .rental-card-image img {
@@ -104,14 +106,16 @@ export default {
 .equipment-name {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #333;
+  color: var(--color-text);
   margin-bottom: 0.25rem;
+  transition: color 0.3s ease;
 }
 
 .equipment-model {
   font-size: 0.9rem;
-  color: #666;
+  color: var(--color-text-secondary);
   margin-bottom: 1rem;
+  transition: color 0.3s ease;
 }
 
 .price-section {
@@ -122,8 +126,9 @@ export default {
 
 .price-label {
   font-size: 0.8rem;
-  color: #999;
+  color: var(--color-text-secondary);
   margin-bottom: 0.25rem;
+  transition: color 0.3s ease;
 }
 
 .price-value {
