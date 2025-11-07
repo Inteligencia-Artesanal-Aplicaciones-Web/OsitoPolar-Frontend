@@ -415,11 +415,12 @@ export default {
 :deep(.user-button) {
   padding: 0.625rem 1rem;
   color: var(--color-text);
-  border-radius: 8px;
+  border-radius: 10px;
   font-weight: 500;
   border: 1px solid var(--color-border);
   background: var(--color-surface);
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 :deep(.user-button:hover) {
@@ -427,7 +428,12 @@ export default {
   background-color: var(--color-surface-hover);
   border-color: var(--color-primary);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+:deep(.user-button:active) {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 /* User button content wrapper */
@@ -440,7 +446,7 @@ export default {
 .user-icon {
   font-size: 1rem;
   color: var(--color-text-secondary);
-  transition: color 0.2s ease;
+  transition: color 0.3s ease;
 }
 
 :deep(.user-button:hover) .user-icon {
@@ -451,7 +457,7 @@ export default {
   font-size: 0.95rem;
   font-weight: 500;
   color: var(--color-text);
-  transition: color 0.2s ease;
+  transition: color 0.3s ease;
 }
 
 :deep(.user-button:hover) .username-text {
@@ -461,7 +467,7 @@ export default {
 .chevron-icon {
   font-size: 0.75rem;
   color: var(--color-text-secondary);
-  transition: transform 0.2s ease, color 0.2s ease;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s ease;
 }
 
 :deep(.user-button:hover) .chevron-icon {
@@ -469,20 +475,26 @@ export default {
   color: var(--color-primary);
 }
 
+:deep(.user-button[aria-expanded="true"]) .chevron-icon {
+  transform: rotate(180deg);
+}
+
 /* User dropdown menu styling */
 :deep(.user-dropdown-menu) {
   margin-top: 0.5rem;
   min-width: 220px;
-  border-radius: 8px;
+  border-radius: 12px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
   border: 1px solid var(--color-border);
   z-index: 1000;
+  overflow: hidden;
 }
 
 :deep(.user-dropdown-menu .p-menu) {
   background: var(--color-surface);
   border: none;
   box-shadow: none;
+  border-radius: 12px;
 }
 
 :deep(.user-dropdown-menu .p-menu-list) {
@@ -498,34 +510,49 @@ export default {
 }
 
 :deep(.user-dropdown-menu .p-menuitem-link) {
-  padding: 0.75rem 1rem;
-  border-radius: 6px;
-  transition: all 0.15s ease;
+  padding: 0.875rem 1.125rem;
+  border-radius: 8px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   color: var(--color-text);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
 }
 
 :deep(.user-dropdown-menu .p-menuitem-link:hover) {
   background: var(--color-surface-hover);
   color: var(--color-primary);
+  transform: translateX(4px);
+  padding-left: 1.375rem;
+}
+
+:deep(.user-dropdown-menu .p-menuitem-link:active) {
+  transform: translateX(2px) scale(0.98);
 }
 
 :deep(.user-dropdown-menu .p-menuitem-icon) {
-  font-size: 1rem;
-  margin-right: 0.75rem;
+  font-size: 1.125rem;
+  margin-right: 0.875rem;
   color: var(--color-text-secondary);
+  transition: all 0.2s ease;
+  flex-shrink: 0;
 }
 
 :deep(.user-dropdown-menu .p-menuitem-link:hover .p-menuitem-icon) {
   color: var(--color-primary);
+  transform: scale(1.1);
 }
 
 :deep(.user-dropdown-menu .p-menuitem-text) {
   font-weight: 500;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
 }
 
 :deep(.user-dropdown-menu .p-menu-separator) {
-  margin: 0.5rem 0;
+  margin: 0.5rem 0.5rem;
   border-top: 1px solid var(--color-border);
+  opacity: 0.6;
 }
 
 /* Sign In button styling */
@@ -543,7 +570,7 @@ export default {
   background: var(--color-primary);
   opacity: 0.9;
   transform: translateY(-2px);
-  box-shadow: var(--shadow-lg);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
 
 :deep(.sign-in-button:active) {

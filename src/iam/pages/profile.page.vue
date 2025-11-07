@@ -6,12 +6,17 @@
 import UserInfoCard from '../components/user-info-card.component.vue';
 import authService from '../services/auth.service';
 import { useAuthStore } from '../store/auth.store';
+import Tooltip from 'primevue/tooltip';
 
 export default {
   name: 'ProfilePage',
 
   components: {
     UserInfoCard
+  },
+
+  directives: {
+    tooltip: Tooltip
   },
 
   setup() {

@@ -364,12 +364,12 @@ h1 {
   margin-left: 0.5rem;
 }
 
-.status-pending { background-color: #f39c12; }
-.status-accepted { background-color: #1abc9c; }
-.status-in-progress { background-color: #3498db; }
-.status-resolved { background-color: #2ecc71; }
-.status-rejected { background-color: #e74c3c; }
-.status-completed { background-color: #50bb0e; }
+.status-pending { background-color: var(--status-pending); transition: background-color 0.3s ease; }
+.status-accepted { background-color: var(--status-accepted); transition: background-color 0.3s ease; }
+.status-in-progress { background-color: var(--status-in-progress); transition: background-color 0.3s ease; }
+.status-resolved { background-color: var(--status-resolved); transition: background-color 0.3s ease; }
+.status-rejected { background-color: var(--status-rejected); transition: background-color 0.3s ease; }
+.status-completed { background-color: var(--status-completed); transition: background-color 0.3s ease; }
 
 
 .request-card ::v-deep .p-card-content {
@@ -437,17 +437,18 @@ h1 {
 }
 
 .p-button-rate {
-  background-color: #ffc107 !important;
-  border-color: #ffc107 !important;
-  color: #333 !important;
+  background-color: var(--color-warning) !important;
+  border-color: var(--color-warning) !important;
+  color: var(--color-text-inverse) !important;
   font-weight: 600;
-  box-shadow: 0 2px 4px rgba(255, 193, 7, 0.4);
+  box-shadow: 0 2px 4px var(--color-shadow);
   transition: all 0.2s ease;
 }
 .p-button-rate:hover {
-  background-color: #e0a800 !important;
-  border-color: #e0a800 !important;
-  box-shadow: 0 4px 8px rgba(255, 193, 7, 0.5);
+  background-color: var(--color-warning) !important;
+  border-color: var(--color-warning) !important;
+  opacity: 0.9;
+  box-shadow: 0 4px 8px var(--color-shadow-medium);
 }
 
 .p-button-view-rating {

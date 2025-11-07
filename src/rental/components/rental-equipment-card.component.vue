@@ -91,12 +91,13 @@ export default {
   position: absolute;
   top: 12px;
   right: 12px;
-  background: #4CAF50;
+  background: var(--color-success);
   color: white;
   padding: 4px 12px;
   border-radius: 20px;
   font-size: 0.8rem;
   font-weight: 500;
+  transition: background-color 0.3s ease;
 }
 
 .rental-card-content {
@@ -134,7 +135,8 @@ export default {
 .price-value {
   font-size: 1.4rem;
   font-weight: 700;
-  color: #e74c3c;
+  color: var(--color-error);
+  transition: color 0.3s ease;
 }
 
 .request-button {

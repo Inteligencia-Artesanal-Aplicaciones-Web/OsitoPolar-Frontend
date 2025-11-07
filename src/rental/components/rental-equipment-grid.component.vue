@@ -32,7 +32,7 @@ export default {
     </div>
 
     <div v-else-if="equipment.length === 0" class="empty-state">
-      <i class="pi pi-inbox" style="font-size: 3rem; color: #999;"></i>
+      <i class="pi pi-inbox empty-icon"></i>
       <p>{{ $t('rental.catalog.noEquipment') }}</p>
     </div>
 
@@ -59,7 +59,14 @@ export default {
   align-items: center;
   justify-content: center;
   padding: 3rem;
-  color: #666;
+  color: var(--color-text-secondary);
+  transition: color 0.3s ease;
+}
+
+.empty-icon {
+  font-size: 3rem;
+  color: var(--color-text-tertiary);
+  transition: color 0.3s ease;
 }
 
 .equipment-grid {

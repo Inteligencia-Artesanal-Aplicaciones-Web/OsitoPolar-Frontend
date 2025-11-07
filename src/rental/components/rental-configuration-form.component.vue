@@ -279,17 +279,19 @@ export default {
 
 <style scoped>
 .config-card {
-  background: white;
+  background: var(--color-card-background);
   border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-  border: 1px solid #e1e8ed;
+  box-shadow: 0 4px 20px var(--color-shadow);
+  border: 1px solid var(--color-card-border);
   overflow: hidden;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .card-header {
-  background: linear-gradient(135deg, #0079c2 0%, #005a94 100%);
-  color: white;
+  background: linear-gradient(135deg, var(--color-gradient-start) 0%, var(--color-gradient-end) 100%);
+  color: var(--color-text-inverse);
   padding: 1.5rem 2rem;
+  transition: background 0.3s ease;
 }
 
 .card-header h2 {
@@ -316,9 +318,10 @@ export default {
 
 .form-label {
   font-size: 0.95rem;
-  color: #333;
+  color: var(--color-text);
   margin-bottom: 0.75rem;
   font-weight: 600;
+  transition: color 0.3s ease;
 }
 
 .custom-select {
@@ -327,8 +330,8 @@ export default {
 }
 
 .select-value {
-  background: #f8f9fa;
-  border: 2px solid #e1e8ed;
+  background: var(--color-surface-hover);
+  border: 2px solid var(--color-border);
   border-radius: 12px;
   padding: 1rem 1.25rem;
   display: flex;
@@ -336,16 +339,18 @@ export default {
   justify-content: space-between;
   transition: all 0.2s ease;
   font-size: 0.95rem;
+  color: var(--color-text);
 }
 
 .select-value:hover {
-  border-color: #0079c2;
-  background: #f0f8ff;
+  border-color: var(--color-primary);
+  background: var(--color-surface-hover);
 }
 
 .select-value i.pi-calendar {
   margin-right: 0.5rem;
-  color: #0079c2;
+  color: var(--color-primary);
+  transition: color 0.3s ease;
 }
 
 .select-dropdown,
@@ -354,24 +359,26 @@ export default {
   top: 100%;
   left: 0;
   right: 0;
-  background: white;
-  border: 2px solid #0079c2;
+  background: var(--color-surface);
+  border: 2px solid var(--color-primary);
   border-radius: 12px;
   margin-top: 4px;
   z-index: 1000;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+  box-shadow: 0 8px 25px var(--color-shadow-medium);
   max-height: 200px;
   overflow-y: auto;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .dropdown-item {
   padding: 0.75rem 1.25rem;
   cursor: pointer;
   transition: all 0.2s ease;
-  border-bottom: 1px solid #f1f3f4;
+  border-bottom: 1px solid var(--color-border-light);
   display: flex;
   justify-content: space-between;
   align-items: center;
+  color: var(--color-text);
 }
 
 .dropdown-item:last-child {
@@ -379,22 +386,23 @@ export default {
 }
 
 .dropdown-item:hover {
-  background: #f0f8ff;
-  color: #0079c2;
+  background: var(--color-surface-hover);
+  color: var(--color-primary);
 }
 
 .dropdown-item.active {
-  background: #0079c2;
-  color: white;
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
 }
 
 .discount-badge {
-  background: #27ae60;
+  background: var(--color-success);
   color: white;
   padding: 0.25rem 0.5rem;
   border-radius: 12px;
   font-size: 0.75rem;
   font-weight: 600;
+  transition: background-color 0.3s ease;
 }
 
 .calendar-dropdown {
@@ -405,9 +413,10 @@ export default {
 .calendar-header {
   text-align: center;
   font-weight: 600;
-  color: #0079c2;
+  color: var(--color-primary);
   margin-bottom: 1rem;
   font-size: 1.1rem;
+  transition: color 0.3s ease;
 }
 
 .calendar-grid {
@@ -420,8 +429,9 @@ export default {
   text-align: center;
   font-size: 0.75rem;
   font-weight: 600;
-  color: #666;
+  color: var(--color-text-secondary);
   padding: 0.5rem;
+  transition: color 0.3s ease;
 }
 
 .calendar-day {
@@ -431,27 +441,28 @@ export default {
   border-radius: 8px;
   transition: all 0.2s ease;
   font-size: 0.9rem;
+  color: var(--color-text);
 }
 
 .calendar-day:hover:not(.disabled) {
-  background: #f0f8ff;
-  color: #0079c2;
+  background: var(--color-surface-hover);
+  color: var(--color-primary);
 }
 
 .calendar-day.selected {
-  background: #0079c2;
-  color: white;
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
   font-weight: 600;
 }
 
 .calendar-day.disabled {
-  color: #ccc;
+  color: var(--color-text-tertiary);
   cursor: not-allowed;
 }
 
 .custom-textarea {
-  background: #f8f9fa;
-  border: 2px solid #e1e8ed;
+  background: var(--color-surface-hover);
+  border: 2px solid var(--color-border);
   border-radius: 12px;
   padding: 1rem 1.25rem;
   font-size: 0.95rem;
@@ -459,16 +470,17 @@ export default {
   resize: vertical;
   transition: all 0.2s ease;
   outline: none;
+  color: var(--color-text);
 }
 
 .custom-textarea:focus {
-  border-color: #0079c2;
-  background: #f0f8ff;
-  box-shadow: 0 0 0 3px rgba(0, 121, 194, 0.1);
+  border-color: var(--color-primary);
+  background: var(--color-surface-hover);
+  box-shadow: 0 0 0 3px var(--color-shadow);
 }
 
 .custom-textarea::placeholder {
-  color: #999;
+  color: var(--color-text-tertiary);
 }
 
 @media (max-width: 768px) {

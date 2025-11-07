@@ -245,17 +245,19 @@ export default {
 
 <style scoped>
 .summary-card {
-  background: white;
+  background: var(--color-card-background);
   border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-  border: 1px solid #e1e8ed;
+  box-shadow: 0 4px 20px var(--color-shadow);
+  border: 1px solid var(--color-card-border);
   overflow: hidden;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .card-header {
-  background: linear-gradient(135deg, #0079c2 0%, #005a94 100%);
-  color: white;
+  background: linear-gradient(135deg, var(--color-gradient-start) 0%, var(--color-gradient-end) 100%);
+  color: var(--color-text-inverse);
   padding: 1.5rem 2rem;
+  transition: background 0.3s ease;
 }
 
 .card-header h2 {
@@ -273,7 +275,9 @@ export default {
   justify-content: space-between;
   align-items: center;
   padding: 1rem 0;
-  border-bottom: 1px solid #f1f3f4;
+  border-bottom: 1px solid var(--color-border-light);
+  color: var(--color-text);
+  transition: border-color 0.3s ease, color 0.3s ease;
 }
 
 .price-item:last-child {
@@ -289,28 +293,32 @@ export default {
 
 .original-price {
   font-size: 0.85rem;
-  color: #999;
+  color: var(--color-text-tertiary);
   text-decoration: line-through;
+  transition: color 0.3s ease;
 }
 
 .current-price {
   font-weight: 600;
-  color: #333;
+  color: var(--color-text);
+  transition: color 0.3s ease;
 }
 
 .discount-applied {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: #27ae60;
+  color: var(--color-success);
   font-size: 0.9rem;
   font-weight: 500;
   padding: 0.75rem 0;
+  transition: color 0.3s ease;
 }
 
 .price-divider {
-  border-top: 2px solid #e1e8ed;
+  border-top: 2px solid var(--color-border);
   margin: 1rem 0;
+  transition: border-color 0.3s ease;
 }
 
 .price-item.total {
@@ -321,8 +329,9 @@ export default {
 
 .total-price {
   font-size: 1.5rem;
-  color: #0079c2;
+  color: var(--color-primary);
   font-weight: 700;
+  transition: color 0.3s ease;
 }
 
 .payment-info {
@@ -330,30 +339,33 @@ export default {
 }
 
 .info-badge {
-  background: #f0f8ff;
-  border: 1px solid #cce7ff;
+  background: var(--color-surface-hover);
+  border: 1px solid var(--color-border);
   border-radius: 12px;
   padding: 1rem;
   display: flex;
   gap: 0.75rem;
   align-items: flex-start;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .info-badge i {
-  color: #0079c2;
+  color: var(--color-primary);
   margin-top: 0.125rem;
   flex-shrink: 0;
+  transition: color 0.3s ease;
 }
 
 .info-badge span {
   font-size: 0.9rem;
-  color: #333;
+  color: var(--color-text);
   line-height: 1.4;
+  transition: color 0.3s ease;
 }
 
 .proceed-button {
   width: 100%;
-  background: linear-gradient(135deg, #27ae60 0%, #219a52 100%);
+  background: var(--color-success);
   color: white;
   border: none;
   padding: 1rem 2rem;
@@ -367,12 +379,13 @@ export default {
   justify-content: center;
   gap: 0.75rem;
   margin: 0 2rem 2rem;
-  box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
+  box-shadow: 0 4px 12px var(--color-shadow-medium);
 }
 
 .proceed-button:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(39, 174, 96, 0.4);
+  box-shadow: 0 6px 20px var(--color-shadow-large);
+  opacity: 0.9;
 }
 
 .proceed-button:active {
@@ -383,7 +396,7 @@ export default {
   opacity: 0.7;
   cursor: not-allowed;
   transform: none;
-  background: #ccc;
+  background: var(--color-text-tertiary);
 }
 
 .button-spinner {

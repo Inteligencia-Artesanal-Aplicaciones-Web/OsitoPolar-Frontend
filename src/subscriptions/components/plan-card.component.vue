@@ -135,7 +135,7 @@ export default {
   position: absolute;
   top: -12px;
   right: 20px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
   color: white;
   padding: 6px 16px;
   border-radius: 20px;
@@ -144,8 +144,9 @@ export default {
   display: flex;
   align-items: center;
   gap: 6px;
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 4px 12px var(--color-shadow-medium);
   z-index: 10;
+  transition: background 0.3s ease;
 }
 
 .current-badge i {
@@ -158,11 +159,11 @@ export default {
   padding: 0.75rem;
   width: 100%;
   max-width: 340px;
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--color-border);
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  background-color: #ffffff;
-  transition: transform 0.2s, border-color 0.3s, box-shadow 0.3s;
+  box-shadow: 0 4px 8px var(--color-shadow);
+  background-color: var(--color-card-background);
+  transition: transform 0.2s, border-color 0.3s, box-shadow 0.3s, background-color 0.3s ease;
   min-height: 420px;
   position: relative;
 }
@@ -173,15 +174,15 @@ export default {
 
 /* Current Plan Card - Highlighted */
 .current-plan-card {
-  border: 2px solid #667eea;
-  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
-  background: linear-gradient(135deg, #f5f7ff 0%, #ffffff 100%);
+  border: 2px solid var(--color-primary);
+  box-shadow: 0 8px 24px var(--color-shadow-large);
+  background: var(--color-surface-hover);
 }
 
 /* Upgrade Plan Card - Subtle highlight */
 .upgrade-plan-card:hover {
-  border-color: #10B981;
-  box-shadow: 0 8px 24px rgba(16, 185, 129, 0.2);
+  border-color: var(--color-success);
+  box-shadow: 0 8px 24px var(--color-shadow-medium);
 }
 
 .card-content {
@@ -197,29 +198,33 @@ export default {
 .card-footer {
   padding: 0.75rem 1rem;
   text-align: center;
-  border-top: 1px solid #e0e0e0;
+  border-top: 1px solid var(--color-border);
   min-height: 50px;
+  transition: border-color 0.3s ease;
 }
 
 .plan-title {
   font-size: 1.25rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
-  color: #1F2937;
+  color: var(--color-text);
+  transition: color 0.3s ease;
 }
 
 .plan-price {
   font-size: 1.75rem;
   font-weight: bold;
-  color: #333;
+  color: var(--color-text);
   margin-bottom: 0.5rem;
+  transition: color 0.3s ease;
 }
 
 .plan-limit {
   font-size: 0.875rem;
-  color: #555;
+  color: var(--color-text-secondary);
   margin-bottom: 1rem;
   line-height: 1.4;
+  transition: color 0.3s ease;
 }
 
 .feature-list {
@@ -231,20 +236,22 @@ export default {
 
 .feature-list li {
   margin: 0.5rem 0;
-  color: #666;
+  color: var(--color-text-secondary);
   font-size: 0.875rem;
   line-height: 1.5;
+  transition: color 0.3s ease;
 }
 
 .checkmark {
-  color: #4CAF50;
+  color: var(--color-success);
   margin-right: 8px;
+  transition: color 0.3s ease;
 }
 
 .p-button {
   display: block;
   width: 100%;
-  background-color: #0079c2;
+  background-color: var(--color-button-primary-bg);
   border: none;
   padding: 12px;
   font-size: 1rem;
@@ -253,26 +260,28 @@ export default {
 }
 
 .p-button:hover:not(:disabled) {
-  background-color: #005f99;
+  background-color: var(--color-button-primary-hover);
 }
 
 .p-button:disabled {
-  background-color: #cccccc;
+  background-color: var(--color-text-tertiary);
   cursor: not-allowed;
 }
 
 .upgrading-message {
-  color: #4CAF50;
+  color: var(--color-success);
   font-style: italic;
   font-size: 0.9rem;
   margin-top: 10px;
+  transition: color 0.3s ease;
 }
 
 .current-plan-message {
   font-size: large;
-  color: #0079c2;
+  color: var(--color-primary);
   font-weight: bold;
   margin-top: 10px;
+  transition: color 0.3s ease;
 }
 
 

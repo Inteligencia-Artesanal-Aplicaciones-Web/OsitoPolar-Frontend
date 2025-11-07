@@ -366,46 +366,59 @@ export default {
   max-width: 768px;
   margin: 0 auto;
   padding: 2rem 1rem;
-  background-color: #f0f9ff;
+  background-color: var(--color-background);
   min-height: 100vh;
+  transition: background-color 0.3s ease;
 }
 
 .title {
   font-size: 2rem;
   font-weight: 700;
-  color: #055f84;
+  color: var(--color-primary);
   margin-bottom: 1.5rem;
+  transition: color 0.3s ease;
 }
 
 .link-back {
   display: inline-block;
-  color: #0884c4;
+  color: var(--color-primary);
   margin-bottom: 1rem;
   font-weight: 500;
+  transition: color 0.3s ease;
 }
 
 .card {
-  background: #ffffff;
+  background: var(--color-card-background);
   padding: 1.5rem;
   border-radius: 1rem;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 10px var(--color-shadow);
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
+  border: 1px solid var(--color-card-border);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+label {
+  color: var(--color-text);
+  font-weight: 500;
+  transition: color 0.3s ease;
 }
 
 .input {
   width: 100%;
   padding: 0.5rem;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--color-border);
   border-radius: 0.5rem;
   font-size: 1rem;
-  transition: box-shadow 0.3s, border-color 0.3s;
+  transition: box-shadow 0.3s, border-color 0.3s, background-color 0.3s ease, color 0.3s ease;
+  background-color: var(--color-surface-hover);
+  color: var(--color-text);
 }
 
 .input:focus {
-  border-color: #0884c4;
-  box-shadow: 0 0 0 3px rgba(8, 132, 196, 0.25);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.25);
   outline: none;
 }
 
@@ -413,7 +426,8 @@ export default {
   display: flex;
   gap: 1rem;
   margin-top: 0.5rem;
-  color: #374151;
+  color: var(--color-text);
+  transition: color 0.3s ease;
 }
 
 .checkbox {
@@ -421,7 +435,8 @@ export default {
   align-items: center;
   gap: 0.5rem;
   margin-top: 0.5rem;
-  color: #374151;
+  color: var(--color-text);
+  transition: color 0.3s ease;
 }
 
 .actions {
@@ -431,8 +446,8 @@ export default {
 }
 
 .btn {
-  background-color: #0884c4;
-  color: white;
+  background-color: var(--color-button-primary-bg);
+  color: var(--color-text-inverse);
   padding: 0.5rem 1.25rem;
   border: none;
   border-radius: 0.75rem;
@@ -442,7 +457,7 @@ export default {
 }
 
 .btn:hover:not(:disabled) {
-  background-color: #056a9d;
+  background-color: var(--color-button-primary-hover);
 }
 
 .btn:disabled {
@@ -452,8 +467,8 @@ export default {
 
 .btn-outline {
   background-color: transparent;
-  border: 1px solid #0884c4;
-  color: #0884c4;
+  border: 1px solid var(--color-primary);
+  color: var(--color-primary);
   padding: 0.5rem 1.25rem;
   border-radius: 0.75rem;
   font-weight: 600;
@@ -461,13 +476,24 @@ export default {
 }
 
 .btn-outline:hover {
-  background-color: #e0f3fb;
+  background-color: var(--color-surface-hover);
 }
 
 .info-box {
-  background-color: #e6f6fd;
+  background-color: var(--color-surface-hover);
   padding: 1rem;
   border-radius: 0.75rem;
+  transition: background-color 0.3s ease;
+}
+
+.info-box h2 {
+  color: var(--color-primary);
+  transition: color 0.3s ease;
+}
+
+.info-box ul {
+  color: var(--color-text);
+  transition: color 0.3s ease;
 }
 
 .step-indicator {
@@ -496,20 +522,21 @@ export default {
   right: -50%;
   width: 100%;
   height: 2px;
-  background-color: #d1d5db;
+  background-color: var(--color-border);
   z-index: 0;
+  transition: background-color 0.3s ease;
 }
 
 .step.completed:not(:last-child)::after {
-  background-color: #0884c4;
+  background-color: var(--color-primary);
 }
 
 .circle {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background-color: #d1d5db;
-  color: white;
+  background-color: var(--color-border);
+  color: var(--color-text-inverse);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -519,17 +546,18 @@ export default {
 }
 
 .step.active .circle {
-  background-color: #0884c4;
+  background-color: var(--color-primary);
 }
 
 .step.completed .circle {
-  background-color: #0884c4;
+  background-color: var(--color-primary);
 }
 
 .label {
   font-size: 0.875rem;
   font-weight: 500;
-  color: #4b5563;
+  color: var(--color-text-secondary);
+  transition: color 0.3s ease;
 }
 
 
