@@ -41,6 +41,14 @@
   --color-info-light: #dbeafe;
   --color-info-dark: #1e3a8a;
 
+  /* Service Request Status Colors */
+  --status-pending: #f39c12;
+  --status-accepted: #1abc9c;
+  --status-in-progress: #3498db;
+  --status-resolved: #2ecc71;
+  --status-rejected: #e74c3c;
+  --status-completed: #50bb0e;
+
   /* Card & Component Specific */
   --color-card-background: #ffffff;
   --color-card-border: #e0e7eb;
@@ -109,6 +117,14 @@
   --color-info: #38bdf8;
   --color-info-light: #075985;
   --color-info-dark: #0ea5e9;
+
+  /* Service Request Status Colors */
+  --status-pending: #f59e0b;
+  --status-accepted: #14b8a6;
+  --status-in-progress: #3b82f6;
+  --status-resolved: #22c55e;
+  --status-rejected: #ef4444;
+  --status-completed: #84cc16;
 
   /* Card & Component Specific */
   --color-card-background: #1e293b;
