@@ -84,6 +84,7 @@ export default {
       upgrading: false,
       selectedPlanId: null,
       error: null,
+      useHostedCheckout: true, // Use Stripe Checkout (recommended)
       upgradeDialog: {
         visible: false,
         currentPlan: null,
@@ -98,7 +99,7 @@ export default {
   },
   async created() {
     await this.fetchPlans();
-    this.checkPaymentResult();
+    // Payment results are now handled by dedicated success/cancel pages
   },
   methods: {
     async fetchPlans() {
@@ -129,6 +130,67 @@ export default {
     },
 
     async handleUpgrade(plan) {
+      console.log('[Plans] Upgrading to plan:', plan);
+
+      if (this.useHostedCheckout) {
+        // Use Stripe Checkout (hosted page) - Recommended
+        await this.handleHostedCheckout(plan);
+      } else {
+        // Use embedded Stripe Elements form
+        await this.handleEmbeddedPayment(plan);
+      }
+    },
+
+    async handleHostedCheckout(plan) {
+      console.log('[Plans] Initiating Stripe Checkout for plan:', plan);
+
+      this.upgrading = true;
+      this.selectedPlanId = plan.id;
+
+      try {
+        const userId = this.authStore.user?.id;
+
+        if (!userId) {
+          throw new Error('User not authenticated');
+        }
+
+        // Build success and cancel URLs
+        const baseUrl = window.location.origin;
+        const successUrl = `${baseUrl}/payment/success`;
+        const cancelUrl = `${baseUrl}/payment/cancel`;
+
+        console.log('[Plans] Creating checkout session:', {
+          userId,
+          planId: plan.id,
+          successUrl,
+          cancelUrl
+        });
+
+        // This will redirect to Stripe Checkout
+        await subscriptionService.createCheckoutSession(
+          userId,
+          plan.id,
+          successUrl,
+          cancelUrl
+        );
+
+        // Note: Code after this won't execute as user is redirected
+      } catch (error) {
+        console.error('[Plans] Error creating checkout session:', error);
+
+        this.$refs.toast.add({
+          severity: 'error',
+          summary: 'Checkout Error',
+          detail: error.response?.data?.message || error.message || 'Failed to start checkout',
+          life: 5000
+        });
+
+        this.upgrading = false;
+        this.selectedPlanId = null;
+      }
+    },
+
+    async handleEmbeddedPayment(plan) {
       console.log('[Plans] Opening upgrade dialog for plan:', plan);
 
       // Get current plan (if any)
@@ -158,67 +220,6 @@ export default {
         detail: 'Your subscription has been upgraded successfully',
         life: 5000
       });
-    },
-
-    checkPaymentResult() {
-      const urlParams = new URLSearchParams(window.location.search);
-      const paymentStatus = urlParams.get('payment');
-      const sessionId = urlParams.get('session_id');
-
-      if (paymentStatus === 'success' && sessionId) {
-        this.handlePaymentSuccess(sessionId);
-      } else if (paymentStatus === 'cancelled') {
-        this.handlePaymentCancellation();
-      }
-    },
-
-    async handlePaymentSuccess(sessionId) {
-      try {
-        console.log('Payment successful for session:', sessionId);
-
-        this.$refs.toast.add({
-          severity: 'success',
-          summary: 'Payment Successful',
-          detail: 'Your subscription has been updated successfully!',
-          life: 5000
-        });
-
-        // Reload plans to show updated state
-        await this.fetchPlans();
-      } catch (error) {
-        console.error('Error processing payment success:', error);
-        this.$refs.toast.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'Error processing payment confirmation',
-          life: 5000
-        });
-      }
-
-      // Clean up URL
-      this.cleanupUrl();
-    },
-
-    async handlePaymentCancellation() {
-      console.log('Payment was cancelled by user');
-
-      this.$refs.toast.add({
-        severity: 'warn',
-        summary: 'Payment Cancelled',
-        detail: 'You can upgrade your plan anytime',
-        life: 5000
-      });
-
-      // Clean up URL
-      this.cleanupUrl();
-    },
-
-    cleanupUrl() {
-      const url = new URL(window.location);
-      url.searchParams.delete('payment');
-      url.searchParams.delete('session_id');
-      url.searchParams.delete('plan_id');
-      window.history.replaceState({}, document.title, url.pathname);
     }
   }
 };
