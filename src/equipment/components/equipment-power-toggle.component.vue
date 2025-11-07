@@ -39,7 +39,7 @@ export default {
             />
       <span
           class="power-label"
-          :style="{ color: isPoweredOn ? '#4CAF50' : '#666' }"
+          :class="{ 'active': isPoweredOn }"
       >
         {{ isPoweredOn ? $t('equipment.form.on') : $t('equipment.form.off') }}
       </span>
@@ -76,6 +76,12 @@ export default {
 .power-label {
   font-weight: bold;
   font-size: 1.2rem;
+  color: var(--color-text-secondary);
+  transition: color 0.3s ease;
+}
+
+.power-label.active {
+  color: var(--color-success);
 }
 
 .power-button {
@@ -89,24 +95,35 @@ export default {
   width: 4rem;
   height: 4rem;
   border-radius: 50%;
-  border: none;
-  background-color: #f0f0f0;
+  border: 2px solid var(--color-border);
+  background-color: var(--color-surface-alt);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px var(--color-shadow);
   transition: all 0.3s ease;
+}
+
+.round-button:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 6px 12px var(--color-shadow-medium);
+}
+
+.round-button:active {
+  transform: translateY(0) scale(0.98);
 }
 
 .round-button i {
   font-size: 1.5rem;
-  color: #666;
+  color: var(--color-text-secondary);
   transition: color 0.3s ease;
 }
 
 .round-button.active {
-  background-color: #4CAF50;
+  background-color: var(--color-success);
+  border-color: var(--color-success);
+  box-shadow: 0 4px 12px var(--color-shadow);
 }
 
 .round-button.active i {
@@ -115,6 +132,10 @@ export default {
 
 .button-label {
   font-size: 0.9rem;
-  color: #666;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: color 0.3s ease;
 }
 </style>

@@ -396,8 +396,9 @@ export default {
   flex-direction: column;
   border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 8px 25px rgba(33, 150, 243, 0.15);
-  background: white;
+  box-shadow: 0 8px 25px var(--color-shadow);
+  background: var(--color-card-background);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .map-header {
@@ -405,24 +406,27 @@ export default {
   justify-content: space-between;
   align-items: center;
   padding: 16px 20px;
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-  border-bottom: 1px solid #dee2e6;
+  background: var(--color-surface-alt);
+  border-bottom: 1px solid var(--color-border);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .map-title h3 {
   margin: 0;
   font-size: 1.1rem;
-  color: #2c3e50;
+  color: var(--color-text);
   font-weight: 600;
+  transition: color 0.3s ease;
 }
 
 .equipment-count {
   font-size: 0.85rem;
-  color: #6c757d;
-  background: rgba(33, 150, 243, 0.1);
+  color: var(--color-text-secondary);
+  background: var(--color-info-light);
   padding: 4px 8px;
   border-radius: 12px;
   margin-left: 8px;
+  transition: color 0.3s ease, background-color 0.3s ease;
 }
 
 .map-actions {
@@ -466,9 +470,10 @@ export default {
   justify-content: space-between;
   align-items: center;
   padding: 12px 20px;
-  background: #f8f9fa;
-  border-bottom: 1px solid #dee2e6;
+  background: var(--color-surface-alt);
+  border-bottom: 1px solid var(--color-border);
   min-height: 48px;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .location-status {
@@ -480,15 +485,15 @@ export default {
 }
 
 .location-status.success {
-  color: #28a745;
+  color: var(--color-success);
 }
 
 .location-status.error {
-  color: #dc3545;
+  color: var(--color-error);
 }
 
 .location-status.loading {
-  color: #6c757d;
+  color: var(--color-text-secondary);
 }
 
 .retry-btn {
@@ -510,7 +515,8 @@ export default {
   align-items: center;
   gap: 8px;
   font-size: 0.85rem;
-  color: #495057;
+  color: var(--color-text-secondary);
+  transition: color 0.3s ease;
 }
 
 .temp {
@@ -520,9 +526,9 @@ export default {
   font-size: 0.8rem;
 }
 
-.temp-normal { color: #28a745; background: rgba(40, 167, 69, 0.1); }
-.temp-warning { color: #ffc107; background: rgba(255, 193, 7, 0.1); }
-.temp-critical { color: #dc3545; background: rgba(220, 53, 69, 0.1); }
+.temp-normal { color: var(--color-success); background: var(--color-success-light); }
+.temp-warning { color: var(--color-warning); background: var(--color-warning-light); }
+.temp-critical { color: var(--color-error); background: var(--color-error-light); }
 
 .map-container {
   flex: 1;
@@ -541,16 +547,17 @@ export default {
   display: flex;
   gap: 8px;
   padding: 16px 20px;
-  background: white;
+  background: var(--color-card-background);
   overflow-x: auto;
-  border-top: 1px solid #dee2e6;
+  border-top: 1px solid var(--color-border);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .equipment-item {
   min-width: 140px;
   padding: 12px;
   border-radius: 8px;
-  background: #f8f9fa;
+  background: var(--color-surface-alt);
   border: 2px solid transparent;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -560,26 +567,26 @@ export default {
 }
 
 .equipment-item:hover {
-  background: #e9ecef;
+  background: var(--color-surface-hover);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px var(--color-shadow);
 }
 
 .equipment-item.active {
-  background: rgba(33, 150, 243, 0.1);
-  border-color: #2196F3;
+  background: var(--color-info-light);
+  border-color: var(--color-info);
 }
 
 .equipment-item.status-warning {
-  border-left: 4px solid #ffc107;
+  border-left: 4px solid var(--color-warning);
 }
 
 .equipment-item.status-critical {
-  border-left: 4px solid #dc3545;
+  border-left: 4px solid var(--color-error);
 }
 
 .equipment-item.status-normal {
-  border-left: 4px solid #28a745;
+  border-left: 4px solid var(--color-success);
 }
 
 .item-info {
@@ -589,27 +596,30 @@ export default {
 .item-name {
   font-size: 0.85rem;
   font-weight: 600;
-  color: #2c3e50;
+  color: var(--color-text);
   margin-bottom: 2px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 80px;
+  transition: color 0.3s ease;
 }
 
 .item-location {
   font-size: 0.75rem;
-  color: #6c757d;
+  color: var(--color-text-secondary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 80px;
+  transition: color 0.3s ease;
 }
 
 .item-temp {
   font-size: 0.9rem;
   font-weight: bold;
-  color: #2196F3;
+  color: var(--color-info);
+  transition: color 0.3s ease;
 }
 
 /* Animations */

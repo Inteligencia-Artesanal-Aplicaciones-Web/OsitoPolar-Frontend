@@ -27,7 +27,8 @@ export default {
       mobileMenuOpen: false,
       isAuthenticated: false,
       currentUser: null,
-      userMenuItems: []
+      userMenuItems: [],
+      menuWidth: 'auto'
     }
   },
   mounted() {
@@ -105,6 +106,11 @@ export default {
     },
 
     toggleUserMenu(event) {
+      // Calculate button width and apply to menu
+      if (this.$refs.userButton && this.$refs.userButton.$el) {
+        const buttonWidth = this.$refs.userButton.$el.offsetWidth;
+        this.menuWidth = `${buttonWidth}px`;
+      }
       this.$refs.userMenu.toggle(event);
     }
   }
@@ -185,9 +191,10 @@ export default {
             <!-- User Profile Menu -->
             <div class="user-menu-container">
               <pv-button
+                  ref="userButton"
                   class="p-button-text user-button"
                   aria-haspopup="true"
-                  :aria-expanded="userMenuItems.length > 0"
+                  aria-controls="user_menu"
                   @click="toggleUserMenu">
                 <span class="user-button-content">
                   <i class="pi pi-user user-icon"></i>
@@ -197,10 +204,13 @@ export default {
               </pv-button>
 
               <pv-menu
+                  id="user_menu"
                   ref="userMenu"
                   :model="userMenuItems"
                   :popup="true"
-                  class="user-dropdown-menu" />
+                  appendTo="body"
+                  class="user-dropdown-menu"
+                  :style="{ width: menuWidth }" />
             </div>
           </template>
         </div>
@@ -477,82 +487,6 @@ export default {
 
 :deep(.user-button[aria-expanded="true"]) .chevron-icon {
   transform: rotate(180deg);
-}
-
-/* User dropdown menu styling */
-:deep(.user-dropdown-menu) {
-  margin-top: 0.5rem;
-  min-width: 220px;
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-  border: 1px solid var(--color-border);
-  z-index: 1000;
-  overflow: hidden;
-}
-
-:deep(.user-dropdown-menu .p-menu) {
-  background: var(--color-surface);
-  border: none;
-  box-shadow: none;
-  border-radius: 12px;
-}
-
-:deep(.user-dropdown-menu .p-menu-list) {
-  padding: 0.5rem;
-}
-
-:deep(.user-dropdown-menu .p-menuitem) {
-  margin-bottom: 0.25rem;
-}
-
-:deep(.user-dropdown-menu .p-menuitem:last-child) {
-  margin-bottom: 0;
-}
-
-:deep(.user-dropdown-menu .p-menuitem-link) {
-  padding: 0.875rem 1.125rem;
-  border-radius: 8px;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  color: var(--color-text);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-}
-
-:deep(.user-dropdown-menu .p-menuitem-link:hover) {
-  background: var(--color-surface-hover);
-  color: var(--color-primary);
-  transform: translateX(4px);
-  padding-left: 1.375rem;
-}
-
-:deep(.user-dropdown-menu .p-menuitem-link:active) {
-  transform: translateX(2px) scale(0.98);
-}
-
-:deep(.user-dropdown-menu .p-menuitem-icon) {
-  font-size: 1.125rem;
-  margin-right: 0.875rem;
-  color: var(--color-text-secondary);
-  transition: all 0.2s ease;
-  flex-shrink: 0;
-}
-
-:deep(.user-dropdown-menu .p-menuitem-link:hover .p-menuitem-icon) {
-  color: var(--color-primary);
-  transform: scale(1.1);
-}
-
-:deep(.user-dropdown-menu .p-menuitem-text) {
-  font-weight: 500;
-  font-size: 0.95rem;
-  transition: all 0.2s ease;
-}
-
-:deep(.user-dropdown-menu .p-menu-separator) {
-  margin: 0.5rem 0.5rem;
-  border-top: 1px solid var(--color-border);
-  opacity: 0.6;
 }
 
 /* Sign In button styling */
@@ -846,3 +780,73 @@ body.mobile-menu-open {
   width: 100%;
 }
 </style>
+
+<style>
+/* Global styles for user dropdown menu (rendered in body) */
+.user-dropdown-menu.p-menu {
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--color-border);
+  z-index: 1000;
+  overflow: hidden;
+  background: var(--color-surface);
+  margin-top: 0.5rem !important;
+}
+
+.user-dropdown-menu .p-menu-list {
+  padding: 0.5rem;
+  background: var(--color-surface);
+}
+
+.user-dropdown-menu .p-menuitem {
+  margin-bottom: 0.25rem;
+}
+
+.user-dropdown-menu .p-menuitem:last-child {
+  margin-bottom: 0;
+}
+
+.user-dropdown-menu .p-menuitem-link {
+  padding: 1.25rem 1.25rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  color: var(--color-text);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.user-dropdown-menu .p-menuitem-link:hover {
+  background: var(--color-primary);
+  color: white;
+}
+
+.user-dropdown-menu .p-menuitem-link:active {
+  transform: scale(0.98);
+}
+
+.user-dropdown-menu .p-menuitem-icon {
+  font-size: 1.125rem;
+  margin-right: 0.75rem;
+  color: var(--color-text-secondary);
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.user-dropdown-menu .p-menuitem-link:hover .p-menuitem-icon {
+  color: white;
+}
+
+.user-dropdown-menu .p-menuitem-text {
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+}
+
+.user-dropdown-menu .p-menu-separator {
+  margin: 0.5rem 0;
+  border-top: 1px solid var(--color-border);
+  opacity: 0.6;
+}
+</style>
+

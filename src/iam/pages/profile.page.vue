@@ -647,16 +647,22 @@ export default {
 
 .step-number {
   flex-shrink: 0;
-  width: 32px;
-  height: 32px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, var(--color-gradient-start, #0079c2) 0%, var(--color-gradient-end, #005a94) 100%);
   color: white;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 700;
-  font-size: 0.875rem;
+  font-size: 0.9rem;
+  box-shadow: 0 2px 8px rgba(0, 121, 194, 0.3);
+  transition: transform 0.2s ease;
+}
+
+.setup-step:hover .step-number {
+  transform: scale(1.1);
 }
 
 .step-content {
@@ -681,56 +687,78 @@ export default {
 .qr-code-container {
   display: flex;
   justify-content: center;
-  padding: 1.5rem;
-  background: var(--surface-50, #F9FAFB);
-  border-radius: 8px;
+  padding: 2rem;
+  background: var(--color-surface-alt, #F9FAFB);
+  border-radius: 12px;
   margin: 1rem 0;
+  border: 2px dashed var(--color-border, #E5E7EB);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .qr-code {
-  max-width: 200px;
+  max-width: 220px;
   width: 100%;
   height: auto;
   border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background: white;
+  padding: 0.5rem;
 }
 
 .qr-loading {
   text-align: center;
-  padding: 2rem;
+  padding: 3rem 2rem;
 }
 
 .qr-loading p {
   margin-top: 1rem;
   color: var(--color-text-secondary, #6B7280);
+  font-size: 0.875rem;
+  transition: color 0.3s ease;
 }
 
 /* Manual Entry */
 .manual-entry {
-  margin-top: 1rem;
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: var(--color-surface-hover, #f3f4f6);
+  border-radius: 8px;
+  border: 1px solid var(--color-border, #E5E7EB);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .manual-label {
   font-size: 0.875rem;
   color: var(--color-text-secondary, #6B7280);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
+  font-weight: 500;
+  transition: color 0.3s ease;
 }
 
 .manual-key {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1rem;
-  background: white;
-  border: 1px solid var(--surface-200, #E5E7EB);
-  border-radius: 6px;
+  gap: 0.75rem;
+  padding: 0.875rem 1.125rem;
+  background: var(--color-surface, white);
+  border: 2px solid var(--color-border, #E5E7EB);
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.manual-key:hover {
+  border-color: var(--color-primary, #0079c2);
+  box-shadow: 0 2px 8px rgba(0, 121, 194, 0.1);
 }
 
 .manual-key code {
   flex: 1;
   font-family: 'Courier New', monospace;
-  font-size: 0.875rem;
+  font-size: 1rem;
   color: var(--color-text, #1F2937);
-  letter-spacing: 0.05em;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+  transition: color 0.3s ease;
 }
 
 /* Code Input */
@@ -738,13 +766,30 @@ export default {
   margin-top: 1rem;
 }
 
-.code-input {
-  width: 100%;
-  text-align: center;
-  font-size: 1.5rem;
-  letter-spacing: 0.5rem;
-  font-family: 'Courier New', monospace;
-  font-weight: 600;
+:deep(.code-input) {
+  width: 100% !important;
+  text-align: center !important;
+  font-size: 1.75rem !important;
+  letter-spacing: 0.5rem !important;
+  font-family: 'Courier New', monospace !important;
+  font-weight: 700 !important;
+  padding: 1rem !important;
+  border: 2px solid var(--color-border, #E5E7EB) !important;
+  border-radius: 8px !important;
+  background-color: var(--color-surface-hover, #f9fafb) !important;
+  color: var(--color-text, #1F2937) !important;
+  transition: all 0.2s ease !important;
+}
+
+:deep(.code-input:focus) {
+  border-color: var(--color-primary, #0079c2) !important;
+  box-shadow: 0 0 0 3px rgba(0, 121, 194, 0.1) !important;
+  background-color: var(--color-surface, white) !important;
+}
+
+:deep(.code-input::placeholder) {
+  color: var(--color-text-tertiary, #cbd5e1) !important;
+  letter-spacing: 0.5rem !important;
 }
 
 /* Confirm Dialog */
@@ -764,6 +809,65 @@ export default {
   line-height: 1.6;
   color: var(--color-text, #1F2937);
   margin: 0;
+}
+
+/* Dialog Overlay - Blur Effect */
+:deep(.p-dialog-mask) {
+  background-color: rgba(0, 0, 0, 0.5) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+}
+
+/* Dialog Container */
+:deep(.p-dialog) {
+  border-radius: 12px !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3) !important;
+  background-color: var(--color-dialog-background, #ffffff) !important;
+  border: 1px solid var(--color-border, #e5e7eb) !important;
+}
+
+/* Dialog Header */
+:deep(.p-dialog-header) {
+  background-color: var(--color-dialog-header-bg, #f9fafb) !important;
+  border-bottom: 1px solid var(--color-border, #e5e7eb) !important;
+  border-radius: 12px 12px 0 0 !important;
+  padding: 1.5rem !important;
+}
+
+:deep(.p-dialog-title) {
+  font-size: 1.25rem !important;
+  font-weight: 700 !important;
+  color: var(--color-text, #1F2937) !important;
+}
+
+/* Dialog Content */
+:deep(.p-dialog-content) {
+  background-color: var(--color-dialog-background, #ffffff) !important;
+  padding: 1.5rem !important;
+  color: var(--color-text, #1F2937) !important;
+}
+
+/* Dialog Footer */
+:deep(.p-dialog-footer) {
+  background-color: var(--color-dialog-header-bg, #f9fafb) !important;
+  border-top: 1px solid var(--color-border, #e5e7eb) !important;
+  border-radius: 0 0 12px 12px !important;
+  padding: 1rem 1.5rem !important;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+/* Close button */
+:deep(.p-dialog-header-close) {
+  width: 2rem !important;
+  height: 2rem !important;
+  color: var(--color-text-secondary, #6B7280) !important;
+}
+
+:deep(.p-dialog-header-close:hover) {
+  background-color: var(--color-surface-hover, #f3f4f6) !important;
+  color: var(--color-text, #1F2937) !important;
 }
 
 /* Responsive */
