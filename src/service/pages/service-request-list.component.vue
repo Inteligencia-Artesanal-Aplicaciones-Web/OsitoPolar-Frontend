@@ -257,8 +257,9 @@ export default {
 <style scoped>
 .service-request-list {
   padding: 1.5rem;
-  background-color: #f8f9fa;
+  background-color: var(--color-background);
   min-height: calc(100vh - 60px);
+  transition: background-color 0.3s ease;
 }
 
 .page-header {
@@ -267,13 +268,15 @@ export default {
   justify-content: space-between;
   align-items: center;
   padding-bottom: 1rem;
-  border-bottom: 1px solid #e0e7eb;
+  border-bottom: 1px solid var(--color-border);
+  transition: border-color 0.3s ease;
 }
 
 h1 {
   font-size: 2rem;
-  color: #055f84;
+  color: var(--color-primary);
   font-weight: 700;
+  transition: color 0.3s ease;
 }
 
 .loading-state,
@@ -284,9 +287,10 @@ h1 {
   justify-content: center;
   padding: 3rem;
   min-height: 200px;
-  color: #6c757d;
+  color: var(--color-text-secondary);
   font-size: 1.1rem;
   text-align: center;
+  transition: color 0.3s ease;
 }
 
 .request-grid {
@@ -296,24 +300,26 @@ h1 {
 }
 
 .request-card {
-  background-color: #ffffff;
+  background-color: var(--color-surface);
   border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-md);
   overflow: hidden;
-  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, background-color 0.3s ease;
   cursor: default;
+  border: 1px solid var(--color-border);
 }
 
 .request-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow-lg);
 }
 
 .request-card ::v-deep .p-card-title {
   padding: 1rem 1.5rem 0.5rem;
   font-size: 1.1rem;
-  color: #34495e;
+  color: var(--color-text);
   font-weight: 600;
+  transition: color 0.3s ease;
 }
 
 .card-title-content {
@@ -323,14 +329,16 @@ h1 {
 }
 
 .card-title-content i {
-  color: #0884c4;
+  color: var(--color-primary);
   font-size: 1.25rem;
+  transition: color 0.3s ease;
 }
 
 .request-card ::v-deep .p-card-subtitle {
   padding: 0 1.5rem 1rem;
   font-size: 0.9rem;
-  color: #7f8c8d;
+  color: var(--color-text-secondary);
+  transition: color 0.3s ease;
 }
 
 .card-subtitle-content {
@@ -340,8 +348,9 @@ h1 {
 }
 
 .card-subtitle-content i {
-  color: #95a5a6;
+  color: var(--color-text-secondary);
   font-size: 1rem;
+  transition: color 0.3s ease;
 }
 
 /* Status Badge inside subtitle */
@@ -378,22 +387,26 @@ h1 {
   align-items: center;
   gap: 0.6rem;
   font-size: 0.95rem;
-  color: #555;
+  color: var(--color-text);
+  transition: color 0.3s ease;
 }
 
 .detail-item i {
-  color: #95a5a6;
+  color: var(--color-text-secondary);
   font-size: 1rem;
+  transition: color 0.3s ease;
 }
 
 .detail-item strong {
-  color: #333;
+  color: var(--color-text);
+  transition: color 0.3s ease;
 }
 
 .request-card ::v-deep .p-card-footer {
   padding: 1rem 1.5rem;
-  border-top: 1px solid #e0e7eb;
-  background-color: #fcfcfc;
+  border-top: 1px solid var(--color-border);
+  background-color: var(--color-surface-hover);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .card-actions {
@@ -412,15 +425,15 @@ h1 {
 
 .p-button-secondary-outline {
   background-color: transparent !important;
-  color: #0884c4 !important;
-  border: 1px solid #0884c4 !important;
+  color: var(--color-primary) !important;
+  border: 1px solid var(--color-primary) !important;
   font-weight: 600;
   transition: all 0.2s ease;
 }
 .p-button-secondary-outline:hover {
-  background-color: #e0f2fe !important;
-  color: #055f84 !important;
-  border-color: #055f84 !important;
+  background-color: var(--color-surface-hover) !important;
+  color: var(--color-primary) !important;
+  border-color: var(--color-primary) !important;
 }
 
 .p-button-rate {
@@ -438,25 +451,28 @@ h1 {
 }
 
 .p-button-view-rating {
-  background-color: #e9ecef !important;
-  border-color: #e9ecef !important;
-  color: #6c757d !important;
+  background-color: var(--color-surface-hover) !important;
+  border-color: var(--color-border) !important;
+  color: var(--color-text-secondary) !important;
   font-weight: 500;
   cursor: not-allowed;
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }
 
 .new-request-button {
-  background-color: #0884c4;
+  background-color: var(--color-primary);
   border: none;
   font-weight: bold;
   padding: 0.75rem 1.5rem;
   font-size: 1rem;
   border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-  transition: background-color 0.2s ease;
+  box-shadow: var(--shadow-md);
+  transition: all 0.2s ease;
 }
 
 .new-request-button:hover {
-  background-color: #056a9d;
+  background-color: var(--color-primary);
+  opacity: 0.9;
+  box-shadow: var(--shadow-lg);
 }
 </style>

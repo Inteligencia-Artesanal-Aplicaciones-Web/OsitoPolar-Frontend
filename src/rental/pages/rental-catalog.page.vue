@@ -178,8 +178,9 @@ export default {
 <style scoped>
 .rental-catalog-page {
   min-height: 100vh;
-  background-color: #f5f7fa;
+  background-color: var(--color-background);
   padding: 2rem 0;
+  transition: background-color 0.3s ease;
 }
 
 .page-container {

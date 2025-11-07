@@ -15,23 +15,26 @@ export default {
 .hero-section {
   text-align: center;
   padding: 3rem 0;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: var(--color-surface-alt);
   border-radius: 12px;
   margin-bottom: 2rem;
+  transition: background-color 0.3s ease;
 }
 
-.hero-title {
+h1 {
   font-size: 2.5rem;
-  color: #0079c2;
+  color: var(--color-primary);
   font-weight: 600;
   margin-bottom: 0.5rem;
+  transition: color 0.3s ease;
 }
 
-.hero-subtitle {
+p {
   font-size: 1.1rem;
-  color: #666;
+  color: var(--color-text-secondary);
   max-width: 600px;
   margin: 0 auto;
+  transition: color 0.3s ease;
 }
 
 @media (max-width: 768px) {
@@ -39,11 +42,11 @@ export default {
     padding: 2rem 1rem;
   }
 
-  .hero-title {
+  h1 {
     font-size: 2rem;
   }
 
-  .hero-subtitle {
+  p {
     font-size: 1rem;
   }
 }

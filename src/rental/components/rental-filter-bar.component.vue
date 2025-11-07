@@ -208,12 +208,13 @@ export default {
 
 <style scoped>
 .filter-bar {
-  background: white;
+  background: var(--color-surface);
   border-radius: 12px;
   padding: 1.5rem;
   margin-bottom: 2rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  border: 1px solid #e1e8ed;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--color-border);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .mobile-filter-toggle {
@@ -225,7 +226,7 @@ export default {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  background: #0079c2;
+  background: var(--color-primary);
   color: white;
   border: none;
   padding: 0.75rem 1rem;
@@ -239,7 +240,8 @@ export default {
 }
 
 .filter-toggle-btn:hover {
-  background: #005a94;
+  background: var(--color-primary);
+  opacity: 0.9;
   transform: translateY(-1px);
 }
 
@@ -264,9 +266,10 @@ export default {
 .filter-label {
   display: block;
   font-size: 0.9rem;
-  color: #333;
+  color: var(--color-text);
   margin-bottom: 0.5rem;
   font-weight: 600;
+  transition: color 0.3s ease;
 }
 
 /* Custom Dropdown Styles */
@@ -275,8 +278,8 @@ export default {
 }
 
 .dropdown-selected {
-  background: #f8f9fa;
-  border: 2px solid #e1e8ed;
+  background: var(--color-surface-hover);
+  border: 2px solid var(--color-border);
   border-radius: 8px;
   padding: 0.75rem 1rem;
   cursor: pointer;
@@ -285,16 +288,17 @@ export default {
   align-items: center;
   transition: all 0.2s ease;
   font-size: 0.9rem;
+  color: var(--color-text);
 }
 
 .dropdown-selected:hover {
-  border-color: #0079c2;
-  background: #f0f8ff;
+  border-color: var(--color-primary);
+  background: var(--color-surface-hover);
 }
 
 .dropdown-selected:focus-within {
   outline: none;
-  border-color: #0079c2;
+  border-color: var(--color-primary);
   box-shadow: 0 0 0 3px rgba(0, 121, 194, 0.1);
 }
 
@@ -303,20 +307,20 @@ export default {
   top: 100%;
   left: 0;
   right: 0;
-  background: white;
-  border: 2px solid #e1e8ed;
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
   border-radius: 8px;
   margin-top: 4px;
   z-index: 1000;
   max-height: 0;
   overflow: hidden;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: var(--shadow-lg);
 }
 
 .dropdown-options.open {
   max-height: 300px;
-  border-color: #0079c2;
+  border-color: var(--color-primary);
 }
 
 .dropdown-option {
@@ -324,7 +328,8 @@ export default {
   cursor: pointer;
   transition: all 0.2s ease;
   font-size: 0.9rem;
-  border-bottom: 1px solid #f1f3f4;
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text);
 }
 
 .dropdown-option:last-child {
@@ -332,12 +337,12 @@ export default {
 }
 
 .dropdown-option:hover {
-  background: #f0f8ff;
-  color: #0079c2;
+  background: var(--color-surface-hover);
+  color: var(--color-primary);
 }
 
 .dropdown-option.active {
-  background: #0079c2;
+  background: var(--color-primary);
   color: white;
   font-weight: 500;
 }
@@ -358,8 +363,8 @@ export default {
 .price-input-group {
   display: flex;
   align-items: center;
-  background: #f8f9fa;
-  border: 2px solid #e1e8ed;
+  background: var(--color-surface-hover);
+  border: 2px solid var(--color-border);
   border-radius: 8px;
   padding: 0 0.75rem;
   transition: all 0.2s ease;
@@ -367,14 +372,15 @@ export default {
 }
 
 .price-input-group:focus-within {
-  border-color: #0079c2;
+  border-color: var(--color-primary);
   box-shadow: 0 0 0 3px rgba(0, 121, 194, 0.1);
 }
 
 .currency {
-  color: #666;
+  color: var(--color-text-secondary);
   font-weight: 500;
   margin-right: 0.25rem;
+  transition: color 0.3s ease;
 }
 
 .price-input {
@@ -384,19 +390,23 @@ export default {
   font-size: 0.9rem;
   width: 100%;
   outline: none;
+  color: var(--color-text);
+  transition: color 0.3s ease;
 }
 
 .range-separator {
-  color: #666;
+  color: var(--color-text-secondary);
   font-weight: 500;
+  transition: color 0.3s ease;
 }
 
 .range-slider-container {
   position: relative;
   height: 6px;
-  background: #e1e8ed;
+  background: var(--color-border);
   border-radius: 3px;
   margin: 0.5rem 0;
+  transition: background-color 0.3s ease;
 }
 
 .range-slider {
@@ -416,26 +426,26 @@ export default {
   appearance: none;
   width: 20px;
   height: 20px;
-  background: #0079c2;
+  background: var(--color-primary);
   border-radius: 50%;
   cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  box-shadow: var(--shadow-sm);
   transition: all 0.2s ease;
 }
 
 .range-slider::-webkit-slider-thumb:hover {
   transform: scale(1.1);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  box-shadow: var(--shadow-md);
 }
 
 .range-slider::-moz-range-thumb {
   width: 20px;
   height: 20px;
-  background: #0079c2;
+  background: var(--color-primary);
   border-radius: 50%;
   cursor: pointer;
   border: none;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  box-shadow: var(--shadow-sm);
 }
 
 /* Clear Filters Button */
@@ -444,8 +454,8 @@ export default {
   align-items: center;
   gap: 0.5rem;
   background: transparent;
-  color: #666;
-  border: 2px solid #e1e8ed;
+  color: var(--color-text-secondary);
+  border: 2px solid var(--color-border);
   padding: 0.75rem 1rem;
   border-radius: 8px;
   font-size: 0.9rem;
@@ -455,9 +465,9 @@ export default {
 }
 
 .clear-filters-btn:hover {
-  background: #f8f9fa;
-  border-color: #0079c2;
-  color: #0079c2;
+  background: var(--color-surface-hover);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
   transform: translateY(-1px);
 }
 
