@@ -331,6 +331,35 @@
     "forUsers": "For Users",
     "forProviders": "For Providers"
   },
+  "subscriptions": {
+    "payment": {
+      "verifying": "Verifying your payment...",
+      "verifyingDescription": "Please wait while we confirm your payment",
+      "successTitle": "Payment Successful!",
+      "successMessage": "Your subscription has been activated",
+      "activated": "Your subscription is now active and ready to use",
+      "errorTitle": "Payment Verification Failed",
+      "verificationError": "We couldn't verify your payment. Please try again or contact support.",
+      "noSessionError": "No payment session found. Please try again.",
+      "cancelTitle": "Payment Cancelled",
+      "cancelMessage": "Your payment was cancelled. No charges were made to your account.",
+      "cancelToast": "You can upgrade your plan anytime",
+      "cancelInfo": "No charges were made. Your current plan remains active and you can upgrade whenever you're ready.",
+      "details": "Payment Details",
+      "plan": "Plan",
+      "amount": "Amount",
+      "email": "Email",
+      "status": "Status",
+      "paid": "Paid",
+      "premiumPlan": "Premium Plan",
+      "goToDashboard": "Go to Dashboard",
+      "viewPlans": "View Plans",
+      "tryAgain": "Try Again",
+      "contactSupport": "Contact Support",
+      "backToHome": "Back to Home",
+      "needHelp": "Need Help?"
+    }
+  },
   "technicians": {
     "title": "Our Technicians",
     "newTechnician": "New Technician",
@@ -502,7 +531,31 @@
       "or": "OR",
       "adminButton": "I'm an Administrator",
       "noAccount": "Don't have an account?",
-      "signUpLink": "Sign up"
+      "signUpLink": "Sign up",
+      "welcomeTitle": "Welcome!",
+      "welcomeMessage": "Hello",
+      "loginFailed": "Login Failed",
+      "invalidCredentials": "Invalid credentials. Please try again."
+    },
+    "twoFactor": {
+      "setupTitle": "Setup Two-Factor Authentication",
+      "verificationTitle": "Two-Factor Verification",
+      "scanQR": "Scan this QR code with Google Authenticator or any compatible authenticator app",
+      "manualEntry": "Or enter this code manually:",
+      "enterCode": "Enter the 6-digit code from your authenticator app:",
+      "enterCodePrompt": "Open your authenticator app and enter the 6-digit code to complete the sign-in process.",
+      "verify": "Verify & Continue",
+      "cancel": "Cancel",
+      "setupSuccess": "2FA Enabled",
+      "setupSuccessMessage": "Two-factor authentication has been set up successfully",
+      "verificationFailed": "Verification Failed",
+      "invalidCode": "Invalid code. Please try again.",
+      "enable": "Enable 2FA",
+      "disable": "Disable 2FA",
+      "status": "Two-Factor Authentication",
+      "enabled": "2FA is enabled",
+      "disabled": "2FA is disabled",
+      "confirmDisable": "Are you sure you want to disable 2FA? This will make your account less secure."
     },
     "signUp": {
       "title": "Create New User",

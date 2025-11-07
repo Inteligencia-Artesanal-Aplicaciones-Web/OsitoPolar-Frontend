@@ -331,6 +331,35 @@
     "forUsers": "Para Usuarios",
     "forProviders": "Para Proveedores"
   },
+  "subscriptions": {
+    "payment": {
+      "verifying": "Verificando tu pago...",
+      "verifyingDescription": "Por favor espera mientras confirmamos tu pago",
+      "successTitle": "¡Pago Exitoso!",
+      "successMessage": "Tu suscripción ha sido activada",
+      "activated": "Tu suscripción está ahora activa y lista para usar",
+      "errorTitle": "Fallo en la Verificación del Pago",
+      "verificationError": "No pudimos verificar tu pago. Por favor intenta de nuevo o contacta a soporte.",
+      "noSessionError": "No se encontró sesión de pago. Por favor intenta de nuevo.",
+      "cancelTitle": "Pago Cancelado",
+      "cancelMessage": "Tu pago fue cancelado. No se realizaron cargos a tu cuenta.",
+      "cancelToast": "Puedes actualizar tu plan en cualquier momento",
+      "cancelInfo": "No se realizaron cargos. Tu plan actual sigue activo y puedes actualizar cuando estés listo.",
+      "details": "Detalles del Pago",
+      "plan": "Plan",
+      "amount": "Monto",
+      "email": "Correo Electrónico",
+      "status": "Estado",
+      "paid": "Pagado",
+      "premiumPlan": "Plan Premium",
+      "goToDashboard": "Ir al Panel",
+      "viewPlans": "Ver Planes",
+      "tryAgain": "Intentar de Nuevo",
+      "contactSupport": "Contactar Soporte",
+      "backToHome": "Volver al Inicio",
+      "needHelp": "¿Necesitas Ayuda?"
+    }
+  },
   "technicians": {
     "title": "Nuestros Técnicos",
     "newTechnician": "Nuevo Técnico",
@@ -516,7 +545,31 @@
       "or": "O",
       "adminButton": "Soy Administrador",
       "noAccount": "¿No tienes cuenta?",
-      "signUpLink": "Regístrate"
+      "signUpLink": "Regístrate",
+      "welcomeTitle": "¡Bienvenido!",
+      "welcomeMessage": "Hola",
+      "loginFailed": "Inicio de Sesión Fallido",
+      "invalidCredentials": "Credenciales inválidas. Por favor, inténtelo de nuevo."
+    },
+    "twoFactor": {
+      "setupTitle": "Configurar Autenticación de Dos Factores",
+      "verificationTitle": "Verificación de Dos Factores",
+      "scanQR": "Escanea este código QR con Google Authenticator o cualquier aplicación de autenticación compatible",
+      "manualEntry": "O ingrese este código manualmente:",
+      "enterCode": "Ingrese el código de 6 dígitos de su aplicación de autenticación:",
+      "enterCodePrompt": "Abra su aplicación de autenticación e ingrese el código de 6 dígitos para completar el inicio de sesión.",
+      "verify": "Verificar y Continuar",
+      "cancel": "Cancelar",
+      "setupSuccess": "2FA Habilitado",
+      "setupSuccessMessage": "La autenticación de dos factores se ha configurado correctamente",
+      "verificationFailed": "Verificación Fallida",
+      "invalidCode": "Código inválido. Por favor, inténtelo de nuevo.",
+      "enable": "Habilitar 2FA",
+      "disable": "Deshabilitar 2FA",
+      "status": "Autenticación de Dos Factores",
+      "enabled": "2FA está habilitado",
+      "disabled": "2FA está deshabilitado",
+      "confirmDisable": "¿Está seguro de que desea deshabilitar 2FA? Esto hará que su cuenta sea menos segura."
     },
     "signUp": {
       "title": "Crear Nuevo Usuario",
