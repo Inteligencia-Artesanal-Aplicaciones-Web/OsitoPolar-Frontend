@@ -157,6 +157,33 @@ class SubscriptionService {
     }
 
     /**
+     * Verify payment session with backend
+     * @param {string} sessionId - Stripe checkout session ID
+     * @returns {Promise<Object>} Payment verification data
+     */
+    async verifyPayment(sessionId) {
+        try {
+            console.log('[SubscriptionService] Verifying payment session:', sessionId);
+
+            const response = await httpInstance.get(`${this.paymentsUrl}/verify/${sessionId}`);
+
+            console.log('[SubscriptionService] Payment verified:', response.data);
+
+            return {
+                success: true,
+                paymentStatus: response.data.paymentStatus,
+                customerEmail: response.data.customerEmail,
+                amountTotal: response.data.amountTotal,
+                currency: response.data.currency,
+                metadata: response.data.metadata
+            };
+        } catch (error) {
+            console.error('[SubscriptionService] Error verifying payment:', error);
+            throw error;
+        }
+    }
+
+    /**
      * Process successful payment return from Stripe
      * @param {string} sessionId - Stripe session ID from URL params
      * @returns {Promise<boolean>}
