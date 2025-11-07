@@ -112,12 +112,7 @@ class AuthService {
 
         const response = await httpInstance.post(
             `${this._authEndpoint}/initiate-2fa`,
-            JSON.stringify(username.trim()),
-            {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            }
+            { username: username.trim() }
         );
 
         return response.data;
@@ -147,7 +142,6 @@ class AuthService {
     /**
      * Disable 2FA for user (from settings)
      * Endpoint: POST /api/v1/authentication/disable-2fa
-     * Body: string (username as plain string, not JSON object)
      *
      * @param {string} username
      * @returns {Promise<Object>}
@@ -157,15 +151,9 @@ class AuthService {
             throw new Error('Username is required');
         }
 
-        // IMPORTANT: Backend expects a plain string, not a JSON object
         const response = await httpInstance.post(
             `${this._authEndpoint}/disable-2fa`,
-            JSON.stringify(username.trim()),
-            {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            }
+            { username: username.trim() }
         );
 
         return response.data;
