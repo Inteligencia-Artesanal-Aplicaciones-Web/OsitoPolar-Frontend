@@ -27,6 +27,8 @@ const RentalCatalogComponent   = () => import('../rental/pages/rental-catalog.pa
 const RentalCheckoutComponent  = () => import('../rental/pages/rental-checkout.page.vue');
 const ContactComponent        = () => import('../public/pages/contact.page.vue');
 const PlansComponent          = () => import('../subscriptions/pages/plans.component.vue');
+const PaymentSuccessPage      = () => import('../subscriptions/pages/payment-success.page.vue');
+const PaymentCancelPage       = () => import('../subscriptions/pages/payment-cancel.page.vue');
 const WorkOrderListComponent = () => import('../field-operations/pages/work-order-list.component.vue');
 const NewWorkOrderComponent = () => import('../field-operations/pages/new-work-order.component.vue');
 const TechnicianListComponent = () => import('../field-operations/pages/technician-list.component.vue');
@@ -148,12 +150,24 @@ const routes = [
         meta: { title: 'Rental Checkout', requiresAuth: true }
     },
 
-    // Plans (protected)
+    // Subscription & Payment routes (all protected)
     {
         path: '/plans',
         name: 'plans',
         component: PlansComponent,
         meta: { title: 'Subscription Plans', requiresAuth: true }
+    },
+    {
+        path: '/payment/success',
+        name: 'payment-success',
+        component: PaymentSuccessPage,
+        meta: { title: 'Payment Successful', requiresAuth: true }
+    },
+    {
+        path: '/payment/cancel',
+        name: 'payment-cancel',
+        component: PaymentCancelPage,
+        meta: { title: 'Payment Cancelled', requiresAuth: true }
     },
 
     // Work Order routes (all protected)
