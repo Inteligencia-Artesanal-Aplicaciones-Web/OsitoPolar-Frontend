@@ -600,8 +600,9 @@ export default {
 <style scoped>
 .equipment-form {
   padding: 1.5rem;
-  background-color: #f8f9fa;
+  background-color: var(--color-background);
   min-height: 100vh;
+  transition: background-color 0.3s ease;
 }
 
 .form-grid {
@@ -630,10 +631,11 @@ export default {
   gap: 0.75rem;
   margin-top: 2rem;
   padding: 1rem 1.5rem;
-  border-top: 1px solid #ddd;
-  background-color: white;
+  border-top: 1px solid var(--color-border);
+  background-color: var(--color-surface);
   border-radius: 6px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+  box-shadow: 0 2px 4px var(--color-shadow);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .p-field {
@@ -644,26 +646,28 @@ export default {
   display: block;
   margin-bottom: 0.5rem;
   font-weight: 600;
-  color: #2c3e50;
+  color: var(--color-text);
   font-size: 0.95rem;
+  transition: color 0.3s ease;
 }
 
 .p-field small {
   margin-top: 0.25rem;
   display: block;
-  color: #e74c3c;
+  color: var(--color-error);
   font-size: 0.85rem;
+  transition: color 0.3s ease;
 }
 
 /* ← CUSTOM SELECT STYLING (SOLUCIÓN DEFINITIVA) */
 .custom-select {
   width: 100%;
   padding: 0.75rem 1rem;
-  border: 2px solid #e9ecef;
+  border: 2px solid var(--color-border);
   border-radius: 6px;
-  background-color: white;
+  background-color: var(--color-surface);
   font-size: 0.95rem;
-  color: #495057;
+  color: var(--color-text);
   appearance: none;
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
   background-position: right 0.75rem center;
@@ -675,43 +679,45 @@ export default {
 }
 
 .custom-select:hover {
-  border-color: #ced4da;
+  border-color: var(--color-border-light);
 }
 
 .custom-select:focus {
-  border-color: #2196F3;
+  border-color: var(--color-primary);
   outline: none;
-  box-shadow: 0 0 0 0.25rem rgba(33, 150, 243, 0.15);
+  box-shadow: 0 0 0 0.25rem var(--color-shadow);
 }
 
 .custom-select.is-invalid {
-  border-color: #dc3545;
-  box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.15);
+  border-color: var(--color-error);
+  box-shadow: 0 0 0 0.25rem var(--color-shadow);
 }
 
 .custom-select option {
   padding: 0.5rem;
-  background-color: white;
-  color: #495057;
+  background-color: var(--color-surface);
+  color: var(--color-text);
 }
 
 /* Fieldset styling */
 :deep(.p-fieldset) {
   margin-bottom: 1.5rem;
-  border: 1px solid #dee2e6 !important;
+  border: 1px solid var(--color-border) !important;
   border-radius: 8px !important;
-  background-color: white !important;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.04) !important;
+  background-color: var(--color-surface) !important;
+  box-shadow: 0 2px 4px var(--color-shadow) !important;
+  transition: background-color 0.3s ease, border-color 0.3s ease !important;
 }
 
 :deep(.p-fieldset-legend) {
   padding: 0.75rem 1.25rem !important;
   font-weight: 600 !important;
-  color: #2196F3 !important;
-  background-color: white !important;
-  border: 1px solid #dee2e6 !important;
+  color: var(--color-primary) !important;
+  background-color: var(--color-surface) !important;
+  border: 1px solid var(--color-border) !important;
   border-radius: 6px !important;
   font-size: 1rem !important;
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease !important;
 }
 
 :deep(.p-fieldset-content) {
@@ -724,26 +730,26 @@ export default {
 :deep(.p-inputtextarea) {
   width: 100% !important;
   padding: 0.75rem 1rem !important;
-  border: 2px solid #e9ecef !important;
+  border: 2px solid var(--color-border) !important;
   border-radius: 6px !important;
   transition: all 0.2s ease !important;
-  background-color: white !important;
+  background-color: var(--color-surface-hover) !important;
   font-size: 0.95rem !important;
-  color: #495057 !important;
+  color: var(--color-text) !important;
 }
 
 :deep(.p-inputtext:focus),
 :deep(.p-inputnumber-input:focus),
 :deep(.p-inputtextarea:focus) {
-  border-color: #2196F3 !important;
-  box-shadow: 0 0 0 0.25rem rgba(33, 150, 243, 0.15) !important;
+  border-color: var(--color-primary) !important;
+  box-shadow: 0 0 0 0.25rem var(--color-shadow) !important;
   outline: none !important;
 }
 
 :deep(.p-inputtext:hover),
 :deep(.p-inputnumber-input:hover),
 :deep(.p-inputtextarea:hover) {
-  border-color: #ced4da !important;
+  border-color: var(--color-border-light) !important;
 }
 
 /* InputNumber specific styling */
@@ -753,14 +759,15 @@ export default {
 
 /* Invalid state styling */
 :deep(.p-invalid) {
-  border-color: #dc3545 !important;
-  box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.15) !important;
+  border-color: var(--color-error) !important;
+  box-shadow: 0 0 0 0.25rem var(--color-shadow) !important;
 }
 
 /* Error styling */
 :deep(.p-error) {
-  color: #dc3545 !important;
+  color: var(--color-error) !important;
   font-weight: 500 !important;
+  transition: color 0.3s ease !important;
 }
 
 /* Message styling */
@@ -779,28 +786,30 @@ export default {
 }
 
 :deep(.p-button-text) {
-  color: #6c757d !important;
+  color: var(--color-text-secondary) !important;
   background-color: transparent !important;
   border: 2px solid transparent !important;
+  transition: all 0.2s ease !important;
 }
 
 :deep(.p-button-text:hover) {
-  background-color: #f8f9fa !important;
-  color: #495057 !important;
-  border-color: #dee2e6 !important;
+  background-color: var(--color-surface-hover) !important;
+  color: var(--color-text) !important;
+  border-color: var(--color-border) !important;
 }
 
 :deep(.p-button-success) {
-  background-color: #28a745 !important;
-  border-color: #28a745 !important;
+  background-color: var(--color-success) !important;
+  border-color: var(--color-success) !important;
   color: white !important;
 }
 
 :deep(.p-button-success:hover) {
-  background-color: #218838 !important;
-  border-color: #1e7e34 !important;
+  background-color: var(--color-success) !important;
+  border-color: var(--color-success) !important;
+  opacity: 0.9;
   transform: translateY(-1px) !important;
-  box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3) !important;
+  box-shadow: 0 4px 8px var(--color-shadow-medium) !important;
 }
 
 :deep(.p-button:disabled) {

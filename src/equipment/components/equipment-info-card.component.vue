@@ -86,18 +86,20 @@ export default {
 
 <style scoped>
 .info-card {
-  background-color: white;
+  background-color: var(--color-card-background);
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px var(--color-shadow);
   padding: 1.5rem;
+  transition: background-color 0.3s ease;
 }
 
 .card-title {
   font-size: 1.5rem;
-  color: #333;
+  color: var(--color-text);
   margin-bottom: 1.5rem;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--color-border);
   padding-bottom: 0.5rem;
+  transition: color 0.3s ease, border-color 0.3s ease;
 }
 
 .info-grid {
@@ -114,31 +116,36 @@ export default {
 
 .info-label {
   font-size: 0.9rem;
-  color: #666;
+  color: var(--color-text-secondary);
+  transition: color 0.3s ease;
 }
 
 .info-value {
   font-size: 1rem;
   font-weight: 500;
-  color: #333;
+  color: var(--color-text);
+  transition: color 0.3s ease;
 }
 
 .info-notes {
   margin-top: 1.5rem;
   padding-top: 1rem;
-  border-top: 1px solid #eee;
+  border-top: 1px solid var(--color-border);
+  transition: border-color 0.3s ease;
 }
 
 .notes-title {
   font-size: 1.2rem;
-  color: #555;
+  color: var(--color-text);
   margin-bottom: 0.5rem;
+  transition: color 0.3s ease;
 }
 
 .notes-content {
   font-size: 0.9rem;
-  color: #666;
+  color: var(--color-text-secondary);
   line-height: 1.5;
+  transition: color 0.3s ease;
 }
 
 @media (max-width: 768px) {

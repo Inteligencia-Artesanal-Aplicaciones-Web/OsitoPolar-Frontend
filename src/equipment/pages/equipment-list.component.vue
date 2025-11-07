@@ -326,8 +326,9 @@ export default {
 }
 
 .error-message {
-  color: #e74c3c;
+  color: var(--color-error);
   font-size: 1.1rem;
+  transition: color 0.3s ease;
 }
 
 .equipment-grid {
@@ -338,7 +339,7 @@ export default {
 
 .equipment-card {
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border 0.2s ease, background-color 0.3s ease;
   border: 2px solid transparent;
   border-radius: 8px;
   padding: 0.5rem;
@@ -346,26 +347,27 @@ export default {
 
 .equipment-card:hover {
   transform: translateY(-3px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 5px 15px var(--color-shadow-medium);
 }
 
 .equipment-card.status-normal {
-  border-color: #4CAF50;
+  border-color: var(--color-success);
 }
 .equipment-card.status-warning {
-  border-color: #FFC107;
+  border-color: var(--color-warning);
 }
 .equipment-card.status-critical {
-  border-color: #F44336;
+  border-color: var(--color-error);
 }
 
 .card-header {
   position: relative;
   height: 100px;
-  background-color: #f5f7fa;
+  background-color: var(--color-surface-alt);
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: background-color 0.3s ease;
 }
 
 .status-indicator {
@@ -378,15 +380,15 @@ export default {
 }
 
 .status-normal {
-  background-color: #4CAF50;
+  background-color: var(--color-success);
 }
 
 .status-warning {
-  background-color: #FFC107;
+  background-color: var(--color-warning);
 }
 
 .status-critical {
-  background-color: #F44336;
+  background-color: var(--color-error);
 }
 
 .power-indicator {
@@ -396,19 +398,21 @@ export default {
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background-color: #f0f0f0;
+  background-color: var(--color-surface-hover);
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: background-color 0.3s ease;
 }
 
 .power-indicator i {
   font-size: 12px;
-  color: #666;
+  color: var(--color-text-secondary);
+  transition: color 0.3s ease;
 }
 
 .power-indicator.on {
-  background-color: #4CAF50;
+  background-color: var(--color-success);
 }
 
 .power-indicator.on i {
@@ -429,12 +433,14 @@ export default {
 .temperature-value {
   font-size: 2rem;
   font-weight: bold;
-  color: #333;
+  color: var(--color-text);
+  transition: color 0.3s ease;
 }
 
 .temperature-label {
   font-size: 0.9rem;
-  color: #666;
+  color: var(--color-text-secondary);
+  transition: color 0.3s ease;
 }
 
 .location-info {
@@ -443,7 +449,8 @@ export default {
   justify-content: center;
   gap: 0.5rem;
   font-size: 0.9rem;
-  color: #666;
+  color: var(--color-text-secondary);
+  transition: color 0.3s ease;
 }
 
 .card-actions {
@@ -466,8 +473,8 @@ export default {
 }
 
 :deep(.add-equipment-button) {
-  background-color: #28a745 !important;
-  border-color: #28a745 !important;
+  background-color: var(--color-success) !important;
+  border-color: var(--color-success) !important;
   color: white !important;
   font-weight: 600 !important;
   padding: 0.75rem 1.5rem !important;
@@ -476,14 +483,15 @@ export default {
 }
 
 :deep(.add-equipment-button:hover) {
-  background-color: #218838 !important;
-  border-color: #1e7e34 !important;
+  background-color: var(--color-success) !important;
+  border-color: var(--color-success) !important;
+  opacity: 0.9;
   transform: translateY(-1px) !important;
-  box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3) !important;
+  box-shadow: 0 4px 8px var(--color-shadow-medium) !important;
 }
 
 :deep(.add-equipment-button:focus) {
-  box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.5) !important;
+  box-shadow: 0 0 0 0.2rem var(--color-shadow) !important;
   outline: none !important;
 }
 

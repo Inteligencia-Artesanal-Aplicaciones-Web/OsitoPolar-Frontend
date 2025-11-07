@@ -296,7 +296,8 @@ export default {
 .request-id {
   font-size: 1.1rem;
   font-weight: 700;
-  color: #055f84;
+  color: var(--color-primary);
+  transition: color 0.3s ease;
 }
 
 .status-badge {
@@ -308,16 +309,17 @@ export default {
   color: white;
 }
 
-.status-pending { background-color: #f39c12; }
-.status-accepted { background-color: #1abc9c; }
-.status-in-progress { background-color: #3498db; }
-.status-resolved { background-color: #2ecc71; }
-.status-rejected { background-color: #e74c3c; }
-.status-completed { background-color: #50bb0e; }
+.status-pending { background-color: var(--status-pending); transition: background-color 0.3s ease; }
+.status-accepted { background-color: var(--status-accepted); transition: background-color 0.3s ease; }
+.status-in-progress { background-color: var(--status-in-progress); transition: background-color 0.3s ease; }
+.status-resolved { background-color: var(--status-resolved); transition: background-color 0.3s ease; }
+.status-rejected { background-color: var(--status-rejected); transition: background-color 0.3s ease; }
+.status-completed { background-color: var(--status-completed); transition: background-color 0.3s ease; }
 
 .equipment-info i, .location-info i {
-  color: #0884c4;
+  color: var(--color-primary);
   font-size: 1.1rem;
+  transition: color 0.3s ease;
 }
 
 .details-grid {
@@ -325,7 +327,8 @@ export default {
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 1rem;
   font-size: 0.9rem;
-  color: #555;
+  color: var(--color-text-secondary);
+  transition: color 0.3s ease;
 }
 
 .detail-item {
@@ -335,13 +338,15 @@ export default {
 }
 
 .detail-item i {
-  color: #95a5a6;
+  color: var(--color-text-tertiary);
   font-size: 1rem;
+  transition: color 0.3s ease;
 }
 
 .detail-item strong {
-  color: #333;
+  color: var(--color-text);
   min-width: 80px;
+  transition: color 0.3s ease;
 }
 
 .detail-item.full-width {
@@ -368,42 +373,49 @@ export default {
 }
 
 .p-button-success {
-  background-color: #28a745;
-  border-color: #28a745;
+  background-color: var(--color-success);
+  border-color: var(--color-success);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 .p-button-danger {
-  background-color: #dc3545;
-  border-color: #dc3545;
+  background-color: var(--color-error);
+  border-color: var(--color-error);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 .p-button-info {
-  background-color: #17a2b8;
-  border-color: #17a2b8;
+  background-color: var(--color-info);
+  border-color: var(--color-info);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 .p-button-text {
-  color: #0884c4;
+  color: var(--color-primary);
+  transition: color 0.3s ease;
 }
 
 .status-message {
   font-weight: 600;
-  color: #f39c12;
+  color: var(--color-warning);
   font-size: 0.9rem;
   flex-grow: 1;
   text-align: right;
+  transition: color 0.3s ease;
 }
 
 .status-message-completed {
   font-weight: 600;
-  color: #50bb0e;
+  color: var(--color-success);
   font-size: 0.9rem;
   flex-grow: 1;
   text-align: right;
+  transition: color 0.3s ease;
 }
 
 .dialog-label {
   font-weight: 600;
   margin-bottom: 0.5rem;
   display: block;
-  color: #333;
+  color: var(--color-text);
+  transition: color 0.3s ease;
 }
 
 .p-dialog .p-dropdown {
