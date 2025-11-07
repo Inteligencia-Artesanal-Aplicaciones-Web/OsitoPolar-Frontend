@@ -5,6 +5,7 @@
  */
 import UserInfoCard from '../components/user-info-card.component.vue';
 import authService from '../services/auth.service';
+import userService from '../services/user.service';
 import { useAuthStore } from '../store/auth.store';
 import Tooltip from 'primevue/tooltip';
 
@@ -27,6 +28,8 @@ export default {
   data() {
     return {
       currentUser: null,
+      userProfile: null,
+      loadingProfile: false,
       // 2FA state
       twoFactorStatus: null,
       loading2FAStatus: false,
@@ -54,7 +57,10 @@ export default {
 
   async mounted() {
     this.loadUserData();
-    await this.load2FAStatus();
+    await Promise.all([
+      this.loadUserProfile(),
+      this.load2FAStatus()
+    ]);
   },
 
   methods: {
@@ -63,6 +69,33 @@ export default {
 
       if (!this.currentUser) {
         this.$router.push('/sign-in');
+      }
+    },
+
+    /**
+     * Load complete user profile from backend
+     */
+    async loadUserProfile() {
+      if (!this.currentUser?.id) {
+        console.warn('[Profile] No user ID available');
+        return;
+      }
+
+      this.loadingProfile = true;
+
+      try {
+        this.userProfile = await userService.getUserProfile(this.currentUser.id);
+        console.log('[Profile] User profile loaded:', this.userProfile);
+      } catch (error) {
+        console.error('[Profile] Error loading user profile:', error);
+        this.$toast.add({
+          severity: 'error',
+          summary: 'Error Loading Profile',
+          detail: 'Failed to load complete profile data',
+          life: 3000
+        });
+      } finally {
+        this.loadingProfile = false;
       }
     },
 
@@ -260,6 +293,38 @@ export default {
         life: 3000
       });
       this.$router.push('/sign-in');
+    },
+
+    /**
+     * Handle upgrade plan action
+     */
+    handleUpgradePlan() {
+      // TODO: Navigate to plans page or show upgrade modal
+      this.$router.push('/subscriptions/plans');
+    },
+
+    /**
+     * Handle manage subscription action
+     */
+    handleManageSubscription() {
+      // TODO: Navigate to subscription management page
+      this.$router.push('/subscriptions/manage');
+    },
+
+    /**
+     * Handle become owner action (incomplete profile)
+     */
+    handleBecomeOwner() {
+      // TODO: Navigate to Owner plan selection
+      this.$router.push('/subscriptions/plans?type=owner');
+    },
+
+    /**
+     * Handle become provider action (incomplete profile)
+     */
+    handleBecomeProvider() {
+      // TODO: Navigate to Provider plan selection
+      this.$router.push('/subscriptions/plans?type=provider');
     }
   }
 };
@@ -270,8 +335,21 @@ export default {
     <h1 class="page-title">{{ $t('profile.title') || 'My Profile' }}</h1>
 
     <div v-if="currentUser" class="profile-content">
+      <!-- Loading State -->
+      <div v-if="loadingProfile" class="loading-container">
+        <pv-progress-spinner />
+        <p>Loading profile...</p>
+      </div>
+
       <!-- User Info Card -->
-      <user-info-card :user="currentUser" />
+      <user-info-card
+          v-else
+          :user="currentUser"
+          :user-profile="userProfile"
+          @upgrade-plan="handleUpgradePlan"
+          @manage-subscription="handleManageSubscription"
+          @become-owner="handleBecomeOwner"
+          @become-provider="handleBecomeProvider" />
 
       <!-- Security Settings Section -->
       <pv-card class="security-card">
@@ -944,6 +1022,21 @@ export default {
 :deep(.p-dialog-header-close:hover) {
   background-color: var(--color-surface-hover, #f3f4f6) !important;
   color: var(--color-text, #1F2937) !important;
+}
+
+/* Loading Container */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 3rem;
+}
+
+.loading-container p {
+  color: var(--color-text-secondary);
+  font-size: 1rem;
+  transition: color 0.3s ease;
 }
 
 /* Responsive */
