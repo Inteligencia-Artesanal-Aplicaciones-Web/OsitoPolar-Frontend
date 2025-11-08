@@ -111,7 +111,7 @@ export default {
         <div v-else-if="!isAuthenticated" class="empty-state">
           <i class="pi pi-lock"></i>
           <p>{{ $t('home.dashboard.loginToSeeEquipment') || 'Sign in to view your equipment' }}</p>
-          <button @click="$router.push('/login')" class="add-equipment-btn">
+          <button @click="$router.push('/sign-in')" class="add-equipment-btn">
             {{ $t('navbar.signIn') || 'Sign In' }}
           </button>
         </div>
@@ -166,7 +166,7 @@ export default {
         <div v-else-if="!isAuthenticated" class="empty-state">
           <i class="pi pi-lock"></i>
           <p>{{ $t('home.dashboard.loginToSeeRental') || 'Sign in to view rental equipment' }}</p>
-          <button @click="$router.push('/login')" class="add-equipment-btn">
+          <button @click="$router.push('/sign-in')" class="add-equipment-btn">
             {{ $t('navbar.signIn') || 'Sign In' }}
           </button>
         </div>
