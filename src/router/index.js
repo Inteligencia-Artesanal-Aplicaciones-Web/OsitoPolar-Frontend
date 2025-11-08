@@ -25,6 +25,8 @@ const NotificationsComponent   = () => import('../notifications/pages/notificati
 const PageNotFoundComponent    = () => import('../public/pages/page-not-found.component.vue');
 const RentalCatalogComponent   = () => import('../rental/pages/rental-catalog.page.vue');
 const RentalCheckoutComponent  = () => import('../rental/pages/rental-checkout.page.vue');
+const RentalSuccessPage        = () => import('../rental/pages/rental-success.page.vue');
+const RentalCancelPage         = () => import('../rental/pages/rental-cancel.page.vue');
 const ContactComponent        = () => import('../public/pages/contact.page.vue');
 const PlansComponent          = () => import('../subscriptions/pages/plans.component.vue');
 const PaymentSuccessPage      = () => import('../subscriptions/pages/payment-success.page.vue');
@@ -33,6 +35,7 @@ const WorkOrderListComponent = () => import('../field-operations/pages/work-orde
 const NewWorkOrderComponent = () => import('../field-operations/pages/new-work-order.component.vue');
 const TechnicianListComponent = () => import('../field-operations/pages/technician-list.component.vue');
 const CompanyServiceRequestsListComponent = () => import('../service/pages/company-service-requests-list.component.vue');
+const ServiceRequestMarketplaceComponent = () => import('../service/pages/service-request-marketplace.component.vue');
 
 /**
  * @type {import('vue-router').RouteRecordRaw[]}
@@ -135,6 +138,12 @@ const routes = [
         component: CompanyServiceRequestsListComponent,
         meta: { title: 'Company Service Requests', requiresAuth: true }
     },
+    {
+        path: '/marketplace',
+        name: 'marketplace',
+        component: ServiceRequestMarketplaceComponent,
+        meta: { title: 'Service Request Marketplace', requiresAuth: true }
+    },
 
     // Rental routes (all protected)
     {
@@ -149,13 +158,25 @@ const routes = [
         component: RentalCheckoutComponent,
         meta: { title: 'Rental Checkout', requiresAuth: true }
     },
+    {
+        path: '/rental/success',
+        name: 'rental-success',
+        component: RentalSuccessPage,
+        meta: { title: 'Rental Successful', requiresAuth: true }
+    },
+    {
+        path: '/rental/cancel',
+        name: 'rental-cancel',
+        component: RentalCancelPage,
+        meta: { title: 'Rental Cancelled', requiresAuth: true }
+    },
 
-    // Subscription & Payment routes (all protected)
+    // Subscription & Payment routes (plans accessible to public for registration)
     {
         path: '/plans',
         name: 'plans',
         component: PlansComponent,
-        meta: { title: 'Subscription Plans', requiresAuth: true }
+        meta: { title: 'Subscription Plans', requiresAuth: false }
     },
     {
         path: '/payment/success',

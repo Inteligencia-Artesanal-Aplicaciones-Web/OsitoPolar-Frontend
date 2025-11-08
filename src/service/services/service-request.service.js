@@ -175,4 +175,59 @@ export class ServiceRequestService {
         );
     }
 
+    // ============================================
+    // MARKETPLACE METHODS (Uber-style)
+    // ============================================
+
+    /**
+     * Get all available service requests in the marketplace (Providers only)
+     * Returns pending requests that providers can accept (Uber-style)
+     * @returns {Promise} A promise resolving to an array of pending service requests
+     */
+    async getMarketplace() {
+        try {
+            console.log('[ServiceRequestService] Fetching marketplace requests...');
+            const response = await httpInstance.get(`${this.baseUrl}/marketplace`);
+            console.log('[ServiceRequestService] Marketplace requests:', response.data);
+            return response.data;
+        } catch (error) {
+            console.error('[ServiceRequestService] Error fetching marketplace:', error);
+            throw error;
+        }
+    }
+
+    /**
+     * Provider accepts a service request from the marketplace
+     * Similar to Uber - first provider to accept gets assigned
+     * @param {number|string} serviceRequestId - The ID of the service request to accept
+     * @returns {Promise} A promise resolving to the acceptance result
+     */
+    async acceptRequest(serviceRequestId) {
+        try {
+            console.log('[ServiceRequestService] Accepting request:', serviceRequestId);
+            const response = await httpInstance.post(`${this.baseUrl}/${serviceRequestId}/accept`);
+            console.log('[ServiceRequestService] Request accepted:', response.data);
+            return response.data;
+        } catch (error) {
+            console.error('[ServiceRequestService] Error accepting request:', error);
+            throw error;
+        }
+    }
+
+    /**
+     * Get service requests assigned to the authenticated provider
+     * @returns {Promise} A promise resolving to an array of assigned service requests
+     */
+    async getMyRequests() {
+        try {
+            console.log('[ServiceRequestService] Fetching my assigned requests...');
+            const response = await httpInstance.get(`${this.baseUrl}/my-requests`);
+            console.log('[ServiceRequestService] My requests:', response.data);
+            return response.data;
+        } catch (error) {
+            console.error('[ServiceRequestService] Error fetching my requests:', error);
+            throw error;
+        }
+    }
+
 }

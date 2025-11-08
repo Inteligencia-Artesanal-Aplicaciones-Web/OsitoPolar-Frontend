@@ -47,9 +47,10 @@ class AuthService {
     }
 
     /**
-     * Sign up a new user
+     * Sign up a new user (DEPRECATED - Use register() instead)
      * Endpoint: POST /api/v1/authentication/sign-up
      *
+     * @deprecated This endpoint creates only a user account without profile or payment
      * @param {string} username
      * @param {string} password
      * @returns {Promise<Object>}
@@ -63,6 +64,76 @@ class AuthService {
             username: username.trim(),
             password
         });
+
+        return response.data;
+    }
+
+    /**
+     * Register a new user with complete profile and payment
+     * Endpoint: POST /api/v1/authentication/register
+     *
+     * This endpoint:
+     * - Creates user account
+     * - Creates Owner/Provider profile
+     * - Processes payment via Stripe
+     * - Assigns subscription plan
+     * - Generates secure password automatically
+     * - Sends welcome email with credentials
+     *
+     * @param {Object} registerData - Registration data
+     * @param {string} registerData.username - Username for the account
+     * @param {string} registerData.userType - "Owner" or "Provider"
+     * @param {string} registerData.firstName - User's first name
+     * @param {string} registerData.lastName - User's last name
+     * @param {string} registerData.email - User's email address
+     * @param {string} registerData.street - Street address
+     * @param {string} registerData.number - Street number
+     * @param {string} registerData.city - City
+     * @param {string} registerData.postalCode - Postal/ZIP code
+     * @param {string} registerData.country - Country
+     * @param {number} registerData.planId - Plan ID (1-3 for Owner, 4-6 for Provider)
+     * @param {string} registerData.paymentToken - Stripe payment method ID
+     * @param {string} [registerData.companyName] - Company name (required for Provider)
+     * @param {string} [registerData.taxId] - Tax ID (optional for Provider)
+     * @returns {Promise<Object>} Registration response with userId, username, generatedPassword, etc.
+     */
+    async register(registerData) {
+        // Validate required fields
+        const requiredFields = [
+            'username', 'userType', 'firstName', 'lastName', 'email',
+            'street', 'number', 'city', 'postalCode', 'country',
+            'planId', 'paymentToken'
+        ];
+
+        for (const field of requiredFields) {
+            if (!registerData[field]) {
+                throw new Error(`${field} is required for registration`);
+            }
+        }
+
+        // Validate userType
+        if (!['Owner', 'Provider'].includes(registerData.userType)) {
+            throw new Error('userType must be either "Owner" or "Provider"');
+        }
+
+        // Validate planId based on userType
+        const planId = parseInt(registerData.planId);
+        if (registerData.userType === 'Owner' && (planId < 1 || planId > 3)) {
+            throw new Error('Owner plans must have planId between 1-3');
+        }
+        if (registerData.userType === 'Provider' && (planId < 4 || planId > 6)) {
+            throw new Error('Provider plans must have planId between 4-6');
+        }
+
+        // For Provider, companyName is required
+        if (registerData.userType === 'Provider' && !registerData.companyName) {
+            throw new Error('companyName is required for Provider registration');
+        }
+
+        const response = await httpInstance.post(
+            `${this._authEndpoint}/register`,
+            registerData
+        );
 
         return response.data;
     }
