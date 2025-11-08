@@ -13,6 +13,7 @@ import {
     ConfirmationService,
     ConfirmDialog,
     Calendar,
+    Carousel,
     Checkbox,
     DataTable,
     ToggleSwitch,
@@ -28,6 +29,7 @@ import {
     InputText,
     Menu,
     ProgressSpinner,
+    ProgressBar,
     Rating,
     RadioButton,
     SelectButton,
@@ -57,6 +59,7 @@ app.use(i18n)
     .use(ToastService)
     .component('pv-button',         Button)
     .component('pv-card',           Card)
+    .component('pv-carousel',       Carousel)
     .component('pv-chart',          Chart)
     .component('pv-input-switch',   ToggleSwitch)
     .component('pv-slider',         Slider)
@@ -73,7 +76,9 @@ app.use(i18n)
     .component('pv-input-number',   InputNumber)
     .component('pv-menu',           Menu)
     .component('pv-progress-spinner', ProgressSpinner)
+    .component('pv-progress-bar',   ProgressBar)
     .component('pv-radio-button',   RadioButton)
+    .component('pv-radiobutton',    RadioButton)
     .component('pv-rating',         Rating)
     .component('pv-drawer',         Drawer)
     .component('pv-checkbox',       Checkbox)

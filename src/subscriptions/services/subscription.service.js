@@ -58,15 +58,17 @@ class SubscriptionService {
      * Create Stripe checkout session and redirect to Stripe
      * @param {number} userId
      * @param {number} planId
+     * @param {number} amount - Plan price amount
      * @param {string} successUrl - Optional custom success URL
      * @param {string} cancelUrl - Optional custom cancel URL
      * @returns {Promise<void>} - Redirects to Stripe, doesn't return
      */
-    async createCheckoutSession(userId, planId, successUrl = null, cancelUrl = null) {
+    async createCheckoutSession(userId, planId, amount, successUrl = null, cancelUrl = null) {
         try {
             const payload = {
                 userId: userId,
                 planId: planId,
+                amount: amount,
                 successUrl: successUrl,
                 cancelUrl: cancelUrl
             };

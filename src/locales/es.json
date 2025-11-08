@@ -41,8 +41,11 @@
     "type": "Tipo",
     "types": {
       "freezer": "Congelador",
+      "Freezer": "Congelador",
       "cold_room": "Cámara Frigorífica",
-      "refrigerator": "Refrigerador"
+      "ColdRoom": "Cámara Frigorífica",
+      "refrigerator": "Refrigerador",
+      "Refrigerator": "Refrigerador"
     },
     "status": {
       "normal": "Normal",
@@ -227,7 +230,8 @@
   "mobile": {
     "menu": "Menú",
     "notifications": "Notificaciones",
-    "myAccount": "Mi Cuenta"
+    "myAccount": "Mi Cuenta",
+    "close": "Cerrar"
   },
   "footer": {
     "company": "OsitoPolar",

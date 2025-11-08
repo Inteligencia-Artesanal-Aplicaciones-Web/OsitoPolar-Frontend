@@ -199,6 +199,7 @@ export default {
         console.log('[Plans] Creating checkout session:', {
           userId,
           planId: plan.id,
+          amount: plan.price,
           successUrl,
           cancelUrl
         });
@@ -207,6 +208,7 @@ export default {
         await subscriptionService.createCheckoutSession(
           userId,
           plan.id,
+          plan.price,
           successUrl,
           cancelUrl
         );

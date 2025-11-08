@@ -22,7 +22,7 @@ export default {
       loading: true,
       showPaymentModal: false,
       selectedEquipment: null,
-      rentalDetails: null,
+      rentalDetails: {},  // Initialize as empty object instead of null to avoid prop validation error
 
       // Services
       catalogService: null,
