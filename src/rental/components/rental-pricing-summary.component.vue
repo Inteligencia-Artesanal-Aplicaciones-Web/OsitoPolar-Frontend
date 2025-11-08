@@ -1,7 +1,6 @@
 ﻿<script>
-import { RentalPricingService } from '../services/rental-pricing.service.js';
-import { RentalRequestService } from '../services/rental-request.service.js';
-import { RentalPaymentService } from '../services/rental-payment.service.js';
+import { RentalCatalogService } from '../services/rental-catalog.service.js';
+import authService from '../../iam/services/auth.service.js';
 
 export default {
   name: 'rental-pricing-summary',
@@ -17,171 +16,127 @@ export default {
   },
   data() {
     return {
-      pricing: null,
+      catalogService: new RentalCatalogService(),
       monthlyTotal: 0,
-      setupTotal: 0,
       firstPayment: 0,
-      isSubmitting: false,
-
-      pricingService: null,
-      requestService: null,
-      paymentService: null
+      isSubmitting: false
     };
   },
   computed: {
-    discountPercentage() {
-      if (!this.pricing?.discounts || !this.configuration?.rentalMonths || this.configuration.rentalMonths < 3) return 0;
-      return this.pricingService.getApplicableDiscount(this.configuration.rentalMonths, this.pricing.discounts);
-    },
-
-    originalMonthlyPrice() {
-      if (!this.pricing || !this.configuration) return 0;
-      return this.pricing.baseMonthlyPrice * this.configuration.quantity;
-    },
-
     canSubmit() {
-      return this.configuration?.deliveryAddress?.trim() &&
-          this.configuration?.preferredDate &&
+      // Only check if required configuration is present
+      return this.configuration?.rentalMonths > 0 &&
           !this.isSubmitting;
+    },
+
+    monthlyFee() {
+      return this.equipment?.monthlyFee || 0;
+    },
+
+    totalAmount() {
+      return this.monthlyFee * (this.configuration?.rentalMonths || 1);
     }
   },
   watch: {
-    equipment: {
-      immediate: true,
-      handler() {
-        if (this.equipment) {
-          this.loadPricing();
-        }
-      }
-    },
     configuration: {
       deep: true,
       handler() {
-        if (this.configuration && this.pricing) {
-          this.calculateTotals();
-        }
+        this.calculateTotals();
       }
     }
   },
-  created() {
-    this.pricingService = new RentalPricingService();
-    this.requestService = new RentalRequestService();
-    this.paymentService = new RentalPaymentService();
-  },
   methods: {
-    async loadPricing() {
-      try {
-        const response = await this.pricingService.getRentalPricing(this.equipment.id);
-        this.pricing = response.data[0];
-        if (this.configuration) {
-          this.calculateTotals();
-        }
-      } catch (error) {
-        console.error('Error loading pricing:', error);
-      }
-    },
-
     calculateTotals() {
-      if (!this.pricing || !this.configuration) return;
+      if (!this.equipment || !this.configuration) return;
 
-      const discount = this.pricingService.getApplicableDiscount(
-          this.configuration.rentalMonths,
-          this.pricing.discounts || []
-      );
-
-      const baseMonthly = this.pricing.baseMonthlyPrice * this.configuration.quantity;
-      this.monthlyTotal = this.pricingService.calculateDiscountedPrice(baseMonthly, discount);
-
-      this.setupTotal = (this.pricing.setupFee + this.pricing.deliveryFee) * this.configuration.quantity;
-      this.firstPayment = this.monthlyTotal + this.setupTotal;
+      this.monthlyTotal = this.monthlyFee;
+      this.firstPayment = this.totalAmount;
 
       this.$emit('pricing-update', {
         monthlyTotal: this.monthlyTotal,
-        setupTotal: this.setupTotal,
-        firstPayment: this.firstPayment,
-        discountPercentage: this.discountPercentage
+        firstPayment: this.firstPayment
       });
     },
 
     async submitCheckout() {
       if (!this.canSubmit) {
-        this.showValidationErrors();
+        this.$toast.add({
+          severity: 'warn',
+          summary: 'Required Fields',
+          detail: 'Please configure rental duration',
+          life: 3000
+        });
+        return;
+      }
+
+      // Check authentication
+      if (!authService.isAuthenticated()) {
+        this.$toast.add({
+          severity: 'warn',
+          summary: 'Authentication Required',
+          detail: 'Please sign in to rent equipment',
+          life: 3000
+        });
+        // Redirect to sign in with return URL
+        this.$router.push({
+          name: 'sign-in',
+          query: { redirect: this.$route.fullPath }
+        });
+        return;
+      }
+
+      // Check user type (only Owners can rent)
+      const currentUser = authService.getCurrentUser();
+      if (currentUser?.userType !== 'Owner') {
+        this.$toast.add({
+          severity: 'error',
+          summary: 'Not Authorized',
+          detail: 'Only Owners can rent equipment',
+          life: 3000
+        });
         return;
       }
 
       try {
         this.isSubmitting = true;
 
-        const requestData = {
-          userId: this.$store.state.user?.id || '1',
-          rentalEquipmentId: this.equipment.id,
-          quantity: this.configuration.quantity,
-          rentalPeriodMonths: this.configuration.rentalMonths,
-          deliveryAddress: this.configuration.deliveryAddress,
-          preferredStartDate: this.configuration.preferredDate.toISOString(),
-          notes: this.configuration.notes || '',
-          totalMonthlyPrice: this.monthlyTotal,
-          totalSetupCost: this.setupTotal,
-          status: 'draft'
-        };
+        console.log('[RentalCheckout] Creating rental request:', {
+          equipmentId: this.equipment.id,
+          months: this.configuration.rentalMonths
+        });
 
-        // 1. Create rental request
-        const response = await this.requestService.createRentalRequest(requestData);
+        // Use the new simplified API - just send equipment ID and months
+        const response = await this.catalogService.createRentalRequest(
+            this.equipment.id,
+            this.configuration.rentalMonths,
+            `${window.location.origin}/rental/success`,
+            `${window.location.origin}/rental/cancel`
+        );
 
-        if (response.data.id) {
-          // 2. Submit request for approval
-          await this.requestService.submitRentalRequest(response.data.id);
+        console.log('[RentalCheckout] Rental request response:', response);
 
-          // 3. Get Stripe checkout URL from C# backend
-          const checkoutResponse = await this.paymentService.getCheckoutUrl(response.data.id);
-
-          // 4. Redirect to Stripe hosted checkout
-          if (checkoutResponse.data.checkoutUrl && checkoutResponse.data.checkoutUrl !== '#payment-simulation') {
-            window.location.href = checkoutResponse.data.checkoutUrl;
-          } else {
-            // For demo purposes, show success message
-            this.$toast.add({
-              severity: 'success',
-              summary: 'Solicitud Enviada',
-              detail: 'Tu solicitud de alquiler ha sido enviada exitosamente',
-              life: 5000
-            });
-
-            this.$emit('checkout-submit', response.data);
-          }
+        if (response.checkoutUrl) {
+          // Redirect to Stripe Checkout
+          console.log('[RentalCheckout] Redirecting to Stripe:', response.checkoutUrl);
+          window.location.href = response.checkoutUrl;
+        } else {
+          throw new Error('No checkout URL received from server');
         }
       } catch (error) {
-        console.error('Error submitting rental request:', error);
+        console.error('[RentalCheckout] Error submitting rental request:', error);
+
+        const errorMessage = error.response?.data?.message ||
+            error.message ||
+            'Failed to process rental request';
+
         this.$toast.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'No se pudo procesar tu solicitud',
-          life: 3000
+          detail: errorMessage,
+          life: 5000
         });
       } finally {
         this.isSubmitting = false;
-      }
-    },
-
-    showValidationErrors() {
-      if (!this.configuration?.deliveryAddress?.trim()) {
-        this.$toast.add({
-          severity: 'warn',
-          summary: 'Required Fields',
-          detail: 'Please enter a delivery address',
-          life: 3000
-        });
-        return;
-      }
-
-      if (!this.configuration?.preferredDate) {
-        this.$toast.add({
-          severity: 'warn',
-          summary: 'Required Fields',
-          detail: 'Please select a preferred start date',
-          life: 3000
-        });
-        return;
       }
     }
   }
@@ -197,36 +152,26 @@ export default {
     <div class="price-breakdown">
       <div class="price-item">
         <span>{{ $t('rental.summary.monthlyRent') }}</span>
-        <div class="price-value">
-              <span v-if="discountPercentage > 0" class="original-price">
-             ${{ originalMonthlyPrice.toFixed(2) }}
-          </span>
-          <span class="current-price">${{ monthlyTotal.toFixed(2) }}</span>
-        </div>
+        <span class="price-value current-price">${{ monthlyFee.toFixed(2) }}</span>
       </div>
 
       <div class="price-item">
-        <span>{{ $t('rental.summary.setupAndDelivery') }}</span>
-        <span class="price-value current-price">${{ setupTotal.toFixed(2) }}</span>
-      </div>
-
-      <div v-if="discountPercentage > 0" class="discount-applied">
-        <i class="pi pi-tag"></i>
-        <span>{{ $t('rental.summary.discount') }} {{ discountPercentage }}%</span>
+        <span>{{ $t('rental.configuration.period') }}</span>
+        <span class="price-value current-price">{{ configuration?.rentalMonths || 1 }} {{ $t('rental.configuration.months') }}</span>
       </div>
 
       <div class="price-divider"></div>
 
       <div class="price-item total">
-        <span>{{ $t('rental.summary.firstMonthTotal') }}</span>
-        <span class="price-value total-price">${{ firstPayment.toFixed(2) }}</span>
+        <span>{{ $t('common.total') }}</span>
+        <span class="price-value total-price">${{ totalAmount.toFixed(2) }}</span>
       </div>
     </div>
 
     <div class="payment-info">
       <div class="info-badge">
         <i class="pi pi-info-circle"></i>
-        <span>{{ $t('rental.summary.monthlyCharge', { amount: monthlyTotal.toFixed(2) }) }}</span>
+        <span>Payment will be processed via Stripe. You will be redirected to complete your purchase.</span>
       </div>
     </div>
 

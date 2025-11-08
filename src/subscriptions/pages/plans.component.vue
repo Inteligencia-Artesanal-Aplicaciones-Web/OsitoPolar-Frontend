@@ -74,12 +74,20 @@
       No plans available
     </div>
 
-    <!-- Upgrade Dialog with Stripe Integration -->
+    <!-- Upgrade Dialog with Stripe Integration (for logged-in users) -->
     <UpgradeSubscriptionDialog
       v-model:visible="upgradeDialog.visible"
       :current-plan="upgradeDialog.currentPlan"
       :new-plan="upgradeDialog.newPlan"
       @upgraded="handleUpgraded"
+    />
+
+    <!-- Registration Dialog (for new users) -->
+    <RegistrationDialog
+      v-if="registrationDialog.selectedPlan"
+      v-model:visible="registrationDialog.visible"
+      :selected-plan="registrationDialog.selectedPlan"
+      @registered="handleRegistered"
     />
 
     <!-- Toast Messages -->
@@ -91,13 +99,15 @@
 import { subscriptionService } from '../services/subscription.service.js';
 import PlanCard from '../components/plan-card.component.vue';
 import UpgradeSubscriptionDialog from '../components/upgrade-subscription-dialog.component.vue';
+import RegistrationDialog from '@/iam/components/registration-dialog.component.vue';
 import { useAuthStore } from '@/iam/store/auth.store';
 
 export default {
   name: 'Plans',
   components: {
     PlanCard,
-    UpgradeSubscriptionDialog
+    UpgradeSubscriptionDialog,
+    RegistrationDialog
   },
   setup() {
     const authStore = useAuthStore();
@@ -116,6 +126,10 @@ export default {
         visible: false,
         currentPlan: null,
         newPlan: null
+      },
+      registrationDialog: {
+        visible: false,
+        selectedPlan: null
       }
     };
   },
@@ -167,8 +181,21 @@ export default {
     },
 
     async handleUpgrade(plan) {
-      console.log('[Plans] Upgrading to plan:', plan);
+      console.log('[Plans] Handle upgrade/registration for plan:', plan);
 
+      // Check if user is logged in
+      if (!this.isLoggedIn) {
+        // User NOT logged in → Show registration dialog
+        console.log('[Plans] User not logged in, showing registration dialog');
+        this.registrationDialog = {
+          visible: true,
+          selectedPlan: plan
+        };
+        return;
+      }
+
+      // User IS logged in → Proceed with upgrade flow
+      console.log('[Plans] User logged in, proceeding with upgrade');
       if (this.useHostedCheckout) {
         // Use Stripe Checkout (hosted page) - Recommended
         await this.handleHostedCheckout(plan);
@@ -259,6 +286,21 @@ export default {
         detail: 'Your subscription has been upgraded successfully',
         life: 5000
       });
+    },
+
+    handleRegistered() {
+      console.log('[Plans] User registered successfully');
+
+      // Show success message
+      this.$refs.toast.add({
+        severity: 'success',
+        summary: 'Registration Successful!',
+        detail: 'Please check your email for login credentials',
+        life: 5000
+      });
+
+      // Close registration dialog
+      this.registrationDialog.visible = false;
     }
   }
 };

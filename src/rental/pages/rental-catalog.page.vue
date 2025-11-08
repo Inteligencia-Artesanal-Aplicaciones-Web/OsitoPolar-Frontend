@@ -35,10 +35,12 @@ export default {
     async loadEquipment() {
       try {
         this.loading = true;
-        const response = await this.catalogService.getAllRentalEquipment();
-        this.equipment = this.catalogService.mapRentalEquipment(response.data);
+        const data = await this.catalogService.getAllRentalEquipment();
+        // Data is already an array from the API
+        this.equipment = Array.isArray(data) ? this.catalogService.mapRentalEquipment(data) : [];
+        console.log('[RentalCatalog] Loaded equipment:', this.equipment.length);
       } catch (error) {
-        console.error('Error loading rental equipment:', error);
+        console.error('[RentalCatalog] Error loading rental equipment:', error);
         this.$toast.add({
           severity: 'error',
           summary: 'Error',
@@ -53,21 +55,24 @@ export default {
     async handleFilterChange(filters) {
       try {
         this.loading = true;
-        let response;
 
-        if (filters.type === 'all') {
-          response = await this.catalogService.getAllRentalEquipment();
-        } else {
-          response = await this.catalogService.getRentalEquipmentByType(filters.type);
+        // Prepare API filters
+        const apiFilters = {};
+        if (filters.type && filters.type !== 'all') {
+          apiFilters.type = filters.type;
+        }
+        if (filters.maxPrice) {
+          apiFilters.maxPrice = filters.maxPrice;
         }
 
-        let equipment = this.catalogService.mapRentalEquipment(response.data);
+        // Fetch from API with filters
+        const data = await this.catalogService.getAllRentalEquipment(apiFilters);
+        let equipment = Array.isArray(data) ? this.catalogService.mapRentalEquipment(data) : [];
 
-        // Apply price filter
-        equipment = equipment.filter(item =>
-            item.monthlyPrice >= filters.minPrice &&
-            item.monthlyPrice <= filters.maxPrice
-        );
+        // Apply additional client-side filters
+        if (filters.minPrice) {
+          equipment = equipment.filter(item => item.monthlyPrice >= filters.minPrice);
+        }
 
         // Apply sorting
         if (filters.sortBy === 'price_asc') {
@@ -79,8 +84,15 @@ export default {
         }
 
         this.equipment = equipment;
+        console.log('[RentalCatalog] Filtered equipment:', this.equipment.length);
       } catch (error) {
-        console.error('Error filtering equipment:', error);
+        console.error('[RentalCatalog] Error filtering equipment:', error);
+        this.$toast.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error al filtrar equipos',
+          life: 3000
+        });
       } finally {
         this.loading = false;
       }

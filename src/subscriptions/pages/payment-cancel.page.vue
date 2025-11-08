@@ -97,7 +97,7 @@ export default {
 }
 
 .cancel-container {
-  background: white;
+  background: var(--color-surface);
   border-radius: 16px;
   padding: 3rem;
   max-width: 600px;
@@ -108,7 +108,7 @@ export default {
 
 .cancel-icon {
   font-size: 5rem;
-  color: #F59E0B;
+  color: var(--color-warning, #F59E0B);
   margin-bottom: 1rem;
   animation: shake 0.5s ease-in-out;
 }
@@ -137,15 +137,15 @@ export default {
   display: flex;
   gap: 1rem;
   padding: 1rem;
-  background: #FEF3C7;
-  border-left: 4px solid #F59E0B;
+  background: var(--color-surface-hover);
+  border-left: 4px solid var(--color-warning, #F59E0B);
   border-radius: 8px;
   margin-bottom: 2rem;
   text-align: left;
 }
 
 .info-box i {
-  color: #F59E0B;
+  color: var(--color-warning, #F59E0B);
   font-size: 1.5rem;
   flex-shrink: 0;
   margin-top: 2px;
@@ -153,7 +153,7 @@ export default {
 
 .info-content p {
   margin: 0;
-  color: #92400E;
+  color: var(--color-text);
   font-size: 0.9rem;
   line-height: 1.5;
 }

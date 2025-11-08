@@ -20,6 +20,7 @@ export default {
         { label: 'option.home', to: '/home' },
         { label: 'option.myMachines', to: '/equipment' },
         { label: 'option.myServiceRequests', to: '/service-requests' },
+        { label: 'option.marketplace', to: '/marketplace', requiresProvider: true },
         { label: 'option.rent', to: '/rental' },
         { label: 'option.plans', to: '/plans' },
         { label: 'option.contact', to: '/contact' },
@@ -112,6 +113,26 @@ export default {
         this.menuWidth = `${buttonWidth}px`;
       }
       this.$refs.userMenu.toggle(event);
+    },
+
+    shouldShowMenuItem(item) {
+      // Public routes (home, contact) - always visible
+      if (item.to === '/home' || item.to === '/contact') {
+        return true;
+      }
+
+      // Protected routes - require authentication
+      if (!this.isAuthenticated) {
+        return false;
+      }
+
+      // Provider-only routes
+      if (item.requiresProvider) {
+        return this.currentUser?.userType === 'Provider';
+      }
+
+      // All other authenticated routes
+      return true;
     }
   }
 }
@@ -147,9 +168,8 @@ export default {
         <!-- Menu items (only show protected routes if authenticated) -->
         <nav class="navbar-menu">
           <template v-for="item in menu" :key="item.label">
-            <!-- Show all items if authenticated, or only home/contact if not -->
             <pv-button
-                v-if="isAuthenticated || item.to === '/home' || item.to === '/contact'"
+                v-if="shouldShowMenuItem(item)"
                 class="p-button-text menu-button"
                 as-child
                 v-slot="slotProps">
@@ -234,7 +254,7 @@ export default {
           <nav class="mobile-nav">
             <template v-for="item in menu" :key="item.label">
               <router-link
-                  v-if="isAuthenticated || item.to === '/home' || item.to === '/contact'"
+                  v-if="shouldShowMenuItem(item)"
                   :to="item.to"
                   class="mobile-menu-item"
                   @click="closeMobileMenu">
