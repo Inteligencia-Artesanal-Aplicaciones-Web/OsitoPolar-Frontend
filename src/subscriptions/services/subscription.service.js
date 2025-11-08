@@ -159,7 +159,34 @@ class SubscriptionService {
     }
 
     /**
-     * Verify payment session with backend
+     * Complete plan upgrade after Stripe payment
+     * Endpoint: POST /api/v1/payments/complete-upgrade
+     *
+     * This verifies the Stripe payment and updates the user's plan_id in the database.
+     *
+     * @param {string} sessionId - Stripe checkout session ID from URL
+     * @returns {Promise<Object>} Upgrade completion data
+     */
+    async completeUpgrade(sessionId) {
+        try {
+            console.log('[SubscriptionService] Completing upgrade for session:', sessionId);
+
+            const response = await httpInstance.post(`${this.paymentsUrl}/complete-upgrade`, {
+                sessionId
+            });
+
+            console.log('[SubscriptionService] Upgrade completed:', response.data);
+
+            return response.data;
+        } catch (error) {
+            console.error('[SubscriptionService] Error completing upgrade:', error);
+            throw error;
+        }
+    }
+
+    /**
+     * Verify payment session with backend (DEPRECATED - use completeUpgrade)
+     * @deprecated Use completeUpgrade() instead
      * @param {string} sessionId - Stripe checkout session ID
      * @returns {Promise<Object>} Payment verification data
      */
