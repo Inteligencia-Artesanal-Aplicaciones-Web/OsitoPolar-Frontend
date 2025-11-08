@@ -213,10 +213,21 @@
   "serviceRequests": {
     "noRequests": "No hay solicitudes de servicio"
   },
+  "marketplace": {
+    "title": "Mercado de Solicitudes de Servicio",
+    "subtitle": "Acepta solicitudes de propietarios que necesitan ayuda",
+    "refresh": "Actualizar",
+    "myRequests": "Mis Solicitudes",
+    "loading": "Cargando solicitudes disponibles...",
+    "noRequests": "No hay solicitudes de servicio disponibles",
+    "checkLater": "Vuelve más tarde o activa las notificaciones",
+    "accept": "Aceptar Solicitud"
+  },
   "option": {
     "home": "Inicio",
     "myMachines": "Mis Máquinas",
     "myServiceRequests": "Mis solicitudes de servicio",
+    "marketplace": "Mercado",
     "rent": "Alquilar",
     "plans": "Planes",
     "contact": "Contacto",
@@ -677,5 +688,26 @@
       "disableErrorDetail": "Error al deshabilitar 2FA",
       "keyCopied": "Clave de entrada manual copiada al portapapeles"
     }
+  },
+  "common": {
+    "continue": "Continuar",
+    "notSpecified": "No especificado",
+    "back": "Atrás",
+    "yes": "Sí",
+    "no": "No",
+    "cancel": "Cancelar",
+    "copied": "¡Copiado!",
+    "copy": "Copiar",
+    "loading": "Cargando...",
+    "submissionFailed": "Envío fallido",
+    "cancelled": "Cancelado",
+    "error": "Error",
+    "address": "Dirección",
+    "viewDetails": "Ver Detalles",
+    "notAvailable": "No disponible",
+    "success": "Éxito",
+    "warning": "Advertencia",
+    "retry": "Reintentar",
+    "total": "Total"
   }
 }

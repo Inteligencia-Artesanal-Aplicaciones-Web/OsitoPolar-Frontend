@@ -213,10 +213,21 @@
   "serviceRequests": {
     "noRequests": "No service requests"
   },
+  "marketplace": {
+    "title": "Service Request Marketplace",
+    "subtitle": "Accept requests from owners who need help",
+    "refresh": "Refresh",
+    "myRequests": "My Requests",
+    "loading": "Loading available requests...",
+    "noRequests": "No service requests available",
+    "checkLater": "Check back later or enable notifications",
+    "accept": "Accept Request"
+  },
   "option": {
     "home": "Home",
     "myMachines": "My Machines",
     "myServiceRequests": "My Service Requests",
+    "marketplace": "Marketplace",
     "rent": "Rent",
     "plans": "Plans",
     "contact": "Contact",
@@ -679,6 +690,7 @@
     "notAvailable": "Not available",
     "success": "Success",
     "warning": "Warning",
-    "retry": "Retry"
+    "retry": "Retry",
+    "total": "Total"
   }
 }
