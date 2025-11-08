@@ -51,6 +51,7 @@ export default {
   methods: {
     /**
      * Load equipment data if in edit mode
+     * @note Returns 403 if trying to load equipment owned by another user
      */
     loadEquipment() {
       if (!this.equipmentId) return;
@@ -63,19 +64,36 @@ export default {
           })
           .catch(error => {
             console.error('Error loading equipment:', error);
+
+            let errorMessage = 'Failed to load equipment data. Please try again.';
+
+            if (error.message.includes('permission')) {
+              errorMessage = 'You do not have permission to access this equipment.';
+            } else if (error.message.includes('not found')) {
+              errorMessage = 'Equipment not found.';
+            } else if (error.message.includes('Authentication required')) {
+              errorMessage = 'Authentication required. Redirecting to login...';
+            }
+
             this.$toast.add({
               severity: 'error',
               summary: 'Error',
-              detail: 'Failed to load equipment data. Please try again.',
+              detail: errorMessage,
               life: 5000
             });
             this.loading = false;
+
+            // Redirect to equipment list on error
+            setTimeout(() => {
+              this.$router.push('/equipment');
+            }, 2000);
           });
     },
 
     /**
      * Handle save from the form component
      * @param {Object} equipmentData - The equipment data to save
+     * @note ownerId and ownerType are automatically set by backend from JWT token
      */
     handleSave(equipmentData) {
       // Call API based on mode
@@ -101,10 +119,24 @@ export default {
           .catch(error => {
             console.error('Error saving equipment:', error);
             const action = this.isEditMode ? 'update' : 'add';
+
+            let errorMessage = `Failed to ${action} equipment. Please try again.`;
+
+            // Enhanced error handling
+            if (error.message.includes('permission')) {
+              errorMessage = 'You do not have permission to perform this action.';
+            } else if (error.message.includes('duplicate') || error.message.includes('already exists')) {
+              errorMessage = 'Equipment with this serial number or code already exists.';
+            } else if (error.message.includes('Authentication required')) {
+              errorMessage = 'Authentication required. Redirecting to login...';
+            } else if (error.message) {
+              errorMessage = error.message;
+            }
+
             this.$toast.add({
               severity: 'error',
               summary: 'Error',
-              detail: `Failed to ${action} equipment. Please try again.`,
+              detail: errorMessage,
               life: 5000
             });
           });

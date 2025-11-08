@@ -12,8 +12,9 @@ export class EquipmentService {
     }
 
     /**
-     * Get all equipments
+     * Get all equipments for the authenticated owner
      * @returns {Promise<Array<Equipment>>} List of Equipment instances
+     * @note The API automatically filters equipment by the authenticated owner from JWT token
      */
     async getAllEquipments() {
         try {
@@ -31,6 +32,7 @@ export class EquipmentService {
      * Get equipment by ID
      * @param {number} equipmentId - Equipment ID
      * @returns {Promise<Equipment>} Equipment instance
+     * @note Returns 403 if equipment doesn't belong to the authenticated owner
      */
     async getEquipmentById(equipmentId) {
         try {
@@ -46,34 +48,36 @@ export class EquipmentService {
 
     /**
      * Get equipments by owner
+     * @deprecated This method is no longer needed. Use getAllEquipments() instead which automatically filters by authenticated owner
      * @param {number} ownerId - Owner ID
      * @returns {Promise<Array<Equipment>>} List of Equipment instances
      */
     async getEquipmentsByOwner(ownerId) {
-        try {
-            const response = await httpInstance.get(`${this.baseUrl}/owners/${ownerId}`);
-
-            return response.data.map(equipmentData => new Equipment(equipmentData));
-
-        } catch (error) {
-            console.error(`Error fetching equipments for owner ${ownerId}:`, error);
-            throw this.handleError(error, `Failed to fetch equipments for owner ${ownerId}`);
-        }
+        console.warn('⚠️ getEquipmentsByOwner() is deprecated. Use getAllEquipments() instead - it automatically filters by authenticated owner.');
+        return this.getAllEquipments();
     }
 
     /**
      * Create new equipment
      * @param {Equipment|Object} equipmentData - Equipment data or Equipment instance
      * @returns {Promise<Equipment>} Created Equipment instance
+     * @note ownerId and ownerType are automatically set by backend from JWT token - DO NOT include them in payload
      */
     async createEquipment(equipmentData) {
         try {
 
-            const payload = equipmentData instanceof Equipment
+            let payload = equipmentData instanceof Equipment
                 ? equipmentData.toApiFormat()
                 : equipmentData;
 
-            const response = await httpInstance.post(this.baseUrl, payload);
+            // Ensure ownerId and ownerType are not included (backend sets them from JWT)
+            const { ownerId, ownerType, ...cleanPayload } = payload;
+
+            if (ownerId || ownerType) {
+                console.warn('⚠️ ownerId and ownerType were removed from payload. Backend sets these from JWT token.');
+            }
+
+            const response = await httpInstance.post(this.baseUrl, cleanPayload);
 
             return new Equipment(response.data);
 
@@ -176,9 +180,14 @@ export class EquipmentService {
                 case 400:
                     return new Error(`Invalid request: ${message}`);
                 case 401:
-                    return new Error('Unauthorized access');
+                    // Redirect to login on authentication failure
+                    console.warn('Authentication required. Redirecting to login...');
+                    setTimeout(() => {
+                        window.location.href = '/login';
+                    }, 1500);
+                    return new Error('Authentication required. Please log in.');
                 case 403:
-                    return new Error('Access forbidden');
+                    return new Error('You do not have permission to access this equipment. Only equipment owners can view and manage their own equipment.');
                 case 404:
                     return new Error('Equipment not found');
                 case 409:

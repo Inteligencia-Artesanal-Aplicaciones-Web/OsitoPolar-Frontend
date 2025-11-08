@@ -17,7 +17,9 @@
       "noEquipment": "No tienes equipos registrados",
       "addEquipment": "Agregar equipo",
       "noRentalEquipment": "No hay equipos disponibles para alquiler",
-      "available": "Disponible"
+      "available": "Disponible",
+      "loginToSeeEquipment": "Inicia sesión para ver tus equipos",
+      "loginToSeeRental": "Inicia sesión para ver equipos de alquiler"
     }
   },
   "equipment": {

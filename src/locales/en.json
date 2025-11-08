@@ -14,10 +14,12 @@
     "dashboard": {
       "myEquipment": "My Equipment",
       "rentEquipment": "Rent Equipment",
-      "noEquipment": "You don’t have any equipment registered",
+      "noEquipment": "You don't have any equipment registered",
       "addEquipment": "Add Equipment",
       "noRentalEquipment": "No equipment available for rent",
-      "available": "Available"
+      "available": "Available",
+      "loginToSeeEquipment": "Sign in to view your equipment",
+      "loginToSeeRental": "Sign in to view rental equipment"
     }
   },
   "equipment": {

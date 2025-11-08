@@ -47,8 +47,7 @@ export default {
         energyConsumptionCurrent: 0,
         energyConsumptionUnit: 'watts',
         energyConsumptionAverage: 0,
-        ownerId: 1,
-        ownerType: 'user',
+        // Note: ownerId and ownerType removed - automatically set by backend from JWT token
         ownershipType: 'Owned',
         notes: ''
       },
@@ -129,8 +128,7 @@ export default {
         energyConsumptionCurrent: 0,
         energyConsumptionUnit: 'watts',
         energyConsumptionAverage: 0,
-        ownerId: 1,
-        ownerType: 'user',
+        // Note: ownerId and ownerType removed - automatically set by backend from JWT token
         ownershipType: 'Owned',
         notes: ''
       };
@@ -169,8 +167,7 @@ export default {
         energyConsumptionCurrent: equipment.energyConsumptionCurrent || 0,
         energyConsumptionUnit: equipment.energyConsumptionUnit || 'watts',
         energyConsumptionAverage: equipment.energyConsumptionAverage || 0,
-        ownerId: equipment.ownerId || 1,
-        ownerType: equipment.ownerType || 'user',
+        // Note: ownerId and ownerType are read-only (set by backend from JWT token)
         ownershipType: equipment.ownershipType || 'owned',
         notes: equipment.notes || ''
       };

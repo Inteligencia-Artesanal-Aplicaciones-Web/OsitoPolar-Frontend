@@ -243,6 +243,7 @@ export class Equipment {
     /**
      * Convert to API format for updates
      * @returns {Object} API-compatible object
+     * @note ownerId and ownerType are automatically set by the backend from JWT token
      */
     toApiFormat() {
         return {
@@ -265,8 +266,6 @@ export class Equipment {
             energyConsumptionCurrent: this.energyConsumptionCurrent,
             energyConsumptionUnit: this.energyConsumptionUnit,
             energyConsumptionAverage: this.energyConsumptionAverage,
-            ownerId: this.ownerId,
-            ownerType: this.ownerType,
             ownershipType: this.ownershipType,
             notes: this.notes
         };
@@ -275,6 +274,7 @@ export class Equipment {
     /**
      * Validate equipment data
      * @returns {Object} Validation result
+     * @note ownerId validation removed - now set automatically by backend from JWT token
      */
     validate() {
         const errors = [];
@@ -289,10 +289,6 @@ export class Equipment {
 
         if (!this.serialNumber?.trim()) {
             errors.push('Serial number is required');
-        }
-
-        if (!this.ownerId) {
-            errors.push('Owner ID is required');
         }
 
         if (this.currentTemperature && this.optimalTemperatureMin &&

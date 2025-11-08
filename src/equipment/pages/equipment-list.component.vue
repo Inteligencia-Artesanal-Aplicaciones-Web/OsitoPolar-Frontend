@@ -59,6 +59,7 @@ export default {
   methods: {
     /**
      * Loads all equipment from the API
+     * @note The API automatically filters equipment by authenticated owner
      */
     loadEquipment() {
       this.loading = true;
@@ -73,7 +74,16 @@ export default {
             console.error('Error loading equipment:', error);
             this.loading = false;
             this.hasError = true;
-            this.errorMessage = this.$t('equipment.errorMessage');
+
+            // Enhanced error handling
+            if (error.message.includes('Authentication required') || error.message.includes('Unauthorized')) {
+              this.errorMessage = 'Authentication required. Redirecting to login...';
+              // Auth service will redirect automatically
+            } else if (error.message.includes('permission')) {
+              this.errorMessage = 'You do not have permission to view equipment. Please ensure you have an owner account.';
+            } else {
+              this.errorMessage = error.message || this.$t('equipment.errorMessage');
+            }
           });
     },
 

@@ -1,6 +1,7 @@
 ﻿<script>
 import { EquipmentService } from '../../equipment/services/equipment.service.js';
 import { RentalCatalogService } from '../../rental/services/rental-catalog.service.js';
+import authService from '../../iam/services/auth.service.js';
 
 export default {
   name: 'home-dashboard-summary',
@@ -11,7 +12,8 @@ export default {
       loadingUserEquipment: true,
       loadingRentalEquipment: true,
       equipmentService: null,
-      rentalService: null
+      rentalService: null,
+      isAuthenticated: false
     };
   },
   computed: {
@@ -24,23 +26,33 @@ export default {
   },
   methods: {
     async loadUserEquipment() {
+      // Only load equipment if user is authenticated
+      if (!this.isAuthenticated) {
+        this.loadingUserEquipment = false;
+        return;
+      }
+
       try {
         this.loadingUserEquipment = true;
         this.userEquipment = await this.equipmentService.getAllEquipments();
       } catch (error) {
         console.error('Error loading user equipment:', error);
+        // Clear equipment on error (e.g., 401, 403)
+        this.userEquipment = [];
       } finally {
         this.loadingUserEquipment = false;
       }
     },
 
     async loadRentalEquipment() {
+      // Rental catalog can be viewed by anyone, but keep it here for now
       try {
         this.loadingRentalEquipment = true;
-        this.userEquipment = await this.equipmentService.getAllEquipments();
-        this.rentalEquipment = this.rentalService.mapRentalEquipment(response.data);
+        // TODO: Implement rental equipment loading when rental API is ready
+        this.rentalEquipment = [];
       } catch (error) {
         console.error('Error loading rental equipment:', error);
+        this.rentalEquipment = [];
       } finally {
         this.loadingRentalEquipment = false;
       }
@@ -66,8 +78,18 @@ export default {
   created() {
     this.equipmentService = new EquipmentService();
     this.rentalService = new RentalCatalogService();
-    this.loadUserEquipment();
-    this.loadRentalEquipment();
+
+    // Check if user is authenticated
+    this.isAuthenticated = authService.isAuthenticated();
+
+    // Only load equipment if authenticated
+    if (this.isAuthenticated) {
+      this.loadUserEquipment();
+      this.loadRentalEquipment();
+    } else {
+      this.loadingUserEquipment = false;
+      this.loadingRentalEquipment = false;
+    }
   }
 };
 </script>
@@ -84,6 +106,14 @@ export default {
       <div class="equipment-grid">
         <div v-if="loadingUserEquipment" class="loading-placeholder">
           <div class="skeleton-card" v-for="n in 2" :key="n"></div>
+        </div>
+
+        <div v-else-if="!isAuthenticated" class="empty-state">
+          <i class="pi pi-lock"></i>
+          <p>{{ $t('home.dashboard.loginToSeeEquipment') || 'Sign in to view your equipment' }}</p>
+          <button @click="$router.push('/login')" class="add-equipment-btn">
+            {{ $t('navbar.signIn') || 'Sign In' }}
+          </button>
         </div>
 
         <div v-else-if="featuredUserEquipment.length === 0" class="empty-state">
@@ -131,6 +161,14 @@ export default {
       <div class="equipment-grid">
         <div v-if="loadingRentalEquipment" class="loading-placeholder">
           <div class="skeleton-card" v-for="n in 2" :key="n"></div>
+        </div>
+
+        <div v-else-if="!isAuthenticated" class="empty-state">
+          <i class="pi pi-lock"></i>
+          <p>{{ $t('home.dashboard.loginToSeeRental') || 'Sign in to view rental equipment' }}</p>
+          <button @click="$router.push('/login')" class="add-equipment-btn">
+            {{ $t('navbar.signIn') || 'Sign In' }}
+          </button>
         </div>
 
         <div v-else-if="featuredRentalEquipment.length === 0" class="empty-state">
