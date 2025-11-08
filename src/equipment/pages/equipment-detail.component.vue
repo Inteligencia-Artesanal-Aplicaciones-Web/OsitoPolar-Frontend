@@ -4,13 +4,22 @@ import { Equipment } from "../models/equipment.entity.js";
 import EquipmentInfoCard from "../components/equipment-info-card.component.vue";
 import EquipmentControlPanel from "../components/equipment-control-panel.component.vue";
 import EquipmentFormComponent from "../components/equipment-form.component.vue";
+import { AnalyticsService } from "../../analytics/services/analytics.service.js";
+import EquipmentHealthCard from "../../analytics/components/equipment-health-card.component.vue";
+import AnomalyAlert from "../../analytics/components/anomaly-alert.component.vue";
+import CostAnalysisCard from "../../analytics/components/cost-analysis-card.component.vue";
+import MaintenanceForecastCard from "../../analytics/components/maintenance-forecast-card.component.vue";
 
 export default {
   name: "equipment-detail",
   components: {
     EquipmentInfoCard,
     EquipmentControlPanel,
-    EquipmentFormComponent
+    EquipmentFormComponent,
+    EquipmentHealthCard,
+    AnomalyAlert,
+    CostAnalysisCard,
+    MaintenanceForecastCard
   },
   data() {
     return {
@@ -20,7 +29,11 @@ export default {
       saving: false,
       isNewEquipment: false,
       isEditMode: false,
-      equipmentService: new EquipmentService()
+      equipmentService: new EquipmentService(),
+      analyticsService: new AnalyticsService(),
+      anomaly: null,
+      anomalyCheckInterval: null,
+      electricityRate: 0.12 // Default electricity rate per kWh
     };
   },
   computed: {
@@ -149,15 +162,102 @@ export default {
       } catch (error) {
         console.error('Error toggling power:', error);
       }
+    },
+
+    async checkForAnomalies() {
+      if (!this.equipment || this.isNewEquipment) return;
+
+      try {
+        this.anomaly = await this.analyticsService.detectAnomalies(this.equipment.id, 24);
+
+        // Show browser notification for critical anomalies
+        if (this.anomaly?.hasAnomaly && this.anomaly?.severity === 'critical') {
+          this.showNotification(this.anomaly.message);
+        }
+      } catch (error) {
+        console.error('Error checking anomalies:', error);
+      }
+    },
+
+    showNotification(message) {
+      if ('Notification' in window && Notification.permission === 'granted') {
+        new Notification('Equipment Alert', {
+          body: message,
+          icon: '/favicon.ico'
+        });
+      } else if ('Notification' in window && Notification.permission !== 'denied') {
+        Notification.requestPermission().then(permission => {
+          if (permission === 'granted') {
+            new Notification('Equipment Alert', {
+              body: message,
+              icon: '/favicon.ico'
+            });
+          }
+        });
+      }
+    },
+
+    dismissAnomaly() {
+      this.anomaly = null;
+    },
+
+    handleCreateServiceRequest() {
+      // TODO: Implement service request creation
+      console.log('Creating service request for anomaly:', this.anomaly);
+      this.$toast.add({
+        severity: 'info',
+        summary: 'Service Request',
+        detail: 'Service request creation coming soon',
+        life: 3000
+      });
+    },
+
+    handleContactTechnician() {
+      // TODO: Implement technician contact
+      console.log('Contacting technician for anomaly:', this.anomaly);
+      this.$toast.add({
+        severity: 'info',
+        summary: 'Contact Technician',
+        detail: 'Technician contact feature coming soon',
+        life: 3000
+      });
     }
   },
   created() {
     this.loadEquipment();
   },
+  mounted() {
+    // Start anomaly checking after component is mounted
+    if (!this.isNewEquipment) {
+      this.checkForAnomalies();
+
+      // Set up interval to check for anomalies every 5 minutes
+      this.anomalyCheckInterval = setInterval(() => {
+        this.checkForAnomalies();
+      }, 5 * 60 * 1000); // 5 minutes
+    }
+  },
+  beforeUnmount() {
+    // Clear the anomaly check interval
+    if (this.anomalyCheckInterval) {
+      clearInterval(this.anomalyCheckInterval);
+    }
+  },
   watch: {
     '$route.params.id'(newId, oldId) {
       if (newId !== oldId) {
         this.loadEquipment();
+
+        // Restart anomaly checking for new equipment
+        if (this.anomalyCheckInterval) {
+          clearInterval(this.anomalyCheckInterval);
+        }
+        if (newId !== 'new') {
+          this.checkForAnomalies();
+          this.anomalyCheckInterval = setInterval(() => {
+            this.checkForAnomalies();
+          }, 5 * 60 * 1000);
+        }
       }
     }
   }
@@ -225,6 +325,16 @@ export default {
       </div>
 
       <div v-else class="detail-view">
+        <!-- Anomaly Alert -->
+        <anomaly-alert
+            v-if="anomaly"
+            :anomaly="anomaly"
+            :dismissible="true"
+            @dismiss="dismissAnomaly"
+            @create-service-request="handleCreateServiceRequest"
+            @contact-technician="handleContactTechnician"
+        />
+
         <div class="content-grid">
           <div class="info-section">
             <equipment-info-card :equipment="equipment" />
@@ -236,6 +346,34 @@ export default {
                 @update-temperature="updateTemperature"
                 @toggle-power="togglePower"
             />
+          </div>
+        </div>
+
+        <!-- Advanced Analytics Section -->
+        <div class="analytics-section">
+          <h2 class="section-title">Advanced Analytics</h2>
+
+          <div class="analytics-grid">
+            <div class="analytics-card">
+              <equipment-health-card
+                  :equipment-id="equipment.id"
+                  :days="7"
+              />
+            </div>
+
+            <div class="analytics-card">
+              <cost-analysis-card
+                  :equipment-id="equipment.id"
+                  :electricity-rate="electricityRate"
+              />
+            </div>
+
+            <div class="analytics-card">
+              <maintenance-forecast-card
+                  :equipment-id="equipment.id"
+                  :days="30"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -295,6 +433,31 @@ export default {
   gap: 2rem;
 }
 
+.analytics-section {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--color-border);
+  transition: border-color 0.3s ease;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0 0 1.5rem 0;
+  color: var(--color-text);
+  transition: color 0.3s ease;
+}
+
+.analytics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 1.5rem;
+}
+
+.analytics-card {
+  width: 100%;
+}
+
 @media (max-width: 768px) {
   .detail-view .content-grid {
     grid-template-columns: 1fr;
@@ -308,6 +471,10 @@ export default {
 
   .header-actions {
     justify-content: center;
+  }
+
+  .analytics-grid {
+    grid-template-columns: 1fr;
   }
 }
 </style>
