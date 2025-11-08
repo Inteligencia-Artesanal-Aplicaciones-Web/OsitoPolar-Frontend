@@ -170,6 +170,100 @@ export class AnalyticsService {
         }
     }
 
+    // ============================================
+    // NEW ADVANCED ANALYTICS METHODS
+    // ============================================
+
+    /**
+     * Get equipment health metrics
+     * @param {number} equipmentId - Equipment ID
+     * @param {number} days - Number of days to analyze (default: 7)
+     * @returns {Promise<Object>} Equipment health data
+     */
+    async getEquipmentHealth(equipmentId, days = 7) {
+        try {
+            const params = new URLSearchParams({
+                days: days.toString()
+            });
+
+            const response = await httpInstance.get(`${this.baseUrl}/${equipmentId}/health?${params}`);
+
+            console.log(`💚 Analytics - Equipment ${equipmentId} health score:`, response.data);
+            return response.data;
+        } catch (error) {
+            console.error(`Error fetching equipment ${equipmentId} health:`, error);
+            throw this.handleError(error, 'Failed to fetch equipment health');
+        }
+    }
+
+    /**
+     * Detect temperature anomalies
+     * @param {number} equipmentId - Equipment ID
+     * @param {number} hours - Number of hours to analyze (default: 24)
+     * @returns {Promise<Object>} Anomaly detection data
+     */
+    async detectAnomalies(equipmentId, hours = 24) {
+        try {
+            const params = new URLSearchParams({
+                hours: hours.toString()
+            });
+
+            const response = await httpInstance.get(`${this.baseUrl}/${equipmentId}/anomalies?${params}`);
+
+            console.log(`⚠️ Analytics - Equipment ${equipmentId} anomaly check:`, response.data);
+            return response.data;
+        } catch (error) {
+            console.error(`Error detecting anomalies for equipment ${equipmentId}:`, error);
+            throw this.handleError(error, 'Failed to detect anomalies');
+        }
+    }
+
+    /**
+     * Get cost analysis
+     * @param {number} equipmentId - Equipment ID
+     * @param {number} days - Number of days to analyze (default: 30)
+     * @param {number} rate - Electricity rate per kWh (default: 0.12)
+     * @returns {Promise<Object>} Cost analysis data
+     */
+    async getCostAnalysis(equipmentId, days = 30, rate = 0.12) {
+        try {
+            const params = new URLSearchParams({
+                days: days.toString(),
+                rate: rate.toString()
+            });
+
+            const response = await httpInstance.get(`${this.baseUrl}/${equipmentId}/costs?${params}`);
+
+            console.log(`💰 Analytics - Equipment ${equipmentId} cost analysis:`, response.data);
+            return response.data;
+        } catch (error) {
+            console.error(`Error fetching cost analysis for equipment ${equipmentId}:`, error);
+            throw this.handleError(error, 'Failed to fetch cost analysis');
+        }
+    }
+
+    /**
+     * Get maintenance forecast
+     * @param {number} equipmentId - Equipment ID
+     * @param {number} days - Number of days of data to analyze (default: 30)
+     * @returns {Promise<Object>} Maintenance forecast data
+     */
+    async getMaintenanceForecast(equipmentId, days = 30) {
+        try {
+            const params = new URLSearchParams({
+                days: days.toString()
+            });
+
+            const response = await httpInstance.get(`${this.baseUrl}/${equipmentId}/maintenance-forecast?${params}`);
+
+            console.log(`🔧 Analytics - Equipment ${equipmentId} maintenance forecast:`, response.data);
+            return response.data;
+        } catch (error) {
+            console.error(`Error fetching maintenance forecast for equipment ${equipmentId}:`, error);
+            throw this.handleError(error, 'Failed to fetch maintenance forecast');
+        }
+    }
+
     /**
      * Handle and format API errors
      * @param {Error} error - Original error
