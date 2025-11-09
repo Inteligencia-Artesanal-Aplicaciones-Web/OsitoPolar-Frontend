@@ -116,7 +116,7 @@ export default {
         });
 
         setTimeout(() => {
-          this.$router.push('/dashboard');
+          this.$router.push('/home');
         }, 1000);
       } catch (error) {
         this.$toast.add({
