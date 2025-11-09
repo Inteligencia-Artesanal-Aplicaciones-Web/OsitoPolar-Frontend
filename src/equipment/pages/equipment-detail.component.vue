@@ -103,6 +103,9 @@ export default {
         this.isEditMode = false;
         this.loading = false;
 
+        // Check for anomalies after equipment is loaded
+        this.checkForAnomalies();
+
       } catch (error) {
         console.error('Error loading equipment:', error);
         this.hasError = true;
@@ -165,17 +168,29 @@ export default {
     },
 
     async checkForAnomalies() {
-      if (!this.equipment || this.isNewEquipment) return;
+      if (!this.equipment || this.isNewEquipment) {
+        console.log('⏭️ Skipping anomaly check (no equipment or new equipment)');
+        return;
+      }
+
+      console.log(`🔍 Checking anomalies for equipment ${this.equipment.id}...`);
 
       try {
         this.anomaly = await this.analyticsService.detectAnomalies(this.equipment.id, 24);
+
+        console.log('🎯 Anomaly check result:', this.anomaly);
+        console.log('  - hasAnomaly:', this.anomaly?.hasAnomaly);
+        console.log('  - type:', this.anomaly?.type);
+        console.log('  - severity:', this.anomaly?.severity);
+        console.log('  - message:', this.anomaly?.message);
 
         // Show browser notification for critical anomalies
         if (this.anomaly?.hasAnomaly && this.anomaly?.severity === 'critical') {
           this.showNotification(this.anomaly.message);
         }
       } catch (error) {
-        console.error('Error checking anomalies:', error);
+        console.error('❌ Error checking anomalies:', error);
+        console.error('   Error details:', error.response || error.message);
       }
     },
 
@@ -227,15 +242,11 @@ export default {
     this.loadEquipment();
   },
   mounted() {
-    // Start anomaly checking after component is mounted
-    if (!this.isNewEquipment) {
+    // Set up interval to check for anomalies every 5 minutes
+    // (Initial check happens in loadEquipment after equipment loads)
+    this.anomalyCheckInterval = setInterval(() => {
       this.checkForAnomalies();
-
-      // Set up interval to check for anomalies every 5 minutes
-      this.anomalyCheckInterval = setInterval(() => {
-        this.checkForAnomalies();
-      }, 5 * 60 * 1000); // 5 minutes
-    }
+    }, 5 * 60 * 1000); // 5 minutes
   },
   beforeUnmount() {
     // Clear the anomaly check interval
@@ -246,18 +257,8 @@ export default {
   watch: {
     '$route.params.id'(newId, oldId) {
       if (newId !== oldId) {
+        // loadEquipment() will call checkForAnomalies() after loading
         this.loadEquipment();
-
-        // Restart anomaly checking for new equipment
-        if (this.anomalyCheckInterval) {
-          clearInterval(this.anomalyCheckInterval);
-        }
-        if (newId !== 'new') {
-          this.checkForAnomalies();
-          this.anomalyCheckInterval = setInterval(() => {
-            this.checkForAnomalies();
-          }, 5 * 60 * 1000);
-        }
       }
     }
   }
