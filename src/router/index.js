@@ -29,6 +29,7 @@ const RentalSuccessPage        = () => import('../rental/pages/rental-success.pa
 const RentalCancelPage         = () => import('../rental/pages/rental-cancel.page.vue');
 const ContactComponent        = () => import('../public/pages/contact.page.vue');
 const PlansComponent          = () => import('../subscriptions/pages/plans.component.vue');
+const RegistrationCompletePage = () => import('../iam/pages/registration-complete.page.vue');
 const PaymentSuccessPage      = () => import('../subscriptions/pages/payment-success.page.vue');
 const PaymentCancelPage       = () => import('../subscriptions/pages/payment-cancel.page.vue');
 const WorkOrderListComponent = () => import('../field-operations/pages/work-order-list.component.vue');
@@ -177,6 +178,12 @@ const routes = [
         name: 'plans',
         component: PlansComponent,
         meta: { title: 'Subscription Plans', requiresAuth: false }
+    },
+    {
+        path: '/registration/complete',
+        name: 'registration-complete',
+        component: RegistrationCompletePage,
+        meta: { title: 'Complete Registration', requiresAuth: false }
     },
     {
         path: '/payment/success',

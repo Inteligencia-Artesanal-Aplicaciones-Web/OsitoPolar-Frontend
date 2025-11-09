@@ -47,7 +47,78 @@ class AuthService {
     }
 
     /**
-     * Register a new user with complete profile and payment
+     * Create registration checkout session (Step 1: Payment)
+     * Endpoint: POST /api/v1/authentication/create-registration-checkout
+     *
+     * @param {number} planId - Plan ID (1-3 for Owner, 4-6 for Provider)
+     * @param {string} userType - "Owner" or "Provider"
+     * @param {string} successUrl - URL to redirect after successful payment
+     * @param {string} cancelUrl - URL to redirect if payment is canceled
+     * @returns {Promise<Object>} Object with sessionId and checkoutUrl
+     */
+    async createRegistrationCheckout(planId, userType, successUrl, cancelUrl) {
+        if (!planId || !userType) {
+            throw new Error('planId and userType are required');
+        }
+
+        if (!['Owner', 'Provider'].includes(userType)) {
+            throw new Error('userType must be either "Owner" or "Provider"');
+        }
+
+        const response = await httpInstance.post(
+            `${this._authEndpoint}/create-registration-checkout`,
+            {
+                planId,
+                userType,
+                successUrl,
+                cancelUrl
+            }
+        );
+
+        return response.data;
+    }
+
+    /**
+     * Complete registration after payment (Step 2: Create Account)
+     * Endpoint: POST /api/v1/authentication/complete-registration
+     *
+     * @param {Object} registrationData - Registration data
+     * @param {string} registrationData.sessionId - Stripe session ID from payment
+     * @param {string} registrationData.username - Username
+     * @param {string} registrationData.firstName - First name
+     * @param {string} registrationData.lastName - Last name
+     * @param {string} registrationData.email - Email address
+     * @param {string} registrationData.street - Street address
+     * @param {string} registrationData.number - Street number
+     * @param {string} registrationData.city - City
+     * @param {string} registrationData.postalCode - Postal code
+     * @param {string} registrationData.country - Country
+     * @param {string} [registrationData.companyName] - Company name (for Provider)
+     * @param {string} [registrationData.taxId] - Tax ID (for Provider)
+     * @returns {Promise<Object>} Registration response with credentials
+     */
+    async completeRegistration(registrationData) {
+        const requiredFields = [
+            'sessionId', 'username', 'firstName', 'lastName', 'email',
+            'street', 'number', 'city', 'postalCode', 'country'
+        ];
+
+        for (const field of requiredFields) {
+            if (!registrationData[field]) {
+                throw new Error(`${field} is required`);
+            }
+        }
+
+        const response = await httpInstance.post(
+            `${this._authEndpoint}/complete-registration`,
+            registrationData
+        );
+
+        return response.data;
+    }
+
+    /**
+     * Register a new user with complete profile and payment (DEPRECATED - Use createRegistrationCheckout + completeRegistration)
      * Endpoint: POST /api/v1/authentication/register
      *
      * This endpoint:

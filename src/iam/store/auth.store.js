@@ -101,6 +101,26 @@ export const useAuthStore = defineStore('auth', {
         async disableTwoFactor() {
             await authService.disableTwoFactor(this.username);
             await this.load2FAStatus();
+        },
+
+        /**
+         * Create registration checkout session (Step 1: Payment)
+         */
+        async createRegistrationCheckout(planId, userType, successUrl, cancelUrl) {
+            return await authService.createRegistrationCheckout(
+                planId,
+                userType,
+                successUrl,
+                cancelUrl
+            );
+        },
+
+        /**
+         * Complete registration after payment (Step 2: Create Account)
+         */
+        async completeRegistration(registrationData) {
+            const response = await authService.completeRegistration(registrationData);
+            return response;
         }
     }
 });
