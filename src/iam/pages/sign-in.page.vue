@@ -81,7 +81,7 @@ export default {
             life: 3000
           });
           setTimeout(() => {
-            this.$router.push('/dashboard');
+            this.$router.push('/home');
           }, 1000);
         }
       } catch (error) {
@@ -194,6 +194,9 @@ export default {
         :loading="loading"
         @verify="handleTwoFactorVerify"
     />
+
+    <!-- Toast Messages -->
+    <pv-toast />
   </div>
 </template>
 
