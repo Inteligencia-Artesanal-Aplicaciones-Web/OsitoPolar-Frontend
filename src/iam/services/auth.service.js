@@ -47,28 +47,6 @@ class AuthService {
     }
 
     /**
-     * Sign up a new user (DEPRECATED - Use register() instead)
-     * Endpoint: POST /api/v1/authentication/sign-up
-     *
-     * @deprecated This endpoint creates only a user account without profile or payment
-     * @param {string} username
-     * @param {string} password
-     * @returns {Promise<Object>}
-     */
-    async signUp(username, password) {
-        if (!username?.trim() || !password?.trim()) {
-            throw new Error('Username and password are required');
-        }
-
-        const response = await httpInstance.post(`${this._authEndpoint}/sign-up`, {
-            username: username.trim(),
-            password
-        });
-
-        return response.data;
-    }
-
-    /**
      * Register a new user with complete profile and payment
      * Endpoint: POST /api/v1/authentication/register
      *

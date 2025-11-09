@@ -6,13 +6,15 @@
  */
 import LanguageSwitcher from "./language-switcher.component.vue";
 import ThemeToggle from "../../shared/components/theme-toggle.component.vue";
+import NotificationBadge from "../../notifications/components/notification-badge.component.vue";
 import authService from "../../iam/services/auth.service.js";
 
 export default {
   name: "navbar",
   components: {
     LanguageSwitcher,
-    ThemeToggle
+    ThemeToggle,
+    NotificationBadge
   },
   data() {
     return {
@@ -202,11 +204,8 @@ export default {
 
           <!-- Authenticated: Show user menu -->
           <template v-else>
-            <!-- Notification Bell -->
-            <pv-button
-                icon="pi pi-bell"
-                class="p-button-text p-button-rounded notification-button"
-                @click="goNotifications" />
+            <!-- Notification Bell with Badge -->
+            <NotificationBadge @click="goNotifications" />
 
             <!-- User Profile Menu -->
             <div class="user-menu-container">
@@ -292,11 +291,13 @@ export default {
 
             <!-- If authenticated -->
             <template v-else>
-              <pv-button
-                  icon="pi pi-bell"
-                  :label="$t('mobile.notifications')"
-                  class="p-button-text p-button-plain mobile-action-button"
-                  @click="goNotifications" />
+              <div class="mobile-notification-wrapper">
+                <pv-button
+                    icon="pi pi-bell"
+                    :label="$t('mobile.notifications')"
+                    class="p-button-text p-button-plain mobile-action-button"
+                    @click="goNotifications" />
+              </div>
               <pv-button
                   icon="pi pi-user"
                   :label="currentUser?.username || $t('navbar.myAccount')"
