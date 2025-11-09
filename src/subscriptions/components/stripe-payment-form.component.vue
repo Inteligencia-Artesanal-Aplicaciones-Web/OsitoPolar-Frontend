@@ -37,6 +37,12 @@ export default {
       try {
         console.log('[StripePaymentForm] Initializing Stripe...');
 
+        // Get CSS variable values for theming
+        const rootStyles = getComputedStyle(document.documentElement);
+        const textColor = rootStyles.getPropertyValue('--color-text').trim() || '#1F2937';
+        const placeholderColor = rootStyles.getPropertyValue('--color-text-tertiary').trim() || '#9CA3AF';
+        const errorColor = rootStyles.getPropertyValue('--color-error').trim() || '#EF4444';
+
         // Create Elements instance
         const elements = await stripeService.createElements();
 
@@ -45,15 +51,15 @@ export default {
           style: {
             base: {
               fontSize: '16px',
-              color: '#1F2937',
+              color: textColor,
               fontFamily: 'system-ui, -apple-system, sans-serif',
               '::placeholder': {
-                color: '#9CA3AF'
+                color: placeholderColor
               }
             },
             invalid: {
-              color: '#EF4444',
-              iconColor: '#EF4444'
+              color: errorColor,
+              iconColor: errorColor
             }
           },
           hidePostalCode: false
@@ -190,20 +196,20 @@ export default {
 
 .card-element {
   padding: 0.75rem;
-  border: 1.5px solid var(--color-border, #D1D5DB);
+  border: 1.5px solid var(--color-border);
   border-radius: 8px;
-  background: white;
+  background: var(--color-surface);
   transition: all 0.2s ease;
 }
 
 .card-element:focus-within {
-  border-color: #4A90E2;
+  border-color: var(--color-primary);
   outline: none;
-  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+  box-shadow: 0 0 0 3px var(--color-shadow);
 }
 
 .p-error {
-  color: #EF4444;
+  color: var(--color-error);
   font-size: 0.75rem;
   margin-top: 0.25rem;
 }
@@ -213,13 +219,13 @@ export default {
   align-items: center;
   gap: 0.5rem;
   padding: 0.75rem;
-  background: #F3F4F6;
+  background: var(--color-surface-alt);
   border-radius: 6px;
   font-size: 0.875rem;
-  color: #6B7280;
+  color: var(--color-text-secondary);
 }
 
 .security-notice i {
-  color: #10B981;
+  color: var(--color-success);
 }
 </style>

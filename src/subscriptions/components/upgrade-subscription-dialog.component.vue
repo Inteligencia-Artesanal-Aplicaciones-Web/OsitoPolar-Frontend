@@ -230,7 +230,7 @@ export default {
   align-items: center;
   gap: 1rem;
   padding: 1rem;
-  background: var(--surface-50, #F9FAFB);
+  background: var(--color-surface-alt);
   border-radius: 8px;
 }
 
@@ -239,23 +239,23 @@ export default {
   text-align: center;
   padding: 1rem;
   border-radius: 6px;
-  background: white;
+  background: var(--color-surface);
   border: 2px solid transparent;
 }
 
 .plan-box.current {
-  border-color: #D1D5DB;
+  border-color: var(--color-border);
 }
 
 .plan-box.new {
-  border-color: #4A90E2;
-  background: #EFF6FF;
+  border-color: var(--color-primary);
+  background: var(--color-surface-hover);
 }
 
 .plan-label {
   font-size: 0.75rem;
   text-transform: uppercase;
-  color: #6B7280;
+  color: var(--color-text-secondary);
   margin-bottom: 0.5rem;
   font-weight: 600;
 }
@@ -263,19 +263,19 @@ export default {
 .plan-name {
   font-size: 1.125rem;
   font-weight: 600;
-  color: #1F2937;
+  color: var(--color-text);
   margin-bottom: 0.25rem;
 }
 
 .plan-price {
   font-size: 1rem;
-  color: #4A90E2;
+  color: var(--color-primary);
   font-weight: 500;
 }
 
 .arrow {
   font-size: 1.5rem;
-  color: #4A90E2;
+  color: var(--color-primary);
 }
 
 .price-summary {
@@ -283,7 +283,7 @@ export default {
   flex-direction: column;
   gap: 0.5rem;
   padding: 1rem;
-  background: var(--surface-50, #F9FAFB);
+  background: var(--color-surface-alt);
   border-radius: 6px;
 }
 
@@ -292,22 +292,23 @@ export default {
   justify-content: space-between;
   align-items: center;
   font-size: 0.875rem;
+  color: var(--color-text);
 }
 
 .summary-row.total {
   padding-top: 0.5rem;
-  border-top: 1px solid #D1D5DB;
+  border-top: 1px solid var(--color-border);
   font-weight: 600;
   font-size: 1rem;
 }
 
 .price-difference {
-  color: #10B981;
+  color: var(--color-success);
   font-weight: 500;
 }
 
 .total-price {
-  color: #4A90E2;
+  color: var(--color-primary);
   font-size: 1.25rem;
   font-weight: 700;
 }
@@ -316,23 +317,23 @@ export default {
   margin: 0 0 1rem 0;
   font-size: 0.875rem;
   font-weight: 600;
-  color: #1F2937;
+  color: var(--color-text);
 }
 
 .terms {
   display: flex;
   gap: 0.5rem;
   padding: 0.75rem;
-  background: #FEF3C7;
-  border-left: 3px solid #F59E0B;
+  background: var(--color-warning-light);
+  border-left: 3px solid var(--color-warning);
   border-radius: 4px;
   font-size: 0.75rem;
-  color: #92400E;
+  color: var(--color-text);
   line-height: 1.4;
 }
 
 .terms i {
-  color: #F59E0B;
+  color: var(--color-warning);
   margin-top: 2px;
   flex-shrink: 0;
 }

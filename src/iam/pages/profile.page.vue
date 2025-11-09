@@ -556,6 +556,9 @@ export default {
             :loading="disabling2FA" />
       </template>
     </pv-dialog>
+
+    <!-- Toast Messages -->
+    <pv-toast />
   </div>
 </template>
 

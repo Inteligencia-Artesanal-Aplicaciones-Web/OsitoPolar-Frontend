@@ -185,12 +185,9 @@ export default {
 
       // Check if user is logged in
       if (!this.isLoggedIn) {
-        // User NOT logged in → Show registration dialog
-        console.log('[Plans] User not logged in, showing registration dialog');
-        this.registrationDialog = {
-          visible: true,
-          selectedPlan: plan
-        };
+        // User NOT logged in → Redirect to Stripe Checkout for registration
+        console.log('[Plans] User not logged in, redirecting to registration checkout');
+        await this.handleRegistrationCheckout(plan);
         return;
       }
 
@@ -202,6 +199,57 @@ export default {
       } else {
         // Use embedded Stripe Elements form
         await this.handleEmbeddedPayment(plan);
+      }
+    },
+
+    async handleRegistrationCheckout(plan) {
+      console.log('[Plans] Initiating registration checkout for plan:', plan);
+
+      this.upgrading = true;
+      this.selectedPlanId = plan.id;
+
+      try {
+        // Determine user type based on plan (1-3 = Owner, 4-6 = Provider)
+        const userType = plan.id <= 3 ? 'Owner' : 'Provider';
+
+        // Build success and cancel URLs
+        const baseUrl = window.location.origin;
+        const successUrl = `${baseUrl}/registration/complete`;
+        const cancelUrl = `${baseUrl}/plans`;
+
+        console.log('[Plans] Creating registration checkout session:', {
+          planId: plan.id,
+          userType,
+          successUrl,
+          cancelUrl
+        });
+
+        // Call new registration checkout endpoint
+        const response = await this.authStore.createRegistrationCheckout(
+          plan.id,
+          userType,
+          successUrl,
+          cancelUrl
+        );
+
+        console.log('[Plans] Checkout session created, redirecting to:', response.checkoutUrl);
+
+        // Redirect to Stripe Checkout
+        window.location.href = response.checkoutUrl;
+
+        // Note: Code after this won't execute as user is redirected
+      } catch (error) {
+        console.error('[Plans] Error creating registration checkout:', error);
+
+        this.$refs.toast.add({
+          severity: 'error',
+          summary: 'Registration Error',
+          detail: error.response?.data?.message || error.message || 'Failed to start registration',
+          life: 5000
+        });
+
+        this.upgrading = false;
+        this.selectedPlanId = null;
       }
     },
 
@@ -316,7 +364,7 @@ export default {
 .plans-title {
   text-align: center;
   margin-bottom: 2rem;
-  color: #2c3e50;
+  color: var(--color-text);
 }
 
 .user-type-selector {
@@ -332,8 +380,8 @@ export default {
 }
 
 .type-btn.active {
-  background-color: #3498db;
-  color: white;
+  background-color: var(--color-primary);
+  color: var(--color-text-inverse);
 }
 
 .loading-container {
@@ -443,6 +491,6 @@ export default {
 .no-plans {
   text-align: center;
   padding: 2rem;
-  color: #7f8c8d;
+  color: var(--color-text-secondary);
 }
 </style>

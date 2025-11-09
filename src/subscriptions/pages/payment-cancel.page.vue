@@ -93,7 +93,7 @@ export default {
   align-items: center;
   justify-content: center;
   padding: 2rem;
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  background: linear-gradient(135deg, var(--color-gradient-start) 0%, var(--color-gradient-end) 100%);
 }
 
 .cancel-container {
@@ -103,12 +103,12 @@ export default {
   max-width: 600px;
   width: 100%;
   text-align: center;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 20px 60px var(--color-shadow-large);
 }
 
 .cancel-icon {
   font-size: 5rem;
-  color: var(--color-warning, #F59E0B);
+  color: var(--color-warning);
   margin-bottom: 1rem;
   animation: shake 0.5s ease-in-out;
 }
@@ -121,13 +121,13 @@ export default {
 
 .cancel-container h1 {
   font-size: 2rem;
-  color: var(--color-text, #1F2937);
+  color: var(--color-text);
   margin-bottom: 0.5rem;
 }
 
 .cancel-message {
   font-size: 1.1rem;
-  color: var(--color-text-secondary, #6B7280);
+  color: var(--color-text-secondary);
   margin-bottom: 2rem;
   line-height: 1.6;
 }
@@ -138,14 +138,14 @@ export default {
   gap: 1rem;
   padding: 1rem;
   background: var(--color-surface-hover);
-  border-left: 4px solid var(--color-warning, #F59E0B);
+  border-left: 4px solid var(--color-warning);
   border-radius: 8px;
   margin-bottom: 2rem;
   text-align: left;
 }
 
 .info-box i {
-  color: var(--color-warning, #F59E0B);
+  color: var(--color-warning);
   font-size: 1.5rem;
   flex-shrink: 0;
   margin-top: 2px;
@@ -175,12 +175,12 @@ export default {
 .faq-section {
   margin-top: 2rem;
   padding-top: 2rem;
-  border-top: 1px solid var(--surface-200, #E5E7EB);
+  border-top: 1px solid var(--color-border);
 }
 
 .faq-section h3 {
   font-size: 1rem;
-  color: var(--color-text-secondary, #6B7280);
+  color: var(--color-text-secondary);
   margin-bottom: 1rem;
 }
 
@@ -196,10 +196,10 @@ export default {
   align-items: center;
   gap: 0.5rem;
   padding: 0.75rem 1.5rem;
-  background: var(--surface-50, #F9FAFB);
-  border: 1px solid var(--surface-200, #E5E7EB);
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
   border-radius: 8px;
-  color: var(--color-primary, #667eea);
+  color: var(--color-primary);
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -207,11 +207,11 @@ export default {
 }
 
 .faq-link:hover {
-  background: var(--color-primary, #667eea);
-  color: white;
-  border-color: var(--color-primary, #667eea);
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  border-color: var(--color-primary);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 4px 12px var(--color-shadow-medium);
 }
 
 .faq-link i {
@@ -246,23 +246,6 @@ export default {
 
   .faq-link {
     width: 100%;
-  }
-}
-
-/* Dark mode support */
-@media (prefers-color-scheme: dark) {
-  .cancel-container {
-    background: var(--surface-800, #1F2937);
-  }
-
-  .faq-link {
-    background: var(--surface-700, #374151);
-    border-color: var(--surface-600, #4B5563);
-  }
-
-  .faq-link:hover {
-    background: var(--color-primary, #667eea);
-    border-color: var(--color-primary, #667eea);
   }
 }
 </style>
