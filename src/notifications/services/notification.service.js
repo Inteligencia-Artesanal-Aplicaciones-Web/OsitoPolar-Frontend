@@ -7,27 +7,39 @@ import { Notification } from "../models/notification.entity.js";
  */
 export class NotificationService {
     /**
-     * Fetch all notifications for a user, newest first.
-     * @param {string|number} userId
+     * Get all notifications for the authenticated user
      * @returns {Promise<Notification[]>}
      */
-    async getAllForUser(userId) {
-        const res = await httpInstance.get(
-            `/notifications?userId=${userId}&_sort=timestamp&_order=desc`
-        );
-        return res.data.map(item => new Notification(item));
+    async getAll() {
+        const response = await httpInstance.get('/notifications');
+        return response.data.map(item => new Notification(item));
     }
 
     /**
-     * Mark a notification as read on the server.
-     * @param {string|number} notificationId
-     * @returns {Promise<Notification>}
+     * Get unread notification count (for badge)
+     * @returns {Promise<number>}
+     */
+    async getUnreadCount() {
+        const response = await httpInstance.get('/notifications/unread-count');
+        return response.data.unreadCount;
+    }
+
+    /**
+     * Mark a notification as read
+     * @param {number} notificationId
+     * @returns {Promise<Object>}
      */
     async markAsRead(notificationId) {
-        const res = await httpInstance.patch(
-            `/notifications/${notificationId}`,
-            { status: 'read' }
-        );
-        return new Notification(res.data);
+        const response = await httpInstance.patch(`/notifications/${notificationId}/read`);
+        return response.data;
+    }
+
+    /**
+     * Mark all notifications as read
+     * @returns {Promise<Object>}
+     */
+    async markAllAsRead() {
+        const response = await httpInstance.patch('/notifications/read-all');
+        return response.data;
     }
 }
