@@ -192,13 +192,19 @@ export default {
 
 
 <template>
-  <div class="container">
-    <RouterLink to="/service-requests" class="link-back">
-      {{ $t('service.backToRequests') }}
-    </RouterLink>
+  <div class="page-container">
+    <div class="container">
+      <RouterLink to="/service-requests" class="link-back">
+        <i class="pi pi-arrow-left"></i>
+        <span>{{ $t('service.backToRequests') }}</span>
+      </RouterLink>
 
-    <h1 class="title">{{ $t('service.newServiceRequest') }}</h1>
-    <div class="step-indicator mb-8">
+      <div class="page-header">
+        <h1 class="title">{{ $t('service.newServiceRequest') }}</h1>
+        <p class="subtitle">{{ $t('service.steps.equipment') }} → {{ $t('service.steps.scheduling') }} → {{ $t('service.steps.confirmation') }}</p>
+      </div>
+
+      <div class="step-indicator">
       <div
           v-for="(step, index) in [$t('service.steps.equipment'), $t('service.steps.scheduling'), $t('service.steps.confirmation')]"
           :key="index"
@@ -348,161 +354,280 @@ export default {
         <button class="btn" @click="handleSubmit">{{ $t('service.form.sendRequest') }}</button>
       </div>
     </div>
+
+    <pv-confirm-dialog
+        :pt="{
+       root: { class: 'custom-confirm-dialog' },
+       header: { class: 'custom-confirm-header' },
+      message: { class: 'custom-confirm-message' },
+      icon: { class: 'custom-confirm-icon' },
+      footer: { class: 'custom-confirm-footer' }
+    }"
+    />
+    <pv-toast />
   </div>
-  <pv-confirm-dialog
-      :pt="{
-     root: { class: 'custom-confirm-dialog' },
-     header: { class: 'custom-confirm-header' },
-    message: { class: 'custom-confirm-message' },
-    icon: { class: 'custom-confirm-icon' },
-    footer: { class: 'custom-confirm-footer' }
-  }"
-  />
-  <pv-toast />
 </template>
 
 <style scoped>
-.container {
-  max-width: 768px;
-  margin: 0 auto;
-  padding: 2rem 1rem;
-  background-color: var(--color-background);
+.page-container {
   min-height: 100vh;
+  background-color: var(--color-background);
   transition: background-color 0.3s ease;
+  padding: 2rem 0;
 }
 
-.title {
-  font-size: 2rem;
-  font-weight: 700;
-  color: var(--color-primary);
-  margin-bottom: 1.5rem;
-  transition: color 0.3s ease;
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
 }
 
 .link-back {
-  display: inline-block;
-  color: var(--color-primary);
-  margin-bottom: 1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  margin-bottom: 2rem;
   font-weight: 500;
+  font-size: 0.95rem;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  border: 1px solid var(--color-border);
+}
+
+.link-back:hover {
+  color: var(--color-primary);
+  background: var(--color-surface-hover);
+  border-color: var(--color-primary);
+}
+
+.page-header {
+  margin-bottom: 2.5rem;
+  text-align: center;
+}
+
+.title {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: 0.5rem;
+  transition: color 0.3s ease;
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: var(--color-text-secondary);
   transition: color 0.3s ease;
 }
 
 .card {
   background: var(--color-card-background);
-  padding: 1.5rem;
-  border-radius: 1rem;
-  box-shadow: 0 4px 10px var(--color-shadow);
+  padding: 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px var(--color-shadow);
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 1.75rem;
   border: 1px solid var(--color-card-border);
   transition: background-color 0.3s ease, border-color 0.3s ease;
+  margin-bottom: 2rem;
 }
 
 label {
   color: var(--color-text);
-  font-weight: 500;
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+  display: block;
   transition: color 0.3s ease;
 }
 
 .input {
   width: 100%;
-  padding: 0.5rem;
-  border: 1px solid var(--color-border);
-  border-radius: 0.5rem;
+  padding: 0.875rem 1rem;
+  border: 2px solid var(--color-border);
+  border-radius: 12px;
   font-size: 1rem;
-  transition: box-shadow 0.3s, border-color 0.3s, background-color 0.3s ease, color 0.3s ease;
+  transition: all 0.3s ease;
   background-color: var(--color-surface-hover);
   color: var(--color-text);
+  font-family: inherit;
 }
 
 .input:focus {
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.25);
+  box-shadow: 0 0 0 3px var(--color-shadow);
   outline: none;
+  background-color: var(--color-card-background);
+}
+
+.input::placeholder {
+  color: var(--color-text-tertiary);
 }
 
 .radio-group {
   display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
-  margin-top: 0.5rem;
-  color: var(--color-text);
-  transition: color 0.3s ease;
+  margin-top: 0.75rem;
+}
+
+.radio-group label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background: var(--color-surface-hover);
+  border: 2px solid var(--color-border);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  font-size: 0.9rem;
+  margin-bottom: 0;
+}
+
+.radio-group label:hover {
+  border-color: var(--color-primary);
+  background: var(--color-card-background);
+}
+
+.radio-group input[type="radio"]:checked + label,
+.radio-group label:has(input[type="radio"]:checked) {
+  border-color: var(--color-primary);
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
 }
 
 .checkbox {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  margin-top: 0.5rem;
-  color: var(--color-text);
-  transition: color 0.3s ease;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  background: var(--color-surface-hover);
+  border: 2px solid var(--color-border);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  margin-top: 0.75rem;
+}
+
+.checkbox:hover {
+  border-color: var(--color-primary);
+  background: var(--color-card-background);
+}
+
+.checkbox input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
 }
 
 .actions {
   display: flex;
   justify-content: space-between;
-  margin-top: 1rem;
+  gap: 1rem;
+  margin-top: 1.5rem;
 }
 
 .btn {
-  background-color: var(--color-button-primary-bg);
+  background: linear-gradient(135deg, var(--color-gradient-start) 0%, var(--color-gradient-end) 100%);
   color: var(--color-text-inverse);
-  padding: 0.5rem 1.25rem;
+  padding: 0.875rem 2rem;
   border: none;
-  border-radius: 0.75rem;
+  border-radius: 12px;
   font-weight: 600;
+  font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px var(--color-shadow-medium);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .btn:hover:not(:disabled) {
-  background-color: var(--color-button-primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px var(--color-shadow-large);
+}
+
+.btn:active:not(:disabled) {
+  transform: translateY(0);
 }
 
 .btn:disabled {
-  opacity: 0.6;
+  opacity: 0.5;
   cursor: not-allowed;
+  background: var(--color-text-tertiary);
+  box-shadow: none;
+  transform: none;
 }
 
 .btn-outline {
   background-color: transparent;
-  border: 1px solid var(--color-primary);
-  color: var(--color-primary);
-  padding: 0.5rem 1.25rem;
-  border-radius: 0.75rem;
+  border: 2px solid var(--color-border);
+  color: var(--color-text);
+  padding: 0.875rem 2rem;
+  border-radius: 12px;
   font-weight: 600;
-  transition: all 0.3s;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .btn-outline:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
   background-color: var(--color-surface-hover);
+  transform: translateY(-2px);
 }
 
 .info-box {
-  background-color: var(--color-surface-hover);
-  padding: 1rem;
-  border-radius: 0.75rem;
-  transition: background-color 0.3s ease;
+  background: linear-gradient(135deg, var(--color-surface-hover) 0%, var(--color-surface-alt) 100%);
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid var(--color-border-light);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .info-box h2 {
   color: var(--color-primary);
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
   transition: color 0.3s ease;
 }
 
 .info-box ul {
   color: var(--color-text);
+  list-style: none;
+  padding: 0;
   transition: color 0.3s ease;
+}
+
+.info-box ul li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.info-box ul li:last-child {
+  border-bottom: none;
+}
+
+.info-box ul li strong {
+  color: var(--color-text);
+  font-weight: 600;
 }
 
 .step-indicator {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 1rem;
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
   position: relative;
+  padding: 0 1rem;
 }
 
 .step {
@@ -518,47 +643,105 @@ label {
 .step:not(:last-child)::after {
   content: '';
   position: absolute;
-  top: 35px;
+  top: 20px;
   right: -50%;
   width: 100%;
-  height: 2px;
+  height: 3px;
   background-color: var(--color-border);
   z-index: 0;
   transition: background-color 0.3s ease;
+  border-radius: 2px;
 }
 
 .step.completed:not(:last-child)::after {
-  background-color: var(--color-primary);
+  background: linear-gradient(90deg, var(--color-gradient-start) 0%, var(--color-gradient-end) 100%);
 }
 
 .circle {
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  background-color: var(--color-border);
-  color: var(--color-text-inverse);
+  background-color: var(--color-surface-alt);
+  border: 3px solid var(--color-border);
+  color: var(--color-text-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 600;
-  margin-bottom: 0.25rem;
-  transition: background-color 0.3s;
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px var(--color-shadow);
 }
 
 .step.active .circle {
-  background-color: var(--color-primary);
+  background: linear-gradient(135deg, var(--color-gradient-start) 0%, var(--color-gradient-end) 100%);
+  border-color: var(--color-primary);
+  color: var(--color-text-inverse);
+  transform: scale(1.1);
 }
 
 .step.completed .circle {
-  background-color: var(--color-primary);
+  background: var(--color-success);
+  border-color: var(--color-success);
+  color: var(--color-text-inverse);
 }
 
 .label {
-  font-size: 0.875rem;
-  font-weight: 500;
+  font-size: 0.9rem;
+  font-weight: 600;
   color: var(--color-text-secondary);
   transition: color 0.3s ease;
 }
 
+.step.active .label {
+  color: var(--color-primary);
+}
 
+.step.completed .label {
+  color: var(--color-success);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 1rem;
+  }
+
+  .card {
+    padding: 1.5rem;
+    gap: 1.5rem;
+  }
+
+  .title {
+    font-size: 1.75rem;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  .btn, .btn-outline {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .radio-group {
+    flex-direction: column;
+  }
+
+  .step-indicator {
+    padding: 0;
+  }
+
+  .circle {
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
+  }
+
+  .label {
+    font-size: 0.8rem;
+  }
+}
 </style>

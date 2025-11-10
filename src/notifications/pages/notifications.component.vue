@@ -16,6 +16,11 @@ export default {
       loading: false
     };
   },
+  computed: {
+    unreadCount() {
+      return this.notifications.filter(n => !n.isRead).length;
+    }
+  },
   methods: {
     async loadNotifications() {
       this.loading = true;
@@ -98,7 +103,15 @@ export default {
 <template>
   <div class="notifications-page">
     <div class="page-header">
-      <h1>{{ $t('notifications.title') || 'Notifications' }}</h1>
+      <div class="header-content">
+        <div class="header-left">
+          <i class="pi pi-bell header-icon"></i>
+          <h1>{{ $t('notifications.title') }}</h1>
+        </div>
+        <div v-if="unreadCount > 0" class="unread-badge">
+          {{ unreadCount }}
+        </div>
+      </div>
     </div>
 
     <div class="notifications-container">
@@ -111,31 +124,74 @@ export default {
       />
     </div>
   </div>
+  <pv-toast />
 </template>
 
 <style scoped>
 .notifications-page {
   padding: 2rem;
-  max-width: 900px;
+  max-width: 1000px;
   margin: 0 auto;
+  min-height: 100vh;
+  background-color: var(--color-background);
+  transition: background-color 0.3s ease;
 }
 
 .page-header {
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  background: var(--color-card-background);
+  border-radius: 16px;
+  box-shadow: 0 4px 20px var(--color-shadow);
+  border: 1px solid var(--color-card-border);
+  transition: all 0.3s ease;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.header-icon {
+  font-size: 1.75rem;
+  color: var(--color-primary);
+  transition: color 0.3s ease;
 }
 
 h1 {
-  color: var(--color-primary);
+  color: var(--color-text);
   margin: 0;
-  font-size: 1.75rem;
-  font-weight: 600;
+  font-size: 2rem;
+  font-weight: 700;
+  transition: color 0.3s ease;
+}
+
+.unread-badge {
+  background: linear-gradient(135deg, var(--color-gradient-start) 0%, var(--color-gradient-end) 100%);
+  color: var(--color-text-inverse);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  min-width: 2.5rem;
+  text-align: center;
+  box-shadow: 0 2px 8px var(--color-shadow-medium);
 }
 
 .notifications-container {
-  background: var(--color-surface);
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: var(--color-card-background);
+  border-radius: 16px;
+  box-shadow: 0 4px 20px var(--color-shadow);
   overflow: hidden;
+  border: 1px solid var(--color-card-border);
+  transition: all 0.3s ease;
 }
 
 @media (max-width: 768px) {
@@ -143,8 +199,21 @@ h1 {
     padding: 1rem;
   }
 
+  .header-content {
+    padding: 1rem 1.25rem;
+  }
+
+  .header-icon {
+    font-size: 1.5rem;
+  }
+
   h1 {
     font-size: 1.5rem;
+  }
+
+  .unread-badge {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
   }
 }
 </style>
