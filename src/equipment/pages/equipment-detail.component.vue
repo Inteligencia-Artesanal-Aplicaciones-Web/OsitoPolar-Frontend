@@ -162,8 +162,34 @@ export default {
           isPoweredOn: newPowerState
         });
         this.equipment.isPoweredOn = newPowerState;
+
+        // Show success toast
+        this.$toast.add({
+          severity: 'success',
+          summary: this.$t('equipment.control.powerToggled'),
+          detail: newPowerState ? this.$t('equipment.control.poweredOn') : this.$t('equipment.control.poweredOff'),
+          life: 3000
+        });
       } catch (error) {
         console.error('Error toggling power:', error);
+
+        // Check if it's a 403 Forbidden error (Provider trying to control equipment)
+        if (error.response?.status === 403) {
+          this.$toast.add({
+            severity: 'warn',
+            summary: this.$t('equipment.control.notAllowed'),
+            detail: this.$t('equipment.control.onlyOwnersCanControl'),
+            life: 5000
+          });
+        } else {
+          // Generic error message
+          this.$toast.add({
+            severity: 'error',
+            summary: this.$t('common.error'),
+            detail: error.message || this.$t('equipment.control.errorTogglingPower'),
+            life: 5000
+          });
+        }
       }
     },
 

@@ -101,6 +101,14 @@
       "power": "Encendido",
       "on": "ENCENDIDO",
       "off": "APAGADO"
+    },
+    "control": {
+      "powerToggled": "Encendido Actualizado",
+      "poweredOn": "El equipo ha sido ENCENDIDO",
+      "poweredOff": "El equipo ha sido APAGADO",
+      "notAllowed": "Acción No Permitida",
+      "onlyOwnersCanControl": "Solo los dueños del equipo pueden controlar sus equipos de forma remota. Los proveedores pueden ver pero no controlar.",
+      "errorTogglingPower": "Error al cambiar el estado del equipo. Por favor, inténtelo de nuevo."
     }
   },
   "service": {

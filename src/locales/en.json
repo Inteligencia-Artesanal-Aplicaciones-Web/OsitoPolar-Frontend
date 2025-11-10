@@ -101,6 +101,14 @@
       "power": "Power",
       "on": "ON",
       "off": "OFF"
+    },
+    "control": {
+      "powerToggled": "Power Updated",
+      "poweredOn": "Equipment has been turned ON",
+      "poweredOff": "Equipment has been turned OFF",
+      "notAllowed": "Action Not Allowed",
+      "onlyOwnersCanControl": "Only equipment owners can control their equipment remotely. Providers can view but not control.",
+      "errorTogglingPower": "Failed to toggle power. Please try again."
     }
   },
   "service": {
