@@ -242,8 +242,11 @@
     "home": "Inicio",
     "myMachines": "Mis Máquinas",
     "myServiceRequests": "Mis solicitudes de servicio",
-    "marketplace": "Mercado",
-    "rent": "Alquilar",
+    "marketplace": "Mercado de Servicios",
+    "technicians": "Técnicos",
+    "workOrders": "Órdenes de Trabajo",
+    "rent": "Mercado de Alquiler",
+    "paymentHistory": "Historial de Pagos",
     "plans": "Planes",
     "contact": "Contacto",
     "language": "Idioma"
@@ -496,6 +499,43 @@
       "cancelledMessage": "Envío cancelado."
     }
   },
+  "paymentHistory": {
+    "title": "Historial de Pagos",
+    "ownerSubtitle": "Ver todos los pagos realizados por servicios",
+    "providerSubtitle": "Ver todos los pagos recibidos por servicios",
+    "loading": "Cargando historial de pagos...",
+    "retry": "Reintentar",
+    "loadError": "Error al cargar el historial de pagos",
+    "totalPaid": "Total Pagado",
+    "totalReceived": "Total Recibido",
+    "platformFees": "Comisiones de Plataforma",
+    "currentBalance": "Balance Actual",
+    "totalTransactions": "Total de Transacciones",
+    "transactionHistory": "Historial de Transacciones",
+    "noPayments": "No se encontraron pagos",
+    "workOrderNumber": "Orden #",
+    "serviceDescription": "Servicio",
+    "totalAmount": "Monto Total",
+    "platformFee": "Comisión Plataforma",
+    "youPaid": "Usted Pagó",
+    "youReceived": "Usted Recibió",
+    "status": "Estado",
+    "date": "Fecha",
+    "actions": "Acciones",
+    "viewDetails": "Ver Detalles",
+    "paymentDetails": "Detalles del Pago",
+    "paymentId": "ID de Pago",
+    "description": "Descripción",
+    "completedAt": "Completado El",
+    "stripePaymentId": "ID de Pago Stripe",
+    "notAvailable": "N/D",
+    "statusTypes": {
+      "Completed": "Completado",
+      "Pending": "Pendiente",
+      "Failed": "Fallido",
+      "Cancelled": "Cancelado"
+    }
+  },
   "client": {
     "rating": {
       "rateService": "Calificar Servicio",
@@ -702,6 +742,61 @@
       "disableError": "Deshabilitación Fallida",
       "disableErrorDetail": "Error al deshabilitar 2FA",
       "keyCopied": "Clave de entrada manual copiada al portapapeles"
+    },
+    "paymentHistory": {
+      "title": "Historial de Pagos",
+      "summary": {
+        "totalPaid": "Total Pagado",
+        "totalReceived": "Ingresos Totales",
+        "successfulPayments": "Pagos Exitosos",
+        "pendingPayments": "Pagos Pendientes"
+      },
+      "platformFees": "Comisiones de Plataforma",
+      "currentBalance": "Saldo Actual",
+      "totalTransactions": "Transacciones Totales",
+      "workOrder": "Orden de Trabajo",
+      "recentPayments": "Pagos Recientes (Últimos 5)",
+      "date": "Fecha",
+      "description": "Descripción",
+      "amount": "Monto",
+      "status": "Estado",
+      "type": "Tipo",
+      "statuses": {
+        "completed": "Completado",
+        "pending": "Pendiente",
+        "failed": "Fallido",
+        "refunded": "Reembolsado"
+      },
+      "types": {
+        "subscription": "Suscripción",
+        "service": "Pago de Servicio",
+        "rental": "Pago de Alquiler",
+        "commission": "Comisión de Plataforma"
+      },
+      "loading": "Cargando historial de pagos...",
+      "noPayments": "No hay historial de pagos disponible",
+      "error": "Error al cargar el historial de pagos"
+    },
+    "withdrawal": {
+      "title": "Retiro",
+      "availableBalance": "Saldo Disponible",
+      "requestWithdrawal": "Solicitar Retiro",
+      "minimumAmount": "Retiro mínimo: $10.00",
+      "dialog": {
+        "title": "Solicitar Retiro",
+        "amountLabel": "Monto del Retiro",
+        "cancel": "Cancelar",
+        "confirm": "Confirmar Retiro",
+        "requesting": "Procesando..."
+      },
+      "success": "Retiro Solicitado",
+      "successDetail": "Su solicitud de retiro ha sido enviada exitosamente",
+      "error": "Retiro Fallido",
+      "errorDetail": "Error al procesar la solicitud de retiro. Por favor, inténtelo de nuevo.",
+      "minimumError": "Monto Mínimo",
+      "minimumErrorDetail": "El monto mínimo de retiro es $10.00",
+      "insufficientFunds": "Fondos Insuficientes",
+      "insufficientFundsDetail": "No tiene suficiente saldo para este retiro"
     }
   },
   "common": {

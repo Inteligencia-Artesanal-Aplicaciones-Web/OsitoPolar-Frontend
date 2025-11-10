@@ -7,6 +7,8 @@ import UserInfoCard from '../components/user-info-card.component.vue';
 import authService from '../services/auth.service';
 import userService from '../services/user.service';
 import { useAuthStore } from '../store/auth.store';
+import { paymentHistoryService } from '@/subscriptions/services/payment-history.service';
+import { withdrawalService } from '@/subscriptions/services/withdrawal.service';
 import Tooltip from 'primevue/tooltip';
 
 export default {
@@ -41,7 +43,15 @@ export default {
       enabling2FA: false,
       // Disable 2FA dialog
       showDisable2FADialog: false,
-      disabling2FA: false
+      disabling2FA: false,
+      // Payment History state
+      loadingPaymentHistory: false,
+      paymentData: null,
+      // Withdrawal state (Provider only)
+      loadingWithdrawal: false,
+      withdrawalAmount: '',
+      showWithdrawalDialog: false,
+      requestingWithdrawal: false
     };
   },
 
@@ -52,6 +62,14 @@ export default {
 
     username() {
       return this.currentUser?.username || this.authStore.username;
+    },
+
+    isProvider() {
+      return this.userProfile?.userType === 'Provider';
+    },
+
+    isOwner() {
+      return this.userProfile?.userType === 'Owner';
     }
   },
 
@@ -61,6 +79,8 @@ export default {
       this.loadUserProfile(),
       this.load2FAStatus()
     ]);
+    // Load payment history after profile is loaded (need to know if Owner or Provider)
+    await this.loadPaymentHistory();
   },
 
   methods: {
@@ -322,6 +342,100 @@ export default {
      */
     handleBecomeProvider() {
       this.$router.push('/plans?type=provider');
+    },
+
+    /**
+     * Load payment history based on user type
+     */
+    async loadPaymentHistory() {
+      if (!this.userProfile) return;
+
+      this.loadingPaymentHistory = true;
+
+      try {
+        if (this.isProvider) {
+          this.paymentData = await paymentHistoryService.getProviderPaymentHistory();
+        } else if (this.isOwner) {
+          this.paymentData = await paymentHistoryService.getOwnerPaymentHistory();
+        }
+      } catch (error) {
+        console.error('[Profile] Error loading payment history:', error);
+      } finally {
+        this.loadingPaymentHistory = false;
+      }
+    },
+
+    /**
+     * Open withdrawal dialog (Provider only)
+     */
+    openWithdrawalDialog() {
+      this.withdrawalAmount = '';
+      this.showWithdrawalDialog = true;
+    },
+
+    /**
+     * Request withdrawal (Provider only)
+     */
+    async requestWithdrawal() {
+      if (!this.withdrawalAmount || parseFloat(this.withdrawalAmount) < 10) {
+        this.$toast.add({
+          severity: 'warn',
+          summary: this.$t('profile.withdrawal.minimumError') || 'Minimum Amount',
+          detail: this.$t('profile.withdrawal.minimumErrorDetail') || 'Minimum withdrawal amount is $10.00',
+          life: 3000
+        });
+        return;
+      }
+
+      this.requestingWithdrawal = true;
+
+      try {
+        await withdrawalService.requestWithdrawal(parseFloat(this.withdrawalAmount));
+
+        this.$toast.add({
+          severity: 'success',
+          summary: this.$t('profile.withdrawal.success') || 'Withdrawal Requested',
+          detail: this.$t('profile.withdrawal.successDetail') || 'Your withdrawal request has been submitted',
+          life: 5000
+        });
+
+        // Reload profile to update balance
+        await this.loadUserProfile();
+        await this.loadPaymentHistory();
+
+        // Close dialog
+        this.showWithdrawalDialog = false;
+        this.withdrawalAmount = '';
+      } catch (error) {
+        console.error('[Profile] Error requesting withdrawal:', error);
+        this.$toast.add({
+          severity: 'error',
+          summary: this.$t('profile.withdrawal.error') || 'Withdrawal Failed',
+          detail: error.response?.data?.message || this.$t('profile.withdrawal.errorDetail') || 'Failed to request withdrawal',
+          life: 3000
+        });
+      } finally {
+        this.requestingWithdrawal = false;
+      }
+    },
+
+    /**
+     * Format currency amount
+     */
+    formatAmount(amount) {
+      return parseFloat(amount || 0).toFixed(2);
+    },
+
+    /**
+     * Format date
+     */
+    formatDate(dateString) {
+      if (!dateString) return 'N/A';
+      return new Date(dateString).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric'
+      });
     }
   }
 };
@@ -423,6 +537,115 @@ export default {
                   : ($t('profile.2fa.disabledInfo') || 'Enable two-factor authentication to add an extra layer of security. You will need an authenticator app like Google Authenticator or Authy.')
                 }}
               </p>
+            </div>
+          </div>
+        </template>
+      </pv-card>
+
+      <!-- Payment History Section (for both Owner and Provider) -->
+      <pv-card v-if="userProfile" class="payment-history-card">
+        <template #title>
+          <div class="section-title">
+            <i class="pi pi-dollar"></i>
+            {{ $t('profile.paymentHistory.title') || 'Payment History' }}
+          </div>
+        </template>
+
+        <template #content>
+          <!-- Loading State -->
+          <div v-if="loadingPaymentHistory" class="loading-container">
+            <pv-progress-spinner />
+            <p>{{ $t('profile.paymentHistory.loading') || 'Loading payment history...' }}</p>
+          </div>
+
+          <!-- Payment History Data -->
+          <div v-else-if="paymentData" class="payment-history-content">
+            <!-- Summary Stats -->
+            <div class="summary-grid">
+              <div class="summary-item">
+                <span class="summary-label">{{ isProvider ? $t('profile.paymentHistory.totalReceived') : $t('profile.paymentHistory.totalPaid') }}</span>
+                <span class="summary-value">${{ formatAmount(isProvider ? paymentData.totalReceived : paymentData.totalPaid) }}</span>
+              </div>
+              <div class="summary-item">
+                <span class="summary-label">{{ $t('profile.paymentHistory.platformFees') }}</span>
+                <span class="summary-value">${{ formatAmount(paymentData.totalPlatformFees) }}</span>
+              </div>
+              <div v-if="isProvider" class="summary-item">
+                <span class="summary-label">{{ $t('profile.paymentHistory.currentBalance') }}</span>
+                <span class="summary-value highlight">${{ formatAmount(paymentData.currentBalance) }}</span>
+              </div>
+              <div class="summary-item">
+                <span class="summary-label">{{ $t('profile.paymentHistory.totalTransactions') }}</span>
+                <span class="summary-value">{{ paymentData.totalPayments }}</span>
+              </div>
+            </div>
+
+            <!-- Recent Payments Table -->
+            <div v-if="paymentData.payments && paymentData.payments.length > 0" class="recent-payments">
+              <h4>{{ $t('profile.paymentHistory.recentPayments') || 'Recent Payments' }}</h4>
+              <pv-datatable
+                  :value="paymentData.payments.slice(0, 5)"
+                  responsiveLayout="scroll"
+                  class="compact-table">
+                <pv-column field="workOrderNumber" :header="$t('profile.paymentHistory.workOrder') || 'Work Order'">
+                  <template #body="slotProps">
+                    <span class="work-order-badge">{{ slotProps.data.workOrderNumber }}</span>
+                  </template>
+                </pv-column>
+                <pv-column field="workOrderTitle" :header="$t('profile.paymentHistory.description') || 'Description'"></pv-column>
+                <pv-column field="totalAmount" :header="$t('profile.paymentHistory.amount') || 'Amount'">
+                  <template #body="slotProps">
+                    ${{ formatAmount(slotProps.data.totalAmount) }}
+                  </template>
+                </pv-column>
+                <pv-column field="createdAt" :header="$t('profile.paymentHistory.date') || 'Date'">
+                  <template #body="slotProps">
+                    {{ formatDate(slotProps.data.createdAt) }}
+                  </template>
+                </pv-column>
+              </pv-datatable>
+            </div>
+
+            <!-- No Payments -->
+            <div v-else class="no-data">
+              <i class="pi pi-inbox"></i>
+              <p>{{ $t('profile.paymentHistory.noPayments') || 'No payment history yet' }}</p>
+            </div>
+          </div>
+        </template>
+      </pv-card>
+
+      <!-- Withdrawal Section (Provider only) -->
+      <pv-card v-if="isProvider && paymentData" class="withdrawal-card">
+        <template #title>
+          <div class="section-title">
+            <i class="pi pi-wallet"></i>
+            {{ $t('profile.withdrawal.title') || 'Withdrawals' }}
+          </div>
+        </template>
+
+        <template #content>
+          <div class="withdrawal-content">
+            <!-- Current Balance -->
+            <div class="balance-info">
+              <div class="balance-label">{{ $t('profile.withdrawal.availableBalance') || 'Available Balance' }}</div>
+              <div class="balance-amount">${{ formatAmount(paymentData.currentBalance) }}</div>
+            </div>
+
+            <!-- Withdrawal Button -->
+            <pv-button
+                :label="$t('profile.withdrawal.requestWithdrawal') || 'Request Withdrawal'"
+                icon="pi pi-money-bill"
+                severity="success"
+                size="large"
+                class="withdrawal-button"
+                :disabled="!paymentData.currentBalance || paymentData.currentBalance < 10"
+                @click="openWithdrawalDialog" />
+
+            <!-- Minimum Info -->
+            <div class="info-box">
+              <i class="pi pi-info-circle"></i>
+              <p>{{ $t('profile.withdrawal.minimumInfo') || 'Minimum withdrawal amount is $10.00. Funds will be transferred to your registered bank account.' }}</p>
             </div>
           </div>
         </template>
@@ -554,6 +777,57 @@ export default {
             severity="danger"
             @click="confirmDisable2FA"
             :loading="disabling2FA" />
+      </template>
+    </pv-dialog>
+
+    <!-- Withdrawal Request Dialog (Provider only) -->
+    <pv-dialog
+        v-model:visible="showWithdrawalDialog"
+        :header="$t('profile.withdrawal.dialogTitle') || 'Request Withdrawal'"
+        :closable="!requestingWithdrawal"
+        :modal="true"
+        :style="{ width: '500px' }">
+      <div class="withdrawal-dialog-content">
+        <div class="current-balance-display">
+          <span class="balance-label-small">{{ $t('profile.withdrawal.availableBalance') || 'Available Balance' }}</span>
+          <span class="balance-amount-small">${{ formatAmount(paymentData?.currentBalance) }}</span>
+        </div>
+
+        <div class="form-field">
+          <label for="withdrawal-amount">{{ $t('profile.withdrawal.amountLabel') || 'Withdrawal Amount' }}</label>
+          <pv-input-number
+              id="withdrawal-amount"
+              v-model="withdrawalAmount"
+              mode="currency"
+              currency="USD"
+              locale="en-US"
+              :min="10"
+              :max="paymentData?.currentBalance"
+              :placeholder="$t('profile.withdrawal.amountPlaceholder') || 'Enter amount'"
+              class="withdrawal-input" />
+          <small class="field-hint">{{ $t('profile.withdrawal.minimumHint') || 'Minimum: $10.00' }}</small>
+        </div>
+
+        <div class="withdrawal-info-box">
+          <i class="pi pi-info-circle"></i>
+          <p>{{ $t('profile.withdrawal.processingInfo') || 'Withdrawal requests are processed within 3-5 business days. Funds will be transferred to your registered bank account.' }}</p>
+        </div>
+      </div>
+
+      <template #footer>
+        <pv-button
+            :label="$t('common.cancel') || 'Cancel'"
+            severity="secondary"
+            @click="showWithdrawalDialog = false"
+            :disabled="requestingWithdrawal"
+            outlined />
+        <pv-button
+            :label="$t('profile.withdrawal.confirm') || 'Confirm Withdrawal'"
+            icon="pi pi-check"
+            severity="success"
+            @click="requestWithdrawal"
+            :loading="requestingWithdrawal"
+            :disabled="!withdrawalAmount || withdrawalAmount < 10" />
       </template>
     </pv-dialog>
 
@@ -1075,6 +1349,198 @@ export default {
   .code-input {
     font-size: 1.25rem;
     letter-spacing: 0.3rem;
+  }
+}
+
+/* Payment History Section */
+.payment-history-card,
+.withdrawal-card {
+  margin-top: 2rem;
+}
+
+.payment-history-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.summary-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.25rem;
+  background: var(--color-surface-alt);
+  border-radius: 10px;
+  border: 1px solid var(--color-border);
+  transition: all 0.2s ease;
+}
+
+.summary-item:hover {
+  border-color: var(--color-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px var(--color-shadow);
+}
+
+.summary-label {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+.summary-value {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.summary-value.highlight {
+  color: var(--color-success);
+}
+
+.recent-payments h4 {
+  margin-bottom: 1rem;
+  color: var(--color-text);
+}
+
+.work-order-badge {
+  background: var(--color-primary);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.no-data {
+  text-align: center;
+  padding: 3rem 2rem;
+  color: var(--color-text-secondary);
+}
+
+.no-data i {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+/* Withdrawal Section */
+.withdrawal-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.balance-info {
+  text-align: center;
+  padding: 2rem;
+  background: linear-gradient(135deg, var(--color-success) 0%, var(--color-primary) 100%);
+  border-radius: 12px;
+  color: white;
+}
+
+.balance-label {
+  font-size: 1rem;
+  opacity: 0.9;
+  margin-bottom: 0.5rem;
+}
+
+.balance-amount {
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+.withdrawal-button {
+  width: 100%;
+  font-weight: 600;
+  padding: 1rem;
+}
+
+/* Withdrawal Dialog */
+.withdrawal-dialog-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.current-balance-display {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem;
+  background: var(--color-surface-alt);
+  border-radius: 10px;
+  border: 2px solid var(--color-primary);
+}
+
+.balance-label-small {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+.balance-amount-small {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-success);
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-field label {
+  font-weight: 600;
+  color: var(--color-text);
+  font-size: 0.95rem;
+}
+
+.withdrawal-input {
+  width: 100%;
+}
+
+.field-hint {
+  color: var(--color-text-secondary);
+  font-size: 0.875rem;
+}
+
+.withdrawal-info-box {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  background: var(--color-surface-alt);
+  border-radius: 8px;
+  border-left: 3px solid var(--color-info);
+}
+
+.withdrawal-info-box i {
+  color: var(--color-info);
+  font-size: 1.25rem;
+  flex-shrink: 0;
+  margin-top: 0.25rem;
+}
+
+.withdrawal-info-box p {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+  .summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .balance-amount {
+    font-size: 2rem;
   }
 }
 </style>

@@ -21,9 +21,11 @@ export default {
       menu: [
         { label: 'option.home', to: '/home' },
         { label: 'option.myMachines', to: '/equipment' },
-        { label: 'option.myServiceRequests', to: '/service-requests' },
+        { label: 'option.myServiceRequests', to: '/service-requests', requiresOwner: true },
         { label: 'option.marketplace', to: '/marketplace', requiresProvider: true },
-        { label: 'option.rent', to: '/rental' },
+        { label: 'option.technicians', to: '/technicians', requiresProvider: true },
+        { label: 'option.workOrders', to: '/work-orders', requiresProvider: true },
+        { label: 'option.rent', to: '/rental', requiresOwner: true },
         { label: 'option.plans', to: '/plans' },
         { label: 'option.contact', to: '/contact' },
       ],
@@ -118,8 +120,8 @@ export default {
     },
 
     shouldShowMenuItem(item) {
-      // Public routes (home, contact) - always visible
-      if (item.to === '/home' || item.to === '/contact') {
+      // Public routes (home, contact, plans) - always visible
+      if (item.to === '/home' || item.to === '/contact' || item.to === '/plans') {
         return true;
       }
 
@@ -133,7 +135,12 @@ export default {
         return this.currentUser?.userType === 'Provider';
       }
 
-      // All other authenticated routes
+      // Owner-only routes
+      if (item.requiresOwner) {
+        return this.currentUser?.userType === 'Owner';
+      }
+
+      // All other authenticated routes (My Equipment)
       return true;
     }
   }

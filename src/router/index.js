@@ -32,6 +32,7 @@ const PlansComponent          = () => import('../subscriptions/pages/plans.compo
 const RegistrationCompletePage = () => import('../iam/pages/registration-complete.page.vue');
 const PaymentSuccessPage      = () => import('../subscriptions/pages/payment-success.page.vue');
 const PaymentCancelPage       = () => import('../subscriptions/pages/payment-cancel.page.vue');
+const PaymentHistoryPage      = () => import('../subscriptions/pages/payment-history.page.vue');
 const WorkOrderListComponent = () => import('../field-operations/pages/work-order-list.component.vue');
 const NewWorkOrderComponent = () => import('../field-operations/pages/new-work-order.component.vue');
 const TechnicianListComponent = () => import('../field-operations/pages/technician-list.component.vue');
@@ -196,6 +197,12 @@ const routes = [
         name: 'payment-cancel',
         component: PaymentCancelPage,
         meta: { title: 'Payment Cancelled', requiresAuth: true }
+    },
+    {
+        path: '/payment-history',
+        name: 'payment-history',
+        component: PaymentHistoryPage,
+        meta: { title: 'Payment History', requiresAuth: true }
     },
 
     // Work Order routes (all protected)

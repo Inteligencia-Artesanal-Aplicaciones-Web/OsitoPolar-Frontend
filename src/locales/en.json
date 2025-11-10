@@ -248,8 +248,11 @@
     "home": "Home",
     "myMachines": "My Machines",
     "myServiceRequests": "My Service Requests",
-    "marketplace": "Marketplace",
-    "rent": "Rent",
+    "marketplace": "Service Marketplace",
+    "technicians": "Technicians",
+    "workOrders": "Work Orders",
+    "rent": "Rental Marketplace",
+    "paymentHistory": "Payment History",
     "plans": "Plans",
     "contact": "Contact",
     "language": "Language"
@@ -498,6 +501,43 @@
       "Repair": "Repair"
     }
   },
+  "paymentHistory": {
+    "title": "Payment History",
+    "ownerSubtitle": "View all payments made for services",
+    "providerSubtitle": "View all payments received from services",
+    "loading": "Loading payment history...",
+    "retry": "Retry",
+    "loadError": "Failed to load payment history",
+    "totalPaid": "Total Paid",
+    "totalReceived": "Total Received",
+    "platformFees": "Platform Fees",
+    "currentBalance": "Current Balance",
+    "totalTransactions": "Total Transactions",
+    "transactionHistory": "Transaction History",
+    "noPayments": "No payments found",
+    "workOrderNumber": "Work Order #",
+    "serviceDescription": "Service",
+    "totalAmount": "Total Amount",
+    "platformFee": "Platform Fee",
+    "youPaid": "You Paid",
+    "youReceived": "You Received",
+    "status": "Status",
+    "date": "Date",
+    "actions": "Actions",
+    "viewDetails": "View Details",
+    "paymentDetails": "Payment Details",
+    "paymentId": "Payment ID",
+    "description": "Description",
+    "completedAt": "Completed At",
+    "stripePaymentId": "Stripe Payment ID",
+    "notAvailable": "N/A",
+    "statusTypes": {
+      "Completed": "Completed",
+      "Pending": "Pending",
+      "Failed": "Failed",
+      "Cancelled": "Cancelled"
+    }
+  },
   "client": {
     "rating": {
       "rateService": "Rate Service",
@@ -716,6 +756,61 @@
       "disableError": "Disable Failed",
       "disableErrorDetail": "Failed to disable 2FA",
       "keyCopied": "Manual entry key copied to clipboard"
+    },
+    "paymentHistory": {
+      "title": "Payment History",
+      "summary": {
+        "totalPaid": "Total Paid",
+        "totalReceived": "Total Revenue",
+        "successfulPayments": "Successful Payments",
+        "pendingPayments": "Pending Payments"
+      },
+      "platformFees": "Platform Fees",
+      "currentBalance": "Current Balance",
+      "totalTransactions": "Total Transactions",
+      "workOrder": "Work Order",
+      "recentPayments": "Recent Payments (Last 5)",
+      "date": "Date",
+      "description": "Description",
+      "amount": "Amount",
+      "status": "Status",
+      "type": "Type",
+      "statuses": {
+        "completed": "Completed",
+        "pending": "Pending",
+        "failed": "Failed",
+        "refunded": "Refunded"
+      },
+      "types": {
+        "subscription": "Subscription",
+        "service": "Service Payment",
+        "rental": "Rental Payment",
+        "commission": "Platform Commission"
+      },
+      "loading": "Loading payment history...",
+      "noPayments": "No payment history available",
+      "error": "Error loading payment history"
+    },
+    "withdrawal": {
+      "title": "Withdrawal",
+      "availableBalance": "Available Balance",
+      "requestWithdrawal": "Request Withdrawal",
+      "minimumAmount": "Minimum withdrawal: $10.00",
+      "dialog": {
+        "title": "Request Withdrawal",
+        "amountLabel": "Withdrawal Amount",
+        "cancel": "Cancel",
+        "confirm": "Confirm Withdrawal",
+        "requesting": "Processing..."
+      },
+      "success": "Withdrawal Requested",
+      "successDetail": "Your withdrawal request has been submitted successfully",
+      "error": "Withdrawal Failed",
+      "errorDetail": "Failed to process withdrawal request. Please try again.",
+      "minimumError": "Minimum Amount",
+      "minimumErrorDetail": "Minimum withdrawal amount is $10.00",
+      "insufficientFunds": "Insufficient Funds",
+      "insufficientFundsDetail": "You don't have enough balance for this withdrawal"
     }
   },
   "common": {
