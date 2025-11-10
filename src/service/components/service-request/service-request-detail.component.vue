@@ -52,7 +52,7 @@ export default {
   >
     <div v-if="request" class="dialog-content">
       <div class="field"><strong>{{ $t('service.orderNumber') }}:</strong> {{ request.orderNumber }}</div>
-      <div class="field"><strong>{{ $t('service.status') }}:</strong> {{ $t(`service.status.${request.status}`) }}</div>
+      <div class="field"><strong>{{ $t('service.statusLabel') }}:</strong> {{ $t(`service.status.${request.status}`) }}</div>
       <div class="field"><strong>{{ $t('service.description') }}:</strong> {{ request.description }}</div>
       <div class="field"><strong>{{ $t('service.equipment') }}:</strong> {{ equipmentDisplay }}</div>
       <div class="field"><strong>{{ $t('service.location') }}:</strong> {{ locationDisplay }}</div>

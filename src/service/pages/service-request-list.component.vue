@@ -185,7 +185,7 @@ export default {
         <template #subtitle>
           <div class="card-subtitle-content">
             <span class="pi pi-info-circle"></span>
-            <span>{{ $t('service.status') }}:</span>
+            <span>{{ $t('service.statusLabel') }}:</span>
             <span :class="['status-badge', req.getStatusBadgeClass()]">
               {{ $t(`service.status.${req.status}`) }}
             </span>

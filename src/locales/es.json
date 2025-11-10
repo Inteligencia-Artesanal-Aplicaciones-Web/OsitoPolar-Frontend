@@ -1,4 +1,4 @@
-﻿{
+{
   "home": {
     "welcome": "Bienvenido a OsitoPolar",
     "subtitle": "Gestión inteligente de equipos de refrigeración",
@@ -114,6 +114,7 @@
     "requestedOn": "Solicitado el",
     "scheduledFor": "Programado para",
     "serviceType": "Tipo de Servicio",
+    "statusLabel": "Estado",
     "notSpecified": "No especificado",
     "notScheduled": "No programado",
     "requestDetails": "Detalles de la Solicitud",
@@ -177,13 +178,27 @@
       "cancelledMessage": "Envío cancelado."
     },
     "status": {
-      "pending": "pendiente",
-      "accepted": "aceptado",
-      "in_progress": "en progreso",
-      "resolved": "resuelto",
-      "rejected": "rechazado",
-      "completed": "completado",
-      "cancelled": "cancelado"
+      "Pending": "Pendiente",
+      "pending": "Pendiente",
+      "Accepted": "Aceptado",
+      "accepted": "Aceptado",
+      "InProgress": "En Progreso",
+      "in_progress": "En Progreso",
+      "Resolved": "Resuelto",
+      "resolved": "Resuelto",
+      "Rejected": "Rechazado",
+      "rejected": "Rechazado",
+      "Completed": "Completado",
+      "completed": "Completado",
+      "Cancelled": "Cancelado",
+      "cancelled": "Cancelado"
+    },
+    "types": {
+      "PreventiveMaintenance": "Mantenimiento Preventivo",
+      "CorrectiveMaintenance": "Mantenimiento Correctivo",
+      "Installation": "Instalación",
+      "Diagnostic": "Diagnóstico",
+      "Repair": "Reparación"
     }
   },
   "company": {

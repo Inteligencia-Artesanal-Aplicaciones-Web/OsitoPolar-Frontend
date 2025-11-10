@@ -1,4 +1,4 @@
-﻿{
+{
   "home": {
     "welcome": "Welcome to OsitoPolar",
     "subtitle": "Smart refrigeration equipment management",
@@ -114,7 +114,7 @@
     "requestedOn": "Requested on",
     "scheduledFor": "Scheduled for",
     "serviceType": "Service Type",
-    "status": "Status",
+    "statusLabel": "Status",
     "notSpecified": "Not specified",
     "notScheduled": "Not scheduled",
     "requestDetails": "Request Details",

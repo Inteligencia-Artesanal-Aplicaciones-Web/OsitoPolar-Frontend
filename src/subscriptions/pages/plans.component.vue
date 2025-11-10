@@ -7,7 +7,7 @@
       <pv-button
           :class="['type-btn', { active: userType === 'user' }]"
           @click="switchUserType('user')"
-          label="For Users" />
+          label="For Owners" />
       <pv-button
           :class="['type-btn', { active: userType === 'provider' }]"
           @click="switchUserType('provider')"
@@ -28,31 +28,17 @@
       <pv-button @click="fetchPlans" label="Retry" />
     </div>
 
-    <!-- Plans Grid (Desktop) -->
-    <div v-else-if="plans.length > 0" class="plans-grid desktop-grid">
-      <plan-card
-          v-for="plan in plans"
-          :key="plan.id"
-          :plan="plan"
-          :current-plan-id="currentPlanId"
-          :current-plan="currentPlan"
-          :is-logged-in="isLoggedIn"
-          :upgrading="upgrading && selectedPlanId === plan.id"
-          :selected-plan-id="selectedPlanId"
-          :on-upgrade="handleUpgrade"
-      />
-    </div>
-
-    <!-- Plans Carousel (Mobile/Tablet) -->
-    <div v-else-if="plans.length > 0" class="plans-carousel mobile-carousel">
+    <!-- Plans Carousel (All Devices) -->
+    <div v-else-if="plans.length > 0" class="plans-carousel">
       <pv-carousel
-          :value="plans"
-          :numVisible="1"
+          :value="duplicatedPlans"
+          :numVisible="3"
           :numScroll="1"
           :showNavigators="true"
           :showIndicators="true"
-          :circular="true"
-          :autoplayInterval="0">
+          :circular="false"
+          :autoplayInterval="0"
+          :responsiveOptions="carouselResponsiveOptions">
         <template #item="slotProps">
           <div class="carousel-item">
             <plan-card
@@ -130,7 +116,24 @@ export default {
       registrationDialog: {
         visible: false,
         selectedPlan: null
-      }
+      },
+      carouselResponsiveOptions: [
+        {
+          breakpoint: '1400px',
+          numVisible: 3,
+          numScroll: 1
+        },
+        {
+          breakpoint: '1024px',
+          numVisible: 3,
+          numScroll: 1
+        },
+        {
+          breakpoint: '768px',
+          numVisible: 1,
+          numScroll: 1
+        }
+      ]
     };
   },
   computed: {
@@ -146,6 +149,13 @@ export default {
 
     isLoggedIn() {
       return this.authStore.isLoggedIn;
+    },
+
+    // Duplicate plans to create infinite scroll effect
+    duplicatedPlans() {
+      if (this.plans.length === 0) return [];
+      // Duplicate the plans array 3 times for smooth infinite scrolling
+      return [...this.plans, ...this.plans, ...this.plans];
     }
   },
   async created() {
@@ -357,140 +367,245 @@ export default {
 <style scoped>
 .plans-container {
   padding: 2rem;
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
+  background-color: var(--color-background);
+  min-height: 100vh;
+  transition: background-color 0.3s ease;
 }
 
 .plans-title {
   text-align: center;
   margin-bottom: 2rem;
-  color: var(--color-text);
+  color: var(--color-primary);
+  font-size: 2.5rem;
+  font-weight: 700;
+  transition: color 0.3s ease;
 }
 
 .user-type-selector {
   display: flex;
   justify-content: center;
   gap: 1rem;
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
 }
 
 .type-btn {
-  padding: 0.75rem 2rem;
-  border-radius: 8px;
+  padding: 0.875rem 2.5rem;
+  border-radius: 12px;
+  border: 2px solid var(--color-border);
+  background: var(--color-card-background);
+  color: var(--color-text);
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px var(--color-shadow);
+}
+
+.type-btn:hover {
+  border-color: var(--color-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px var(--color-shadow-medium);
 }
 
 .type-btn.active {
-  background-color: var(--color-primary);
+  background: linear-gradient(135deg, var(--color-gradient-start) 0%, var(--color-gradient-end) 100%);
   color: var(--color-text-inverse);
+  border-color: var(--color-primary);
+  box-shadow: 0 4px 16px var(--color-shadow-large);
 }
 
 .loading-container {
   text-align: center;
-  padding: 2rem;
+  padding: 4rem 2rem;
 }
 
 .error-container {
   text-align: center;
-  padding: 2rem;
+  padding: 4rem 2rem;
 }
 
-/* Desktop Grid */
-.desktop-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 340px));
-  gap: 1.5rem;
+/* Carousel Container */
+.plans-carousel {
   margin-top: 2rem;
-  justify-content: center;
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
+  padding: 2rem 0;
+  position: relative;
 }
 
-/* Mobile Carousel */
-.mobile-carousel {
-  display: none;
+:deep(.p-carousel) {
+  position: relative;
+  padding: 0 4rem;
+}
+
+:deep(.p-carousel-container) {
+  position: relative;
+}
+
+:deep(.p-carousel .p-carousel-items-content) {
+  display: flex;
+  align-items: center;
+}
+
+:deep(.p-carousel .p-carousel-item) {
+  flex: 0 0 auto;
+  display: flex;
 }
 
 .carousel-item {
   display: flex;
   justify-content: center;
-  padding: 1rem;
+  padding: 1.5rem 1rem;
 }
 
 /* Carousel navigation button styling */
 :deep(.p-carousel .p-carousel-prev),
 :deep(.p-carousel .p-carousel-next) {
-  background: var(--color-surface);
-  color: var(--color-primary);
-  border: 1px solid var(--color-border);
-  border-radius: 50%;
-  width: 3rem;
-  height: 3rem;
-  transition: all 0.2s ease;
+  background: var(--color-card-background) !important;
+  color: var(--color-primary) !important;
+  border: 2px solid var(--color-primary) !important;
+  border-radius: 50% !important;
+  width: 3.5rem !important;
+  height: 3.5rem !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 4px 12px var(--color-shadow-medium) !important;
+  opacity: 1 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
-:deep(.p-carousel .p-carousel-prev:hover),
-:deep(.p-carousel .p-carousel-next:hover) {
-  background: var(--color-primary);
-  color: white;
-  transform: scale(1.1);
+:deep(.p-carousel .p-carousel-prev:enabled:hover),
+:deep(.p-carousel .p-carousel-next:enabled:hover) {
+  background: linear-gradient(135deg, var(--color-gradient-start) 0%, var(--color-gradient-end) 100%) !important;
+  color: var(--color-text-inverse) !important;
+  border-color: var(--color-primary) !important;
+  transform: scale(1.15) !important;
+  box-shadow: 0 6px 20px var(--color-shadow-large) !important;
+}
+
+:deep(.p-carousel .p-carousel-prev) {
+  left: -1rem !important;
+}
+
+:deep(.p-carousel .p-carousel-next) {
+  right: -1rem !important;
+}
+
+:deep(.p-carousel .p-carousel-prev .p-icon),
+:deep(.p-carousel .p-carousel-next .p-icon) {
+  font-size: 1.5rem !important;
+  width: 1.5rem !important;
+  height: 1.5rem !important;
 }
 
 :deep(.p-carousel .p-carousel-indicators) {
-  padding: 1rem;
+  padding: 1.5rem;
+  display: flex;
+  gap: 0.5rem;
 }
 
 :deep(.p-carousel .p-carousel-indicator button) {
   background: var(--color-border);
-  width: 0.75rem;
-  height: 0.75rem;
+  width: 0.875rem;
+  height: 0.875rem;
   border-radius: 50%;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+:deep(.p-carousel .p-carousel-indicator button:hover) {
+  background: var(--color-text-secondary);
+  transform: scale(1.2);
 }
 
 :deep(.p-carousel .p-carousel-indicator.p-highlight button) {
-  background: var(--color-primary);
-  width: 2rem;
+  background: linear-gradient(135deg, var(--color-gradient-start) 0%, var(--color-gradient-end) 100%);
+  width: 2.5rem;
   border-radius: 1rem;
 }
 
 /* Responsive behavior */
+@media (max-width: 1400px) {
+  .plans-container {
+    max-width: 1200px;
+  }
+}
+
 @media (max-width: 1024px) {
-  .desktop-grid {
-    grid-template-columns: repeat(auto-fit, minmax(260px, 320px));
-    gap: 1.25rem;
+  .plans-container {
+    padding: 1.5rem;
+  }
+
+  .plans-title {
+    font-size: 2rem;
+  }
+
+  :deep(.p-carousel) {
+    padding: 0 3rem;
+  }
+
+  :deep(.p-carousel .p-carousel-prev),
+  :deep(.p-carousel .p-carousel-next) {
+    width: 3rem !important;
+    height: 3rem !important;
   }
 }
 
 @media (max-width: 768px) {
-  /* Hide grid, show carousel on tablets and mobile */
-  .desktop-grid {
-    display: none;
+  .plans-container {
+    padding: 1rem;
   }
 
-  .mobile-carousel {
-    display: block;
-    margin-top: 2rem;
-    max-width: 450px;
-    margin-left: auto;
-    margin-right: auto;
+  .plans-title {
+    font-size: 1.75rem;
+  }
+
+  .user-type-selector {
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+  }
+
+  .type-btn {
+    width: 100%;
+  }
+
+  :deep(.p-carousel) {
+    padding: 0 2.5rem;
+  }
+
+  .carousel-item {
+    padding: 1rem 0.5rem;
+  }
+
+  :deep(.p-carousel .p-carousel-prev),
+  :deep(.p-carousel .p-carousel-next) {
+    width: 2.5rem !important;
+    height: 2.5rem !important;
+  }
+
+  :deep(.p-carousel .p-carousel-prev) {
+    left: -0.5rem !important;
+  }
+
+  :deep(.p-carousel .p-carousel-next) {
+    right: -0.5rem !important;
   }
 }
 
 @media (max-width: 480px) {
-  .mobile-carousel {
-    max-width: 100%;
-    padding: 0 0.5rem;
+  .carousel-item {
+    padding: 0.5rem 0.25rem;
   }
 
-  .carousel-item {
-    padding: 0.5rem;
+  :deep(.p-carousel .p-carousel-indicators) {
+    padding: 1rem;
   }
 }
 
 .no-plans {
   text-align: center;
-  padding: 2rem;
+  padding: 4rem 2rem;
   color: var(--color-text-secondary);
+  font-size: 1.1rem;
 }
 </style>

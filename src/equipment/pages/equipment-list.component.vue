@@ -312,18 +312,28 @@ export default {
 
 <style scoped>
 .equipment-list {
-  padding: 1rem;
+  padding: 2rem;
+  background-color: var(--color-background);
+  min-height: 100vh;
+  transition: background-color 0.3s ease;
 }
 
 .page-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid var(--color-border);
+  transition: border-color 0.3s ease;
 }
 
 .page-title {
   margin: 0;
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  transition: color 0.3s ease;
 }
 
 .loading-container, .error-container {
@@ -331,8 +341,8 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 3rem;
-  gap: 1rem;
+  padding: 4rem;
+  gap: 1.5rem;
 }
 
 .error-message {
@@ -349,44 +359,61 @@ export default {
 
 .equipment-card {
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border 0.2s ease, background-color 0.3s ease;
-  border: 2px solid transparent;
-  border-radius: 8px;
-  padding: 0.5rem;
+  transition: all 0.3s ease;
+  border: 2px solid var(--color-card-border);
+  border-radius: 16px;
+  background: var(--color-card-background);
+  box-shadow: 0 4px 20px var(--color-shadow);
+  overflow: hidden;
 }
 
 .equipment-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 5px 15px var(--color-shadow-medium);
-}
-
-.equipment-card.status-normal {
-  border-color: var(--color-success);
-}
-.equipment-card.status-warning {
-  border-color: var(--color-warning);
-}
-.equipment-card.status-critical {
-  border-color: var(--color-error);
+  transform: translateY(-8px);
+  box-shadow: 0 8px 32px var(--color-shadow-large);
+  border-color: var(--color-primary);
 }
 
 .card-header {
   position: relative;
-  height: 100px;
-  background-color: var(--color-surface-alt);
+  height: 80px;
+  background: var(--color-card-background);
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color 0.3s ease;
+  transition: background 0.3s ease;
+  overflow: hidden;
+}
+
+.card-header::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.equipment-card:hover .card-header::before {
+  opacity: 1;
 }
 
 .status-indicator {
   position: absolute;
   top: 10px;
   right: 10px;
-  width: 12px;
-  height: 12px;
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.1); }
 }
 
 .status-normal {
@@ -405,24 +432,33 @@ export default {
   position: absolute;
   top: 10px;
   left: 10px;
-  width: 24px;
-  height: 24px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   background-color: var(--color-surface-hover);
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
+  border: 2px solid var(--color-border);
+  box-shadow: 0 2px 6px var(--color-shadow);
 }
 
 .power-indicator i {
-  font-size: 12px;
+  font-size: 14px;
   color: var(--color-text-secondary);
   transition: color 0.3s ease;
 }
 
 .power-indicator.on {
-  background-color: var(--color-success);
+  background: linear-gradient(135deg, var(--color-success) 0%, #1fa557 100%);
+  border-color: var(--color-success);
+  animation: powerGlow 2s infinite;
+}
+
+@keyframes powerGlow {
+  0%, 100% { box-shadow: 0 2px 6px var(--color-shadow), 0 0 0 0 rgba(34, 197, 94, 0.4); }
+  50% { box-shadow: 0 2px 6px var(--color-shadow), 0 0 0 6px rgba(34, 197, 94, 0); }
 }
 
 .power-indicator.on i {
@@ -430,7 +466,7 @@ export default {
 }
 
 .card-content {
-  padding: 1rem 0;
+  padding: 1.25rem;
 }
 
 .temperature-display {
@@ -438,18 +474,32 @@ export default {
   flex-direction: column;
   align-items: center;
   margin-bottom: 1rem;
+  padding: 0.875rem;
+  background: var(--color-surface-hover);
+  border-radius: 12px;
+  border: 1px solid var(--color-border-light);
+  transition: all 0.3s ease;
+}
+
+.equipment-card:hover .temperature-display {
+  transform: scale(1.02);
 }
 
 .temperature-value {
   font-size: 2rem;
-  font-weight: bold;
-  color: var(--color-text);
-  transition: color 0.3s ease;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-gradient-end) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.25rem;
+  transition: all 0.3s ease;
 }
 
 .temperature-label {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: var(--color-text-secondary);
+  font-weight: 500;
   transition: color 0.3s ease;
 }
 
@@ -458,9 +508,17 @@ export default {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   color: var(--color-text-secondary);
-  transition: color 0.3s ease;
+  padding: 0.5rem;
+  background: var(--color-surface-hover);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.location-info i {
+  color: var(--color-primary);
+  font-size: 1rem;
 }
 
 .card-actions {
@@ -468,11 +526,60 @@ export default {
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  padding: 0 0.5rem;
+}
+
+.card-actions :deep(.p-button-outlined) {
+  background: linear-gradient(135deg, var(--color-gradient-start) 0%, var(--color-gradient-end) 100%);
+  color: var(--color-text-inverse);
+  border: none;
+  font-weight: 600;
+  padding: 0.625rem 1.25rem;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px var(--color-shadow-medium);
+  font-size: 0.9rem;
+}
+
+.card-actions :deep(.p-button-outlined:hover) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px var(--color-shadow-large);
 }
 
 .management-actions {
   display: flex;
-  gap: 0.25rem;
+  gap: 0.5rem;
+}
+
+.management-actions :deep(.p-button) {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+}
+
+.management-actions :deep(.p-button-info) {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: white;
+}
+
+.management-actions :deep(.p-button-info:hover) {
+  background: var(--color-gradient-end);
+  border-color: var(--color-gradient-end);
+  transform: scale(1.1);
+}
+
+.management-actions :deep(.p-button-danger) {
+  background: var(--color-error);
+  border-color: var(--color-error);
+  color: white;
+}
+
+.management-actions :deep(.p-button-danger:hover) {
+  background: var(--color-error-border);
+  border-color: var(--color-error-border);
+  transform: scale(1.1);
 }
 
 .confirmation-content {
@@ -483,41 +590,88 @@ export default {
 }
 
 :deep(.add-equipment-button) {
-  background-color: var(--color-success) !important;
-  border-color: var(--color-success) !important;
+  background: linear-gradient(135deg, var(--color-success) 0%, #1fa557 100%) !important;
+  border: none !important;
   color: white !important;
-  font-weight: 600 !important;
-  padding: 0.75rem 1.5rem !important;
-  border-radius: 6px !important;
-  transition: all 0.2s ease !important;
+  font-weight: 700 !important;
+  padding: 0.875rem 2rem !important;
+  border-radius: 12px !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 4px 12px var(--color-shadow-medium) !important;
+  font-size: 1rem !important;
 }
 
 :deep(.add-equipment-button:hover) {
-  background-color: var(--color-success) !important;
-  border-color: var(--color-success) !important;
-  opacity: 0.9;
-  transform: translateY(-1px) !important;
-  box-shadow: 0 4px 8px var(--color-shadow-medium) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px var(--color-shadow-large) !important;
 }
 
-:deep(.add-equipment-button:focus) {
-  box-shadow: 0 0 0 0.2rem var(--color-shadow) !important;
-  outline: none !important;
+:deep(.add-equipment-button:active) {
+  transform: translateY(0) !important;
 }
 
 :deep(.add-equipment-button .pi-plus) {
   margin-right: 0.5rem !important;
+  font-size: 1.1rem !important;
 }
 
+/* PrimeVue Card Overrides */
+.equipment-card :deep(.p-card-title) {
+  color: var(--color-text);
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+  transition: color 0.3s ease;
+}
+
+.equipment-card :deep(.p-card-subtitle) {
+  color: var(--color-text-secondary);
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.equipment-card :deep(.p-card-content) {
+  padding: 1.25rem 1.25rem 0.5rem;
+}
+
+.equipment-card :deep(.p-card-footer) {
+  padding: 0.875rem 1.25rem;
+  background: var(--color-surface-hover);
+  border-top: 1px solid var(--color-border);
+  transition: all 0.3s ease;
+}
 
 @media (max-width: 768px) {
+  .equipment-list {
+    padding: 1rem;
+  }
+
   .page-header {
     flex-direction: column;
     align-items: flex-start;
     gap: 1rem;
   }
 
+  .page-title {
+    font-size: 1.75rem;
+  }
+
+  .equipment-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
   .add-equipment-button {
+    width: 100%;
+  }
+
+  .card-actions {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .card-actions :deep(.p-button-outlined) {
     width: 100%;
   }
 }
