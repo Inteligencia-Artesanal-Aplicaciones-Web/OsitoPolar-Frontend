@@ -80,7 +80,7 @@ export default {
               this.errorMessage = 'Authentication required. Redirecting to login...';
               // Auth service will redirect automatically
             } else if (error.message.includes('permission')) {
-              this.errorMessage = 'You do not have permission to view equipment. Please ensure you have an owner account.';
+              this.errorMessage = 'You do not have permission to view equipment. Please ensure you have an owner or provider account.';
             } else {
               this.errorMessage = error.message || this.$t('equipment.errorMessage');
             }
