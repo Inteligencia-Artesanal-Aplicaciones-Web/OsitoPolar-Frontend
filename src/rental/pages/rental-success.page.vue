@@ -41,7 +41,7 @@
           <h4>Rental Information</h4>
           <div class="detail-row">
             <span class="label">Duration:</span>
-            <span class="value">{{ rental.months }} month(s)</span>
+            <span class="value">{{ rental.durationMonths }} month(s)</span>
           </div>
           <div class="detail-row">
             <span class="label">Monthly Fee:</span>
@@ -49,7 +49,7 @@
           </div>
           <div class="detail-row">
             <span class="label">Total Paid:</span>
-            <span class="value total-amount">${{ rental.totalPaid.toFixed(2) }}</span>
+            <span class="value total-amount">${{ rental.totalAmount.toFixed(2) }}</span>
           </div>
         </div>
 

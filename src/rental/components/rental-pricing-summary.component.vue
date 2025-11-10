@@ -30,7 +30,7 @@ export default {
     },
 
     monthlyFee() {
-      return this.equipment?.monthlyFee || 0;
+      return this.equipment?.monthlyPrice || this.equipment?.monthlyFee || 0;
     },
 
     totalAmount() {

@@ -55,7 +55,7 @@ export default {
 
       try {
         const response = await this.rentalCatalogService.getRentalEquipmentById(this.equipmentId);
-        const equipment = this.rentalCatalogService.mapRentalEquipment([response.data])[0] || response.data;
+        const equipment = this.rentalCatalogService.mapRentalEquipment([response])[0] || response;
         this.equipmentData = equipment;
       } catch (err) {
         console.error('Error loading equipment data:', err);
@@ -124,24 +124,25 @@ export default {
 
       <!-- Normal content when data is available -->
       <template v-else-if="equipmentData">
-        <!-- Equipment Summary Component -->
-        <rental-equipment-summary
-            :key="equipmentId"
-            :equipment-id="equipmentId"
-            :equipment-data="equipmentData"
-            class="equipment-section"
-            @equipment-loaded="handleEquipmentLoaded"
-        />
-
         <div class="checkout-container">
-          <!-- Configuration Form Component -->
-          <rental-configuration-form
-              :equipment="equipmentData"
-              class="configuration-section"
-              @configuration-change="handleConfigurationChange"
-          />
+          <!-- Left Column: Equipment Summary + Configuration Form -->
+          <div class="left-column">
+            <rental-equipment-summary
+                :key="equipmentId"
+                :equipment-id="equipmentId"
+                :equipment-data="equipmentData"
+                class="equipment-section"
+                @equipment-loaded="handleEquipmentLoaded"
+            />
 
-          <!-- Pricing Summary Component -->
+            <rental-configuration-form
+                :equipment="equipmentData"
+                class="configuration-section"
+                @configuration-change="handleConfigurationChange"
+            />
+          </div>
+
+          <!-- Right Column: Pricing Summary -->
           <rental-pricing-summary
               :equipment="equipmentData"
               :configuration="configurationData"
@@ -166,34 +167,42 @@ export default {
 <style scoped>
 .checkout-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  background: var(--color-background);
+  transition: background-color 0.3s ease;
 }
 
 .checkout-content {
   padding: 2rem;
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
 }
 
 .checkout-container {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1.5fr 1fr;
   gap: 2rem;
   align-items: start;
+  justify-content: center;
+}
+
+.left-column {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
 .equipment-section {
-  grid-column: 1 / -1;
+  width: 100%;
 }
 
 .configuration-section {
-  grid-column: span 1;
+  width: 100%;
 }
 
 .pricing-section {
-  grid-column: span 1;
   position: sticky;
   top: 2rem;
+  align-self: start;
 }
 
 .loading-overlay, .error-message, .no-equipment {
@@ -201,74 +210,101 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 200px;
+  min-height: 300px;
   width: 100%;
-  background: rgba(255, 255, 255, 0.8);
-  border-radius: 8px;
+  background: var(--color-card-background);
+  border: 1px solid var(--color-card-border);
+  border-radius: 16px;
+  box-shadow: 0 4px 20px var(--color-shadow);
   margin-bottom: 2rem;
-  padding: 2rem;
+  padding: 3rem 2rem;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .error-message {
-  color: #e74c3c;
+  color: var(--color-error);
   text-align: center;
+}
+
+.error-message p {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  color: var(--color-text);
+}
+
+.no-equipment p {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  color: var(--color-text);
 }
 
 .retry-button, .back-button {
   margin-top: 1rem;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
   border: none;
   cursor: pointer;
-  font-weight: 500;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
 }
 
 .retry-button {
-  background-color: #3498db;
-  color: white;
+  background-color: var(--color-button-primary-bg);
+  color: var(--color-text-inverse);
   margin-right: 1rem;
 }
 
 .back-button {
-  background-color: #f1f3f4;
-  color: #333;
+  background-color: var(--color-button-secondary-bg);
+  color: var(--color-button-secondary-text);
+  border: 2px solid var(--color-button-secondary-border);
 }
 
 .retry-button:hover {
-  background-color: #2980b9;
+  background-color: var(--color-button-primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px var(--color-shadow-medium);
 }
 
 .back-button:hover {
-  background-color: #e1e8ed;
+  background-color: var(--color-button-secondary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px var(--color-shadow);
 }
 
 /* Responsive Grid */
 @media (max-width: 1200px) {
   .checkout-container {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .left-column {
     gap: 1.5rem;
   }
 
   .pricing-section {
-    grid-column: span 2;
     position: static;
   }
 }
 
 @media (max-width: 768px) {
   .checkout-container {
-    grid-template-columns: 1fr;
     gap: 1rem;
   }
 
-  .equipment-section,
-  .configuration-section,
-  .pricing-section {
-    grid-column: span 1;
+  .left-column {
+    gap: 1rem;
   }
 
   .checkout-content {
     padding: 1rem;
+  }
+
+  .loading-overlay, .error-message, .no-equipment {
+    padding: 2rem 1rem;
+    min-height: 250px;
   }
 }
 </style>

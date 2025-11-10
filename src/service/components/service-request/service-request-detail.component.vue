@@ -56,8 +56,8 @@ export default {
       <div class="field"><strong>{{ $t('service.description') }}:</strong> {{ request.description }}</div>
       <div class="field"><strong>{{ $t('service.equipment') }}:</strong> {{ equipmentDisplay }}</div>
       <div class="field"><strong>{{ $t('service.location') }}:</strong> {{ locationDisplay }}</div>
-      <div class="field"><strong>{{ $t('service.serviceType') }}:</strong> {{ request.serviceType }}</div>
-      <div class="field"><strong>{{ $t('service.urgency') }}:</strong> {{ request.urgency }}</div>
+      <div class="field"><strong>{{ $t('service.serviceType') }}:</strong> {{ $t(`service.types.${request.serviceType}`) || request.serviceType }}</div>
+      <div class="field"><strong>{{ $t('service.urgency') }}:</strong> {{ $t(`service.form.${request.urgency?.toLowerCase()}`) || request.urgency }}</div>
       <div class="field"><strong>{{ $t('service.asap') }}:</strong> {{ request.isEmergency ? $t('service.yes') : $t('service.no') }}</div>
       <div class="field" v-if="!request.asap"><strong>{{ $t('service.scheduledFor') }}:</strong> {{ formatDate(request.scheduledDate) }}</div>
       <div class="field" v-if="!request.asap"><strong>{{ $t('service.timeSlot') }}:</strong> {{ request.timeSlot || '-' }}</div>
@@ -68,26 +68,33 @@ export default {
   </pv-dialog>
 </template>
 
-<style>
-.detail-dialog .p-dialog {
+<style scoped>
+.detail-dialog :deep(.p-dialog) {
   border-radius: 16px;
   overflow: hidden;
+  background: var(--color-card-background);
+  border: 1px solid var(--color-card-border);
+  box-shadow: 0 8px 32px var(--color-shadow-large);
+  transition: all 0.3s ease;
 }
 
-.detail-dialog .p-dialog-header {
-  background-color: #0884c4;
-  color: #fff;
-  font-weight: bold;
+.detail-dialog :deep(.p-dialog-header) {
+  background: linear-gradient(135deg, var(--color-gradient-start) 0%, var(--color-gradient-end) 100%);
+  color: var(--color-text-inverse);
+  font-weight: 700;
+  font-size: 1.25rem;
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
-  padding: 1rem;
+  padding: 1.5rem 2rem;
+  transition: background 0.3s ease;
 }
 
-.detail-dialog .p-dialog-content {
-  background-color: #ffffff;
+.detail-dialog :deep(.p-dialog-content) {
+  background-color: var(--color-card-background);
   padding: 2rem;
   border-bottom-left-radius: 16px;
   border-bottom-right-radius: 16px;
+  transition: background-color 0.3s ease;
 }
 
 .dialog-content {
@@ -97,9 +104,51 @@ export default {
 }
 
 .field {
-  background: #f9f9f9;
-  padding: 0.75rem 1rem;
-  border-radius: 8px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  background: var(--color-surface-hover);
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
+  border: 1px solid var(--color-border-light);
+  box-shadow: 0 2px 4px var(--color-shadow);
+  color: var(--color-text);
+  transition: all 0.3s ease;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.field:hover {
+  background: var(--color-card-background);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px var(--color-shadow-medium);
+}
+
+.field strong {
+  color: var(--color-primary);
+  font-weight: 600;
+  display: block;
+  margin-bottom: 0.25rem;
+  transition: color 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .dialog-content {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-dialog :deep(.p-dialog) {
+    width: 95vw !important;
+  }
+
+  .detail-dialog :deep(.p-dialog-header) {
+    padding: 1rem 1.25rem;
+    font-size: 1.1rem;
+  }
+
+  .detail-dialog :deep(.p-dialog-content) {
+    padding: 1.5rem 1rem;
+  }
+
+  .field {
+    padding: 0.875rem 1rem;
+  }
 }
 </style>

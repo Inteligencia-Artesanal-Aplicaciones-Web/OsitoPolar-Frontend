@@ -196,7 +196,7 @@ export default {
             <p class="detail-item"><i class="pi pi-map-marker"></i> <strong>{{ $t('service.location') }}:</strong> {{ getLocationDisplay(req.equipmentId) }}</p>
             <p class="detail-item"><i class="pi pi-clock"></i> <strong>{{ $t('service.requestedOn') }}:</strong> {{ formatDate(req.requestTime) }}</p>
             <p class="detail-item"><i class="pi pi-calendar"></i> <strong>{{ $t('service.scheduledFor') }}:</strong> {{ formatDate(req.scheduledDate) }}</p>
-            <p class="detail-item"><i class="pi pi-cog"></i> <strong>{{ $t('service.serviceType') }}:</strong> {{ req.serviceType }}</p>
+            <p class="detail-item"><i class="pi pi-cog"></i> <strong>{{ $t('service.serviceType') }}:</strong> {{ $t(`service.types.${req.serviceType}`) || req.serviceType }}</p>
             <p class="detail-item" v-if="req.status === 'completed' && req.customerFeedbackRating">
               <strong>{{ $t('client.rating.yourRating') }}:</strong>
               {{ req.customerFeedbackRating }} / 5

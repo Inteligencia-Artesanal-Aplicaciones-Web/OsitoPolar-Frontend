@@ -41,13 +41,14 @@ export default {
 
 <style scoped>
 .page-header {
-  background: white;
-  border-bottom: 1px solid #e1e8ed;
+  background: var(--color-card-background);
+  border-bottom: 1px solid var(--color-border);
   padding: 1.5rem 2rem;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .header-content {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   display: flex;
   align-items: center;
@@ -58,27 +59,29 @@ export default {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: #666;
+  color: var(--color-text-secondary);
   background: none;
-  border: 1px solid #e1e8ed;
+  border: 1px solid var(--color-border);
   padding: 0.5rem 1rem;
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.2s ease;
   text-decoration: none;
+  font-size: 0.95rem;
 }
 
 .back-link:hover {
-  background: #f0f8ff;
-  color: #0079c2;
-  border-color: #0079c2;
+  background: var(--color-surface-hover);
+  color: var(--color-primary);
+  border-color: var(--color-primary);
 }
 
 h1 {
-  color: #0079c2;
+  color: var(--color-primary);
   margin: 0;
   font-size: 1.75rem;
   font-weight: 600;
+  transition: color 0.3s ease;
 }
 
 @media (max-width: 768px) {

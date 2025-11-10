@@ -78,9 +78,13 @@ export default {
           <span class="price">${{ equipment.monthlyPrice }}</span>
           <span class="period">/ month</span>
         </div>
-        <div class="availability">
+        <div class="availability" v-if="equipment.isAvailable">
           <i class="pi pi-check-circle"></i>
-          <span>{{ equipment.stock }} units available</span>
+          <span>Available for rent</span>
+        </div>
+        <div class="availability unavailable" v-else>
+          <i class="pi pi-times-circle"></i>
+          <span>Currently unavailable</span>
         </div>
         <p class="description">{{ equipment.description }}</p>
       </div>
@@ -90,17 +94,19 @@ export default {
 
 <style scoped>
 .equipment-card {
-  background: white;
+  background: var(--color-card-background);
   border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-  border: 1px solid #e1e8ed;
+  box-shadow: 0 4px 20px var(--color-shadow);
+  border: 1px solid var(--color-card-border);
   overflow: hidden;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .card-header {
-  background: linear-gradient(135deg, #0079c2 0%, #005a94 100%);
-  color: white;
+  background: linear-gradient(135deg, var(--color-gradient-start) 0%, var(--color-gradient-end) 100%);
+  color: var(--color-text-inverse);
   padding: 1.5rem 2rem;
+  transition: background 0.3s ease;
 }
 
 .card-header h2 {
@@ -115,14 +121,15 @@ export default {
   align-items: center;
   justify-content: center;
   padding: 3rem;
-  color: #666;
+  color: var(--color-text-secondary);
+  transition: color 0.3s ease;
 }
 
 .loading-spinner {
   width: 30px;
   height: 30px;
-  border: 2px solid #e1e8ed;
-  border-top: 2px solid #0079c2;
+  border: 2px solid var(--color-border);
+  border-top: 2px solid var(--color-primary);
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin-bottom: 1rem;
@@ -148,35 +155,39 @@ export default {
   width: 120px;
   height: 120px;
   object-fit: contain;
-  background: #f8f9fa;
+  background: var(--color-surface-alt);
   border-radius: 12px;
   padding: 1rem;
-  border: 1px solid #e1e8ed;
+  border: 1px solid var(--color-border);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .equipment-info h3 {
   margin: 0 0 0.5rem;
-  color: #333;
+  color: var(--color-text);
   font-size: 1.3rem;
   font-weight: 600;
+  transition: color 0.3s ease;
 }
 
 .model {
-  color: #666;
+  color: var(--color-text-secondary);
   margin: 0 0 1rem;
   font-size: 0.95rem;
+  transition: color 0.3s ease;
 }
 
 .price-badge {
   display: inline-flex;
   align-items: baseline;
   gap: 0.25rem;
-  background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
-  color: white;
+  background: linear-gradient(135deg, var(--color-error) 0%, var(--color-error-border) 100%);
+  color: var(--color-text-inverse);
   padding: 0.5rem 1rem;
   border-radius: 25px;
   margin-bottom: 1rem;
   font-weight: 600;
+  transition: background 0.3s ease;
 }
 
 .price {
@@ -192,17 +203,23 @@ export default {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: #27ae60;
+  color: var(--color-success);
   font-size: 0.9rem;
   font-weight: 500;
   margin-bottom: 1rem;
+  transition: color 0.3s ease;
+}
+
+.availability.unavailable {
+  color: var(--color-error);
 }
 
 .description {
-  color: #666;
+  color: var(--color-text-secondary);
   font-size: 0.9rem;
   line-height: 1.4;
   margin: 0;
+  transition: color 0.3s ease;
 }
 
 @media (max-width: 768px) {
