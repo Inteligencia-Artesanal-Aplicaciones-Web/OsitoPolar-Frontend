@@ -545,6 +545,7 @@
     "totalTransactions": "Total Transactions",
     "transactionHistory": "Transaction History",
     "noPayments": "No payments found",
+    "type": "Type",
     "workOrderNumber": "Work Order #",
     "serviceDescription": "Service",
     "totalAmount": "Total Amount",

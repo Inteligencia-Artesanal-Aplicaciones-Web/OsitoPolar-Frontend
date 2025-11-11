@@ -543,6 +543,7 @@
     "totalTransactions": "Total de Transacciones",
     "transactionHistory": "Historial de Transacciones",
     "noPayments": "No se encontraron pagos",
+    "type": "Tipo",
     "workOrderNumber": "Orden #",
     "serviceDescription": "Servicio",
     "totalAmount": "Monto Total",

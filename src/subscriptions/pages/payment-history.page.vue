@@ -88,16 +88,20 @@
               {{ $t('paymentHistory.noPayments') }}
             </template>
 
-            <pv-column field="workOrderNumber" :header="$t('paymentHistory.workOrderNumber')" :sortable="true">
+            <pv-column field="type" :header="$t('paymentHistory.type')" :sortable="true">
               <template #body="slotProps">
-                <span class="work-order-badge">{{ slotProps.data.workOrderNumber }}</span>
+                <pv-tag
+                    :value="slotProps.data.type"
+                    :severity="slotProps.data.type === 'Subscription' ? 'info' : 'success'" />
               </template>
             </pv-column>
 
-            <pv-column field="workOrderTitle" :header="$t('paymentHistory.serviceDescription')" :sortable="true">
+            <pv-column field="description" :header="$t('paymentHistory.description')" :sortable="true">
               <template #body="slotProps">
                 <div class="service-description">
-                  <strong>{{ slotProps.data.workOrderTitle }}</strong>
+                  <strong v-if="slotProps.data.type === 'Service' && slotProps.data.workOrderNumber">
+                    {{ slotProps.data.workOrderNumber }} - {{ slotProps.data.workOrderTitle }}
+                  </strong>
                   <p class="description-text">{{ slotProps.data.description }}</p>
                 </div>
               </template>
@@ -163,10 +167,16 @@
           <span class="detail-value">{{ selectedPayment.paymentId }}</span>
         </div>
         <div class="detail-row">
+          <span class="detail-label">{{ $t('paymentHistory.type') }}:</span>
+          <pv-tag
+              :value="selectedPayment.type"
+              :severity="selectedPayment.type === 'Subscription' ? 'info' : 'success'" />
+        </div>
+        <div v-if="selectedPayment.type === 'Service' && selectedPayment.workOrderNumber" class="detail-row">
           <span class="detail-label">{{ $t('paymentHistory.workOrderNumber') }}:</span>
           <span class="detail-value">{{ selectedPayment.workOrderNumber }}</span>
         </div>
-        <div class="detail-row">
+        <div v-if="selectedPayment.type === 'Service' && selectedPayment.workOrderTitle" class="detail-row">
           <span class="detail-label">{{ $t('paymentHistory.serviceDescription') }}:</span>
           <span class="detail-value">{{ selectedPayment.workOrderTitle }}</span>
         </div>
