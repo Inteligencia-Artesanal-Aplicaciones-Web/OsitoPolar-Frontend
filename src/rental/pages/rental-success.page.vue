@@ -219,7 +219,7 @@ export default {
 <style scoped>
 .rental-success-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  background: var(--color-background);
   display: flex;
   align-items: center;
   justify-content: center;
