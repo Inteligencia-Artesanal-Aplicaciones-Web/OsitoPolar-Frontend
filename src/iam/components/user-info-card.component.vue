@@ -295,7 +295,7 @@ export default {
           <div class="stat-item-horizontal">
             <i class="pi pi-inbox"></i>
             <div>
-              <div class="stat-value">{{ currentProfile.activeServiceRequests || 0 }}</div>
+              <div class="stat-value">{{ currentProfile?.activeServiceRequests || 0 }}</div>
               <div class="stat-label">Active Service Requests</div>
             </div>
           </div>
