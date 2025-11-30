@@ -30,7 +30,7 @@ export default {
 
   computed: {
     hasCompleteProfile() {
-      return this.userProfile && this.userProfile.userType !== null;
+      return this.userProfile && (this.userProfile.userType === 'Owner' || this.userProfile.userType === 'Provider');
     },
 
     isOwner() {
