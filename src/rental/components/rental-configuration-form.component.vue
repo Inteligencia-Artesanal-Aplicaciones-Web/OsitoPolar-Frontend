@@ -124,7 +124,7 @@ export default {
 
       for (let day = 1; day <= daysInMonth; day++) {
         const date = new Date(currentYear, currentMonth, day);
-        const isDisabled = date <= today;
+        const isDisabled = date < today;
         calendar.push({
           day,
           date,
